@@ -1,5 +1,4 @@
 ﻿using BackendDarts.data;
-using BackendDarts.domein;
 using BackendDarts.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -42,7 +41,7 @@ namespace BackendDarts.Repos
 
         public Game GetBy(int id)
         {
-            return _games.SingleOrDefault(a => a.Id == id);
+            return _games.SingleOrDefault(a => a.GameId == id);
         }
 
         public void Update(Game game)

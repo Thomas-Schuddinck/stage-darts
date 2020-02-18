@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BackendDarts.domein
+namespace BackendDarts.Models
 {
     public class Game
     {
-        public int Id { get; set; }
+        public int GameId { get; set; }
         public DateTime beginDate { get; set; }
         public DateTime endDate { get; set; }
 

@@ -41,7 +41,7 @@ namespace BackendDarts.Controllers
             Leg a = new Leg();
             _legRepository.Add(a);
             _legRepository.SaveChanges();
-            return CreatedAtAction(nameof(GetBy), new { id = a.Id }, a);
+            return CreatedAtAction(nameof(GetBy), new { id = a.LegId }, a);
 
         }
 

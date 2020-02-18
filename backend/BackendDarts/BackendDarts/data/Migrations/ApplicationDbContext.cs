@@ -1,5 +1,4 @@
-﻿using BackendDarts.domein;
-using BackendDarts.Models;
+﻿using BackendDarts.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

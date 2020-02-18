@@ -41,7 +41,7 @@ namespace BackendDarts.data.Repos
 
         public Player GetBy(int id)
         {
-            return _players.SingleOrDefault(a => a.Id == id);
+            return _players.SingleOrDefault(a => a.PlayerId == id);
         }
 
         public void Update(Player player)

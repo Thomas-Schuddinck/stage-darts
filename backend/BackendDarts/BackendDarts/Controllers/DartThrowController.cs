@@ -41,7 +41,7 @@ namespace BackendDarts.Controllers
             DartThrow a = new DartThrow(value);
             _dartThrowRepository.Add(a);
             _dartThrowRepository.SaveChanges();
-            return CreatedAtAction(nameof(GetBy), new { id = a.Id }, a);
+            return CreatedAtAction(nameof(GetBy), new { id = a.DartThrowId }, a);
 
         }
 

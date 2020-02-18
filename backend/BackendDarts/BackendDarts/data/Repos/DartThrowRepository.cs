@@ -42,7 +42,7 @@ namespace BackendDarts.Repos
 
         public DartThrow GetBy(int id)
         {
-            return _dartThrows.SingleOrDefault(a => a.Id == id);
+            return _dartThrows.SingleOrDefault(a => a.DartThrowId == id);
         }
 
         public void Update(DartThrow dartThrow)

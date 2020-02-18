@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BackendDarts.domein;
 using BackendDarts.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -42,7 +41,7 @@ namespace BackendDarts.Controllers
                 Game a = new Game();
             _gameRepository.Add(a);
             _gameRepository.SaveChanges();
-                return CreatedAtAction(nameof(GetBy), new { id = a.Id }, a);
+                return CreatedAtAction(nameof(GetBy), new { id = a.GameId }, a);
 
         }
 

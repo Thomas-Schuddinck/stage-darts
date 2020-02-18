@@ -12,8 +12,8 @@ namespace BackendDarts.data.Mappers
     {
         public void Configure(EntityTypeBuilder<Player> builder)
         {
-            builder.ToTable("Klant");
-            builder.HasKey(t => t.Id);
+            builder.ToTable("Player");
+            builder.HasKey(t => t.PlayerId);
             builder.Property(t => t.Name).IsRequired().HasMaxLength(100);
 
         }

@@ -7,7 +7,7 @@ namespace BackendDarts.Models
 {
     public class DartThrow
     {
-        public int Id { get; set; }
+        public int DartThrowId { get; set; }
         public int Value { get; set; }
 
         public DartThrow(int value)
