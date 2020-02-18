@@ -251,3 +251,4 @@ C:\Users\TSUBW53\Desktop\Darts\stage-darts\backend\BackendDarts\BackendDarts\bin
 C:\Users\TSUBW53\Desktop\Darts\stage-darts\backend\BackendDarts\BackendDarts\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\TSUBW53\Desktop\Darts\stage-darts\backend\BackendDarts\BackendDarts\obj\Debug\netcoreapp3.1\BackendDarts.RazorTargetAssemblyInfo.cache
 C:\Users\TSUBW53\Desktop\Darts\stage-darts\backend\BackendDarts\BackendDarts\obj\Debug\netcoreapp3.1\BackendDarts.csproj.CopyComplete
+C:\Users\TSUBW53\Desktop\Darts\stage-darts\backend\BackendDarts\BackendDarts\obj\Debug\netcoreapp3.1\BackendDarts.csprojAssemblyReference.cache
