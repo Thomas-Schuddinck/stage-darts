@@ -8304,19 +8304,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\WOOBW65\\.nuget\\packages\\": {}
+    "C:\\Users\\TSUBW53\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\WOOBW65\\Documents\\stage-darts\\backend\\BackendDarts\\BackendDarts\\BackendDarts.csproj",
+      "projectUniqueName": "C:\\Users\\TSUBW53\\Desktop\\Darts\\stage-darts\\backend\\BackendDarts\\BackendDarts\\BackendDarts.csproj",
       "projectName": "BackendDarts",
-      "projectPath": "C:\\Users\\WOOBW65\\Documents\\stage-darts\\backend\\BackendDarts\\BackendDarts\\BackendDarts.csproj",
-      "packagesPath": "C:\\Users\\WOOBW65\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\WOOBW65\\Documents\\stage-darts\\backend\\BackendDarts\\BackendDarts\\obj\\",
+      "projectPath": "C:\\Users\\TSUBW53\\Desktop\\Darts\\stage-darts\\backend\\BackendDarts\\BackendDarts\\BackendDarts.csproj",
+      "packagesPath": "C:\\Users\\TSUBW53\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\TSUBW53\\Desktop\\Darts\\stage-darts\\backend\\BackendDarts\\BackendDarts\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\WOOBW65\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\TSUBW53\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
