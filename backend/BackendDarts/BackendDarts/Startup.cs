@@ -34,22 +34,24 @@ namespace BackendDarts
         {
             services.AddControllers();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             var connection = @"Server=(localdb)\mssqllocaldb;Database=BackendDarts;Trusted_Connection=True;ConnectRetryCount=0";
             services.AddDbContext<ApplicationDbContext>
                 (options => options.UseSqlServer(connection));
             services.AddScoped<DataInitializer>();
-            services.AddTransient<IGameRepository, GameRepository>();
-            services.AddTransient<IPlayerRepository, PlayerRepository>();
-            services.AddTransient<IDartThrowRepository, DartThrowRepository>();
-            services.AddTransient<ILegRepository, LegRepository>();
+            services.AddScoped<IGameRepository, GameRepository>();
+            services.AddScoped<IPlayerRepository, PlayerRepository>();
+            services.AddScoped<IDartThrowRepository, DartThrowRepository>();
+            services.AddScoped<ILegRepository, LegRepository>();
 
 
-            services.AddTransient<IGameRepository, GameRepository>();
+            services.AddScoped<IGameRepository, GameRepository>();
 
 
 
             services.AddCors(options => options.AddPolicy("AllowAllOrigins", builder => builder.AllowAnyOrigin()));
+            services.AddOpenApiDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,6 +72,7 @@ namespace BackendDarts
             {
                 endpoints.MapControllers();
             });
+            app.UseSwaggerUi3(); app.UseSwagger();
 
             dataInitializer.InitializeData().Wait();
         }

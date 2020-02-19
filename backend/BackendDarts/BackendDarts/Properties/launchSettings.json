@@ -17,6 +17,16 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
+    "Swagger": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "applicationUrl": "http://localhost:5000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+
     "BackendDarts": {
       "commandName": "Project",
       "launchBrowser": true,

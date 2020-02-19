@@ -14,7 +14,7 @@ namespace BackendDarts.data.Mappers
         {
             builder.ToTable("Leg");
             builder.HasKey(l => l.LegId);
-            builder.HasMany(l => l.Throws).WithOne().HasForeignKey(d => d.DartThrowId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(l => l.Throws).WithOne().OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
