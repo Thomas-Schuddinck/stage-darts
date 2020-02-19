@@ -155,7 +155,10 @@ const useStyles = makeStyles(theme => ({
         
       </Drawer>
       <main className={classes.content}>
+        <div className={classes.appBarSpacer} />
+        <Container maxWidth="lg" className={classes.container}>
           {props.children}
+        </Container>
       </main>
       
     </div>
