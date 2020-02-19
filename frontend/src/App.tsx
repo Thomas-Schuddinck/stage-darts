@@ -1,7 +1,8 @@
 import React from 'react';
 import './App.css';
-import Layout from './hoc/Layout';
+import Layout from './hoc/Layout'
 import GameBuilder from './containers/GameBuilder/GameBuilder';
+import PersonalStatsBuilder from './containers/PersonalStatsBuilder/PersonalStatsBuilder';
 function App() {
   return (
     <div>
@@ -9,6 +10,7 @@ function App() {
       </header>
     <Layout>
       <GameBuilder></GameBuilder>
+      <PersonalStatsBuilder></PersonalStatsBuilder>
     </Layout>
     </div>
   );

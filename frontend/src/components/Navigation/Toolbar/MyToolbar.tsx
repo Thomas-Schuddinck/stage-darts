@@ -67,6 +67,21 @@ const useStyles = makeStyles(theme => ({
     toolbar: {
       paddingRight: 24, // keep right padding when drawer closed
     },
+    appBar: {
+      zIndex: theme.zIndex.drawer + 1,
+      transition: theme.transitions.create(['width', 'margin'], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+    },
+    appBarShift: {
+      marginLeft: drawerWidth,
+      width: `calc(100% - ${drawerWidth}px)`,
+      transition: theme.transitions.create(['width', 'margin'], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+    },
   }));
 
   export default function MyToolbar() {
@@ -83,7 +98,7 @@ const useStyles = makeStyles(theme => ({
   
     return (
       <div className={classes.root}>
-        <AppBar position="static">
+        <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
           <Toolbar className={classes.toolbar}>
             <IconButton edge="start" color="inherit" aria-label="menu" onClick={handleDrawerOpen} className={clsx(classes.menuButton, open && classes.menuButtonHidden)}>
               <MenuIcon />
@@ -108,7 +123,6 @@ const useStyles = makeStyles(theme => ({
         </div>
         <Divider />
         <List>{sideList}</List>
-        <Divider />
       </Drawer>
       </div>
       
