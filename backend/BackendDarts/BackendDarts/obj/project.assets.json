@@ -24,6 +24,47 @@
           "buildTransitive/netcoreapp3.0/EntityFramework.targets": {}
         }
       },
+      "Microsoft.AspNet.Mvc/5.2.7": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.Razor": "[3.2.7, 3.3.0)",
+          "Microsoft.AspNet.WebPages": "[3.2.7, 3.3.0)"
+        },
+        "compile": {
+          "lib/net45/System.Web.Mvc.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Web.Mvc.dll": {}
+        }
+      },
+      "Microsoft.AspNet.Razor/3.2.7": {
+        "type": "package",
+        "compile": {
+          "lib/net45/System.Web.Razor.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Web.Razor.dll": {}
+        }
+      },
+      "Microsoft.AspNet.WebPages/3.2.7": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.Razor": "[3.2.7, 3.3.0)",
+          "Microsoft.Web.Infrastructure": "1.0.0"
+        },
+        "compile": {
+          "lib/net45/System.Web.Helpers.dll": {},
+          "lib/net45/System.Web.WebPages.Deployment.dll": {},
+          "lib/net45/System.Web.WebPages.Razor.dll": {},
+          "lib/net45/System.Web.WebPages.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Web.Helpers.dll": {},
+          "lib/net45/System.Web.WebPages.Deployment.dll": {},
+          "lib/net45/System.Web.WebPages.Razor.dll": {},
+          "lib/net45/System.Web.WebPages.dll": {}
+        }
+      },
       "Microsoft.AspNetCore.Authorization/1.0.2": {
         "type": "package",
         "dependencies": {
@@ -80,39 +121,33 @@
           "lib/netstandard2.0/Microsoft.AspNetCore.Html.Abstractions.dll": {}
         }
       },
-      "Microsoft.AspNetCore.Http/1.0.2": {
+      "Microsoft.AspNetCore.Http/2.2.2": {
         "type": "package",
         "dependencies": {
-          "Microsoft.AspNetCore.Http.Abstractions": "1.0.2",
-          "Microsoft.AspNetCore.WebUtilities": "1.0.2",
-          "Microsoft.Extensions.ObjectPool": "1.0.1",
-          "Microsoft.Extensions.Options": "1.0.2",
-          "Microsoft.Net.Http.Headers": "1.0.2",
-          "System.Buffers": "4.0.0",
-          "System.Threading": "4.0.11"
+          "Microsoft.AspNetCore.Http.Abstractions": "2.2.0",
+          "Microsoft.AspNetCore.WebUtilities": "2.2.0",
+          "Microsoft.Extensions.ObjectPool": "2.2.0",
+          "Microsoft.Extensions.Options": "2.2.0",
+          "Microsoft.Net.Http.Headers": "2.2.0"
         },
         "compile": {
-          "lib/netstandard1.3/Microsoft.AspNetCore.Http.dll": {}
+          "lib/netstandard2.0/Microsoft.AspNetCore.Http.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.3/Microsoft.AspNetCore.Http.dll": {}
+          "lib/netstandard2.0/Microsoft.AspNetCore.Http.dll": {}
         }
       },
-      "Microsoft.AspNetCore.Http.Abstractions/1.0.2": {
+      "Microsoft.AspNetCore.Http.Abstractions/2.2.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.AspNetCore.Http.Features": "1.0.2",
-          "System.Globalization.Extensions": "4.0.1",
-          "System.Linq.Expressions": "4.1.1",
-          "System.Reflection.TypeExtensions": "4.1.0",
-          "System.Runtime.InteropServices": "4.1.0",
-          "System.Text.Encodings.Web": "4.0.0"
+          "Microsoft.AspNetCore.Http.Features": "2.2.0",
+          "System.Text.Encodings.Web": "4.5.0"
         },
         "compile": {
-          "lib/netstandard1.3/Microsoft.AspNetCore.Http.Abstractions.dll": {}
+          "lib/netstandard2.0/Microsoft.AspNetCore.Http.Abstractions.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.3/Microsoft.AspNetCore.Http.Abstractions.dll": {}
+          "lib/netstandard2.0/Microsoft.AspNetCore.Http.Abstractions.dll": {}
         }
       },
       "Microsoft.AspNetCore.Http.Extensions/1.0.2": {
@@ -131,25 +166,16 @@
           "lib/netstandard1.3/Microsoft.AspNetCore.Http.Extensions.dll": {}
         }
       },
-      "Microsoft.AspNetCore.Http.Features/1.0.2": {
+      "Microsoft.AspNetCore.Http.Features/2.2.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Extensions.Primitives": "1.0.1",
-          "System.Collections": "4.0.11",
-          "System.ComponentModel": "4.0.1",
-          "System.Linq": "4.1.0",
-          "System.Net.Primitives": "4.0.11",
-          "System.Net.WebSockets": "4.0.0",
-          "System.Runtime.Extensions": "4.1.0",
-          "System.Security.Claims": "4.0.1",
-          "System.Security.Cryptography.X509Certificates": "4.1.0",
-          "System.Security.Principal": "4.0.1"
+          "Microsoft.Extensions.Primitives": "2.2.0"
         },
         "compile": {
-          "lib/netstandard1.3/Microsoft.AspNetCore.Http.Features.dll": {}
+          "lib/netstandard2.0/Microsoft.AspNetCore.Http.Features.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.3/Microsoft.AspNetCore.Http.Features.dll": {}
+          "lib/netstandard2.0/Microsoft.AspNetCore.Http.Features.dll": {}
         }
       },
       "Microsoft.AspNetCore.JsonPatch/1.0.0": {
@@ -323,21 +349,17 @@
           "lib/netstandard1.3/Microsoft.AspNetCore.StaticFiles.dll": {}
         }
       },
-      "Microsoft.AspNetCore.WebUtilities/1.0.2": {
+      "Microsoft.AspNetCore.WebUtilities/2.2.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Extensions.Primitives": "1.0.1",
-          "System.Buffers": "4.0.0",
-          "System.Collections": "4.0.11",
-          "System.IO": "4.1.0",
-          "System.IO.FileSystem": "4.0.1",
-          "System.Text.Encodings.Web": "4.0.0"
+          "Microsoft.Net.Http.Headers": "2.2.0",
+          "System.Text.Encodings.Web": "4.5.0"
         },
         "compile": {
-          "lib/netstandard1.3/Microsoft.AspNetCore.WebUtilities.dll": {}
+          "lib/netstandard2.0/Microsoft.AspNetCore.WebUtilities.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.3/Microsoft.AspNetCore.WebUtilities.dll": {}
+          "lib/netstandard2.0/Microsoft.AspNetCore.WebUtilities.dll": {}
         }
       },
       "Microsoft.Bcl.AsyncInterfaces/1.1.0": {
@@ -694,6 +716,22 @@
           "lib/netstandard2.0/_._": {}
         }
       },
+      "Microsoft.EntityFrameworkCore.Design/3.1.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.CSharp": "4.7.0",
+          "Microsoft.EntityFrameworkCore.Relational": "3.1.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/_._": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.EntityFrameworkCore.Design.dll": {}
+        },
+        "build": {
+          "build/netcoreapp2.0/Microsoft.EntityFrameworkCore.Design.props": {}
+        }
+      },
       "Microsoft.EntityFrameworkCore.Relational/3.1.1": {
         "type": "package",
         "dependencies": {
@@ -881,19 +919,13 @@
           "lib/netstandard2.0/Microsoft.Extensions.Logging.Abstractions.dll": {}
         }
       },
-      "Microsoft.Extensions.ObjectPool/1.0.1": {
+      "Microsoft.Extensions.ObjectPool/2.2.0": {
         "type": "package",
-        "dependencies": {
-          "System.Diagnostics.Debug": "4.0.11",
-          "System.Resources.ResourceManager": "4.0.1",
-          "System.Runtime.Extensions": "4.1.0",
-          "System.Threading": "4.0.11"
-        },
         "compile": {
-          "lib/netstandard1.3/Microsoft.Extensions.ObjectPool.dll": {}
+          "lib/netstandard2.0/Microsoft.Extensions.ObjectPool.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.3/Microsoft.Extensions.ObjectPool.dll": {}
+          "lib/netstandard2.0/Microsoft.Extensions.ObjectPool.dll": {}
         }
       },
       "Microsoft.Extensions.Options/3.1.1": {
@@ -968,23 +1000,17 @@
           "lib/netcoreapp2.1/Microsoft.Identity.Client.dll": {}
         }
       },
-      "Microsoft.Net.Http.Headers/1.0.2": {
+      "Microsoft.Net.Http.Headers/2.2.0": {
         "type": "package",
         "dependencies": {
-          "System.Buffers": "4.0.0",
-          "System.Collections": "4.0.11",
-          "System.Diagnostics.Contracts": "4.0.1",
-          "System.Globalization": "4.0.11",
-          "System.Linq": "4.1.0",
-          "System.Resources.ResourceManager": "4.0.1",
-          "System.Runtime.Extensions": "4.1.0",
-          "System.Text.Encoding": "4.0.11"
+          "Microsoft.Extensions.Primitives": "2.2.0",
+          "System.Buffers": "4.5.0"
         },
         "compile": {
-          "lib/netstandard1.1/Microsoft.Net.Http.Headers.dll": {}
+          "lib/netstandard2.0/Microsoft.Net.Http.Headers.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.1/Microsoft.Net.Http.Headers.dll": {}
+          "lib/netstandard2.0/Microsoft.Net.Http.Headers.dll": {}
         }
       },
       "Microsoft.NETCore.Platforms/3.1.0": {
@@ -1109,6 +1135,15 @@
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll": {}
+        }
+      },
+      "Microsoft.Web.Infrastructure/1.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net40/Microsoft.Web.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "lib/net40/Microsoft.Web.Infrastructure.dll": {}
         }
       },
       "Microsoft.Win32.Primitives/4.3.0": {
@@ -1558,20 +1593,13 @@
           "lib/netstandard1.6/System.AppContext.dll": {}
         }
       },
-      "System.Buffers/4.3.0": {
+      "System.Buffers/4.5.0": {
         "type": "package",
-        "dependencies": {
-          "System.Diagnostics.Debug": "4.3.0",
-          "System.Diagnostics.Tracing": "4.3.0",
-          "System.Resources.ResourceManager": "4.3.0",
-          "System.Runtime": "4.3.0",
-          "System.Threading": "4.3.0"
-        },
         "compile": {
-          "lib/netstandard1.1/System.Buffers.dll": {}
+          "ref/netcoreapp2.0/_._": {}
         },
         "runtime": {
-          "lib/netstandard1.1/System.Buffers.dll": {}
+          "lib/netcoreapp2.0/_._": {}
         }
       },
       "System.CodeDom/4.7.0": {
@@ -1884,18 +1912,6 @@
           }
         }
       },
-      "System.Diagnostics.Contracts/4.0.1": {
-        "type": "package",
-        "dependencies": {
-          "System.Runtime": "4.1.0"
-        },
-        "compile": {
-          "ref/netstandard1.0/System.Diagnostics.Contracts.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard1.0/System.Diagnostics.Contracts.dll": {}
-        }
-      },
       "System.Diagnostics.Debug/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -2021,7 +2037,7 @@
           "System.Runtime.InteropServices": "4.3.0"
         },
         "compile": {
-          "ref/netstandard1.3/System.Globalization.Extensions.dll": {}
+          "ref/netstandard1.3/_._": {}
         },
         "runtimeTargets": {
           "runtimes/unix/lib/netstandard1.3/System.Globalization.Extensions.dll": {
@@ -2281,21 +2297,6 @@
         },
         "compile": {
           "ref/netstandard1.3/System.Net.Sockets.dll": {}
-        }
-      },
-      "System.Net.WebSockets/4.0.0": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.Win32.Primitives": "4.0.1",
-          "System.Resources.ResourceManager": "4.0.1",
-          "System.Runtime": "4.1.0",
-          "System.Threading.Tasks": "4.0.11"
-        },
-        "compile": {
-          "ref/netstandard1.3/System.Net.WebSockets.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard1.3/System.Net.WebSockets.dll": {}
         }
       },
       "System.ObjectModel/4.3.0": {
@@ -3231,6 +3232,21 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
+      },
+      "BackendDarts.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "3.1.1",
+          "Microsoft.EntityFrameworkCore.Relational": "3.1.1",
+          "Microsoft.EntityFrameworkCore.SqlServer": "3.1.1"
+        },
+        "compile": {
+          "bin/placeholder/BackendDarts.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/BackendDarts.Domain.dll": {}
+        }
       }
     }
   },
@@ -3291,6 +3307,55 @@
         "tools/netcoreapp3.0/any/ef6.runtimeconfig.json"
       ]
     },
+    "Microsoft.AspNet.Mvc/5.2.7": {
+      "sha512": "m3hUsn48k6Qb5El9A8naTwGTLCdSQKGSpGweqIfiVKltGJzAJJxuXvhhaQQtLCGg3i5V88iGjz0JG72/tlFKlg==",
+      "type": "package",
+      "path": "microsoft.aspnet.mvc/5.2.7",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Content/Web.config.install.xdt",
+        "Content/Web.config.uninstall.xdt",
+        "lib/net45/System.Web.Mvc.dll",
+        "lib/net45/System.Web.Mvc.xml",
+        "microsoft.aspnet.mvc.5.2.7.nupkg.sha512",
+        "microsoft.aspnet.mvc.nuspec"
+      ]
+    },
+    "Microsoft.AspNet.Razor/3.2.7": {
+      "sha512": "BpWEZ+Ys7g9VAkbAfpG5jr5A1fKcmadCCXv3fYfps5YfTVABJIGV4uc9yvmXKxsNsjL+BzDld2gs+xtgT2gg1g==",
+      "type": "package",
+      "path": "microsoft.aspnet.razor/3.2.7",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net45/System.Web.Razor.dll",
+        "lib/net45/System.Web.Razor.xml",
+        "microsoft.aspnet.razor.3.2.7.nupkg.sha512",
+        "microsoft.aspnet.razor.nuspec"
+      ]
+    },
+    "Microsoft.AspNet.WebPages/3.2.7": {
+      "sha512": "2jwZFB7PvY+tbdz0ZP4iEo7gMrJxkCQUzoGLh6swUc6ZXl6DoKyDslmGcC/j9PFmJXCRMVIqtRorlPSMU2DuRA==",
+      "type": "package",
+      "path": "microsoft.aspnet.webpages/3.2.7",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Content/Web.config.install.xdt",
+        "Content/Web.config.uninstall.xdt",
+        "lib/net45/System.Web.Helpers.dll",
+        "lib/net45/System.Web.Helpers.xml",
+        "lib/net45/System.Web.WebPages.Deployment.dll",
+        "lib/net45/System.Web.WebPages.Deployment.xml",
+        "lib/net45/System.Web.WebPages.Razor.dll",
+        "lib/net45/System.Web.WebPages.Razor.xml",
+        "lib/net45/System.Web.WebPages.dll",
+        "lib/net45/System.Web.WebPages.xml",
+        "microsoft.aspnet.webpages.3.2.7.nupkg.sha512",
+        "microsoft.aspnet.webpages.nuspec"
+      ]
+    },
     "Microsoft.AspNetCore.Authorization/1.0.2": {
       "sha512": "E+awj6d91bTe6uOGZdiWl0KL9VCr2Deq6Av3Ip/t0HT2zgF+KI8z4AtFNOSc14mumpulbC5lLthfyw/n+P2OFg==",
       "type": "package",
@@ -3349,33 +3414,29 @@
         "microsoft.aspnetcore.html.abstractions.nuspec"
       ]
     },
-    "Microsoft.AspNetCore.Http/1.0.2": {
-      "sha512": "w9AJMakVIuP0KhLe3pdwWNDSWhwDEjfRyai907iGmia0a5O3OBJw9JMhpenVHHeXAARwLi/zVn9oVwd1RFKzTA==",
+    "Microsoft.AspNetCore.Http/2.2.2": {
+      "sha512": "BAibpoItxI5puk7YJbIGj95arZueM8B8M5xT1fXBn3hb3L2G3ucrZcYXv1gXdaroLbntUs8qeV8iuBrpjQsrKw==",
       "type": "package",
-      "path": "microsoft.aspnetcore.http/1.0.2",
+      "path": "microsoft.aspnetcore.http/2.2.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "lib/net451/Microsoft.AspNetCore.Http.dll",
-        "lib/net451/Microsoft.AspNetCore.Http.xml",
-        "lib/netstandard1.3/Microsoft.AspNetCore.Http.dll",
-        "lib/netstandard1.3/Microsoft.AspNetCore.Http.xml",
-        "microsoft.aspnetcore.http.1.0.2.nupkg.sha512",
+        "lib/netstandard2.0/Microsoft.AspNetCore.Http.dll",
+        "lib/netstandard2.0/Microsoft.AspNetCore.Http.xml",
+        "microsoft.aspnetcore.http.2.2.2.nupkg.sha512",
         "microsoft.aspnetcore.http.nuspec"
       ]
     },
-    "Microsoft.AspNetCore.Http.Abstractions/1.0.2": {
-      "sha512": "peJqc7BgYwhTzOIfFHX3/esV6iOXf17Afekh6mCYuUD3aWyaBwQuWYaKLR+RnjBEWaSzpCDgfCMMp5Y3LUXsiA==",
+    "Microsoft.AspNetCore.Http.Abstractions/2.2.0": {
+      "sha512": "Nxs7Z1q3f1STfLYKJSVXCs1iBl+Ya6E8o4Oy1bCxJ/rNI44E/0f6tbsrVqAWfB7jlnJfyaAtIalBVxPKUPQb4Q==",
       "type": "package",
-      "path": "microsoft.aspnetcore.http.abstractions/1.0.2",
+      "path": "microsoft.aspnetcore.http.abstractions/2.2.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "lib/net451/Microsoft.AspNetCore.Http.Abstractions.dll",
-        "lib/net451/Microsoft.AspNetCore.Http.Abstractions.xml",
-        "lib/netstandard1.3/Microsoft.AspNetCore.Http.Abstractions.dll",
-        "lib/netstandard1.3/Microsoft.AspNetCore.Http.Abstractions.xml",
-        "microsoft.aspnetcore.http.abstractions.1.0.2.nupkg.sha512",
+        "lib/netstandard2.0/Microsoft.AspNetCore.Http.Abstractions.dll",
+        "lib/netstandard2.0/Microsoft.AspNetCore.Http.Abstractions.xml",
+        "microsoft.aspnetcore.http.abstractions.2.2.0.nupkg.sha512",
         "microsoft.aspnetcore.http.abstractions.nuspec"
       ]
     },
@@ -3394,18 +3455,16 @@
         "microsoft.aspnetcore.http.extensions.nuspec"
       ]
     },
-    "Microsoft.AspNetCore.Http.Features/1.0.2": {
-      "sha512": "9l/Y/CO3q8tET3w+dDiByREH8lRtpd14cMevwMV5nw2a/avJ5qcE3VVIE5U5hesec2phTT6udQEgwjHmdRRbig==",
+    "Microsoft.AspNetCore.Http.Features/2.2.0": {
+      "sha512": "ziFz5zH8f33En4dX81LW84I6XrYXKf9jg6aM39cM+LffN9KJahViKZ61dGMSO2gd3e+qe5yBRwsesvyqlZaSMg==",
       "type": "package",
-      "path": "microsoft.aspnetcore.http.features/1.0.2",
+      "path": "microsoft.aspnetcore.http.features/2.2.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "lib/net451/Microsoft.AspNetCore.Http.Features.dll",
-        "lib/net451/Microsoft.AspNetCore.Http.Features.xml",
-        "lib/netstandard1.3/Microsoft.AspNetCore.Http.Features.dll",
-        "lib/netstandard1.3/Microsoft.AspNetCore.Http.Features.xml",
-        "microsoft.aspnetcore.http.features.1.0.2.nupkg.sha512",
+        "lib/netstandard2.0/Microsoft.AspNetCore.Http.Features.dll",
+        "lib/netstandard2.0/Microsoft.AspNetCore.Http.Features.xml",
+        "microsoft.aspnetcore.http.features.2.2.0.nupkg.sha512",
         "microsoft.aspnetcore.http.features.nuspec"
       ]
     },
@@ -3567,18 +3626,16 @@
         "microsoft.aspnetcore.staticfiles.nuspec"
       ]
     },
-    "Microsoft.AspNetCore.WebUtilities/1.0.2": {
-      "sha512": "xWCqsnZLt0nSoiyw3x250k7PzV/ub1dtjZfLUCy89gTdAHF3jWivnzN+Mw5+LB8EYwEA4WY+u5l5s6innImJTw==",
+    "Microsoft.AspNetCore.WebUtilities/2.2.0": {
+      "sha512": "9ErxAAKaDzxXASB/b5uLEkLgUWv1QbeVxyJYEHQwMaxXOeFFVkQxiq8RyfVcifLU7NR0QY0p3acqx4ZpYfhHDg==",
       "type": "package",
-      "path": "microsoft.aspnetcore.webutilities/1.0.2",
+      "path": "microsoft.aspnetcore.webutilities/2.2.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "lib/net451/Microsoft.AspNetCore.WebUtilities.dll",
-        "lib/net451/Microsoft.AspNetCore.WebUtilities.xml",
-        "lib/netstandard1.3/Microsoft.AspNetCore.WebUtilities.dll",
-        "lib/netstandard1.3/Microsoft.AspNetCore.WebUtilities.xml",
-        "microsoft.aspnetcore.webutilities.1.0.2.nupkg.sha512",
+        "lib/netstandard2.0/Microsoft.AspNetCore.WebUtilities.dll",
+        "lib/netstandard2.0/Microsoft.AspNetCore.WebUtilities.xml",
+        "microsoft.aspnetcore.webutilities.2.2.0.nupkg.sha512",
         "microsoft.aspnetcore.webutilities.nuspec"
       ]
     },
@@ -3996,6 +4053,22 @@
         "microsoft.entityframeworkcore.analyzers.nuspec"
       ]
     },
+    "Microsoft.EntityFrameworkCore.Design/3.1.1": {
+      "sha512": "qCy5oedJEy1Hp7tr6tsgiiH+W68JQkMjDXmBcdGVexgOpt0VpcEKm+iBBJZ0I1Nbih3menlgOu0U1T4gNKi2Ew==",
+      "type": "package",
+      "path": "microsoft.entityframeworkcore.design/3.1.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "build/net461/Microsoft.EntityFrameworkCore.Design.props",
+        "build/netcoreapp2.0/Microsoft.EntityFrameworkCore.Design.props",
+        "lib/netstandard2.0/Microsoft.EntityFrameworkCore.Design.dll",
+        "lib/netstandard2.0/Microsoft.EntityFrameworkCore.Design.xml",
+        "microsoft.entityframeworkcore.design.3.1.1.nupkg.sha512",
+        "microsoft.entityframeworkcore.design.nuspec"
+      ]
+    },
     "Microsoft.EntityFrameworkCore.Relational/3.1.1": {
       "sha512": "iBt59oeV97kqI6ZkdSpnUV1cC+hCGf5xqot331waiF5d5sxksLJZghkUZOLpe4yuPg3mnngXD6bPqMsLa4II5g==",
       "type": "package",
@@ -4234,18 +4307,16 @@
         "microsoft.extensions.logging.abstractions.nuspec"
       ]
     },
-    "Microsoft.Extensions.ObjectPool/1.0.1": {
-      "sha512": "pJMOnxuqmG37OjccfvtqVoo3bQGoN+0EJUzzp7+2uxSdioER82caAk6Yi/z5aysapn5XENNIIa7SaYnYKSS69A==",
+    "Microsoft.Extensions.ObjectPool/2.2.0": {
+      "sha512": "gA8H7uQOnM5gb+L0uTNjViHYr+hRDqCdfugheGo/MxQnuHzmhhzCBTIPm19qL1z1Xe0NEMabfcOBGv9QghlZ8g==",
       "type": "package",
-      "path": "microsoft.extensions.objectpool/1.0.1",
+      "path": "microsoft.extensions.objectpool/2.2.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "lib/net451/Microsoft.Extensions.ObjectPool.dll",
-        "lib/net451/Microsoft.Extensions.ObjectPool.xml",
-        "lib/netstandard1.3/Microsoft.Extensions.ObjectPool.dll",
-        "lib/netstandard1.3/Microsoft.Extensions.ObjectPool.xml",
-        "microsoft.extensions.objectpool.1.0.1.nupkg.sha512",
+        "lib/netstandard2.0/Microsoft.Extensions.ObjectPool.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.ObjectPool.xml",
+        "microsoft.extensions.objectpool.2.2.0.nupkg.sha512",
         "microsoft.extensions.objectpool.nuspec"
       ]
     },
@@ -4349,16 +4420,16 @@
         "ref/xamarinmac20/Microsoft.Identity.Client.xml"
       ]
     },
-    "Microsoft.Net.Http.Headers/1.0.2": {
-      "sha512": "Nym2m4l2kb5jQRl5YlP1nAxneqpRfknFLy5PBKMYiC4kR/gDIQ4fi4rU9u7UdjEXMVgfWDIPpijx9YnSDEbOHw==",
+    "Microsoft.Net.Http.Headers/2.2.0": {
+      "sha512": "iZNkjYqlo8sIOI0bQfpsSoMTmB/kyvmV2h225ihyZT33aTp48ZpF6qYnXxzSXmHt8DpBAwBTX+1s1UFLbYfZKg==",
       "type": "package",
-      "path": "microsoft.net.http.headers/1.0.2",
+      "path": "microsoft.net.http.headers/2.2.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "lib/netstandard1.1/Microsoft.Net.Http.Headers.dll",
-        "lib/netstandard1.1/Microsoft.Net.Http.Headers.xml",
-        "microsoft.net.http.headers.1.0.2.nupkg.sha512",
+        "lib/netstandard2.0/Microsoft.Net.Http.Headers.dll",
+        "lib/netstandard2.0/Microsoft.Net.Http.Headers.xml",
+        "microsoft.net.http.headers.2.2.0.nupkg.sha512",
         "microsoft.net.http.headers.nuspec"
       ]
     },
@@ -4800,6 +4871,18 @@
         "lib/netstandard2.0/bootstrap4_identitygeneratorfilesconfig.json",
         "microsoft.visualstudio.web.codegenerators.mvc.3.1.1.nupkg.sha512",
         "microsoft.visualstudio.web.codegenerators.mvc.nuspec"
+      ]
+    },
+    "Microsoft.Web.Infrastructure/1.0.0": {
+      "sha512": "FNmvLn5m2LTU/Rs2KWVo0SIIh9Ek+U0ojex7xeDaSHw/zgEP77A8vY5cVWgUtBGS8MJfDGNn8rpXJWEIQaPwTg==",
+      "type": "package",
+      "path": "microsoft.web.infrastructure/1.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net40/Microsoft.Web.Infrastructure.dll",
+        "microsoft.web.infrastructure.1.0.0.nupkg.sha512",
+        "microsoft.web.infrastructure.nuspec"
       ]
     },
     "Microsoft.Win32.Primitives/4.3.0": {
@@ -5445,19 +5528,33 @@
         "system.appcontext.nuspec"
       ]
     },
-    "System.Buffers/4.3.0": {
-      "sha512": "ratu44uTIHgeBeI0dE8DWvmXVBSo4u7ozRZZHOMmK/JPpYyo0dAfgSiHlpiObMQ5lEtEyIXA40sKRYg5J6A8uQ==",
+    "System.Buffers/4.5.0": {
+      "sha512": "pL2ChpaRRWI/p4LXyy4RgeWlYF2sgfj/pnVMvBqwNFr5cXg7CXNnWZWxrOONLg8VGdFB8oB+EG2Qw4MLgTOe+A==",
       "type": "package",
-      "path": "system.buffers/4.3.0",
+      "path": "system.buffers/4.5.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "ThirdPartyNotices.txt",
-        "dotnet_library_license.txt",
-        "lib/netstandard1.1/.xml",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/netcoreapp2.0/_._",
         "lib/netstandard1.1/System.Buffers.dll",
-        "system.buffers.4.3.0.nupkg.sha512",
-        "system.buffers.nuspec"
+        "lib/netstandard1.1/System.Buffers.xml",
+        "lib/netstandard2.0/System.Buffers.dll",
+        "lib/netstandard2.0/System.Buffers.xml",
+        "lib/uap10.0.16299/_._",
+        "ref/net45/System.Buffers.dll",
+        "ref/net45/System.Buffers.xml",
+        "ref/netcoreapp2.0/_._",
+        "ref/netstandard1.1/System.Buffers.dll",
+        "ref/netstandard1.1/System.Buffers.xml",
+        "ref/netstandard2.0/System.Buffers.dll",
+        "ref/netstandard2.0/System.Buffers.xml",
+        "ref/uap10.0.16299/_._",
+        "system.buffers.4.5.0.nupkg.sha512",
+        "system.buffers.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
       ]
     },
     "System.CodeDom/4.7.0": {
@@ -6192,66 +6289,6 @@
         "system.data.sqlclient.nuspec",
         "useSharedDesignerContext.txt",
         "version.txt"
-      ]
-    },
-    "System.Diagnostics.Contracts/4.0.1": {
-      "sha512": "HvQQjy712vnlpPxaloZYkuE78Gn353L0SJLJVeLcNASeg9c4qla2a1Xq8I7B3jZoDzKPtHTkyVO7AZ5tpeQGuA==",
-      "type": "package",
-      "path": "system.diagnostics.contracts/4.0.1",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "ThirdPartyNotices.txt",
-        "dotnet_library_license.txt",
-        "lib/MonoAndroid10/_._",
-        "lib/MonoTouch10/_._",
-        "lib/net45/_._",
-        "lib/netcore50/System.Diagnostics.Contracts.dll",
-        "lib/netstandard1.0/System.Diagnostics.Contracts.dll",
-        "lib/portable-net45+win8+wp8+wpa81/_._",
-        "lib/win8/_._",
-        "lib/wp80/_._",
-        "lib/wpa81/_._",
-        "lib/xamarinios10/_._",
-        "lib/xamarinmac20/_._",
-        "lib/xamarintvos10/_._",
-        "lib/xamarinwatchos10/_._",
-        "ref/MonoAndroid10/_._",
-        "ref/MonoTouch10/_._",
-        "ref/net45/_._",
-        "ref/netcore50/System.Diagnostics.Contracts.dll",
-        "ref/netcore50/System.Diagnostics.Contracts.xml",
-        "ref/netcore50/de/System.Diagnostics.Contracts.xml",
-        "ref/netcore50/es/System.Diagnostics.Contracts.xml",
-        "ref/netcore50/fr/System.Diagnostics.Contracts.xml",
-        "ref/netcore50/it/System.Diagnostics.Contracts.xml",
-        "ref/netcore50/ja/System.Diagnostics.Contracts.xml",
-        "ref/netcore50/ko/System.Diagnostics.Contracts.xml",
-        "ref/netcore50/ru/System.Diagnostics.Contracts.xml",
-        "ref/netcore50/zh-hans/System.Diagnostics.Contracts.xml",
-        "ref/netcore50/zh-hant/System.Diagnostics.Contracts.xml",
-        "ref/netstandard1.0/System.Diagnostics.Contracts.dll",
-        "ref/netstandard1.0/System.Diagnostics.Contracts.xml",
-        "ref/netstandard1.0/de/System.Diagnostics.Contracts.xml",
-        "ref/netstandard1.0/es/System.Diagnostics.Contracts.xml",
-        "ref/netstandard1.0/fr/System.Diagnostics.Contracts.xml",
-        "ref/netstandard1.0/it/System.Diagnostics.Contracts.xml",
-        "ref/netstandard1.0/ja/System.Diagnostics.Contracts.xml",
-        "ref/netstandard1.0/ko/System.Diagnostics.Contracts.xml",
-        "ref/netstandard1.0/ru/System.Diagnostics.Contracts.xml",
-        "ref/netstandard1.0/zh-hans/System.Diagnostics.Contracts.xml",
-        "ref/netstandard1.0/zh-hant/System.Diagnostics.Contracts.xml",
-        "ref/portable-net45+win8+wp8+wpa81/_._",
-        "ref/win8/_._",
-        "ref/wp80/_._",
-        "ref/wpa81/_._",
-        "ref/xamarinios10/_._",
-        "ref/xamarinmac20/_._",
-        "ref/xamarintvos10/_._",
-        "ref/xamarinwatchos10/_._",
-        "runtimes/aot/lib/netcore50/System.Diagnostics.Contracts.dll",
-        "system.diagnostics.contracts.4.0.1.nupkg.sha512",
-        "system.diagnostics.contracts.nuspec"
       ]
     },
     "System.Diagnostics.Debug/4.3.0": {
@@ -7435,45 +7472,6 @@
         "ref/xamarinwatchos10/_._",
         "system.net.sockets.4.3.0.nupkg.sha512",
         "system.net.sockets.nuspec"
-      ]
-    },
-    "System.Net.WebSockets/4.0.0": {
-      "sha512": "2KJo8hir6Edi9jnMDAMhiJoI691xRBmKcbNpwjrvpIMOCTYOtBpSsSEGBxBDV7PKbasJNaFp1+PZz1D7xS41Hg==",
-      "type": "package",
-      "path": "system.net.websockets/4.0.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "ThirdPartyNotices.txt",
-        "dotnet_library_license.txt",
-        "lib/MonoAndroid10/_._",
-        "lib/MonoTouch10/_._",
-        "lib/net46/System.Net.WebSockets.dll",
-        "lib/netstandard1.3/System.Net.WebSockets.dll",
-        "lib/xamarinios10/_._",
-        "lib/xamarinmac20/_._",
-        "lib/xamarintvos10/_._",
-        "lib/xamarinwatchos10/_._",
-        "ref/MonoAndroid10/_._",
-        "ref/MonoTouch10/_._",
-        "ref/net46/System.Net.WebSockets.dll",
-        "ref/netstandard1.3/System.Net.WebSockets.dll",
-        "ref/netstandard1.3/System.Net.WebSockets.xml",
-        "ref/netstandard1.3/de/System.Net.WebSockets.xml",
-        "ref/netstandard1.3/es/System.Net.WebSockets.xml",
-        "ref/netstandard1.3/fr/System.Net.WebSockets.xml",
-        "ref/netstandard1.3/it/System.Net.WebSockets.xml",
-        "ref/netstandard1.3/ja/System.Net.WebSockets.xml",
-        "ref/netstandard1.3/ko/System.Net.WebSockets.xml",
-        "ref/netstandard1.3/ru/System.Net.WebSockets.xml",
-        "ref/netstandard1.3/zh-hans/System.Net.WebSockets.xml",
-        "ref/netstandard1.3/zh-hant/System.Net.WebSockets.xml",
-        "ref/xamarinios10/_._",
-        "ref/xamarinmac20/_._",
-        "ref/xamarintvos10/_._",
-        "ref/xamarinwatchos10/_._",
-        "system.net.websockets.4.0.0.nupkg.sha512",
-        "system.net.websockets.nuspec"
       ]
     },
     "System.ObjectModel/4.3.0": {
@@ -10038,12 +10036,21 @@
         "system.xml.xpath.xdocument.4.0.1.nupkg.sha512",
         "system.xml.xpath.xdocument.nuspec"
       ]
+    },
+    "BackendDarts.Domain/1.0.0": {
+      "type": "project",
+      "path": "../BackendDarts.Domain/BackendDarts.Domain.csproj",
+      "msbuildProject": "../BackendDarts.Domain/BackendDarts.Domain.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
+      "BackendDarts.Domain >= 1.0.0",
       "EntityFramework >= 6.4.0",
+      "Microsoft.AspNet.Mvc >= 5.2.7",
+      "Microsoft.AspNetCore.Http >= 2.2.2",
       "Microsoft.EntityFrameworkCore >= 3.1.1",
+      "Microsoft.EntityFrameworkCore.Design >= 3.1.1",
       "Microsoft.EntityFrameworkCore.SqlServer >= 3.1.1",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 3.1.1",
       "NSwag.AspNetCore >= 13.2.3"
@@ -10074,7 +10081,11 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\TSUBW53\\Desktop\\Darts\\stage-darts\\backend\\BackendDarts\\BackendDarts.Domain\\BackendDarts.Domain.csproj": {
+              "projectPath": "C:\\Users\\TSUBW53\\Desktop\\Darts\\stage-darts\\backend\\BackendDarts\\BackendDarts.Domain\\BackendDarts.Domain.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -10090,7 +10101,21 @@
             "target": "Package",
             "version": "[6.4.0, )"
           },
+          "Microsoft.AspNet.Mvc": {
+            "target": "Package",
+            "version": "[5.2.7, )"
+          },
+          "Microsoft.AspNetCore.Http": {
+            "target": "Package",
+            "version": "[2.2.2, )"
+          },
           "Microsoft.EntityFrameworkCore": {
+            "target": "Package",
+            "version": "[3.1.1, )"
+          },
+          "Microsoft.EntityFrameworkCore.Design": {
+            "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+            "suppressParent": "All",
             "target": "Package",
             "version": "[3.1.1, )"
           },
@@ -10128,5 +10153,47 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Microsoft.AspNet.Mvc 5.2.7' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.1'. This package may not be fully compatible with your project.",
+      "libraryId": "Microsoft.AspNet.Mvc",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Microsoft.AspNet.Razor 3.2.7' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.1'. This package may not be fully compatible with your project.",
+      "libraryId": "Microsoft.AspNet.Razor",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Microsoft.AspNet.WebPages 3.2.7' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.1'. This package may not be fully compatible with your project.",
+      "libraryId": "Microsoft.AspNet.WebPages",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Microsoft.Web.Infrastructure 1.0.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.1'. This package may not be fully compatible with your project.",
+      "libraryId": "Microsoft.Web.Infrastructure",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    }
+  ]
 }

@@ -7,7 +7,7 @@ namespace BackendDarts.Models
 {
     public class Game
     {
-        public int GameId { get; set; }
+        public int Id { get; set; }
         public DateTime beginDate { get; set; }
         public DateTime endDate { get; set; }
 

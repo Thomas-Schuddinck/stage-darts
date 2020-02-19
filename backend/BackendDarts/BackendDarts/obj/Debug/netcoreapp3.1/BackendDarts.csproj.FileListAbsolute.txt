@@ -267,5 +267,16 @@ C:\Users\TSUBW53\Desktop\Darts\stage-darts\backend\BackendDarts\BackendDarts\bin
 C:\Users\TSUBW53\Desktop\Darts\stage-darts\backend\BackendDarts\BackendDarts\bin\Debug\netcoreapp3.1\NSwag.Core.dll
 C:\Users\TSUBW53\Desktop\Darts\stage-darts\backend\BackendDarts\BackendDarts\bin\Debug\netcoreapp3.1\NSwag.Generation.dll
 C:\Users\TSUBW53\Desktop\Darts\stage-darts\backend\BackendDarts\BackendDarts\bin\Debug\netcoreapp3.1\NSwag.Generation.AspNetCore.dll
+C:\Users\TSUBW53\Desktop\Darts\stage-darts\backend\BackendDarts\BackendDarts\bin\Debug\netcoreapp3.1\System.Web.Mvc.dll
+C:\Users\TSUBW53\Desktop\Darts\stage-darts\backend\BackendDarts\BackendDarts\bin\Debug\netcoreapp3.1\System.Web.Razor.dll
+C:\Users\TSUBW53\Desktop\Darts\stage-darts\backend\BackendDarts\BackendDarts\bin\Debug\netcoreapp3.1\System.Web.Helpers.dll
+C:\Users\TSUBW53\Desktop\Darts\stage-darts\backend\BackendDarts\BackendDarts\bin\Debug\netcoreapp3.1\System.Web.WebPages.Deployment.dll
+C:\Users\TSUBW53\Desktop\Darts\stage-darts\backend\BackendDarts\BackendDarts\bin\Debug\netcoreapp3.1\System.Web.WebPages.Razor.dll
+C:\Users\TSUBW53\Desktop\Darts\stage-darts\backend\BackendDarts\BackendDarts\bin\Debug\netcoreapp3.1\System.Web.WebPages.dll
+C:\Users\TSUBW53\Desktop\Darts\stage-darts\backend\BackendDarts\BackendDarts\bin\Debug\netcoreapp3.1\Microsoft.Web.Infrastructure.dll
+C:\Users\TSUBW53\Desktop\Darts\stage-darts\backend\BackendDarts\BackendDarts\obj\Debug\netcoreapp3.1\BackendDarts.csprojAssemblyReference.cache
+C:\Users\TSUBW53\Desktop\Darts\stage-darts\backend\BackendDarts\BackendDarts\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Design.dll
 C:\Users\TSUBW53\Desktop\Darts\stage-darts\backend\BackendDarts\BackendDarts\obj\Debug\netcoreapp3.1\BackendDarts.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\TSUBW53\Desktop\Darts\stage-darts\backend\BackendDarts\BackendDarts\obj\Debug\netcoreapp3.1\BackendDarts.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\TSUBW53\Desktop\Darts\stage-darts\backend\BackendDarts\BackendDarts\bin\Debug\netcoreapp3.1\BackendDarts.Domain.dll
+C:\Users\TSUBW53\Desktop\Darts\stage-darts\backend\BackendDarts\BackendDarts\bin\Debug\netcoreapp3.1\BackendDarts.Domain.pdb

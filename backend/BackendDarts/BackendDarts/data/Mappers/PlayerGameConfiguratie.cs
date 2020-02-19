@@ -13,7 +13,7 @@ namespace BackendDarts.data.Mappers
         public void Configure(EntityTypeBuilder<PlayerGame> builder)
         {
             builder.ToTable("PlayerGame");
-            builder.HasKey(pg => pg.PlayerGameId);
+            builder.HasKey(pg => pg.Id);
             builder.HasOne(pg => pg.Player).WithMany(p => p.PlayerGames).HasForeignKey(p => p.PlayerId).OnDelete(DeleteBehavior.Restrict);
             builder.HasOne(pg => pg.Game).WithMany().HasForeignKey(g => g.GameId).OnDelete(DeleteBehavior.Restrict);
         }

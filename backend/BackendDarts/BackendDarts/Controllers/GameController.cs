@@ -41,7 +41,7 @@ namespace BackendDarts.Controllers
                 Game a = new Game();
             _gameRepository.Add(a);
             _gameRepository.SaveChanges();
-                return CreatedAtAction(nameof(GetBy), new { id = a.GameId }, a);
+                return CreatedAtAction(nameof(GetBy), new { id = a.Id }, a);
 
         }
 

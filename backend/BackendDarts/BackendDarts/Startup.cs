@@ -17,6 +17,8 @@ using Microsoft.EntityFrameworkCore;
 using BackendDarts.data.Repos;
 using BackendDarts.data.Repos.IRepos;
 using BackendDarts.Repos.IRepos;
+using Microsoft.AspNetCore.Http;
+using BackendDarts.Domain;
 
 namespace BackendDarts
 {
@@ -49,7 +51,7 @@ namespace BackendDarts
             services.AddScoped<IGameRepository, GameRepository>();
 
 
-
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddCors(options => options.AddPolicy("AllowAllOrigins", builder => builder.AllowAnyOrigin()));
             services.AddOpenApiDocument();
         }

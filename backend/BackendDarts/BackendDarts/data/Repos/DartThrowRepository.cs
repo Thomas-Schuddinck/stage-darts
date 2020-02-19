@@ -1,4 +1,5 @@
 ﻿using BackendDarts.data;
+using BackendDarts.Domain;
 using BackendDarts.Models;
 using BackendDarts.Repos.IRepos;
 using Microsoft.EntityFrameworkCore;
@@ -42,7 +43,7 @@ namespace BackendDarts.Repos
 
         public DartThrow GetBy(int id)
         {
-            return _dartThrows.SingleOrDefault(a => a.DartThrowId == id);
+            return _dartThrows.SingleOrDefault(a => a.Id == id);
         }
 
         public void Update(DartThrow dartThrow)

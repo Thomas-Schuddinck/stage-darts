@@ -13,7 +13,7 @@ namespace BackendDarts.data.Mappers
         public void Configure(EntityTypeBuilder<DartThrow> builder)
         {
             builder.ToTable("DartThrow");
-            builder.HasKey(dt => dt.DartThrowId);
+            builder.HasKey(dt => dt.Id);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace BackendDarts.data.Mappers
         public void Configure(EntityTypeBuilder<Leg> builder)
         {
             builder.ToTable("Leg");
-            builder.HasKey(l => l.LegId);
+            builder.HasKey(l => l.Id);
             builder.HasMany(l => l.Throws).WithOne().OnDelete(DeleteBehavior.Cascade);
         }
     }

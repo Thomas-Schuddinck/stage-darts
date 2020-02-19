@@ -7,7 +7,7 @@ namespace BackendDarts.Models
 {
     public class PlayerGame
     {
-        public int PlayerGameId { get; set; }
+        public int Id { get; set; }
         public int GameId { get; set; }
         public int PlayerId { get; set; }
         public Player Player { get; set; }

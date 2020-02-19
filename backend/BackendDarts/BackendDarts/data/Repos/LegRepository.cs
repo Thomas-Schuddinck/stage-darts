@@ -1,4 +1,5 @@
 ﻿using BackendDarts.data;
+using BackendDarts.Domain;
 using BackendDarts.Models;
 using BackendDarts.Repos.IRepos;
 using Microsoft.EntityFrameworkCore;
@@ -42,7 +43,7 @@ namespace BackendDarts.Repos
 
         public Leg GetBy(int id)
         {
-            return _legs.SingleOrDefault(a => a.LegId == id);
+            return _legs.SingleOrDefault(a => a.Id == id);
         }
 
         public void Update(Leg leg)

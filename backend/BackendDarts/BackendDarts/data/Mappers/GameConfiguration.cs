@@ -13,7 +13,7 @@ namespace BackendDarts.data.Mappers
         public void Configure(EntityTypeBuilder<Game> builder)
         {
             builder.ToTable("Game");
-            builder.HasKey(g => g.GameId);
+            builder.HasKey(g => g.Id);
         }
     }
 }

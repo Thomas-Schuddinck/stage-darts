@@ -1,4 +1,5 @@
 ﻿using BackendDarts.data.Repos.IRepos;
+using BackendDarts.Domain;
 using BackendDarts.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -41,7 +42,7 @@ namespace BackendDarts.data.Repos
 
         public Player GetBy(int id)
         {
-            return _players.SingleOrDefault(a => a.PlayerId == id);
+            return _players.SingleOrDefault(a => a.Id == id);
         }
 
         public void Update(Player player)
