@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
 
-class DartThrow extends Component {
-    render() {
+function DartThrow(props: any) {
         return (
-            <div>
-                <p>17</p>
-            </div>
+            <li>{props.score}</li>
         );
 
-    };
-}
+};
 
 export default DartThrow;
