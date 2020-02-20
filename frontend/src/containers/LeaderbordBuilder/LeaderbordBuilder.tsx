@@ -7,6 +7,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import DownloadFile from "../../services/PlayerService"
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -32,8 +34,13 @@ const useStyles = makeStyles({
   },
 });
 
+
 export default function Leaderbord() {
   const classes = useStyles();
+
+  function testing() {
+      DownloadFile();
+  }
 
   return (
     <TableContainer component={Paper}>
@@ -70,6 +77,7 @@ export default function Leaderbord() {
           
         </TableBody>
       </Table>
+      <Button onClick={testing}>TESTTING</Button>
     </TableContainer>
   );
 }
