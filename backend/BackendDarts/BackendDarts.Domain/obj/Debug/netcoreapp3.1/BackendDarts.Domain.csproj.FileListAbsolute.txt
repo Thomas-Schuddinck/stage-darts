@@ -1,0 +1,10 @@
+C:\Users\WOOBW65\Documents\stage-darts\backend\BackendDarts\BackendDarts.Domain\bin\Debug\netcoreapp3.1\BackendDarts.Domain.deps.json
+C:\Users\WOOBW65\Documents\stage-darts\backend\BackendDarts\BackendDarts.Domain\bin\Debug\netcoreapp3.1\BackendDarts.Domain.runtimeconfig.json
+C:\Users\WOOBW65\Documents\stage-darts\backend\BackendDarts\BackendDarts.Domain\bin\Debug\netcoreapp3.1\BackendDarts.Domain.runtimeconfig.dev.json
+C:\Users\WOOBW65\Documents\stage-darts\backend\BackendDarts\BackendDarts.Domain\bin\Debug\netcoreapp3.1\BackendDarts.Domain.dll
+C:\Users\WOOBW65\Documents\stage-darts\backend\BackendDarts\BackendDarts.Domain\bin\Debug\netcoreapp3.1\BackendDarts.Domain.pdb
+C:\Users\WOOBW65\Documents\stage-darts\backend\BackendDarts\BackendDarts.Domain\obj\Debug\netcoreapp3.1\BackendDarts.Domain.csprojAssemblyReference.cache
+C:\Users\WOOBW65\Documents\stage-darts\backend\BackendDarts\BackendDarts.Domain\obj\Debug\netcoreapp3.1\BackendDarts.Domain.AssemblyInfoInputs.cache
+C:\Users\WOOBW65\Documents\stage-darts\backend\BackendDarts\BackendDarts.Domain\obj\Debug\netcoreapp3.1\BackendDarts.Domain.AssemblyInfo.cs
+C:\Users\WOOBW65\Documents\stage-darts\backend\BackendDarts\BackendDarts.Domain\obj\Debug\netcoreapp3.1\BackendDarts.Domain.dll
+C:\Users\WOOBW65\Documents\stage-darts\backend\BackendDarts\BackendDarts.Domain\obj\Debug\netcoreapp3.1\BackendDarts.Domain.pdb
