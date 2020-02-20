@@ -13,7 +13,7 @@ namespace BackendDarts.Models
 
         public Leg()
         {
-
+            Throws = new List<DartThrow>();
         }
     }
 }

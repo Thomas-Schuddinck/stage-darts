@@ -19,6 +19,9 @@ using BackendDarts.data.Repos.IRepos;
 using BackendDarts.Repos.IRepos;
 using Microsoft.AspNetCore.Http;
 using BackendDarts.Domain;
+using BackendDarts.Data.Repos.IRepos;
+using BackendDarts.Data.Repos;
+using Newtonsoft.Json;
 
 namespace BackendDarts
 {
@@ -46,7 +49,14 @@ namespace BackendDarts
             services.AddScoped<IPlayerRepository, PlayerRepository>();
             services.AddScoped<IDartThrowRepository, DartThrowRepository>();
             services.AddScoped<ILegRepository, LegRepository>();
+            services.AddScoped<IPlayerGameRepository, PlayerGameRepository>();
 
+
+
+            services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
 
             services.AddScoped<IGameRepository, GameRepository>();
 

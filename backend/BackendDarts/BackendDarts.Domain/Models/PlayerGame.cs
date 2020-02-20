@@ -13,11 +13,11 @@ namespace BackendDarts.Models
         public Player Player { get; set; }
         public Game Game { get; set; }
 
-        public List<Leg> Throws { get; set; }
+        public List<Leg> Legs { get; set; }
 
         public PlayerGame()
         {
-
+            Legs = new List<Leg>();
         }
     }
 }
