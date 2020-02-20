@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Layout from './hoc/Layout'
 import GameBuilder from './containers/GameBuilder/GameBuilder';
 import PersonalStatsBuilder from './containers/PersonalStatsBuilder/PersonalStatsBuilder';
+import Leaderbord from './containers/LeaderbordBuilder/LeaderbordBuilder';
 function App() {
   return (
     <Router>
@@ -13,8 +14,11 @@ function App() {
         <Route path="/game">
         <GameBuilder></GameBuilder>
         </Route>
-        <Route path="/home">
+        <Route path="/stats">
         <PersonalStatsBuilder></PersonalStatsBuilder>
+        </Route>
+        <Route path="/leaderbord">
+        <Leaderbord></Leaderbord>
         </Route>
       </Layout>
     </Router>

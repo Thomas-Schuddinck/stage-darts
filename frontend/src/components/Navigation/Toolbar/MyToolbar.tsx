@@ -128,12 +128,10 @@ const useStyles = makeStyles(theme => ({
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Dashboard
+            DaRts
           </Typography>
           <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
+              register
           </IconButton>
         </Toolbar>
       </AppBar>
