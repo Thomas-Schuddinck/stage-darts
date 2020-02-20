@@ -24,6 +24,16 @@ const useStyles = makeStyles(theme => ({
         color: "red",
         fontSize: '3.8em'
     },
+    hoofd: {
+        alignSelf: 'center',
+      color: "#004BFF",
+      fontSize: '2em',
+      paddingLeft: '0.7em',
+      paddingRight: '0.7em',
+      borderBottomColor: '#004BFF',
+      borderBottomWidth: 3,
+      borderBottomStyle: "solid"
+    },
     
 }));
 
@@ -35,12 +45,12 @@ function LastDartThrow(props: any) {
     return (
         
         <Paper className={classes.paper}>
-            <h1>Last Throw</h1>
+            <span className={classes.hoofd}>Last Throw</span>
             <ListItem button>
             <ListItemIcon>
-                <GpsFixedIcon  className={classes.roos}/>
+                <GpsFixedIcon className={classes.roos}/>
             </ListItemIcon>
-            <ListItemText  classes={{primary:classes.listItemText}} primary={props.score} />
+            <ListItemText classes={{primary:classes.listItemText}} primary={props.score} />
         </ListItem>
         </Paper>
     );

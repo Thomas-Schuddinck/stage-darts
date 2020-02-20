@@ -9,6 +9,8 @@ import DartThrow from '../../components/Game/DartThrow/DartThrow';
 import LastDartThrow from '../../components/Game/LastDartThrow/LastDartThrow';
 import PlayingNext from '../../components/Game/TopBar/PlayingNext/PlayingNext';
 import CurrentLeader from '../../components/Game/TopBar/CurrentLeader/CurrentLeader';
+import CurrentSet from '../../components/Game/CurrentSet/CurrentSet';
+import CurrentPlayer from '../../components/Game/TopBar/CurrentPlayer/CurrentPlayer';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -30,21 +32,23 @@ export default function GameBuilder() {
 
 
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
+    const scores = [1, 5, 20];
 
     return (
         <Aux>
             <Grid container spacing={3}>
                 {/* Chart */}
                 
-                <Grid item md={4} lg={4}>
+                <Grid item xs={12} md={4} lg={4} >
+                    <CurrentPlayer name="Thomas"/>
                 </Grid>
                     
-                <Grid item xs={12} md={4} lg={4} >
-                    <PlayingNext name="Wouter"/>
-                </Grid>
                 <Grid item xs={12} md={4} lg={4}>
                     <CurrentLeader name="Thomas"/>
+                </Grid>
+                
+                <Grid item xs={12} md={4} lg={4} >
+                    <PlayingNext name="Wouter"/>
                 </Grid>
                 <Grid item xs={12} md={6} lg={6}>
                     <Paper className={fixedHeightPaper}>
@@ -63,7 +67,7 @@ export default function GameBuilder() {
                 </Grid>
                 <Grid item xs={12} md={8} lg={8}>
                     <Paper className={classes.paper}>
-                        
+                        <CurrentSet setnumber="2" scores={scores}/>
                     </Paper>
                 </Grid>
                 {/* Recent Orders */}
