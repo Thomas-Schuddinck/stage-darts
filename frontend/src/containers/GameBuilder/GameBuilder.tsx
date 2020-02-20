@@ -32,7 +32,7 @@ export default function GameBuilder() {
 
 
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-    const scores = [1, 5, 20];
+    const scores = [1, 5, 40];
 
     return (
         <Aux>
@@ -52,18 +52,18 @@ export default function GameBuilder() {
                 </Grid>
                 <Grid item xs={12} md={6} lg={6}>
                     <Paper className={fixedHeightPaper}>
-                        <Person />
+                        <Person name="Thomas"/>
                     </Paper>
                 </Grid>
                 {/* Recent Deposits */}
                 <Grid item xs={12} md={6} lg={6}>
                     <Paper className={fixedHeightPaper}>
-                        <Person />
+                        <Person name="Wouter"/>
                     </Paper>
                 </Grid>
                 <Grid item xs={12} md={4} lg={4}>
                     
-                        <LastDartThrow score="151"/>
+                        <LastDartThrow score="40"/>
                 </Grid>
                 <Grid item xs={12} md={8} lg={8}>
                     <Paper className={classes.paper}>

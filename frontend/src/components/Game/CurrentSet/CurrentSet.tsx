@@ -47,9 +47,10 @@ function CurrentSet(props: any) {
       <span className={classes.tekstHoofd}>Set {props.setnumber}</span>
       <div className={classes.lijst}>
         {props.scores.map((s: any) =>
-          <DartThrow key={s.index} score={s.value} />
+          <DartThrow score={s} />
         )}
       </div>
+      
     </Aux>
 
   )

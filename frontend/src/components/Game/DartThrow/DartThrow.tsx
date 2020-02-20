@@ -8,12 +8,12 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(theme => ({
     roos: {
         color: "red",
-        fontSize: '2em',
+        fontSize: '3em',
         marginRight: '0.3em'
     },
     listItemText: {
         color: "red",
-        fontSize: '3.8em'
+        fontSize: '3em'
     },
     
 }));
