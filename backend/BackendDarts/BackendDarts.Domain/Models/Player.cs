@@ -14,6 +14,7 @@ namespace BackendDarts.Models
         public Player(string name)
         {
             this.Name = name;
+            PlayerGames = new List<PlayerGame>();
         }
     }
 }

@@ -8,6 +8,8 @@ namespace BackendDarts.Domain
         public DbSet<Game> Games { get; set; }
         public DbSet<Leg> Legs { get; set; }
 
+        public DbSet<PlayerGame> PlayerGames { get; set; }
+
         public DbSet<Player> Players { get; set; }
         public DbSet<DartThrow> DartThrows { get; set; }
 

@@ -38,7 +38,7 @@ namespace BackendDarts.Repos
 
         public IEnumerable<Leg> GetAll()
         {
-            return _legs.ToList();
+            return _legs.Include(t => t.Throws).ToList();
         }
 
         public Leg GetBy(int id)
