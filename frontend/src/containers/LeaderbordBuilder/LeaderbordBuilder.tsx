@@ -8,7 +8,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import Person from '../../components/PersonalStats/Person';
 import { playerService } from '../../services/PlayerService';
 
 const StyledTableCell = withStyles(theme => ({
@@ -34,14 +33,16 @@ const useStyles = makeStyles({
     minWidth: 700,
   },
 });
+var naame;
 
+async function testing() {
+  return await playerService.get();
+}
 
 export default function Leaderbord() {
   const classes = useStyles();
-
-  function testing() {
-    console.log(playerService.get());
-  }
+  const naam = testing();
+ 
 
   return (
     <TableContainer component={Paper}>
@@ -56,10 +57,9 @@ export default function Leaderbord() {
           </TableRow>
         </TableHead>
         <TableBody>
-          
             <StyledTableRow>
               <StyledTableCell component="th" scope="row">
-                Thomas
+                {/* <p>{naam}</p> */}
               </StyledTableCell>
               <StyledTableCell align="right">3</StyledTableCell>
               <StyledTableCell align="right">1</StyledTableCell>
