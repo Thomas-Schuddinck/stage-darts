@@ -37,7 +37,7 @@ namespace BackendDarts.data.Repos
 
         public IEnumerable<Player> GetAll()
         {
-            return _players.Include(p => p.PlayerGames).ToList();
+            return _players.ToList();
         }
 
         public Player GetBy(int id)

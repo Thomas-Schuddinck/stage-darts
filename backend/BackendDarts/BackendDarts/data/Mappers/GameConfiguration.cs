@@ -14,6 +14,7 @@ namespace BackendDarts.data.Mappers
         {
             builder.ToTable("Game");
             builder.HasKey(g => g.Id);
+            builder.HasMany(p => p.PlayerGames).WithOne().OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

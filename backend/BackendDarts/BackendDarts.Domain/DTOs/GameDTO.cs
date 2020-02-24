@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace BackendDarts.Models
+namespace BackendDarts.Domain.DTOs
 {
-    public class Game
+    public class GameDTO
     {
         public int Id { get; set; }
         public DateTime beginDate { get; set; }
         public DateTime endDate { get; set; }
-        public List<PlayerGame> PlayerGames { get; set; }
+        public List<PlayerGameDTO> Legs { get; set; }
+
     }
 }
