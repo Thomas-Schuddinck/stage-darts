@@ -9,7 +9,9 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import GetApiCall from '../../services/ApiClient';
 import { Player } from '../../models/Player';
-import Wrap from '../../hoc/Wrap'
+import PropagateLoader from "react-spinners/PropagateLoader";
+import Wrap from '../../hoc/Wrap';
+import { css } from "@emotion/core";
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -38,7 +40,6 @@ const useStyles = makeStyles({
 const Leaderbord = () => {
   const classes = useStyles();
 
-  let [playerState, setPlayerState] = useState();
   let [players, setPlayers] = useState();
   let [isLoading, setLoading] = React.useState(true);
 
@@ -46,7 +47,6 @@ const Leaderbord = () => {
 
     setLoading(true);
 
-    setPlayerState(await CallToApiPlayerById());
     setPlayers(await CallToApiPlayers());
 
     setLoading(false);
@@ -56,12 +56,6 @@ const Leaderbord = () => {
   useEffect(() => {
     FetchData();
   }, []);
-
-  const CallToApiPlayerById = async (): Promise<Player> => {
-    return await GetApiCall('http://localhost:5000/Player/1').then(player => {
-      return player;
-    });
-  }
 
   const CallToApiPlayers = async (): Promise<Player[]> => {
     return await GetApiCall('http://localhost:5000/Player').then(players => {
@@ -85,9 +79,23 @@ const Leaderbord = () => {
     return table;
   }
 
+  const spinner = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+  margin-left: 50%;
+`;
+
   return (
-    <TableContainer component={Paper}>
-      {isLoading ? (<p>loading</p>) : (
+    <Wrap>
+      {isLoading ? (
+        <PropagateLoader
+        css={spinner}
+        size={20}
+        color={"#123abc"}
+        />
+      ) : (
+        <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="customized table">
           <TableHead>
             <TableRow>
@@ -100,8 +108,10 @@ const Leaderbord = () => {
             {createTable()}
           </TableBody>
         </Table>
+        </TableContainer>
       )}
-    </TableContainer>
+      </Wrap>
+    
   );
 }
 
