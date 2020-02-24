@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState, Children } from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -7,8 +7,9 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
-import { playerService } from '../../services/PlayerService';
+import GetApiCall from '../../services/ApiClient';
+import { Player } from '../../models/Player';
+import Wrap from '../../hoc/Wrap'
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -33,52 +34,75 @@ const useStyles = makeStyles({
     minWidth: 700,
   },
 });
-var naame;
 
-async function testing() {
-  return await playerService.get();
-}
-
-export default function Leaderbord() {
+const Leaderbord = () => {
   const classes = useStyles();
-  const naam = testing();
- 
+
+  let [playerState, setPlayerState] = useState();
+  let [players, setPlayers] = useState();
+  let [isLoading, setLoading] = React.useState(true);
+
+  const FetchData = async () => {
+
+    setLoading(true);
+
+    setPlayerState(await CallToApiPlayerById());
+    setPlayers(await CallToApiPlayers());
+
+    setLoading(false);
+
+  }
+
+  useEffect(() => {
+    FetchData();
+  }, []);
+
+  const CallToApiPlayerById = async (): Promise<Player> => {
+    return await GetApiCall('http://localhost:5000/Player/1').then(player => {
+      return player;
+    });
+  }
+
+  const CallToApiPlayers = async (): Promise<Player[]> => {
+    return await GetApiCall('http://localhost:5000/Player').then(players => {
+      return players;
+    });
+  }
+
+  const createTable = () => {
+    let table: JSX.Element[] = [];
+    players.forEach((p: any) => {
+      table.push(
+        <StyledTableRow>
+          <StyledTableCell component="th" scope="row">
+                {p.name}
+              </StyledTableCell>
+              <StyledTableCell align="center">3</StyledTableCell>
+              <StyledTableCell align="center">33</StyledTableCell>
+        </StyledTableRow>
+      )
+    });
+    return table;
+  }
 
   return (
     <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>Player</StyledTableCell>
-            <StyledTableCell align="right">#Wins</StyledTableCell>
-            <StyledTableCell align="right">Tripple20%</StyledTableCell>
-            <StyledTableCell align="right">Average/throw</StyledTableCell>
-            <StyledTableCell align="right">Win%</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-            <StyledTableRow>
-              <StyledTableCell component="th" scope="row">
-                {/* <p>{naam}</p> */}
-              </StyledTableCell>
-              <StyledTableCell align="right">3</StyledTableCell>
-              <StyledTableCell align="right">1</StyledTableCell>
-              <StyledTableCell align="right">4</StyledTableCell>
-              <StyledTableCell align="right">5</StyledTableCell>
-            </StyledTableRow>
-            <StyledTableRow>
-              <StyledTableCell component="th" scope="row">
-                Wouter
-              </StyledTableCell>
-              <StyledTableCell align="right">50</StyledTableCell>
-              <StyledTableCell align="right">30</StyledTableCell>
-              <StyledTableCell align="right">42</StyledTableCell>
-              <StyledTableCell align="right">82</StyledTableCell>
-            </StyledTableRow>
-          
-        </TableBody>
-      </Table>
-      <Button onClick={testing}>TESTTING</Button>
+      {isLoading ? (<p>loading</p>) : (
+        <Table className={classes.table} aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell>Player</StyledTableCell>
+              <StyledTableCell align="center">#Wins</StyledTableCell>
+              <StyledTableCell align="center">Win%</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {createTable()}
+          </TableBody>
+        </Table>
+      )}
     </TableContainer>
   );
 }
+
+export default Leaderbord;
