@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 
-class GamePlayer extends Component {
-    render() {
+const GamePlayer = () => {
         return (
             <div>
-                <p>Thomas</p>
+                <p>Bert</p>
             </div>
-        )
-
-    }
+        )    
 }
 
 export default GamePlayer;
