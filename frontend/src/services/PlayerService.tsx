@@ -1,11 +1,18 @@
 import axios from 'axios';
 
-const url = 'https://jsonplaceholder.typicode.com/todos/1';
+const url = 'http://localhost:5000/Player';
 
-export default function downloadFile() {
-  axios.get('https://jsonplaceholder.typicode.com/todos/1')
+export const playerService = {
+  get,
+  // post,
+  // put,
+  // deleteDetail
+};
+
+function get() {
+  return axios.get('http://localhost:5000/Player/')
   .then(response => {
-    console.log(response)
+    console.log(response.data.name)
   })
   .catch(error => {
     console.log(error)

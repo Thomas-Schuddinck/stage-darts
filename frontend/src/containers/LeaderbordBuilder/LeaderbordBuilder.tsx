@@ -8,7 +8,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import DownloadFile from "../../services/PlayerService"
+import Person from '../../components/PersonalStats/Person';
+import { playerService } from '../../services/PlayerService';
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -39,7 +40,7 @@ export default function Leaderbord() {
   const classes = useStyles();
 
   function testing() {
-      DownloadFile();
+    console.log(playerService.get());
   }
 
   return (
