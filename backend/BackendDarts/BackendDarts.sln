@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BackendDarts", "BackendDarts\BackendDarts.csproj", "{4D4D0603-7009-4A3A-BC6D-543281CEE702}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackendDarts.Domain", "BackendDarts.Domain\BackendDarts.Domain.csproj", "{6B6B960E-C8B4-48C6-9340-245A7D666EAC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4D4D0603-7009-4A3A-BC6D-543281CEE702}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D4D0603-7009-4A3A-BC6D-543281CEE702}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D4D0603-7009-4A3A-BC6D-543281CEE702}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D4D0603-7009-4A3A-BC6D-543281CEE702}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B6B960E-C8B4-48C6-9340-245A7D666EAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B6B960E-C8B4-48C6-9340-245A7D666EAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B6B960E-C8B4-48C6-9340-245A7D666EAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B6B960E-C8B4-48C6-9340-245A7D666EAC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AA1812D7-D3DA-4669-9C07-9E5C7E4106B7}
+	EndGlobalSection
+EndGlobal
