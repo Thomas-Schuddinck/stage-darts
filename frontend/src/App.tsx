@@ -6,6 +6,8 @@ import GameBuilder from './containers/GameBuilder/GameBuilder';
 import PersonalStatsBuilder from './containers/PersonalStatsBuilder/PersonalStatsBuilder';
 import Leaderbord from './containers/LeaderbordBuilder/LeaderbordBuilder';
 
+import AboutBuilder from './containers/AboutBuilder/AboutBuilder';
+
 function App() {
   return (
     <Router>
@@ -20,6 +22,9 @@ function App() {
         </Route>
         <Route path="/leaderbord">
         <Leaderbord></Leaderbord>
+        </Route>
+        <Route path="/about">
+        <AboutBuilder/>
         </Route>
       </Layout>
     </Router>

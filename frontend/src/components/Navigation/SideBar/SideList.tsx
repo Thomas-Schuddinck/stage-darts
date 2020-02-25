@@ -8,6 +8,8 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import ListItem from '@material-ui/core/ListItem';
 import { NavLink } from "react-router-dom";
+import InfoIcon from '@material-ui/icons/Info';
+import { Link } from "react-router-dom";
 import './SideList.css';
 import { makeStyles } from '@material-ui/core/styles';
 import { MenuItem, createMuiTheme } from '@material-ui/core';
@@ -79,6 +81,15 @@ export const SideList = () => {
       </ListItemIcon>
       <ListItemText primary="Quick start" />
     </MenuItem>
+    </NavLink>
+    </ListItem>
+    <NavLink activeClassName={classes.active} to="/about">
+      <MenuItem className={classes.itemLi}>
+        <ListItemIcon className={classes.icon}>
+          <InfoIcon />
+        </ListItemIcon>
+        <ListItemText primary="About" />
+      </MenuItem>
     </NavLink>
   </div>
   )
