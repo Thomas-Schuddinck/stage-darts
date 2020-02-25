@@ -7,6 +7,7 @@ import GamesIcon from '@material-ui/icons/Games';
 import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
+import InfoIcon from '@material-ui/icons/Info';
 import { Link } from "react-router-dom";
 import './SideList.css';
 
@@ -51,5 +52,13 @@ export const sideList = (
       </ListItemIcon>
       <ListItemText primary="Quick start" />
     </ListItem>
+    <Link to="/about">
+      <ListItem button>
+        <ListItemIcon>
+          <InfoIcon />
+        </ListItemIcon>
+        <ListItemText primary="About" />
+      </ListItem>
+    </Link>
   </div>
 );
