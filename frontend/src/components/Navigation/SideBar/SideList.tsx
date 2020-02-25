@@ -1,5 +1,4 @@
-import React from 'react';
-import ListItem from '@material-ui/core/ListItem';
+import React, { useState } from 'react';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import PersonIcon from '@material-ui/icons/Person';
@@ -7,58 +6,92 @@ import GamesIcon from '@material-ui/icons/Games';
 import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
+import ListItem from '@material-ui/core/ListItem';
+import { NavLink } from "react-router-dom";
 import InfoIcon from '@material-ui/icons/Info';
 import { Link } from "react-router-dom";
 import './SideList.css';
+import { makeStyles } from '@material-ui/core/styles';
+import { MenuItem, createMuiTheme } from '@material-ui/core';
+import indigo from '@material-ui/core/colors/indigo';
+import grey from '@material-ui/core/colors/grey';
 
-export const sideList = (
+const useStyles = makeStyles(theme => ({
+    itemLi: {
+      height: '3em',
+    },
+    icon: {
+      color: grey[600],
+    },
+    active: {
+      color: indigo[500],
+      '& $icon': {
+        color: indigo[500],
+       },
+    }
+}));
+
+
+export const SideList = () => {
+  
+  const classes = useStyles();
+    
+  return (
   <div>
-    <Link to="/stats">
-      <ListItem button>
+    <NavLink to="/stats" activeClassName={classes.active}>
+      <MenuItem className={classes.itemLi}       >
         <ListItemIcon>
-          <PersonIcon />
+          <PersonIcon className={classes.icon} />
         </ListItemIcon>
         <ListItemText primary="Personal stats" />
-      </ListItem>
-    </Link>
+      </MenuItem>
+    </NavLink>
 
-    <Link to="/game">
-      <ListItem button>
-        <ListItemIcon>
-          <GamesIcon />
+    <NavLink activeClassName={classes.active} to="/game">
+      <MenuItem className={classes.itemLi}>
+        <ListItemIcon className={classes.icon}>
+          <GamesIcon/>
         </ListItemIcon>
         <ListItemText primary="Play Game" />
-      </ListItem>
-    </Link>
+      </MenuItem>
+    </NavLink>
 
-    <Link to="/leaderbord">
-      <ListItem button>
-        <ListItemIcon>
+    <NavLink activeClassName={classes.active} to="/leaderbord" >
+      <MenuItem className={classes.itemLi}>
+        <ListItemIcon className={classes.icon}>
           <PeopleIcon />
         </ListItemIcon>
         <ListItemText primary="Leaderbord" />
-      </ListItem>
-    </Link>
+      </MenuItem>
+    </NavLink>
 
-    <ListItem button>
-      <ListItemIcon>
+<NavLink activeClassName={classes.active} to='/tournament'>
+    <MenuItem className={classes.itemLi}>
+      <ListItemIcon className={classes.icon}>
         <BarChartIcon />
       </ListItemIcon>
       <ListItemText primary="Tournament" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
+    </MenuItem>
+    </NavLink>
+
+<NavLink activeClassName={classes.active} to='/quickstart'>
+    <MenuItem className={classes.itemLi}>
+      <ListItemIcon className={classes.icon}>
         <LayersIcon />
       </ListItemIcon>
       <ListItemText primary="Quick start" />
+    </MenuItem>
+    </NavLink>
     </ListItem>
-    <Link to="/about">
-      <ListItem button>
-        <ListItemIcon>
+    <NavLink activeClassName={classes.active} to="/about">
+      <MenuItem className={classes.itemLi}>
+        <ListItemIcon className={classes.icon}>
           <InfoIcon />
         </ListItemIcon>
         <ListItemText primary="About" />
-      </ListItem>
-    </Link>
+      </MenuItem>
+    </NavLink>
   </div>
-);
+  )
+  };
+  export default SideList;
