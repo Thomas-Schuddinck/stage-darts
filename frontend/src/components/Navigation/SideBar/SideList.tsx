@@ -7,83 +7,79 @@ import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import ListItem from '@material-ui/core/ListItem';
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import './SideList.css';
-import { Theme, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import { MenuItem, createMuiTheme } from '@material-ui/core';
-import { inherits } from 'util';
-
-
-const theme = createMuiTheme({
-  overrides: {
-    MuiMenuItem: {
-     root: {
-      '&$selected': {
-        backgroundColor: 'red',
-       },
-      },
-      
-    },
-  },
-});
+import indigo from '@material-ui/core/colors/indigo';
+import grey from '@material-ui/core/colors/grey';
 
 const useStyles = makeStyles(theme => ({
     itemLi: {
       height: '3em',
     },
+    icon: {
+      color: grey[600],
+    },
+    active: {
+      color: indigo[500],
+      '& $icon': {
+        color: indigo[500],
+       },
+    }
 }));
 
 
 export const SideList = () => {
   
   const classes = useStyles();
-  
-  let [selected, setSelected] = useState();
-
-
-
-  
+    
   return (
   <div>
-    <Link to="/stats">
-      <MenuItem className={classes.itemLi} button onClick={() => setSelected(0)} selected={selected === 0}>
+    <NavLink to="/stats" activeClassName={classes.active}>
+      <MenuItem className={classes.itemLi}       >
         <ListItemIcon>
-          <PersonIcon />
+          <PersonIcon className={classes.icon} />
         </ListItemIcon>
         <ListItemText primary="Personal stats" />
       </MenuItem>
-    </Link>
+    </NavLink>
 
-    <Link to="/game">
-      <MenuItem className={classes.itemLi} button onClick={() => setSelected(1)} selected={selected === 1}>
-        <ListItemIcon>
+    <NavLink activeClassName={classes.active} to="/game">
+      <MenuItem className={classes.itemLi}>
+        <ListItemIcon className={classes.icon}>
           <GamesIcon/>
         </ListItemIcon>
         <ListItemText primary="Play Game" />
       </MenuItem>
-    </Link>
+    </NavLink>
 
-    <Link to="/leaderbord">
-      <MenuItem className={classes.itemLi} button onClick={() => setSelected(2)} selected={selected === 2}>
-        <ListItemIcon key={8}>
+    <NavLink activeClassName={classes.active} to="/leaderbord" >
+      <MenuItem className={classes.itemLi}>
+        <ListItemIcon className={classes.icon}>
           <PeopleIcon />
         </ListItemIcon>
         <ListItemText primary="Leaderbord" />
       </MenuItem>
-    </Link>
+    </NavLink>
 
-    <MenuItem className={classes.itemLi} button onClick={() => setSelected(3)} selected={selected === 3}>
-      <ListItemIcon>
+<NavLink activeClassName={classes.active} to='/tournament'>
+    <MenuItem className={classes.itemLi}>
+      <ListItemIcon className={classes.icon}>
         <BarChartIcon />
       </ListItemIcon>
       <ListItemText primary="Tournament" />
     </MenuItem>
-    <MenuItem className={classes.itemLi} button onClick={() => setSelected(4)} selected={selected === 4}>
-      <ListItemIcon>
+    </NavLink>
+
+<NavLink activeClassName={classes.active} to='/quickstart'>
+    <MenuItem className={classes.itemLi}>
+      <ListItemIcon className={classes.icon}>
         <LayersIcon />
       </ListItemIcon>
       <ListItemText primary="Quick start" />
     </MenuItem>
+    </NavLink>
   </div>
   )
   };

@@ -5,13 +5,9 @@ import Layout from './hoc/Layout'
 import GameBuilder from './containers/GameBuilder/GameBuilder';
 import PersonalStatsBuilder from './containers/PersonalStatsBuilder/PersonalStatsBuilder';
 import Leaderbord from './containers/LeaderbordBuilder/LeaderbordBuilder';
-import { ThemeProvider } from '@material-ui/core';
-import theme from './theme';
-
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
     <Router>
       <header className="App-header">
       </header>
@@ -27,7 +23,6 @@ function App() {
         </Route>
       </Layout>
     </Router>
-    </ThemeProvider>
   );
 }
 
