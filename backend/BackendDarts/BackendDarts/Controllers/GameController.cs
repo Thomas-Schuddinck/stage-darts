@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BackendDarts.DTOs;
 using BackendDarts.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,9 +22,9 @@ namespace BackendDarts.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Game> GetAll()
+        public IEnumerable<GameDTO> GetAll()
         {
-            return _gameRepository.GetAll();
+            return _gameRepository.GetAll().Select(g => new GameDTO(g)).ToList();
         }
 
         [HttpGet("{id}")]
@@ -35,10 +36,10 @@ namespace BackendDarts.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Game> Post()
+        public ActionResult<GameDTO> Post()
         {
             
-                Game a = new Game();
+             Game a = new Game();
             _gameRepository.Add(a);
             _gameRepository.SaveChanges();
                 return CreatedAtAction(nameof(GetBy), new { id = a.Id }, a);
