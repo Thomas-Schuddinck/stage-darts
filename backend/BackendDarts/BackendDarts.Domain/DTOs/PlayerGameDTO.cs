@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BackendDarts.Domain.DTOs
+namespace BackendDarts.DTOs
 {
     public class PlayerGameDTO
     {

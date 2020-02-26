@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BackendDarts.Domain.DTOs
+namespace BackendDarts.DTOs
 {
     public class GameDTO
     {
