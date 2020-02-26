@@ -42,11 +42,11 @@ namespace BackendDarts.Controllers
             if (a == null) return NoContent();
             IEnumerable<Game> games = _playerRepository.GetAllGamesFromPlayer(id);
             ICollection<PlayerGame> playergames = new List<PlayerGame>();
-            int numOfWins = 0;
-            int totalScore = 0;
-            int totalThrows = 0;
-            int numOfSixty = 0;
-            int numOfMisses = 0;
+            double numOfWins = 0;
+            double totalScore = 0;
+            double totalThrows = 0;
+            double numOfSixty = 0;
+            double numOfMisses = 0;
             foreach (Game game in games)
             {
                 foreach(PlayerGame pg in game.PlayerGames)
@@ -76,17 +76,17 @@ namespace BackendDarts.Controllers
                 }
             }
 
-            double percentageSixty = (numOfSixty/totalThrows)*100;
-            double averageThrow = totalThrows / totalThrows;
-            double percentageWins = (numOfWins / games.Count()) * 100;
-            double percentageBoardHits = 100-((numOfMisses / totalThrows) * 100);
+            double percentageSixty = totalThrows == 0 ? 0 : numOfSixty/ totalThrows;
+            double averageThrow = totalThrows == 0 ? 0 : totalScore / totalThrows;
+            double percentageWins = games.Count() == 0 ? 0 : (numOfWins / games.Count()) * 100;
+            double percentageBoardHits = totalThrows == 0 ? 0 : 100 - ((numOfMisses / totalThrows) * 100);
 
             PlayerStatsDTO dto = new PlayerStatsDTO();
-            dto.NumberOfWins = numOfWins;
-            dto.NumberOfMisses = numOfMisses;
-            dto.NumberOfSixties = numOfMisses;
-            dto.TotalScoreThrown = totalScore;
-            dto.TotalNumberDartsThrown = totalThrows;
+            dto.NumberOfWins = (int)numOfWins;
+            dto.NumberOfMisses = (int)numOfMisses;
+            dto.NumberOfSixties = (int)numOfSixty;
+            dto.TotalScoreThrown = (int)totalScore;
+            dto.TotalNumberDartsThrown = (int)totalThrows;
             dto.PercentageSixties = percentageSixty;
             dto.AverageScoreThrown = averageThrow;
             dto.PercentageWins = percentageWins;

@@ -10,6 +10,7 @@ namespace BackendDarts.Models
         public Game()
         {
             Winner = -1;
+            PlayerGames = new List<PlayerGame>();
         }
 
         public int Id { get; set; }
