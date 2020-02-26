@@ -1,34 +1,17 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import Aux from '../../hoc/Wrap';
 import Grid from '@material-ui/core/Grid';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import { Card, CardHeader, CardContent, Paper } from '@material-ui/core';
 
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { createMuiTheme } from '@material-ui/core/styles';
- import {SvgIcon} from '@material-ui/core';
+import PersonStat from '../../components/PersonalStats/PersonStat';
+import WinLoss from '../../components/PersonalStats/WinLoss';
+import Heatmap from '../../components/PersonalStats/Heatmap';
+import Performance from '../../components/PersonalStats/Performance';
+import History from '../../components/PersonalStats/History/History';
+import GetApiCall from '../../services/ApiClient';
+import { Player } from '../../models/Player';
 
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      light: '#757ce8',
-      main: '#3f50b5',
-      dark: '#002884',
-      contrastText: '#fff',
-    },
-    secondary: {
-      light: '#ff7961',
-      main: '#f44336',
-      dark: '#ba000d',
-      contrastText: '#000',
-    },
-  },
-});
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -54,100 +37,78 @@ const useStyles = makeStyles(theme => ({
     color: 'red',
   },
   back: {
-    
+
   }
 }));
 
 
 
-export default function PersonalStatsBuilder() {
+const PersonalStatsBuilder = () => {
+
+  let [players, setPlayers] = useState();
+  let [stats, setStats] = useState();
+  let [isLoading, setLoading] = React.useState(true);
+
+  const FetchData = async () => {
+
+    setLoading(true);
+
+    setPlayers(await CallToApiPlayers());
+
+    setLoading(false);
+
+  }
+
+  useEffect(() => {
+    FetchData();
+  }, []);
+
+  const CallToApiPlayers = async (): Promise<Player[]> => {
+    return await GetApiCall('http://localhost:5000/Player').then(players => {
+      return players;
+    });
+  }
+
+  let [childPlayer, setChildPlayer] = useState();
+
+  const getPlayerChild = (childPlayer: any) => {
+    setChildPlayer(childPlayer);
+  }
 
   const classes = useStyles();
 
 
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
-  const CupIcon = () => {
-    return(
-      <SvgIcon>
-        <path d="m 11 0 l 0 10 l -10 0 l 0 -9" />
-      </SvgIcon>
-    )
-  }
-
-
   return (
     <Aux>
-      <Grid container spacing={3}>
-        <Grid item lg={12} xs={12} md={12}>
-          <Paper className={classes.back}>
-          <CardHeader title={"Wouter"}/>
-          <CardContent>
-          <Typography><CupIcon/>Wins: 8 losses: 7</Typography>
-          </CardContent>
-          </Paper>
+      {isLoading? (<p>loading</p>): (
+        <Grid container spacing={3}>
+        <Grid item lg={5} xs={5} md={5}>
+          <PersonStat parentGivePlayer={getPlayerChild} players={players}></PersonStat>
         </Grid>
-            {/* heatmap? */}
-        <Grid item xs={12} md={4} lg={4}>
-          <Card className={fixedHeightPaper}>
-            <CardHeader title={"Heatmap"}></CardHeader>
-          </Card>
+        <Grid item lg={7} xs={7} md={7}>
+          <WinLoss wins={"7"} losses={"6"}></WinLoss>
+        </Grid>
+        {/* heatmap? */}
+        <Grid item xs={12} md={5} lg={5}>
+          <Heatmap></Heatmap>
         </Grid>
         {/* Performance */}
-        <Grid item xs={12} md={8} lg={8}>
-          <Card className={fixedHeightPaper}>
-          <CardHeader title={"Performance"}></CardHeader>
-          <CardContent>
-          <p>Number of wins: 5</p>
-          <p>Win percentage: 33%</p>
-          <p>Percentage thrown tripple 20: 7%</p>
-          <p>Average score of throw: 24</p>
-          </CardContent>
-          </Card>
+        <Grid item xs={12} md={7} lg={7}>
+          <Performance></Performance>
         </Grid>
         {/* history */}
         <Grid item xs={12}>
-          <Card className={classes.paper}>
-          <CardHeader title={"History"}></CardHeader>
-          <CardContent>
-
-          <ExpansionPanel className={classes.back}>
-        <ExpansionPanelSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography className={classes.heading + ' ' + classes.win}>vs Thomas</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          <Typography>
-            gegevens over deze specifieke match? Bv sets: 3 - 1, of is sets het enige en zetten we dit naast de naam?
-          </Typography>
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
-
-      <ExpansionPanel className={classes.back}>
-        <ExpansionPanelSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography className={classes.heading + ' ' + classes.lose}>vs Rik</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          <Typography>
-            
-          </Typography>
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
-        
-
-          </CardContent>
-          </Card>
+          <History></History>
         </Grid>
       </Grid>
+      )}
+      
     </Aux>
   );
 }
+
+export default PersonalStatsBuilder;
 
 

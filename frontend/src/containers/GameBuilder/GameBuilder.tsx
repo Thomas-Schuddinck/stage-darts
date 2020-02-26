@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Person from '../../components/PersonalStats/Person'
+import Person from '../../components/Game/Person'
 import Aux from '../../hoc/Wrap';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
