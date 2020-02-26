@@ -13,10 +13,12 @@ namespace BackendDarts.data.Repos
     {
         private readonly ApplicationDbContext _context;
         private readonly DbSet<Player> _players;
+        private readonly DbSet<Game> _games;
         public PlayerRepository(ApplicationDbContext context)
         {
             _context = context;
             _players = context.Players;
+            _games = context.Games;
         }
 
         public void Add(Player player)
@@ -37,7 +39,7 @@ namespace BackendDarts.data.Repos
 
         public IEnumerable<Player> GetAll()
         {
-            return _players.Include(p => p.PlayerGames).ToList();
+            return _players.ToList();
         }
 
         public Player GetBy(int id)
@@ -48,6 +50,16 @@ namespace BackendDarts.data.Repos
         public void Update(Player player)
         {
             _players.Update(player);
+        }
+
+        public IEnumerable<Game> GetAllGamesSimpleFromPlayer(int id)
+        {
+            return _games.Where(g => g.PlayerGames.Any(pg => pg.Player.Id== id));
+        }
+
+        public IEnumerable<Game> GetAllGamesFromPlayer(int id)
+        {
+            return _games.Where(g => g.PlayerGames.Any(pg => pg.Player.Id == id)).Include(g => g.PlayerGames).ThenInclude(pg => pg.Legs).ThenInclude(l => l.Throws);
         }
     }
 }
