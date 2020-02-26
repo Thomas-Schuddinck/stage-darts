@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BackendDarts.DTOs;
 using BackendDarts.Models;
 using BackendDarts.Repos.IRepos;
 using Microsoft.AspNetCore.Http;
@@ -21,21 +22,21 @@ namespace BackendDarts.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<DartThrow> GetAll()
+        public IEnumerable<ThrowDTO> GetAll()
         {
-            return _dartThrowRepository.GetAll();
+            return _dartThrowRepository.GetAll().Select(t => new ThrowDTO(t)).ToList();
         }
 
         [HttpGet("{id}")]
-        public ActionResult<DartThrow> GetBy(int id)
+        public ActionResult<ThrowDTO> GetBy(int id)
         {
             DartThrow a = _dartThrowRepository.GetBy(id);
             if (a == null) return NoContent();
-            return a;
+            return new ThrowDTO(a);
         }
 
         [HttpPost("{value}")]
-        public ActionResult<DartThrow> Post(int value)
+        public ActionResult<ThrowDTO> Post(int value)
         {
 
             DartThrow a = new DartThrow(value);
@@ -54,12 +55,12 @@ namespace BackendDarts.Controllers
         //}
 
         [HttpDelete("{id}")]
-        public ActionResult<DartThrow> Delete(int id)
+        public ActionResult<ThrowDTO> Delete(int id)
         {
             DartThrow dartThrow = _dartThrowRepository.GetBy(id);
             _dartThrowRepository.Delete(dartThrow);
             _dartThrowRepository.SaveChanges();
-            return dartThrow;
+            return new ThrowDTO(dartThrow);
         }
     }
 }

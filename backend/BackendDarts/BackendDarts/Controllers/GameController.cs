@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using BackendDarts.DTOs;
 using BackendDarts.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BackendDarts.Controllers
@@ -28,11 +26,11 @@ namespace BackendDarts.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Game> GetBy(int id)
+        public ActionResult<GameDTO> GetBy(int id)
         {
             Game a = _gameRepository.GetBy(id);
             if (a == null) return NoContent();
-            return a;
+            return new GameDTO(a);
         }
 
         [HttpPost]
@@ -55,12 +53,12 @@ namespace BackendDarts.Controllers
         //}
 
         [HttpDelete("{id}")]
-        public ActionResult<Game> Delete(int id)
+        public ActionResult<GameDTO> Delete(int id)
         {
             Game game = _gameRepository.GetBy(id);
             _gameRepository.Delete(game);
             _gameRepository.SaveChanges();
-            return game;
+            return new GameDTO(game);
         }
     }
 }
