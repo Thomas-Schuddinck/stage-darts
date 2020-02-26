@@ -61,6 +61,22 @@ namespace BackendDarts.data
                 PlayerGame gp24 = new PlayerGame();
                 PlayerGame gp25 = new PlayerGame();
 
+                _dbContext.PlayerGames.Add(gp00);
+                _dbContext.PlayerGames.Add(gp01);
+                _dbContext.PlayerGames.Add(gp02);
+                _dbContext.PlayerGames.Add(gp10);
+                _dbContext.PlayerGames.Add(gp11);
+                _dbContext.PlayerGames.Add(gp12);
+                _dbContext.PlayerGames.Add(gp13);
+                _dbContext.PlayerGames.Add(gp20);
+                _dbContext.PlayerGames.Add(gp21);
+                _dbContext.PlayerGames.Add(gp22);
+                _dbContext.PlayerGames.Add(gp23); 
+                _dbContext.PlayerGames.Add(gp24);
+                _dbContext.PlayerGames.Add(gp25);
+                _dbContext.SaveChanges();
+
+
                 //adding players to playergames
                 gp00.Player = player1;
                 gp01.Player = player2;
@@ -96,6 +112,7 @@ namespace BackendDarts.data
                 game3.PlayerGames.Add(gp24);
                 game3.PlayerGames.Add(gp25);
                 
+
                 //adding dartthrows
                 DartThrow dt1 = new DartThrow(13);
                 DartThrow dt2 = new DartThrow(19);
@@ -109,9 +126,9 @@ namespace BackendDarts.data
                 DartThrow dt8 = new DartThrow(1);
                 DartThrow dt9 = new DartThrow(9);
 
-                DartThrow dt10 = new DartThrow(30);
-                DartThrow dt11 = new DartThrow(6);
-                DartThrow dt12 = new DartThrow(2);
+                DartThrow dt10 = new DartThrow(0);
+                DartThrow dt11 = new DartThrow(0);
+                DartThrow dt12 = new DartThrow(0);
 
                 DartThrow dt13 = new DartThrow(4);
                 DartThrow dt14 = new DartThrow(54);
@@ -125,9 +142,9 @@ namespace BackendDarts.data
                 DartThrow dt20 = new DartThrow(54);
                 DartThrow dt21 = new DartThrow(130);
 
-                DartThrow dt22 = new DartThrow(29);
+                DartThrow dt22 = new DartThrow(60);
                 DartThrow dt23 = new DartThrow(60);
-                DartThrow dt24 = new DartThrow(40);
+                DartThrow dt24 = new DartThrow(60);
 
                 DartThrow dt25 = new DartThrow(20);
                 DartThrow dt26 = new DartThrow(40);
