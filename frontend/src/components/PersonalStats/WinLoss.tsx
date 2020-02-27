@@ -16,6 +16,9 @@ const useStyles = makeStyles(theme => ({
     },
     content: {
        fontSize: '1.4em'
+    },
+    height: {
+        height: 88
     }
 
 }));
@@ -24,7 +27,7 @@ const WinLoss = (props: any) => {
     const classes = useStyles();
 
     return (
-        <Card>
+        <Card className={classes.height}>
             
                 <table className={classes.table}>
                     <tbody>
