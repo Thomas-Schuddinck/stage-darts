@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import clsx from 'clsx';
-import Paper from '@material-ui/core/Paper';
 import { CardHeader, CardContent, Typography, makeStyles, Card } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
     fixedHeight: {
-        height: 360,
+      height: '100%'
       },
       paper: {
         padding: theme.spacing(2),
