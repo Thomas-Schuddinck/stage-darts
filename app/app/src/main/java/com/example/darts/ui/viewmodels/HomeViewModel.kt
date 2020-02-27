@@ -1,4 +1,4 @@
-package com.example.darts.ui.viewmodel
+package com.example.darts.ui.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,33 +10,28 @@ import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
 
-class LoginViewModel(private val repository: DaRtsRepository) : ViewModel(){
-    val userEmail = MutableLiveData<String>()
-    val userPassword = MutableLiveData<String>()
+class HomeViewModel(private val repository: DaRtsRepository) : ViewModel(){
 
-    private val _navigateToApp = MutableLiveData<Boolean>()
-    val navigateToApp: LiveData<Boolean> get() = _navigateToApp
+    private val _navigateToGameList = MutableLiveData<Boolean>()
+    val navigateToGameList: LiveData<Boolean> get() = _navigateToGameList
 
     private val _status = MutableLiveData<DaRtsApiStatus>()
     val status: LiveData<DaRtsApiStatus> get() = _status
 
     init {
-        userEmail.value = "thomas.schuddinck@mail.com"
-        userPassword.value = "P@ssword1"
     }
 
     /**
      * changes the observed value for navigation to team list
      *
      */
-    fun onClickNavigateToApp(){
+    fun onClickNavigateToGameList(){
         viewModelScope.launch {
-            repository.loginUser(userEmail.value!!, userPassword.value!!)
 
 
             try {
                 _status.value = DaRtsApiStatus.LOADING
-                _navigateToApp.value = true
+                _navigateToGameList.value = true
 
                 _status.value = DaRtsApiStatus.DONE
 
@@ -55,7 +50,7 @@ class LoginViewModel(private val repository: DaRtsRepository) : ViewModel(){
      *
      */
     fun navigatedToApp(){
-        _navigateToApp.value = false
+        _navigateToGameList.value = false
     }
 
 }
