@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BackendDarts.DTOs;
 using BackendDarts.Models;
 using BackendDarts.Repos.IRepos;
 using Microsoft.AspNetCore.Http;
@@ -21,21 +22,21 @@ namespace BackendDarts.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Leg> GetAll()
+        public IEnumerable<LegDTO> GetAll()
         {
-            return _legRepository.GetAll();
+            return _legRepository.GetAll().Select(l => new LegDTO(l)).ToList();
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Leg> GetBy(int id)
+        public ActionResult<LegDTO> GetBy(int id)
         {
             Leg a = _legRepository.GetBy(id);
             if (a == null) return NoContent();
-            return a;
+            return new LegDTO(a);
         }
 
         [HttpPost]
-        public ActionResult<Leg> Post()
+        public ActionResult<LegDTO> Post()
         {
 
             Leg a = new Leg();
@@ -54,12 +55,12 @@ namespace BackendDarts.Controllers
         //}
 
         [HttpDelete("{id}")]
-        public ActionResult<Leg> Delete(int id)
+        public ActionResult<LegDTO> Delete(int id)
         {
             Leg leg = _legRepository.GetBy(id);
             _legRepository.Delete(leg);
             _legRepository.SaveChanges();
-            return leg;
+            return new LegDTO(leg);
         }
     }
 }
