@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">DaRts</string>
+    <string name="startpage_img_dartboardlogo">Dartboard logo</string>
+    <string name="startpage_textfield_text_email">Email</string>
+    <string name="startpage_textfield_text_password">Password</string>
+    <string name="startpage_button_text_login">Login</string>
+    <string name="startpage_textview_title_registerHere">No account? Register here</string>
+</resources>
