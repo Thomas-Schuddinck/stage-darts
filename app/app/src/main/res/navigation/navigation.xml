@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/navigation.xml"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.darts.ui.fragments.LoginFragment"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_homescreenFragment"
+            app:destination="@id/homescreenFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homescreenFragment"
+        android:name="com.example.darts.ui.fragments.HomescreenFragment"
+        android:label="HomescreenFragment" />
+</navigation>
