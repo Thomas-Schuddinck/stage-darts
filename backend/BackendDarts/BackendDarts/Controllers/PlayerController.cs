@@ -29,10 +29,7 @@ namespace BackendDarts.Controllers
         {
             Player a = _playerRepository.GetBy(id);
             if (a == null) return NoContent();
-            PlayerDTO dto = new PlayerDTO();
-            dto.Id = id;
-            dto.Name = a.Name;
-            return dto;
+            return new PlayerDTO(a);
         }
 
         [HttpGet("stats/{id}")]

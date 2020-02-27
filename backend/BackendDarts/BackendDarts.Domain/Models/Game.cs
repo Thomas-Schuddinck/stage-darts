@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BackendDarts.Models
 {
@@ -9,8 +7,15 @@ namespace BackendDarts.Models
     {
         public Game()
         {
+            beginDate = DateTime.Now.Date;
             Winner = -1;
             PlayerGames = new List<PlayerGame>();
+        }
+
+        public void FinishGame(int id)
+        {
+            Winner = id;
+            endDate = DateTime.Now.Date;
         }
 
         public int Id { get; set; }
