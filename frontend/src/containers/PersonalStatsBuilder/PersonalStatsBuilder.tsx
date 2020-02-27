@@ -11,6 +11,7 @@ import Performance from '../../components/PersonalStats/Performance';
 import History from '../../components/PersonalStats/History/History';
 import GetApiCall from '../../services/ApiClient';
 import { Player } from '../../models/Player';
+import { Stats } from 'fs';
 
 
 const useStyles = makeStyles(theme => ({
@@ -69,10 +70,19 @@ const PersonalStatsBuilder = () => {
     });
   }
 
+  const CallToApiStats = async (player: Player): Promise<Stats> => {
+    return await GetApiCall('http://localhost:5000/Player/stats/' + player.id).then(stats => {
+      return stats;
+    });
+  }
+
   let [childPlayer, setChildPlayer] = useState();
 
-  const getPlayerChild = (childPlayer: any) => {
+  const getPlayerChild = async (childPlayer: any) => {
     setChildPlayer(childPlayer);
+    console.log('this is the player that is undefined: ' + childPlayer)
+    setStats(await CallToApiStats(childPlayer));
+
   }
 
   const classes = useStyles();
@@ -84,27 +94,46 @@ const PersonalStatsBuilder = () => {
     <Aux>
       {isLoading? (<p>loading</p>): (
         <Grid container spacing={3}>
-        <Grid item lg={5} xs={5} md={5}>
+        <Grid item lg={5} xs={12} md={5}>
           <PersonStat parentGivePlayer={getPlayerChild} players={players}></PersonStat>
         </Grid>
-        <Grid item lg={7} xs={7} md={7}>
-          <WinLoss wins={"7"} losses={"6"}></WinLoss>
+        <Grid item lg={7} xs={12} md={7}>
+        {stats === undefined ? (<p></p>): (
+          <WinLoss wins={stats.numberOfWins} losses={stats.numberOfMisses}></WinLoss>
+          )}
         </Grid>
+
         {/* heatmap? */}
         <Grid item xs={12} md={5} lg={5}>
+        {stats === undefined ? (<p></p>): (
           <Heatmap></Heatmap>
+          )}
         </Grid>
+
         {/* Performance */}
         <Grid item xs={12} md={7} lg={7}>
-          <Performance></Performance>
+        {stats === undefined ? (<p></p>): (
+          <Performance 
+          numberOfMisses={stats.numberOfMisses} 
+          numberOfSixties={stats.numberOfSixties} 
+          totalScoreThrown={stats.totalScoreThrown}
+          totalNumberDartsThrown={stats.totalNumberDartsThrown}
+          averageScoreThrown={stats.averageScoreThrown}
+          percentageWins={stats.percentageWins}
+          percentageBoardHits={stats.percentageBoardHits}
+          ></Performance>
+          )}
         </Grid>
+
         {/* history */}
         <Grid item xs={12}>
+        {stats === undefined ? (<p></p>): (
           <History></History>
+          )}
         </Grid>
+
       </Grid>
       )}
-      
     </Aux>
   );
 }

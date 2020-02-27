@@ -5,7 +5,7 @@ import { CardHeader, CardContent, Typography, makeStyles, Card } from '@material
 
 const useStyles = makeStyles(theme => ({
     fixedHeight: {
-        height: 290,
+        height: 360,
       },
       paper: {
         padding: theme.spacing(2),
@@ -13,8 +13,14 @@ const useStyles = makeStyles(theme => ({
         overflow: 'auto',
         flexDirection: 'column',
       },
+      table: {
+        width: '100%'
+      }
 
 }));
+
+// numberOfMisses={stats.numberOfMisses} 
+//           percentageBoardHits={stats.percentageBoardHits}
 
 const Performance = (props: any) => {
     const classes = useStyles();
@@ -25,10 +31,28 @@ const Performance = (props: any) => {
         <Card className={fixedHeightPaper}>
           <CardHeader title={"Performance"}></CardHeader>
           <CardContent>
-          <p>Number of wins: 5</p>
-          <p>Win percentage: 33%</p>
-          <p>Percentage thrown tripple 20: 7%</p>
-          <p>Average score of throw: 24</p>
+            <table className={classes.table}>
+              <tbody>
+                <tr>
+                  <td>Win rate:</td>
+                  <td>{props.percentageWins}%</td>
+                  <td>tripple 20:</td>
+                  <td>{Number((props.numberOfSixties / props.totalNumberDartsThrown * 100).toFixed(1))}%</td>
+                </tr>
+                <tr>
+                  <td>Average score of throw:</td>
+                  <td>{Number((props.averageScoreThrown).toFixed(1))}</td>
+                  <td>Total: </td>
+                  <td>{props.totalScoreThrown}</td>
+                </tr>
+                <tr>
+                  <td>Board hits: </td>
+                  <td>{props.percentageBoardHits}</td>
+                  <td>Misses: </td>
+                  <td>{props.numberOfMisses}</td>
+                </tr>
+              </tbody>
+            </table>
           </CardContent>
           </Card>
     );
