@@ -82,7 +82,6 @@ export const SideList = () => {
       <ListItemText primary="Quick start" />
     </MenuItem>
     </NavLink>
-    </ListItem>
     <NavLink activeClassName={classes.active} to="/about">
       <MenuItem className={classes.itemLi}>
         <ListItemIcon className={classes.icon}>

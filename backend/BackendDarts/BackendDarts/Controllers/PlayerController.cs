@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using BackendDarts.data.Repos.IRepos;
 using BackendDarts.Models;
-using Microsoft.AspNetCore.Http;
+using BackendDarts.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BackendDarts.Controllers
@@ -21,21 +19,80 @@ namespace BackendDarts.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Player> GetAll()
+        public IEnumerable<PlayerDTO> GetAll()
         {
-            return _playerRepository.GetAll();
+            return _playerRepository.GetAll().Select(p => new PlayerDTO(p)).ToList();
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Player> GetBy(int id)
+        public ActionResult<PlayerDTO> GetBy(int id)
         {
             Player a = _playerRepository.GetBy(id);
             if (a == null) return NoContent();
-            return a;
+            return new PlayerDTO(a);
+        }
+
+        [HttpGet("stats/{id}")]
+        public ActionResult<PlayerStatsDTO> GetStats(int id)
+        {
+            Player a = _playerRepository.GetBy(id);
+            if (a == null) return NoContent();
+            IEnumerable<Game> games = _playerRepository.GetAllGamesFromPlayer(id);
+            ICollection<PlayerGame> playergames = new List<PlayerGame>();
+            double numOfWins = 0;
+            double totalScore = 0;
+            double totalThrows = 0;
+            double numOfSixty = 0;
+            double numOfMisses = 0;
+            foreach (Game game in games)
+            {
+                foreach(PlayerGame pg in game.PlayerGames)
+                {
+
+                    playergames.Add(pg);
+                    foreach(Leg leg in pg.Legs)
+                    {
+                        foreach(DartThrow dt in leg.Throws)
+                        {
+                            totalScore += dt.Value;
+                            totalThrows += 1;
+                            if(dt.Value == 60)
+                            {
+                                numOfSixty += 1;
+                            }
+                            if(dt.Value == 0)
+                            {
+                                numOfMisses += 1;
+                            }
+                        }
+                    }
+                }
+                if(game.Winner == id)
+                {
+                    numOfWins += 1;
+                }
+            }
+
+            double percentageSixty = totalThrows == 0 ? 0 : numOfSixty/ totalThrows;
+            double averageThrow = totalThrows == 0 ? 0 : totalScore / totalThrows;
+            double percentageWins = games.Count() == 0 ? 0 : (numOfWins / games.Count()) * 100;
+            double percentageBoardHits = totalThrows == 0 ? 0 : 100 - ((numOfMisses / totalThrows) * 100);
+
+            PlayerStatsDTO dto = new PlayerStatsDTO();
+            dto.NumberOfWins = (int)numOfWins;
+            dto.NumberOfMisses = (int)numOfMisses;
+            dto.NumberOfSixties = (int)numOfSixty;
+            dto.TotalScoreThrown = (int)totalScore;
+            dto.TotalNumberDartsThrown = (int)totalThrows;
+            dto.PercentageSixties = percentageSixty;
+            dto.AverageScoreThrown = averageThrow;
+            dto.PercentageWins = percentageWins;
+            dto.PercentageBoardHits = percentageBoardHits;
+            return dto;
         }
 
         [HttpPost]
-        public ActionResult<Player> Post(string naam)
+        public ActionResult<PlayerDTO> Post(string naam)
         {
 
             Player a = new Player(naam);
@@ -54,12 +111,15 @@ namespace BackendDarts.Controllers
         //}
 
         [HttpDelete("{id}")]
-        public ActionResult<Player> Delete(int id)
+        public ActionResult<PlayerDTO> Delete(int id)
         {
             Player player = _playerRepository.GetBy(id);
             _playerRepository.Delete(player);
             _playerRepository.SaveChanges();
-            return player;
+            PlayerDTO DTO = new PlayerDTO();
+            DTO.Id = id;
+            DTO.Name = player.Name;
+            return DTO;
         }
     }
 }
