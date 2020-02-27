@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="loginViewModel"
+            type="com.example.darts.ui.viewmodels.LoginViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+        <TextView
+
+            android:id="@+id/startpage_textview_title_email"
+
+            style="@style/input_field_title_style"
+            android:text="@string/startpage_textfield_text_email"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            tools:text="@string/startpage_textfield_text_email" />
+
+        <TextView
+            android:id="@+id/startpage_textview_title_email2"
+
+            style="@style/input_field_title_style"
+            android:text="@string/startpage_textfield_text_password"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText"
+            tools:text="@string/startpage_textfield_text_password" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="32dp"
+            android:contentDescription="@string/startpage_img_dartboardlogo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_darts" />
+
+        <EditText
+            android:id="@+id/editText"
+            style="@style/input_field_style"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            app:layout_constraintEnd_toEndOf="@+id/imageView"
+            app:layout_constraintStart_toStartOf="@+id/imageView"
+            app:layout_constraintTop_toBottomOf="@+id/startpage_textview_title_email" />
+
+        <EditText
+            android:id="@+id/editText2"
+            style="@style/input_field_style"
+            android:ems="10"
+            android:inputType="textPassword"
+            app:layout_constraintEnd_toEndOf="@+id/imageView"
+            app:layout_constraintStart_toStartOf="@+id/imageView"
+            app:layout_constraintTop_toBottomOf="@+id/startpage_textview_title_email2" />
+
+        <Button
+            android:id="@+id/startpage_button_login"
+            style="@style/button_style"
+            android:onClick="@{() -> loginViewModel.onClickNavigateToApp()}"
+            android:text="@string/startpage_button_text_login"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText2"
+            tools:text="@string/startpage_button_text_login" />
+
+        <TextView
+            android:id="@+id/textView2"
+            style="@style/simple_text_style"
+            android:text="@string/startpage_textview_title_registerHere"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/startpage_button_login"
+            tools:text="@string/startpage_textview_title_registerHere" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

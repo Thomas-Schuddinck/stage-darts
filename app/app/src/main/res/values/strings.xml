@@ -5,4 +5,5 @@
     <string name="startpage_textfield_text_password">Password</string>
     <string name="startpage_button_text_login">Login</string>
     <string name="startpage_textview_title_registerHere">No account? Register here</string>
+    <string name="no_network">There is no network access. Try again later</string>
 </resources>
