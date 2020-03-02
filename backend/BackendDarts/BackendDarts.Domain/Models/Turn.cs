@@ -2,13 +2,13 @@
 
 namespace BackendDarts.Models
 {
-    public class Leg
+    public class Turn
     {
         public int Id { get; set; }
-        public int LegNr { get; set; }
+        public int TurnNr { get; set; }
         public List<DartThrow> Throws { get; set; }
 
-        public Leg()
+        public Turn()
         {
             Throws = new List<DartThrow>();
         }

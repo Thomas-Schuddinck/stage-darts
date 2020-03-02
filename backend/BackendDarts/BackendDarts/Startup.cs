@@ -16,7 +16,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using BackendDarts.data.Repos;
 using BackendDarts.data.Repos.IRepos;
-using BackendDarts.Repos.IRepos;
 using Microsoft.AspNetCore.Http;
 using BackendDarts.Domain;
 using BackendDarts.Data.Repos.IRepos;
@@ -47,9 +46,7 @@ namespace BackendDarts
             services.AddScoped<DataInitializer>();
             services.AddScoped<IGameRepository, GameRepository>();
             services.AddScoped<IPlayerRepository, PlayerRepository>();
-            services.AddScoped<IDartThrowRepository, DartThrowRepository>();
-            services.AddScoped<ILegRepository, LegRepository>();
-            services.AddScoped<IPlayerGameRepository, PlayerGameRepository>();
+            services.AddScoped<IPlayerLegRepository, PlayerLegRepository>();
 
 
 

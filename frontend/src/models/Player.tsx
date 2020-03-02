@@ -1,8 +1,9 @@
 import React from 'react';
 
 export interface Player {
-    id?: number;
+    id?:number
     name?: string;
-    // email?: string;
-    // playergames?: [];
+    /*
+    email?: string;
+    playergames?: [];*/
 }

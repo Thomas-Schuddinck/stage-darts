@@ -8,14 +8,15 @@ using System.Threading.Tasks;
 
 namespace BackendDarts.data.Mappers
 {
-    public class PlayerGameConfiguratie : IEntityTypeConfiguration<PlayerGame>
+    public class PlayerLegConfiguratie : IEntityTypeConfiguration<PlayerLeg>
     {
-        public void Configure(EntityTypeBuilder<PlayerGame> builder)
+        public void Configure(EntityTypeBuilder<PlayerLeg> builder)
         {
-            builder.ToTable("PlayerGame");
+            builder.ToTable("PlayerLeg");
             builder.HasKey(pg => pg.Id);
             builder.HasOne(pg => pg.Player).WithMany().OnDelete(DeleteBehavior.Restrict);
-            
+            builder.HasMany(pg => pg.Turns).WithOne().OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 }

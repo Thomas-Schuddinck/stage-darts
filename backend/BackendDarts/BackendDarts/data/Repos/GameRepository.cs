@@ -37,12 +37,15 @@ namespace BackendDarts.Repos
 
         public IEnumerable<Game> GetAll()
         {
-            return _games.Include(p => p.PlayerGames).ToList();
+            return _games.ToList();
         }
 
         public Game GetBy(int id)
         {
-            return _games.SingleOrDefault(a => a.Id == id);
+            return _games
+                .Include(p => p.LegGroups).ThenInclude(lg => lg.PlayerLegs).ThenInclude(pl => pl.Turns).ThenInclude(t => t.Throws)
+                .Include(p => p.PlayerGames).ThenInclude(pg => pg.Player)
+                .SingleOrDefault(a => a.Id == id);
         }
 
         public void Update(Game game)

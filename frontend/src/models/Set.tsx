@@ -1,6 +1,6 @@
 import React from 'react';
 
-export interface DartThrow {
+export interface Set {
     setnr?: number;
     throws?: [];
 }
