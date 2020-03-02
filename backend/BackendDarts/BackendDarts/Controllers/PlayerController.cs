@@ -38,7 +38,7 @@ namespace BackendDarts.Controllers
             Player a = _playerRepository.GetBy(id);
             if (a == null) return NoContent();
             IEnumerable<Game> games = _playerRepository.GetAllGamesFromPlayer(id);
-            ICollection<PlayerGame> playergames = new List<PlayerGame>();
+            ICollection<PlayerLeg> playergames = new List<PlayerLeg>();
             double numOfWins = 0;
             double totalScore = 0;
             double totalThrows = 0;
@@ -46,30 +46,35 @@ namespace BackendDarts.Controllers
             double numOfMisses = 0;
             foreach (Game game in games)
             {
-                foreach(PlayerGame pg in game.PlayerGames)
+                foreach (LegGroup lg in game.LegGroups)
                 {
-
-                    playergames.Add(pg);
-                    foreach(Leg leg in pg.Legs)
+                    foreach (PlayerLeg pg in lg.PlayerLegs)
                     {
-                        foreach(DartThrow dt in leg.Throws)
+
+
+
+                        playergames.Add(pg);
+                        foreach (Turn turn in pg.Turns)
                         {
-                            totalScore += dt.Value;
-                            totalThrows += 1;
-                            if(dt.Value == 60)
+                            foreach (DartThrow dt in turn.Throws)
                             {
-                                numOfSixty += 1;
-                            }
-                            if(dt.Value == 0)
-                            {
-                                numOfMisses += 1;
+                                totalScore += dt.Value;
+                                totalThrows += 1;
+                                if (dt.Value == 60)
+                                {
+                                    numOfSixty += 1;
+                                }
+                                if (dt.Value == 0)
+                                {
+                                    numOfMisses += 1;
+                                }
                             }
                         }
                     }
-                }
-                if(game.Winner == id)
-                {
-                    numOfWins += 1;
+                    if (game.Winner == id)
+                    {
+                        numOfWins += 1;
+                    }
                 }
             }
 

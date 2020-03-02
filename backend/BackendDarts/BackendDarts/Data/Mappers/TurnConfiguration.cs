@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BackendDarts.data.Mappers
 {
-    public class LegConfiguration : IEntityTypeConfiguration<Leg>
+    public class TurnConfiguration : IEntityTypeConfiguration<Turn>
     {
-        public void Configure(EntityTypeBuilder<Leg> builder)
+        public void Configure(EntityTypeBuilder<Turn> builder)
         {
-            builder.ToTable("Leg");
+            builder.ToTable("Turn");
             builder.HasKey(l => l.Id);
             builder.HasMany(l => l.Throws).WithOne().OnDelete(DeleteBehavior.Cascade);
         }

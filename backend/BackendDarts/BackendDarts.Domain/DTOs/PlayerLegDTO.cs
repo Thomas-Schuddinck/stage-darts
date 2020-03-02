@@ -5,28 +5,28 @@ using System.Text;
 
 namespace BackendDarts.DTOs
 {
-    public class PlayerGameDTO
+    public class PlayerLegDTO
     {
-        private PlayerGame pg;
+        private PlayerLeg pg;
 
-        public PlayerGameDTO(PlayerGame pg) : this()
+        public PlayerLegDTO(PlayerLeg pg) : this()
         {
             Id = pg.Id;
             Player = new PlayerDTO(pg.Player);
-            foreach (Leg l in pg.Legs)
+            foreach (Turn t in pg.Turns)
             {
-                this.Legs.Add(new LegDTO(l));
+                this.Turns.Add(new TurnDTO(t));
             }
         }
 
-        public PlayerGameDTO()
+        public PlayerLegDTO()
         {
 
-            Legs = new List<LegDTO>();
+            Turns = new List<TurnDTO>();
         }
 
         public int Id { get; set; }
         public PlayerDTO Player { get; set; }
-        public List<LegDTO> Legs { get; set; }
+        public List<TurnDTO> Turns { get; set; }
     }
 }

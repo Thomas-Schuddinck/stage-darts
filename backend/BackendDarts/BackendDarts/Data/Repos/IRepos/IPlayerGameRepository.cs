@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace BackendDarts.Data.Repos.IRepos
 {
-    public interface IPlayerGameRepository
+    public interface IPlayerLegRepository
     {
-        void Update(PlayerGame playergame);
-        PlayerGame GetBy(int id);
-        void Add(PlayerGame playergame);
+        void Update(PlayerLeg playergame);
+        PlayerLeg GetBy(int id);
+        void Add(PlayerLeg playergame);
 
-        void Delete(PlayerGame playergame);
+        void Delete(PlayerLeg playergame);
 
-        IEnumerable<PlayerGame> GetAll();
+        IEnumerable<PlayerLeg> GetAll();
 
         void SaveChanges();
     }

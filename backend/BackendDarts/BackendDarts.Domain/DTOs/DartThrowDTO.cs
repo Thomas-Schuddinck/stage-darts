@@ -2,16 +2,16 @@
 
 namespace BackendDarts.DTOs
 {
-    public class ThrowDTO
+    public class DartThrowDTO
     {
 
-        public ThrowDTO(DartThrow dt) : this()
+        public DartThrowDTO(DartThrow dt) : this()
         {
             Id = dt.Id;
             Value = dt.Value;
         }
 
-        public ThrowDTO()
+        public DartThrowDTO()
         {
         }
 

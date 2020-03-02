@@ -54,12 +54,17 @@ namespace BackendDarts.data.Repos
 
         public IEnumerable<Game> GetAllGamesSimpleFromPlayer(int id)
         {
-            return _games.Where(g => g.PlayerGames.Any(pg => pg.Player.Id== id));
+            return _games
+                .Where(g => g.PlayerGames.Any(pg => pg.PlayerId == id))
+                .ToList();
         }
 
         public IEnumerable<Game> GetAllGamesFromPlayer(int id)
         {
-            return _games.Where(g => g.PlayerGames.Any(pg => pg.Player.Id == id)).Include(g => g.PlayerGames).ThenInclude(pg => pg.Legs).ThenInclude(l => l.Throws);
+            return _games
+                .Where(g => g.PlayerGames.Any(pg => pg.PlayerId == id))
+                .Include(g => g.LegGroups).ThenInclude(lg => lg.PlayerLegs).ThenInclude(pg => pg.Turns).ThenInclude(l => l.Throws)
+                .ToList();
         }
     }
 }

@@ -9,22 +9,22 @@ using System.Threading.Tasks;
 
 namespace BackendDarts.Data.Repos
 {
-    public class PlayerGameRepository: IPlayerGameRepository
+    public class PlayerLegRepository: IPlayerLegRepository
     {
         private readonly ApplicationDbContext _context;
-        private readonly DbSet<PlayerGame> _playerGames;
-        public PlayerGameRepository(ApplicationDbContext context)
+        private readonly DbSet<PlayerLeg> _playerGames;
+        public PlayerLegRepository(ApplicationDbContext context)
         {
             _context = context;
-            _playerGames = context.PlayerGames;
+            _playerGames = context.PlayerLegs;
         }
 
-        public void Add(PlayerGame playerGame)
+        public void Add(PlayerLeg playerGame)
         {
             _playerGames.Add(playerGame);
         }
 
-        public void Delete(PlayerGame playerGame)
+        public void Delete(PlayerLeg playerGame)
         {
 
             _playerGames.Remove(playerGame);
@@ -35,17 +35,17 @@ namespace BackendDarts.Data.Repos
             _context.SaveChanges();
         }
 
-        public IEnumerable<PlayerGame> GetAll()
+        public IEnumerable<PlayerLeg> GetAll()
         {
-            return _playerGames.Include(pg => pg.Legs).ThenInclude(pg => pg.Throws).ToList();
+            return _playerGames.Include(pg => pg.Turns).ThenInclude(pg => pg.Throws).ToList();
         }
 
-        public PlayerGame GetBy(int id)
+        public PlayerLeg GetBy(int id)
         {
             return _playerGames.SingleOrDefault(a => a.Id == id);
         }
 
-        public void Update(PlayerGame player)
+        public void Update(PlayerLeg player)
         {
             _playerGames.Update(player);
         }

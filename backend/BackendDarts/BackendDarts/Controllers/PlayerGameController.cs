@@ -14,32 +14,32 @@ namespace BackendDarts.Controllers
     [ApiController]
     public class PlayerGameController : ControllerBase
     {
-        private IPlayerGameRepository _playerGameRepository;
+        private IPlayerLegRepository _playerGameRepository;
 
-        public PlayerGameController(IPlayerGameRepository playerGameRepository)
+        public PlayerGameController(IPlayerLegRepository playerGameRepository)
         {
             _playerGameRepository = playerGameRepository;
         }
 
         [HttpGet]
-        public IEnumerable<PlayerGameDTO> GetAll()
+        public IEnumerable<PlayerLegDTO> GetAll()
         {
-            return _playerGameRepository.GetAll().Select(pg => new PlayerGameDTO(pg)).ToList();
+            return _playerGameRepository.GetAll().Select(pg => new PlayerLegDTO(pg)).ToList();
         }
 
         [HttpGet("{id}")]
-        public ActionResult<PlayerGameDTO> GetBy(int id)
+        public ActionResult<PlayerLegDTO> GetBy(int id)
         {
-            PlayerGame a = _playerGameRepository.GetBy(id);
+            PlayerLeg a = _playerGameRepository.GetBy(id);
             if (a == null) return NoContent();
-            return new PlayerGameDTO(a);
+            return new PlayerLegDTO(a);
         }
 
         [HttpPost]
-        public ActionResult<PlayerGameDTO> Post()
+        public ActionResult<PlayerLegDTO> Post()
         {
 
-            PlayerGame a = new PlayerGame();
+            PlayerLeg a = new PlayerLeg();
             _playerGameRepository.Add(a);
             _playerGameRepository.SaveChanges();
             return CreatedAtAction(nameof(GetBy), new { id = a.Id }, a);
@@ -47,12 +47,12 @@ namespace BackendDarts.Controllers
         }
 
         [HttpDelete("{id}")]
-        public ActionResult<PlayerGameDTO> Delete(int id)
+        public ActionResult<PlayerLegDTO> Delete(int id)
         {
-            PlayerGame playerGame = _playerGameRepository.GetBy(id);
+            PlayerLeg playerGame = _playerGameRepository.GetBy(id);
             _playerGameRepository.Delete(playerGame);
             _playerGameRepository.SaveChanges();
-            return new PlayerGameDTO(playerGame);
+            return new PlayerLegDTO(playerGame);
         }
     }
 }
