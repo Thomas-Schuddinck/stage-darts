@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
 import Paper from '@material-ui/core/Paper';
-import BarChartIcon from '@material-ui/icons/BarChart';
 import { makeStyles } from '@material-ui/core/styles';
+import BarChartIcon from '@material-ui/icons/BarChart';
+import React from 'react';
 
 const stats = "Personal stats"
 const useStyles = makeStyles(theme => ({

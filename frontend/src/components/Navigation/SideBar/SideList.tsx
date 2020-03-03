@@ -1,20 +1,18 @@
-import React, { useState } from 'react';
+import { MenuItem } from '@material-ui/core';
+import grey from '@material-ui/core/colors/grey';
+import indigo from '@material-ui/core/colors/indigo';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import PersonIcon from '@material-ui/icons/Person';
-import GamesIcon from '@material-ui/icons/Games';
-import PeopleIcon from '@material-ui/icons/People';
-import BarChartIcon from '@material-ui/icons/BarChart';
-import LayersIcon from '@material-ui/icons/Layers';
-import ListItem from '@material-ui/core/ListItem';
-import { NavLink } from "react-router-dom";
-import InfoIcon from '@material-ui/icons/Info';
-import { Link } from "react-router-dom";
-import './SideList.css';
 import { makeStyles } from '@material-ui/core/styles';
-import { MenuItem, createMuiTheme } from '@material-ui/core';
-import indigo from '@material-ui/core/colors/indigo';
-import grey from '@material-ui/core/colors/grey';
+import BarChartIcon from '@material-ui/icons/BarChart';
+import GamesIcon from '@material-ui/icons/Games';
+import InfoIcon from '@material-ui/icons/Info';
+import LayersIcon from '@material-ui/icons/Layers';
+import PeopleIcon from '@material-ui/icons/People';
+import PersonIcon from '@material-ui/icons/Person';
+import React from 'react';
+import { NavLink } from "react-router-dom";
+import './SideList.css';
 
 const useStyles = makeStyles(theme => ({
     itemLi: {

@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import DartThrow from '../DartThrow/DartThrow';
-import Aux from '../../../hoc/Wrap';
 import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
+import Aux from '../../../hoc/Wrap';
+import DartThrow from '../DartThrow/DartThrow';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -40,11 +40,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-function CurrentSet(props: any) {
+function CurrentTurn(props: any) {
   const classes = useStyles();
   return (
     <Aux>
-      <span className={classes.tekstHoofd}>Set {props.setnumber}</span>
+      <span className={classes.tekstHoofd}>Turn {props.turnnumber}</span>
       <div className={classes.lijst}>
         {props.scores.map((s: any) =>
           <DartThrow score={s} />
@@ -57,4 +57,4 @@ function CurrentSet(props: any) {
 
 };
 
-export default CurrentSet;
+export default CurrentTurn;

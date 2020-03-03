@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
-import Paper from '@material-ui/core/Paper';
-import GpsFixedIcon from '@material-ui/icons/GpsFixed';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import { red } from '@material-ui/core/colors';
+import GpsFixedIcon from '@material-ui/icons/GpsFixed';
+import React from 'react';
 
 
 const useStyles = makeStyles(theme => ({

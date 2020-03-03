@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import { Card, CardHeader, makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
-import Paper from '@material-ui/core/Paper';
-import { CardHeader,  makeStyles, Card } from '@material-ui/core';
+import React from 'react';
 import DartsBoardLogo from '../About/DartBoardLogo/DartBoardLogo';
 
 const useStyles = makeStyles(theme => ({

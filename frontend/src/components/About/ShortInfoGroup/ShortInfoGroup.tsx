@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { ShortInfoPlayers } from './ShortInfoPlayers/ShortInfoPlayers';
-import { ShortInfoDuration } from './ShortInfoDuration/ShortInfoDuration';
-import { ShortInfoWinner } from './ShortInfoWinner/ShortInfoWinner';
-import { ShortInfoCompetition } from './ShortInfoCompetition/ShortInfoCompetition';
-import { ShortInfoGambling  } from './ShortInfoGambling/ShortInfoGambling';
-import { ShortInfoDarts  } from './ShortInfoDarts/ShortInfoDarts';
 import Grid from '@material-ui/core/Grid';
-import { ShortInfoWhen } from './ShortInfoWhen/ShortInfoWhen';
+import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
+import { ShortInfoCompetition } from './ShortInfoCompetition/ShortInfoCompetition';
+import { ShortInfoDarts } from './ShortInfoDarts/ShortInfoDarts';
+import { ShortInfoDuration } from './ShortInfoDuration/ShortInfoDuration';
+import { ShortInfoGambling } from './ShortInfoGambling/ShortInfoGambling';
+import { ShortInfoPlayers } from './ShortInfoPlayers/ShortInfoPlayers';
 import { ShortInfoStats } from './ShortInfoStats/ShortInfoStats';
+import { ShortInfoWhen } from './ShortInfoWhen/ShortInfoWhen';
+import { ShortInfoWinner } from './ShortInfoWinner/ShortInfoWinner';
 
 const useStyles = makeStyles(theme => ({
     paper: {

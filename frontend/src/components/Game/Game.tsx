@@ -1,7 +1,7 @@
 import React from 'react';
-
-import GamePlayer from './GamePlayer/GamePlayer';
 import DartThrow from './DartThrow/DartThrow';
+import GamePlayer from './GamePlayer/GamePlayer';
+
 
 const game = () => {
     return (

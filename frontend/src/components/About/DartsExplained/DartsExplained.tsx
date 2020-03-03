@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
 import DartsBoardLogo from '../DartBoardLogo/DartBoardLogo';
 
-import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
     paper: {

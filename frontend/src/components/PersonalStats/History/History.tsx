@@ -1,8 +1,6 @@
-import React, { Component } from 'react';
-import clsx from 'clsx';
-import Paper from '@material-ui/core/Paper';
-import { CardHeader, CardContent, Typography, makeStyles, Card, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
+import { Card, CardContent, CardHeader, ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, makeStyles, Typography } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import React from 'react';
 
 const useStyles = makeStyles(theme => ({
       paper: {

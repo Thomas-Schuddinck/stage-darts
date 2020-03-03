@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import { Card, makeStyles, Typography } from '@material-ui/core';
+import React from 'react';
 
-import Paper from '@material-ui/core/Paper';
-import { CardHeader, CardContent, Typography, makeStyles, Card } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
     centerText: {
