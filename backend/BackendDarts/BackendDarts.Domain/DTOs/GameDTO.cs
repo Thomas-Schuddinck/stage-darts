@@ -12,11 +12,13 @@ namespace BackendDarts.DTOs
         public DateTime beginDate { get; set; }
         public DateTime endDate { get; set; }
         public List<LegGroupDTO> LegGroups { get; set; }
+        public List<PlayerDTO> Players { get; set; }
 
         public GameDTO()
         {
 
             LegGroups = new List<LegGroupDTO>();
+            Players = new List<PlayerDTO>();
         }
 
         public GameDTO(Game g) : this()
@@ -28,7 +30,12 @@ namespace BackendDarts.DTOs
             {
                     this.LegGroups.Add(new LegGroupDTO(lg));
 
-            }
+            };
+            foreach (PlayerGame p in g.PlayerGames)
+            {
+                this.Players.Add(new PlayerDTO(p.Player));
+
+            };
         }
     }
 }

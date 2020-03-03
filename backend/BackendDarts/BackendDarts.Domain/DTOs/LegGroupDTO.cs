@@ -11,6 +11,9 @@ namespace BackendDarts.DTOs
         public LegGroupDTO(LegGroup lg) : this()
         {
             Id = lg.Id;
+            Winner = lg.Winner;
+            Legnr = lg.Legnr;
+
             foreach (PlayerLeg pl in lg.PlayerLegs)
             {
                 this.PlayerLegs.Add(new PlayerLegDTO(pl));
@@ -24,6 +27,8 @@ namespace BackendDarts.DTOs
         }
 
         public int Id { get; set; }
+        public int Legnr { get; set; }
+        public int Winner { get; set; }
         public List<PlayerLegDTO> PlayerLegs { get; set; }
     }
 }
