@@ -24,7 +24,6 @@ namespace BackendDarts.DTOs
         }
 
         public int Id { get; set; }
-        public PlayerDTO Player { get; set; }
         public List<PlayerLegDTO> PlayerLegs { get; set; }
     }
 }
