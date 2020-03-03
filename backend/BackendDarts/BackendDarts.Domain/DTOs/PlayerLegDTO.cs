@@ -7,7 +7,7 @@ namespace BackendDarts.DTOs
 {
     public class PlayerLegDTO
     {
-        private PlayerLeg pg;
+       
 
         public PlayerLegDTO(PlayerLeg pg) : this()
         {
