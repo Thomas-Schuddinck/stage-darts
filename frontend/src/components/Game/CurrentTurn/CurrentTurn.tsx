@@ -46,9 +46,11 @@ function CurrentTurn(props: any) {
     <Aux>
       <span className={classes.tekstHoofd}>Turn {props.turnnumber}</span>
       <div className={classes.lijst}>
-        {props.scores.map((s: any) =>
-          <DartThrow score={s} />
+        {props.scores.map(function(s: any, i: any){
+          return <DartThrow key={i} score={s} />
+        }
         )}
+
       </div>
       
     </Aux>
