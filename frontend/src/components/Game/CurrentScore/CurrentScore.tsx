@@ -1,10 +1,24 @@
 import React from 'react';
+import { Typography, makeStyles } from '@material-ui/core';
+import { indigo } from '@material-ui/core/colors';
 
-function CurrentScore() {
+
+const useStyles = makeStyles(theme => ({
+    score: {
+        color: indigo[700],
+        fontSize: '10em',
+    },
+
+}));
+
+const CurrentScore = (props: any) => {
+    const classes = useStyles();
+
+
+
     return (
         <div>
-            <h4>Current score:</h4>
-            <p>17</p>
+            <Typography className={classes.score}>{props.score}</Typography>
         </div>
     );
 
