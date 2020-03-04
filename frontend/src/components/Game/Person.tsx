@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
-
+import PlayArrow from '@material-ui/icons/PlayArrow';
 
 const useStyles = makeStyles(theme => ({
     tekstHoofd: {
@@ -20,8 +20,12 @@ function Person(props: any) {
 
     return (
         <div>
-            <span className={classes.tekstHoofd}>{props.name}</span>
-            </div>
+            <span className={classes.tekstHoofd}>
+                <PlayArrow/>
+                    
+                {props.name}
+            </span>
+        </div>
     );
 
 };

@@ -17,6 +17,7 @@ import { Game } from '../../models/Game';
 import { css } from "@emotion/core";
 import { Player } from '../../models/Player';
 import TakePhoto from '../../components/Game/TakePhoto/TakePhoto';
+import CurrentScore from '../../components/Game/CurrentScore/CurrentScore';
 
 
 const useStyles = makeStyles(theme => ({
@@ -39,6 +40,9 @@ const useStyles = makeStyles(theme => ({
     alignFlexChildren: {
         margin: 'auto'
     },
+    centerContent: {
+        alignItems: "center",
+    }
 }));
 
 
@@ -68,7 +72,7 @@ export default function GameBuilder() {
         });
     }
 
-    const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+    const fixedHeightPaper = clsx(classes.paper, classes.centerContent);
     const scores = [1, 5, 40];
 
     const spinner = css`
@@ -90,50 +94,24 @@ export default function GameBuilder() {
                     <Grid container spacing={3}>
                         {/* Chart */}
 
-                        <Grid item xs={12} md={4} lg={4} >
-                            <CurrentPlayer name="Thomas" />
-                        </Grid>
-
-                        <Grid item xs={12} md={4} lg={4}>
-                            <CurrentLeader name="Thomas" />
-                        </Grid>
-
-                        <Grid item xs={12} md={4} lg={4} >
-                            <PlayingNext name="Wouter" />
-                        </Grid>
                         {game.players.map(function (p: Player, i: any) {
                             return <Grid item xs={12} md={6} lg={6}>
                                 <Paper className={fixedHeightPaper}>
-                                    <Person name={p.name} />
+                                    <Person name={p.name}/>
+                                    <CurrentScore score={501}/> {/*dto laten meegeven wat zijn huidige score is?*/}
+                                    <CurrentTurn turnnumber="2" scores={scores} />
                                 </Paper>
                             </Grid>
                         }
                         )}
                         <Grid container className={classes.alignFlex}>
                             <Grid item xs={12} md={4} lg={4}>
-
                                 <Paper>
                                     <TakePhoto />
                                 </Paper>
                             </Grid>
-                            <Grid item xs={12} md={4} lg={4}>
-
-                                <LastDartThrow score="40" />
-                            </Grid>
                         </Grid>
 
-                        <Grid item xs={12} md={12} lg={12} >
-                            <Paper className={classes.paper}>
-                                <CurrentTurn turnnumber="2" scores={scores} />
-                            </Paper>
-                        </Grid>
-                        {/* Recent Orders */}
-                        <Grid item xs={12}>
-                            <Paper className={classes.paper}>
-                                <p>history?</p>
-                                <p>heatmap?</p>
-                            </Paper>
-                        </Grid>
                     </Grid>)}
         </Aux>
     );

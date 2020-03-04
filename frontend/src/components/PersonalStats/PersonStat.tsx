@@ -37,6 +37,7 @@ const PersonStat = (props: any) => {
                 <Autocomplete
                         className={classes.wide}
                         id="combo-box-demo"
+                        disableClearable
                         options={props.players}
                         getOptionLabel={(option: Player) => option.name!}
                         style={{ width: 300 }}
