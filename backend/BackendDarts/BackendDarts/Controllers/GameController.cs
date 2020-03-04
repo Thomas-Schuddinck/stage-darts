@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BackendDarts.data.Repos.IRepos;
 using BackendDarts.DTOs;
 using BackendDarts.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -13,10 +14,12 @@ namespace BackendDarts.Controllers
     public class GameController : ControllerBase
     {
         private IGameRepository _gameRepository;
+        private IPlayerRepository _playerRepository;
 
-        public GameController(IGameRepository gameRepository)
+        public GameController(IGameRepository gameRepository, IPlayerRepository playerRepository)
         {
             _gameRepository = gameRepository;
+            _playerRepository = playerRepository;
         }
 
         [HttpGet]
@@ -57,6 +60,32 @@ namespace BackendDarts.Controllers
         {
             Game game = _gameRepository.GetBy(id);
             _gameRepository.Delete(game);
+            _gameRepository.SaveChanges();
+            return new GameDTO(game);
+        }
+
+        [HttpPut("join/{id}/{value}")]
+        public ActionResult<GameDTO> AddThrow(int id, int value)
+        {
+            Game game = _gameRepository.GetBy(id);
+            game.AddThrow(value);
+            _gameRepository.SaveChanges();
+            return new GameDTO(game);
+        }
+
+        [HttpPut("{id}/{idPlayer}")]
+        public ActionResult<GameDTO> JoinGame(int id, int idPlayer)
+        {
+            Game game = _gameRepository.GetBy(id);
+            foreach(PlayerGame pg in game.PlayerGames)
+            {
+                if (pg.PlayerId == idPlayer)
+                {
+                    return BadRequest("Player already in game");
+                }
+            }
+            Player player = _playerRepository.GetBy(idPlayer);
+            game.AddPlayer(player);
             _gameRepository.SaveChanges();
             return new GameDTO(game);
         }
