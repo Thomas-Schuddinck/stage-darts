@@ -6,7 +6,7 @@ import { indigo } from '@material-ui/core/colors';
 const useStyles = makeStyles(theme => ({
     score: {
         color: indigo[700],
-        fontSize: '10em',
+        fontSize: '6em',
     },
 
 }));

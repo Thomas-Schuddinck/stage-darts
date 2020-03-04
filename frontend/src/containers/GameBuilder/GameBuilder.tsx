@@ -98,29 +98,20 @@ export default function GameBuilder() {
                             return <Grid item xs={12} md={6} lg={6}>
                                 <Paper className={fixedHeightPaper}>
                                     <Person name={p.name}/>
-                                    <CurrentScore score={501}/>
+                                    <CurrentScore score={501}/> {/*dto laten meegeven wat zijn huidige score is?*/}
+                                    <CurrentTurn turnnumber="2" scores={scores} />
                                 </Paper>
                             </Grid>
                         }
                         )}
                         <Grid container className={classes.alignFlex}>
                             <Grid item xs={12} md={4} lg={4}>
-
                                 <Paper>
                                     <TakePhoto />
                                 </Paper>
                             </Grid>
-                            <Grid item xs={12} md={4} lg={4}>
-
-                                <LastDartThrow score="40" />
-                            </Grid>
                         </Grid>
 
-                        <Grid item xs={12} md={12} lg={12} >
-                            <Paper className={classes.paper}>
-                                <CurrentTurn turnnumber="2" scores={scores} />
-                            </Paper>
-                        </Grid>
                     </Grid>)}
         </Aux>
     );

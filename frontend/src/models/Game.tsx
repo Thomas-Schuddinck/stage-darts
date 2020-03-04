@@ -5,4 +5,5 @@ export interface Game {
     beginDate?: Date
     endDate?: Date
     players?: [];
+    playerLegs?: [];
 }

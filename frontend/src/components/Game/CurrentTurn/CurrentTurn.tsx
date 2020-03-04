@@ -13,7 +13,6 @@ const useStyles = makeStyles(theme => ({
       
   },
   lijst: {
-    padding: theme.spacing(1),
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'row',
@@ -31,9 +30,7 @@ const useStyles = makeStyles(theme => ({
       fontSize: '2em',
       paddingLeft: '0.7em',
       paddingRight: '0.7em',
-      borderBottomColor: '#004BFF',
-      borderBottomWidth: 3,
-      borderBottomStyle: "solid"
+      marginTop: '0'
       
   },
   
@@ -44,10 +41,10 @@ function CurrentTurn(props: any) {
   const classes = useStyles();
   return (
     <Aux>
-      <span className={classes.tekstHoofd}>Turn {props.turnnumber}</span>
+      <span className={classes.tekstHoofd}><DartThrow hitIcon={true} score={46} /></span>
       <div className={classes.lijst}>
         {props.scores.map(function(s: any, i: any){
-          return <DartThrow key={i} score={s} />
+          return <DartThrow hitIcon={false} key={i} score={s} />
         }
         )}
 
