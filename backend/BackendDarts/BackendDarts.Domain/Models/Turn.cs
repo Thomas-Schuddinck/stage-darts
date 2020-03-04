@@ -4,6 +4,8 @@ namespace BackendDarts.Models
 {
     public class Turn
     {
+        
+
         public int Id { get; set; }
         public int TurnNr { get; set; }
         public List<DartThrow> Throws { get; set; }
@@ -11,6 +13,11 @@ namespace BackendDarts.Models
         public Turn()
         {
             Throws = new List<DartThrow>();
+        }
+
+        public Turn(int turnnr) : this()
+        {
+            this.TurnNr = turnnr;
         }
     }
 }

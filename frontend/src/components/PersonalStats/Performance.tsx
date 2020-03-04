@@ -1,6 +1,6 @@
-import React from 'react';
+import { Card, CardContent, CardHeader, makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
-import { CardHeader, CardContent, Typography, makeStyles, Card } from '@material-ui/core';
+import React from 'react';
 
 const useStyles = makeStyles(theme => ({
     fixedHeight: {

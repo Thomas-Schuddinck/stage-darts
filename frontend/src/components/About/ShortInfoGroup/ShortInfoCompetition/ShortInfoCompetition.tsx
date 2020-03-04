@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
 import Paper from '@material-ui/core/Paper';
-import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
 import { makeStyles } from '@material-ui/core/styles';
+import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
+import React from 'react';
 
 const comp = "Coming soon"
 const useStyles = makeStyles(theme => ({

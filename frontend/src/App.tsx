@@ -1,12 +1,12 @@
 import React from 'react';
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import './App.css';
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import Layout from './hoc/Layout'
-import GameBuilder from './containers/GameBuilder/GameBuilder';
-import PersonalStatsBuilder from './containers/PersonalStatsBuilder/PersonalStatsBuilder';
-import Leaderbord from './containers/LeaderbordBuilder/LeaderbordBuilder';
-
 import AboutBuilder from './containers/AboutBuilder/AboutBuilder';
+import GameBuilder from './containers/GameBuilder/GameBuilder';
+import Leaderbord from './containers/LeaderbordBuilder/LeaderbordBuilder';
+import PersonalStatsBuilder from './containers/PersonalStatsBuilder/PersonalStatsBuilder';
+import Layout from './hoc/Layout';
+
 
 function App() {
   return (

@@ -16,5 +16,15 @@ namespace BackendDarts.Models
         {
             Turns = new List<Turn>();
         }
+
+        public PlayerLeg(Player player) : this()
+        {
+            Player = player;
+        }
+
+        public void AddTurn()
+        {
+            Turns.Add(new Turn(Turns.Count + 1));
+        }
     }
 }

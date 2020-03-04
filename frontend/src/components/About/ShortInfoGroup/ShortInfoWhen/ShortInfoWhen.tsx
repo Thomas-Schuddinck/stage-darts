@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
 import Paper from '@material-ui/core/Paper';
-import FreeBreakfastIcon from '@material-ui/icons/FreeBreakfast';
 import { makeStyles } from '@material-ui/core/styles';
+import FreeBreakfastIcon from '@material-ui/icons/FreeBreakfast';
+import React from 'react';
 
 const only = "ONLY DURING BREAKS"
 const useStyles = makeStyles(theme => ({

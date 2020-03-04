@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import GpsFixedIcon from '@material-ui/icons/GpsFixed';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles } from '@material-ui/core/styles';
+import GpsFixedIcon from '@material-ui/icons/GpsFixed';
+import React from 'react';
 
 const useStyles = makeStyles(theme => ({
     roos: {

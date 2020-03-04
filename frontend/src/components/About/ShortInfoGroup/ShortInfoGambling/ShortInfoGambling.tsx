@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
 import Paper from '@material-ui/core/Paper';
-import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import { makeStyles } from '@material-ui/core/styles';
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
+import React from 'react';
 
 const ng = "NO GAMBLING ALLOWED"
 const useStyles = makeStyles(theme => ({
