@@ -2,6 +2,8 @@ import React from 'react';
 import Aux from './Wrap';
 import './Layout.css';
 import MyToolbar from '../components/Navigation/Toolbar/MyToolbar';
+
+/*
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
@@ -11,10 +13,10 @@ const useStyles = makeStyles(theme => ({
         overflow: 'auto',
       },
 }));
-
+*/
 
 export default function Layout (props: { children: React.ReactNode; }) {
-    const classes = useStyles();
+    //const classes = useStyles();
 
     return(
         <Aux>

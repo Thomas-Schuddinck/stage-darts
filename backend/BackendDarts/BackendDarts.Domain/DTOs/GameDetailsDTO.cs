@@ -7,8 +7,8 @@ namespace BackendDarts.DTOs
         public PlayerDTO CurrentPlayer { get; set; }
         public PlayerDTO NextPlayer { get; set; }
         public int LastThrow { get; set; }
-        public LegDTO CurrentLeg { get; set; }
-        public IEnumerable<PlayerGameDTO> PlayerGames { get; set; }
+        public TurnDTO CurrentLeg { get; set; }
+        public IEnumerable<PlayerLegDTO> PlayerGames { get; set; }
 
         public GameDetailsDTO(GameDTO game)
         {

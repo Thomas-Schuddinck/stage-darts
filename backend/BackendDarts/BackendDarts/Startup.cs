@@ -1,27 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using BackendDarts.data;
 using BackendDarts.Models;
 using BackendDarts.Repos;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using BackendDarts.data.Repos;
 using BackendDarts.data.Repos.IRepos;
-using BackendDarts.Repos.IRepos;
 using Microsoft.AspNetCore.Http;
 using BackendDarts.Domain;
 using BackendDarts.Data.Repos.IRepos;
 using BackendDarts.Data.Repos;
 using Newtonsoft.Json;
+using BackendDarts.Hubs;
 
 namespace BackendDarts
 {
@@ -41,15 +35,15 @@ namespace BackendDarts
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+
+            services.AddSignalR();
             var connection = @"Server=(localdb)\mssqllocaldb;Database=BackendDarts;Trusted_Connection=True;ConnectRetryCount=0";
             services.AddDbContext<ApplicationDbContext>
                 (options => options.UseSqlServer(connection));
             services.AddScoped<DataInitializer>();
             services.AddScoped<IGameRepository, GameRepository>();
             services.AddScoped<IPlayerRepository, PlayerRepository>();
-            services.AddScoped<IDartThrowRepository, DartThrowRepository>();
-            services.AddScoped<ILegRepository, LegRepository>();
-            services.AddScoped<IPlayerGameRepository, PlayerGameRepository>();
+            services.AddScoped<IPlayerLegRepository, PlayerLegRepository>();
 
 
 
@@ -83,7 +77,14 @@ namespace BackendDarts
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                //endpoints.MapHub<ChangeHub>("/ChangeHub");
             });
+            /*
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ChangeHub>("/ChangeHub");
+            })
+            */
             app.UseSwaggerUi3(); app.UseSwagger();
 
             dataInitializer.InitializeData().Wait();

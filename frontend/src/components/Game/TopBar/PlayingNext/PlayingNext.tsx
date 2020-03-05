@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
 import Paper from '@material-ui/core/Paper';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import { makeStyles } from '@material-ui/core/styles';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import React from 'react';
 
 const useStyles = makeStyles(theme => ({
     paper: {

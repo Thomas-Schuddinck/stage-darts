@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
 import Paper from '@material-ui/core/Paper';
-import GroupIcon from '@material-ui/icons/Group';
 import { makeStyles } from '@material-ui/core/styles';
+import GroupIcon from '@material-ui/icons/Group';
+import React from 'react';
 
 const players = "min. 2"
 const useStyles = makeStyles(theme => ({

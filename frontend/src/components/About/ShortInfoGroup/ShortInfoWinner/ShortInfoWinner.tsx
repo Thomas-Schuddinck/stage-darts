@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
 import Paper from '@material-ui/core/Paper';
-import EmojiEventsIcon from '@material-ui/icons/EmojiEvents';
 import { makeStyles } from '@material-ui/core/styles';
+import EmojiEventsIcon from '@material-ui/icons/EmojiEvents';
+import React from 'react';
 
 const winner = "First to 501"
 const useStyles = makeStyles(theme => ({

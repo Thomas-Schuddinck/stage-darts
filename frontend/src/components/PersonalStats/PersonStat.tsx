@@ -1,11 +1,9 @@
-import React, { Component } from 'react';
+import React, { } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import { CardHeader, CardContent, Typography, Select, MenuItem, TextField } from '@material-ui/core';
-import FormControl from '@material-ui/core/FormControl';
+import { CardContent, TextField } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import Wrap from '../../hoc/Wrap';
 import { Player } from '../../models/Player';
 
 const useStyles = makeStyles(theme => ({
@@ -39,6 +37,7 @@ const PersonStat = (props: any) => {
                 <Autocomplete
                         className={classes.wide}
                         id="combo-box-demo"
+                        disableClearable
                         options={props.players}
                         getOptionLabel={(option: Player) => option.name!}
                         style={{ width: 300 }}

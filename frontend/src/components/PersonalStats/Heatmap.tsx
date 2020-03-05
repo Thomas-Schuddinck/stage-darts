@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
+import { Card, CardHeader, makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
-import Paper from '@material-ui/core/Paper';
-import { CardHeader, CardContent, Typography, makeStyles, Card } from '@material-ui/core';
+import React from 'react';
 import DartsBoardLogo from '../About/DartBoardLogo/DartBoardLogo';
 
 const useStyles = makeStyles(theme => ({
     fixedHeight: {
-        height: 360,
+        height: 'auto',
       },
       paper: {
         padding: theme.spacing(2),
@@ -15,8 +14,7 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'column',
       },
       logo: {
-        width: '80%',
-        height: '80%',
+        width: '66%',
         margin: '0 auto',
       },
 

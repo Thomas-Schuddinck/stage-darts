@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
 import Paper from '@material-ui/core/Paper';
-import TimerIcon from '@material-ui/icons/Timer';
 import { makeStyles } from '@material-ui/core/styles';
+import TimerIcon from '@material-ui/icons/Timer';
+import React from 'react';
 
 const duration = "5-20 minutes"
 const useStyles = makeStyles(theme => ({

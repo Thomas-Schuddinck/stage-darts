@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Aux from '../../hoc/Wrap';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,6 +12,8 @@ import History from '../../components/PersonalStats/History/History';
 import GetApiCall from '../../services/ApiClient';
 import { Player } from '../../models/Player';
 import { Stats } from 'fs';
+import PropagateLoader from "react-spinners/PropagateLoader";
+import { css } from "@emotion/core";
 
 
 const useStyles = makeStyles(theme => ({
@@ -39,6 +41,13 @@ const useStyles = makeStyles(theme => ({
   },
   back: {
 
+  },
+  alignstretch: {
+    display: 'flex',
+    alignItems: 'stretch'
+  },
+  stretch: {
+    
   }
 }));
 
@@ -90,10 +99,23 @@ const PersonalStatsBuilder = () => {
 
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
+  const spinner = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+  margin-left: 50%;
+`;
+
   return (
     <Aux>
-      {isLoading? (<p>loading</p>): (
-        <Grid container spacing={3}>
+      {isLoading? (
+        <PropagateLoader
+        css={spinner}
+        size={20}
+        color={"#123abc"}
+        />
+      ): (
+        <Grid className={classes.alignstretch} container spacing={3}>
         <Grid item lg={5} xs={12} md={5}>
           <PersonStat parentGivePlayer={getPlayerChild} players={players}></PersonStat>
         </Grid>
@@ -113,7 +135,7 @@ const PersonalStatsBuilder = () => {
         {/* Performance */}
         <Grid item xs={12} md={7} lg={7}>
         {stats === undefined ? (<p></p>): (
-          <Performance 
+          <Performance
           numberOfMisses={stats.numberOfMisses} 
           numberOfSixties={stats.numberOfSixties} 
           totalScoreThrown={stats.totalScoreThrown}

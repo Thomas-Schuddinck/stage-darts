@@ -13,12 +13,10 @@ namespace BackendDarts.data
     {
         private ApplicationDbContext _dbContext;
 
-        public List<Game> games;
 
         public DataInitializer(ApplicationDbContext dbContext, IGameRepository gameRepo)
         {
             _dbContext = dbContext;
-            games = new List<Game>();
         }
 
         public async Task InitializeData()
@@ -44,74 +42,113 @@ namespace BackendDarts.data
                 _dbContext.Players.Add(player2);
                 _dbContext.Players.Add(player3);
 
-                //adding playergames
-                PlayerGame gp00 = new PlayerGame();
-                PlayerGame gp01 = new PlayerGame();
-                PlayerGame gp02= new PlayerGame();
+                //adding leggroups
+                LegGroup lg1 = new LegGroup();
+                LegGroup lg2 = new LegGroup();
+                LegGroup lg3 = new LegGroup();
+                LegGroup lg4 = new LegGroup();
+                LegGroup lg5 = new LegGroup();
+                LegGroup lg6 = new LegGroup();
 
-                PlayerGame gp10 = new PlayerGame();
-                PlayerGame gp11 = new PlayerGame();
-                PlayerGame gp12 = new PlayerGame();
-                PlayerGame gp13 = new PlayerGame();
+                _dbContext.LegGroups.Add(lg1);
+                _dbContext.LegGroups.Add(lg2);
+                _dbContext.LegGroups.Add(lg3);
+                _dbContext.LegGroups.Add(lg4);
+                _dbContext.LegGroups.Add(lg5);
+                _dbContext.LegGroups.Add(lg6);
+                _dbContext.SaveChanges();
 
-                PlayerGame gp20 = new PlayerGame();
-                PlayerGame gp21 = new PlayerGame();
-                PlayerGame gp22 = new PlayerGame();
-                PlayerGame gp23 = new PlayerGame();
-                PlayerGame gp24 = new PlayerGame();
-                PlayerGame gp25 = new PlayerGame();
+                //adding playerlegs
+                PlayerLeg gp00 = new PlayerLeg();
+                PlayerLeg gp01 = new PlayerLeg();
+                PlayerLeg gp02= new PlayerLeg();
 
-                _dbContext.PlayerGames.Add(gp00);
-                _dbContext.PlayerGames.Add(gp01);
-                _dbContext.PlayerGames.Add(gp02);
-                _dbContext.PlayerGames.Add(gp10);
-                _dbContext.PlayerGames.Add(gp11);
-                _dbContext.PlayerGames.Add(gp12);
-                _dbContext.PlayerGames.Add(gp13);
-                _dbContext.PlayerGames.Add(gp20);
-                _dbContext.PlayerGames.Add(gp21);
-                _dbContext.PlayerGames.Add(gp22);
-                _dbContext.PlayerGames.Add(gp23); 
-                _dbContext.PlayerGames.Add(gp24);
-                _dbContext.PlayerGames.Add(gp25);
+                PlayerLeg gp10 = new PlayerLeg();
+                PlayerLeg gp11 = new PlayerLeg();
+                PlayerLeg gp12 = new PlayerLeg();
+                PlayerLeg gp13 = new PlayerLeg();
+
+                PlayerLeg gp20 = new PlayerLeg();
+                PlayerLeg gp21 = new PlayerLeg();
+                PlayerLeg gp22 = new PlayerLeg();
+                PlayerLeg gp23 = new PlayerLeg();
+                PlayerLeg gp24 = new PlayerLeg();
+                PlayerLeg gp25 = new PlayerLeg();
+
+                _dbContext.PlayerLegs.Add(gp00);
+                _dbContext.PlayerLegs.Add(gp01);
+                _dbContext.PlayerLegs.Add(gp02);
+                _dbContext.PlayerLegs.Add(gp10);
+                _dbContext.PlayerLegs.Add(gp11);
+                _dbContext.PlayerLegs.Add(gp12);
+                _dbContext.PlayerLegs.Add(gp13);
+                _dbContext.PlayerLegs.Add(gp20);
+                _dbContext.PlayerLegs.Add(gp21);
+                _dbContext.PlayerLegs.Add(gp22);
+                _dbContext.PlayerLegs.Add(gp23); 
+                _dbContext.PlayerLegs.Add(gp24);
+                _dbContext.PlayerLegs.Add(gp25);
                 _dbContext.SaveChanges();
 
 
-                //adding players to playergames
+                //adding players to playerlegs
                 gp00.Player = player1;
                 gp01.Player = player2;
                 gp02.Player = player3;
 
                 gp10.Player = player1;
                 gp11.Player = player2;
+
                 gp12.Player = player1;
                 gp13.Player = player2;
 
                 gp20.Player = player1;
                 gp21.Player = player2;
+
                 gp22.Player = player1;
                 gp23.Player = player2;
+
                 gp24.Player = player1;
                 gp25.Player = player2;
 
+                //adding playerlegs to legGroups
+                lg1.PlayerLegs.Add(gp00);
+                lg1.PlayerLegs.Add(gp01);
+                lg1.PlayerLegs.Add(gp02);
 
-                //adding playergames to games
-                game1.PlayerGames.Add(gp00);
-                game1.PlayerGames.Add(gp01);
-                game1.PlayerGames.Add(gp02);
+                lg2.PlayerLegs.Add(gp10);
+                lg2.PlayerLegs.Add(gp11);
+                lg3.PlayerLegs.Add(gp12);
+                lg3.PlayerLegs.Add(gp13);
 
-                game2.PlayerGames.Add(gp10);
-                game2.PlayerGames.Add(gp11);
-                game2.PlayerGames.Add(gp12);
-                game2.PlayerGames.Add(gp13);
+                lg4.PlayerLegs.Add(gp20);
+                lg4.PlayerLegs.Add(gp21);
+                lg5.PlayerLegs.Add(gp22);
+                lg5.PlayerLegs.Add(gp23);
+                lg6.PlayerLegs.Add(gp24);
+                lg6.PlayerLegs.Add(gp25);
 
-                game3.PlayerGames.Add(gp20);
-                game3.PlayerGames.Add(gp21);
-                game3.PlayerGames.Add(gp22);
-                game3.PlayerGames.Add(gp23);
-                game3.PlayerGames.Add(gp24);
-                game3.PlayerGames.Add(gp25);
-                
+                //adding leggroups to games
+                game1.LegGroups.Add(lg1);
+
+                game2.LegGroups.Add(lg2);
+                game2.LegGroups.Add(lg3);
+
+                game3.LegGroups.Add(lg4);
+                game3.LegGroups.Add(lg5);
+                game3.LegGroups.Add(lg6);
+
+                //adding players to games
+                game1.AddPlayer(player1);
+                game1.AddPlayer(player2);
+                game1.AddPlayer(player3);
+
+                game2.AddPlayer(player1);
+                game2.AddPlayer(player2);
+
+
+                game3.AddPlayer(player1);
+                game3.AddPlayer(player2);
 
                 //adding dartthrows
                 DartThrow dt1 = new DartThrow(13);
@@ -185,69 +222,78 @@ namespace BackendDarts.data
                 _dbContext.DartThrows.Add(dt29);
                 _dbContext.DartThrows.Add(dt30);
 
-                Leg leg1 = new Leg();
-                Leg leg2 = new Leg();
-                Leg leg3 = new Leg();
-                Leg leg4 = new Leg();
-                Leg leg5 = new Leg();
-                Leg leg6 = new Leg();
-                Leg leg7 = new Leg();
-                Leg leg8 = new Leg();
-                Leg leg9 = new Leg();
-                Leg leg10 = new Leg();
+                Turn turn1 = new Turn();
+                Turn turn2 = new Turn();
+                Turn turn3 = new Turn();
+                Turn turn4 = new Turn();
+                Turn turn5 = new Turn();
+                Turn turn6 = new Turn();
+                Turn turn7 = new Turn();
+                Turn turn8 = new Turn();
+                Turn turn9 = new Turn();
+                Turn turn10 = new Turn();
 
-                gp20.Legs.Add(leg1);
-                gp21.Legs.Add(leg2);
-                gp22.Legs.Add(leg3);
-                gp23.Legs.Add(leg4);
-                gp24.Legs.Add(leg5);
-                gp25.Legs.Add(leg6);
-                gp10.Legs.Add(leg7);
-                gp11.Legs.Add(leg8);
-                gp12.Legs.Add(leg9);
-                gp13.Legs.Add(leg10);
+                gp20.Turns.Add(turn1);
+                gp21.Turns.Add(turn2);
+                gp22.Turns.Add(turn3);
+                gp23.Turns.Add(turn4);
+                gp24.Turns.Add(turn5);
+                gp25.Turns.Add(turn6);
+                gp10.Turns.Add(turn7);
+                gp11.Turns.Add(turn8);
+                gp12.Turns.Add(turn9);
+                gp13.Turns.Add(turn10);
 
-                leg1.Throws.Add(dt1);
-                leg1.Throws.Add(dt2);
-                leg1.Throws.Add(dt3);
-                leg1.Throws.Add(dt4);
-                leg1.Throws.Add(dt5);
-                leg1.Throws.Add(dt6);
-                leg1.Throws.Add(dt7);
-                leg1.Throws.Add(dt8);
-                leg1.Throws.Add(dt9);
-                leg1.Throws.Add(dt10);
-                leg2.Throws.Add(dt11);
-                leg2.Throws.Add(dt12);
-                leg2.Throws.Add(dt13);
-                leg2.Throws.Add(dt14);
-                leg3.Throws.Add(dt15);
-                leg3.Throws.Add(dt16);
-                leg3.Throws.Add(dt17);
-                leg3.Throws.Add(dt18);
-                leg4.Throws.Add(dt19);
-                leg4.Throws.Add(dt20);
-                leg4.Throws.Add(dt21);
-                leg4.Throws.Add(dt22);
-                leg5.Throws.Add(dt23);
-                leg5.Throws.Add(dt24);
-                leg5.Throws.Add(dt25);
-                leg5.Throws.Add(dt26);
-                leg6.Throws.Add(dt27);
-                leg6.Throws.Add(dt28);
-                leg6.Throws.Add(dt29);
-                leg6.Throws.Add(dt30);
+                turn1.Throws.Add(dt1);
+                turn1.Throws.Add(dt2);
+                turn1.Throws.Add(dt3);
 
-                _dbContext.Legs.Add(leg1);
-                _dbContext.Legs.Add(leg2);
-                _dbContext.Legs.Add(leg3);
-                _dbContext.Legs.Add(leg4);
-                _dbContext.Legs.Add(leg5);
-                _dbContext.Legs.Add(leg6);
-                _dbContext.Legs.Add(leg7);
-                _dbContext.Legs.Add(leg8);
-                _dbContext.Legs.Add(leg9);
-                _dbContext.Legs.Add(leg10);
+                turn2.Throws.Add(dt4);
+                turn2.Throws.Add(dt5);
+                turn2.Throws.Add(dt6);
+
+                turn3.Throws.Add(dt7);
+                turn3.Throws.Add(dt8);
+                turn3.Throws.Add(dt9);
+
+                turn4.Throws.Add(dt10);
+                turn4.Throws.Add(dt11);
+                turn4.Throws.Add(dt12);
+
+                turn5.Throws.Add(dt13);
+                turn5.Throws.Add(dt14);
+                turn5.Throws.Add(dt15);
+
+                turn6.Throws.Add(dt16);
+                turn6.Throws.Add(dt17);
+                turn6.Throws.Add(dt18);
+
+                turn7.Throws.Add(dt19);
+                turn7.Throws.Add(dt20);
+                turn7.Throws.Add(dt21);
+
+                turn8.Throws.Add(dt22);
+                turn8.Throws.Add(dt23);
+                turn8.Throws.Add(dt24);
+
+                turn9.Throws.Add(dt25);
+                turn9.Throws.Add(dt26);
+                turn9.Throws.Add(dt27);
+
+                turn10.Throws.Add(dt28);
+                turn10.Throws.Add(dt29);
+                turn10.Throws.Add(dt30);
+
+                _dbContext.Turns.Add(turn1);
+                _dbContext.Turns.Add(turn2);
+                _dbContext.Turns.Add(turn3);
+                _dbContext.Turns.Add(turn4);
+                _dbContext.Turns.Add(turn5);
+                _dbContext.Turns.Add(turn6);
+                _dbContext.Turns.Add(turn7);
+                _dbContext.Turns.Add(turn8);
+                _dbContext.Turns.Add(turn9);
+                _dbContext.Turns.Add(turn10);
                 _dbContext.SaveChanges();
             }
         }

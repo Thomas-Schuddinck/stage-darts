@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
 import Paper from '@material-ui/core/Paper';
-import GpsFixedIcon from '@material-ui/icons/GpsFixed';
 import { makeStyles } from '@material-ui/core/styles';
+import GpsFixedIcon from '@material-ui/icons/GpsFixed';
+import React from 'react';
 
 const numDarts = "3 darts per turn"
 const useStyles = makeStyles(theme => ({

@@ -9,10 +9,19 @@ namespace BackendDarts.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public List<Game> Games { get; set; }
 
-        public Player(string name)
+        public Player(string name) : this()
         {
             this.Name = name;
+
         }
+        public Player()
+        {
+            
+            Games = new List<Game>();
+
+        }
+
     }
 }

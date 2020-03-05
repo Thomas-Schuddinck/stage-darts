@@ -1,5 +1,10 @@
 import React from 'react';
+import { Player } from './Player';
 
 export interface Game {
-    players?: [];
+    id?: number;
+    beginDate?: Date
+    endDate?: Date
+    players?: Player[];
+    playerLegs?: [];
 }

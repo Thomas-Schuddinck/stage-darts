@@ -1,32 +1,32 @@
-import React, { Component } from 'react';
-import GpsFixedIcon from '@material-ui/icons/GpsFixed';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
+import { ListItem, TextField } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
     roos: {
         color: "red",
-        fontSize: '3em',
-        marginRight: '0.3em'
+        fontSize: '0.8em',
     },
     listItemText: {
         color: "red",
-        fontSize: '3em'
+        fontSize: '1.5em',
     },
-    
+    input: {
+        color: "red",
+        textAlign: 'center',
+        padding: '0.5em',
+    },
+    noPadding: {
+        padding: '0.2em',
+    }
 }));
 
 function DartThrow(props: any) {
     const classes = useStyles();
 
     return (
-        <ListItem button>
-            <ListItemIcon>
-                <GpsFixedIcon className={classes.roos}/>
-            </ListItemIcon>
-            <ListItemText classes={{primary:classes.listItemText}} primary={props.score} />
+        <ListItem className={classes.noPadding}>
+            <TextField className={classes.listItemText} id="outlined-basic" variant="outlined" defaultValue={props.score} inputProps={{className: classes.input}}/>
         </ListItem>
     );
 
