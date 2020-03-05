@@ -13,9 +13,6 @@ const useStyles = makeStyles(theme => ({
 
 const CurrentScore = (props: any) => {
     const classes = useStyles();
-
-
-
     return (
         <div>
             <Typography className={classes.score}>{props.score}</Typography>
