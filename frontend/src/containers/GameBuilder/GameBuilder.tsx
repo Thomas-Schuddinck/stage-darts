@@ -100,13 +100,13 @@ export default function GameBuilder() {
                             return <Grid item xs={12} md={6} lg={6}>
                                 <Paper className={fixedHeightPaper}>
                                     <Grid container>
-                                    <Grid item xs={6} md={6} lg={6}>
+                                    <Grid item xs={5} md={4} lg={4}>
                                         <Person name={p.name}/>
                                         <CurrentScore score={501}/> {/*dto laten meegeven wat zijn huidige score is?*/}
                                     </Grid>
-                                    <Grid item xs={6} md={6} lg={6}>
+                                    <Grid item xs={7} md={8} lg={8}>
                                         <Paper>
-                                           <LastDartThrow score={46}/>
+                                        <LastDartThrow score={46}/>
                                         <CurrentTurn className={classes.currentTurn} turnnumber="2" scores={scores} /> 
                                         </Paper>
                                     </Grid>

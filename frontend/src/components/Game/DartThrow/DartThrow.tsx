@@ -1,6 +1,6 @@
-import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
+import { ListItem, TextField } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
     roos: {
@@ -11,15 +11,23 @@ const useStyles = makeStyles(theme => ({
         color: "red",
         fontSize: '1.5em',
     },
+    input: {
+        color: "red",
+        textAlign: 'center',
+        padding: '0.5em',
+    },
+    noPadding: {
+        padding: '0.2em',
+    }
 }));
 
 function DartThrow(props: any) {
     const classes = useStyles();
 
     return (
-            <ListItemText classes={{ primary: classes.listItemText }}>
-                {props.score}
-            </ListItemText>
+        <ListItem className={classes.noPadding}>
+            <TextField className={classes.listItemText} id="outlined-basic" variant="outlined" defaultValue={props.score} inputProps={{className: classes.input}}/>
+        </ListItem>
     );
 
 

@@ -6,7 +6,8 @@ import { indigo } from '@material-ui/core/colors';
 const useStyles = makeStyles(theme => ({
     score: {
         color: indigo[700],
-        fontSize: '6em',
+        fontSize: '4em',
+        
     },
 
 }));
@@ -14,9 +15,7 @@ const useStyles = makeStyles(theme => ({
 const CurrentScore = (props: any) => {
     const classes = useStyles();
     return (
-        <div>
             <Typography className={classes.score}>{props.score}</Typography>
-        </div>
     );
 
 };
