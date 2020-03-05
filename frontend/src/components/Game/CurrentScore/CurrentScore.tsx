@@ -7,9 +7,7 @@ const useStyles = makeStyles(theme => ({
     score: {
         color: indigo[700],
         fontSize: '4em',
-        
     },
-
 }));
 
 const CurrentScore = (props: any) => {

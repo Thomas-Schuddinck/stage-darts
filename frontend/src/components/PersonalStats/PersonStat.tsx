@@ -40,7 +40,6 @@ const PersonStat = (props: any) => {
                         disableClearable
                         options={props.players}
                         getOptionLabel={(option: Player) => option.name!}
-                        style={{ width: 300 }}
                         onChange={(e: any,v: any) => onTagChange(e, v)}
                         renderInput={params => <TextField {...params} label="Player" variant="outlined"
                         />}

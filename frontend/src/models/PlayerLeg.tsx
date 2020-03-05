@@ -5,4 +5,6 @@ import { Player } from './Player';
 export interface PlayerLeg {
     id?: number;
     turns?: Turn[];
+    player?: Player;
+    currentScore?: number;
 }
