@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace BackendDarts.Models
 {
@@ -18,6 +19,11 @@ namespace BackendDarts.Models
         public Turn(int turnnr) : this()
         {
             this.TurnNr = turnnr;
+        }
+
+        public void AddThrow(int value)
+        {
+            Throws.Add(new DartThrow(value));
         }
     }
 }
