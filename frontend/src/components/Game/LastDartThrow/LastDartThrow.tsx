@@ -1,6 +1,4 @@
-import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles } from '@material-ui/core/styles';
-import GpsFixedIcon from '@material-ui/icons/GpsFixed';
 import React from 'react';
 import Wrap from '../../../hoc/Wrap'
 import { TextField, ListItem } from '@material-ui/core';
@@ -37,8 +35,6 @@ function LastDartThrow(props: any) {
     return (
         <Wrap>
             <div className={classes.mainDiv}>
-                
-            {/* <ListItemText classes={{ primary: classes.listItemText }} primary={props.score} /> */}
             <ListItem>
                 <TextField className={classes.listItemText}
                 id="outlined-basic" 
