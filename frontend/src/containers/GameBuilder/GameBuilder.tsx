@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
     fixedHeight: {
         height: 240,
     },
-    
+
     alignFlex: {
         display: "flex",
         flexDirection: 'row',
@@ -95,36 +95,40 @@ export default function GameBuilder() {
                     color={"#123abc"}
                 />
             ) : (
-                    <Grid container spacing={3}>
+                    <Aux>
+                        <Grid container spacing={3}>
 
-                        {game.legGroups![game.legGroups.length - 1].playerLegs.map(function (pl: PlayerLeg, i: any) {
-                            return <Grid item xs={12} md={6} lg={6}>
-                                <Paper className={fixedHeightPaper}>
-                                    <Grid container>
-                                    <Grid item xs={5} md={4} lg={4}>
-                                        <Person name={pl.player!.name}/>
-                                        <CurrentScore score={pl.currentScore}/> {/*dto laten meegeven wat zijn huidige score is?*/}
-                                    </Grid>
-                                    <Grid item xs={7} md={8} lg={8}>
-                                        <Paper>
-                                        <LastDartThrow score={pl.turns![pl.turns!.length-1].throws!.map(t => t.value!).reduce((a, b) => a + b, 0)}/>
-                                        <CurrentTurn className={classes.currentTurn} turnnumber="2" scores={pl.turns![pl.turns!.length-1].throws!.map(t => t.value)} /> 
-                                        </Paper>
-                                    </Grid>
-                                    </Grid>
-                                </Paper>
-                            </Grid>
-                        }
-                        )}
-                        <Grid container className={classes.alignFlex}>
-                            <Grid item xs={12} md={4} lg={4}>
+                            {game.legGroups![game.legGroups.length - 1].playerLegs.map(function (pl: PlayerLeg, i: any) {
+                                return <Grid item xs={12} md={6} lg={6}>
+                                    <Paper className={fixedHeightPaper}>
+                                        <Grid container>
+                                            <Grid item xs={5} md={4} lg={4}>
+                                                <Person name={pl.player!.name} />
+                                                <CurrentScore score={pl.currentScore} /> {/*dto laten meegeven wat zijn huidige score is?*/}
+                                            </Grid>
+                                            <Grid item xs={7} md={8} lg={8}>
+                                                <Paper>
+                                                    <LastDartThrow score={pl.turns![pl.turns!.length - 1].throws!.map(t => t.value!).reduce((a, b) => a + b, 0)} />
+                                                    <CurrentTurn className={classes.currentTurn} turnnumber="2" scores={pl.turns![pl.turns!.length - 1].throws!.map(t => t.value)} />
+                                                </Paper>
+                                            </Grid>
+                                        </Grid>
+                                    </Paper>
+                                </Grid>
+                            }
+                            )}
+
+
+                        </Grid>
+                        <Grid container spacing={3}>
+                            <Grid item xs={12} md={6} lg={6}>
                                 <Paper>
                                     <TakePhoto />
                                 </Paper>
                             </Grid>
                         </Grid>
-
-                    </Grid>)}
+                    </Aux>
+                )}
         </Aux>
     );
 }
