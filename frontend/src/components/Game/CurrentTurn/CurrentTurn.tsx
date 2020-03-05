@@ -5,35 +5,35 @@ import DartThrow from '../DartThrow/DartThrow';
 
 const useStyles = makeStyles(theme => ({
   paper: {
-      padding: theme.spacing(1),
-      display: 'flex',
-      overflow: 'auto',
-      flexDirection: 'row',
-      backgroundColor: '#FFD700'
-      
+    padding: theme.spacing(1),
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'row',
+    backgroundColor: '#FFD700'
+
   },
   lijst: {
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'row',
-    
-},
+    textAlign: 'center',
+  },
   icoon: {
-      color: "#004BFF",
-      fontSize: '2.5em',
-      marginRight: '1.5em'
-      
+    color: "#004BFF",
+    fontSize: '2.5em',
+    marginRight: '1.5em'
+
   },
   tekstHoofd: {
-      alignSelf: 'center',
-      color: "#004BFF",
-      fontSize: '2em',
-      paddingLeft: '0.7em',
-      paddingRight: '0.7em',
-      marginTop: '0'
-      
+    alignSelf: 'center',
+    color: "#004BFF",
+    fontSize: '2em',
+    paddingLeft: '0.7em',
+    paddingRight: '0.7em',
+    marginTop: '0'
+
   },
-  
+
 }));
 
 
@@ -41,19 +41,14 @@ function CurrentTurn(props: any) {
   const classes = useStyles();
   return (
     <Aux>
-      <span className={classes.tekstHoofd}><DartThrow hitIcon={true} score={46} /></span>
       <div className={classes.lijst}>
-        {props.scores.map(function(s: any, i: any){
+        {props.scores.map(function (s: any, i: any) {
           return <DartThrow hitIcon={false} key={i} score={s} />
         }
         )}
-
       </div>
-      
     </Aux>
-
   )
-
 };
 
 export default CurrentTurn;

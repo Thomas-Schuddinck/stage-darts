@@ -42,6 +42,9 @@ const useStyles = makeStyles(theme => ({
     },
     centerContent: {
         alignItems: "center",
+    },
+    currentTurn: {
+        overflow: 'auto',
     }
 }));
 
@@ -92,14 +95,22 @@ export default function GameBuilder() {
                 />
             ) : (
                     <Grid container spacing={3}>
-                        {/* Chart */}
 
                         {game.players.map(function (p: Player, i: any) {
                             return <Grid item xs={12} md={6} lg={6}>
                                 <Paper className={fixedHeightPaper}>
-                                    <Person name={p.name}/>
-                                    <CurrentScore score={501}/> {/*dto laten meegeven wat zijn huidige score is?*/}
-                                    <CurrentTurn turnnumber="2" scores={scores} />
+                                    <Grid container>
+                                    <Grid item xs={5} md={4} lg={4}>
+                                        <Person name={p.name}/>
+                                        <CurrentScore score={501}/> {/*dto laten meegeven wat zijn huidige score is?*/}
+                                    </Grid>
+                                    <Grid item xs={7} md={8} lg={8}>
+                                        <Paper>
+                                        <LastDartThrow score={46}/>
+                                        <CurrentTurn className={classes.currentTurn} turnnumber="2" scores={scores} /> 
+                                        </Paper>
+                                    </Grid>
+                                    </Grid>
                                 </Paper>
                             </Grid>
                         }
