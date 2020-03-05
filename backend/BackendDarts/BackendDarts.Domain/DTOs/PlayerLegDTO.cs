@@ -17,7 +17,7 @@ namespace BackendDarts.DTOs
             foreach (Turn t in pg.Turns)
             {
                 this.Turns.Add(new TurnDTO(t));
-                foreach(DartThrow dt in t)
+                foreach(DartThrow dt in t.Throws)
                 {
                     CurrentScore = CurrentScore - dt.Value;
                 }
