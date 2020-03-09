@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.example.darts.data.database.DaRtsDatabase
 import com.example.darts.data.network.DaRtsApiService
 import com.example.darts.domain.DaRtsRepository
+import com.example.darts.ui.viewmodels.ActiveGameViewModel
 import com.example.darts.ui.viewmodels.HomeViewModel
 import com.example.darts.ui.viewmodels.LoginViewModel
 import com.example.darts.ui.viewmodels.MainMenuViewModel
@@ -21,6 +22,7 @@ val appViewModelModule = module {
     viewModel { LoginViewModel(get()) }
     viewModel { HomeViewModel(get()) }
     viewModel { MainMenuViewModel(get()) }
+    viewModel { ActiveGameViewModel(get()) }
     single { DaRtsRepository(Network.mulTeamService, getDatabase(androidContext())) }
 }
 

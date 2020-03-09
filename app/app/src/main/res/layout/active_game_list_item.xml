@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="game"
+            type="com.example.darts.domain.Game" />
+
+        <variable
+            name="clickListener"
+            type="com.example.darts.ui.adapters.ActiveGameListAdapter.OnClickListener" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        style="@style/list_item_holder"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            style="@style/border_style"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/game_name_listitem_text"
+                style="@style/list_item_title_style"
+                android:layout_marginTop="8dp"
+                android:text="insert game name here"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/game_name_placeholder_text" />
+
+
+
+            <TextView
+                android:id="@+id/game_label_listitem_text"
+                style="@style/list_item_description_style"
+                android:text="aantal players hier?"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/game_name_listitem_text"
+                app:layout_constraintStart_toStartOf="@+id/game_name_listitem_text"
+                tools:text="@string/game_description_placeholder_text" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>
