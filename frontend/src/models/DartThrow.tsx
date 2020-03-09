@@ -1,6 +1,6 @@
 import React from 'react';
 
 export interface DartThrow {
-    id?: number;
+    id: number;
     value?: number;
 }
