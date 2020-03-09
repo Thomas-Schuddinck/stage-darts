@@ -19,6 +19,7 @@ import { Player } from '../../models/Player';
 import TakePhoto from '../../components/Game/TakePhoto/TakePhoto';
 import CurrentScore from '../../components/Game/CurrentScore/CurrentScore';
 import { PlayerLeg } from '../../models/PlayerLeg';
+import Legs from '../../components/Game/Legs/Legs';
 
 
 const useStyles = makeStyles(theme => ({
@@ -104,13 +105,14 @@ export default function GameBuilder() {
                                         <Grid container spacing={2}>
                                             <Grid item xs={5} md={4} lg={4}>
                                                 <Person name={pl.player!.name} />
-                                                <CurrentScore score={pl.currentScore} /> {/*dto laten meegeven wat zijn huidige score is?*/}
+                                                <CurrentScore score={pl.currentScore} />
                                             </Grid>
                                             <Grid item xs={7} md={8} lg={8}>
                                                 <Paper>
                                                     <LastDartThrow score={pl.turns![pl.turns!.length - 1].throws!.map(t => t.value!).reduce((a, b) => a + b, 0)} />
                                                     <CurrentTurn className={classes.currentTurn} turnnumber="2" scores={pl.turns![pl.turns!.length - 1].throws!.map(t => t.value)} />
                                                 </Paper>
+                                                    <Legs legs={2}></Legs>
                                             </Grid>
                                         </Grid>
                                     </Paper>
