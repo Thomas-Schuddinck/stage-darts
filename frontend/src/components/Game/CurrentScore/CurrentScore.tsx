@@ -5,8 +5,11 @@ import { indigo } from '@material-ui/core/colors';
 
 const useStyles = makeStyles(theme => ({
     score: {
+        fontSize: '2.5em',
         color: indigo[700],
-        fontSize: '4em',
+        [theme.breakpoints.up('sm')]: {
+            fontSize: '4em',
+          },
     },
 }));
 

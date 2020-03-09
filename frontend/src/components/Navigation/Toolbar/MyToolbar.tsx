@@ -76,7 +76,8 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up('sm')]: {
 
       position: 'relative',
-      width: drawerWidth
+      width: drawerWidth,
+      height: '100vh'
     },
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,

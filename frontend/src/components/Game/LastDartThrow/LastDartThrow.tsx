@@ -11,7 +11,10 @@ const useStyles = makeStyles(theme => ({
     },
     listItemText: {
         color: "red",
-        fontSize: '2em',
+        fontSize: '1.5em',
+        [theme.breakpoints.up('sm')]: {
+            fontSize: '2em',
+          },
         display: 'flex',
         margin: "0 auto"
     },

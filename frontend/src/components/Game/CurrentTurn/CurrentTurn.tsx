@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'row',
-    textAlign: 'center',
+    justifyContent: 'center'
   },
   icoon: {
     color: "#004BFF",
@@ -43,7 +43,7 @@ function CurrentTurn(props: any) {
     <Aux>
       <div className={classes.lijst}>
         {props.scores.map(function (s: any, i: any) {
-          return <DartThrow hitIcon={false} key={i} score={s} />
+          return <DartThrow key={i} score={s} />
         }
         )}
       </div>

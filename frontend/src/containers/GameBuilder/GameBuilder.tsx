@@ -101,7 +101,7 @@ export default function GameBuilder() {
                             {game.legGroups![game.legGroups.length - 1].playerLegs.map(function (pl: PlayerLeg, i: any) {
                                 return <Grid item xs={12} md={6} lg={6}>
                                     <Paper className={fixedHeightPaper}>
-                                        <Grid container>
+                                        <Grid container spacing={2}>
                                             <Grid item xs={5} md={4} lg={4}>
                                                 <Person name={pl.player!.name} />
                                                 <CurrentScore score={pl.currentScore} /> {/*dto laten meegeven wat zijn huidige score is?*/}

@@ -17,6 +17,7 @@ import './SideList.css';
 const useStyles = makeStyles(theme => ({
     itemLi: {
       height: '3em',
+      paddingLeft: '23.25px' 
     },
     icon: {
       color: grey[600],

@@ -10,15 +10,19 @@ const useStyles = makeStyles(theme => ({
     },
     listItemText: {
         color: "red",
-        fontSize: '1.5em',
     },
     input: {
         color: "red",
         textAlign: 'center',
         padding: '0.5em',
+        fontSize: '0.8em',
+        [theme.breakpoints.up('sm')]: {
+            fontSize: '1.2em',
+          },
     },
     noPadding: {
         padding: '0.2em',
+        justifyContent: 'inherit'
     },
 }));
 
