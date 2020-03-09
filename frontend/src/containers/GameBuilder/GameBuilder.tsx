@@ -130,6 +130,11 @@ export default function GameBuilder() {
                                     <TakePhoto />
                                 </Paper>
                             </Grid>
+                            <Grid item xs={12} md={6} lg={6}>
+                                <Paper>
+                                    <TakePhoto />
+                                </Paper>
+                            </Grid>
                         </Grid>
                     </Aux>
                 )}

@@ -3,16 +3,19 @@ import React, { useState } from 'react';
 import { ListItem, TextField } from '@material-ui/core';
 import './DartThrow.css'
 import { EPROTONOSUPPORT } from 'constants';
+import indigo from '@material-ui/core/colors/indigo';
+import clsx from 'clsx';
+let throwcolor = indigo[400];
+
 const useStyles = makeStyles(theme => ({
     roos: {
-        color: "red",
+        color: throwcolor,
         fontSize: '0.8em',
     },
     listItemText: {
         color: "red",
     },
     input: {
-        color: "red",
         textAlign: 'center',
         padding: '0.5em',
         fontSize: '0.8em',
@@ -24,24 +27,35 @@ const useStyles = makeStyles(theme => ({
         padding: '0.2em',
         justifyContent: 'inherit'
     },
+    colR:{
+        color: 'red'
+    },
+    colI:{
+        color: indigo[400],
+    }
 }));
 
 function DartThrow(props: any) {
     const classes = useStyles();
     let [eroor, setEroor] = useState();
+
     const rightinput = ((inv: number) => {
-        if(inv < 60 &&  inv >= 0 && (inv %2 === 0 || inv % 3 === 0 || inv === 25))
-            setEroor(true);
-        else
+        if(inv <= 60 &&  inv >= 0 && (inv <= 20 || (inv %2 === 0 && inv < 40)|| inv % 3 === 0 || inv === 25 || inv === 50))
             setEroor(false);
-    })
+        else {
+            setEroor(true);
+            throwcolor = 'red';
+        }
+        
+        console.log(eroor);
+    });
 
     return (
         <ListItem className={classes.noPadding}>
-            <TextField type='number' InputProps={{ inputProps: { min: 0, max: 60, className: classes.input } }}
+            <TextField type='number' InputProps={{ inputProps: { min: 0, max: 60, className:clsx( classes.input, classes.listItemText , eroor && classes.colR, !eroor && classes.colI )  } }}
                 onChange={event => rightinput(Number.parseInt(event.target.value))}
                 error={eroor}
-                className={classes.listItemText} id="outlined-basic" variant="outlined" defaultValue={props.score} />
+                id="outlined-basic" variant="outlined" defaultValue={props.score} />
         </ListItem>
     );
 
