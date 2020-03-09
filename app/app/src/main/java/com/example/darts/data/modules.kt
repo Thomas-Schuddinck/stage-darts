@@ -7,6 +7,7 @@ import com.example.darts.data.network.DaRtsApiService
 import com.example.darts.domain.DaRtsRepository
 import com.example.darts.ui.viewmodels.HomeViewModel
 import com.example.darts.ui.viewmodels.LoginViewModel
+import com.example.darts.ui.viewmodels.MainMenuViewModel
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -19,6 +20,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 val appViewModelModule = module {
     viewModel { LoginViewModel(get()) }
     viewModel { HomeViewModel(get()) }
+    viewModel { MainMenuViewModel(get()) }
     single { DaRtsRepository(Network.mulTeamService, getDatabase(androidContext())) }
 }
 
