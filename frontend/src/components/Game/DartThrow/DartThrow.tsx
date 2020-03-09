@@ -2,7 +2,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import React, { useState } from 'react';
 import { ListItem, TextField } from '@material-ui/core';
 import './DartThrow.css'
-import { EPROTONOSUPPORT } from 'constants';
 import indigo from '@material-ui/core/colors/indigo';
 import clsx from 'clsx';
 let throwcolor = indigo[400];

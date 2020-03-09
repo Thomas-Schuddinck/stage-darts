@@ -51,8 +51,6 @@ namespace BackendDarts.Controllers
                     foreach (PlayerLeg pg in lg.PlayerLegs)
                     {
 
-
-
                         playergames.Add(pg);
                         foreach (Turn turn in pg.Turns)
                         {

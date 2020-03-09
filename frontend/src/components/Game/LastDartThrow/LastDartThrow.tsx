@@ -1,9 +1,8 @@
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import Wrap from '../../../hoc/Wrap'
-import { TextField, ListItem, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import indigo from '@material-ui/core/colors/indigo';
-import clsx from 'clsx';
 
 const useStyles = makeStyles(theme => ({
     roos: {
