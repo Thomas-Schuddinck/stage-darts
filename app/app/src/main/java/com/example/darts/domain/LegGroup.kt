@@ -4,5 +4,5 @@ data class LegGroup(
     val legGroupId: Int,
     val legNr : Int,
     val winner: Int,
-    val turns: List<PlayerLeg>
+    val playerLegs: List<PlayerLeg>
 )
