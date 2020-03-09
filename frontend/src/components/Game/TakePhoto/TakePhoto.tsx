@@ -12,8 +12,8 @@ const useStyles = makeStyles(theme => ({
         justifyContent: 'space-evenly',
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#C4151C'
-                
+        backgroundColor: '#C4151C',
+        cursor: 'pointer',
     },
     
     icoon: {
@@ -30,11 +30,12 @@ const useStyles = makeStyles(theme => ({
 }));
 function TakePhoto() {
     const classes = useStyles();
-
+    const makePhoto = () => {
+        console.log("todo: send request to create photo");
+    }
 
     return (
-        
-        <Paper className={classes.paper} elevation={3}>
+        <Paper className={classes.paper} elevation={3} onClick = {makePhoto}>
             <AddAPhotoIcon className={classes.icoon}/>
             <span className={classes.tekst}>Take Photo</span>
         </Paper>

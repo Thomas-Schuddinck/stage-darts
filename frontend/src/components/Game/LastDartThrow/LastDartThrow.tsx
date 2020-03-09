@@ -1,16 +1,15 @@
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import Wrap from '../../../hoc/Wrap'
-import { TextField, ListItem, Typography } from '@material-ui/core';
-
+import { Typography } from '@material-ui/core';
+import indigo from '@material-ui/core/colors/indigo';
 
 const useStyles = makeStyles(theme => ({
     roos: {
-        color: "red",
         fontSize: '1.5em',
     },
     listItemText: {
-        color: "red",
+        color: indigo[700],
         fontSize: '1.5em',
         [theme.breakpoints.up('sm')]: {
             fontSize: '2em',

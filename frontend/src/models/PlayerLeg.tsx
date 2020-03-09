@@ -3,8 +3,8 @@ import { Turn } from './Turn';
 import { Player } from './Player';
 
 export interface PlayerLeg {
-    id?: number;
+    id: number;
     turns?: Turn[];
-    player?: Player;
+    player: Player;
     currentScore?: number;
 }
