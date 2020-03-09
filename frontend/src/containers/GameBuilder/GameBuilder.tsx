@@ -97,7 +97,7 @@ export default function GameBuilder() {
 
                             {game!
                             .legGroups![game!.legGroups.length - 1]
-                            .playerLegs!.map(function (pl: PlayerLeg, i: any) {
+                            .playerLegs.map(function (pl: PlayerLeg, i: any) {
                                 return <Grid item xs={12} md={6} lg={6}>
                                     <Paper className={fixedHeightPaper}>
                                         <Grid container spacing={2}>
