@@ -5,10 +5,13 @@ import React from 'react';
 
 const useStyles = makeStyles(theme => ({
     paper: {
+
         padding: theme.spacing(1),
         display: 'flex',
         overflow: 'auto',
+        justifyContent: 'space-evenly',
         flexDirection: 'row',
+        alignItems: 'center',
         backgroundColor: '#C4151C'
                 
     },
@@ -16,11 +19,9 @@ const useStyles = makeStyles(theme => ({
     icoon: {
         color: "#FFFFFF",
         fontSize: '3em',
-        marginRight: '2em'
         
     },
     tekst: {
-        alignSelf: 'center',
         color: "#FFFFFF",
         fontSize: '2em',
         

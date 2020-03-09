@@ -5,12 +5,17 @@ import { indigo } from '@material-ui/core/colors';
 
 const useStyles = makeStyles(theme => ({
     tekstHoofd: {
+        fontSize: '1.5em',
         alignSelf: 'center',
         color: indigo[700],
-        fontSize: '2em',
-        borderBottomColor: indigo[700],
-        borderBottomWidth: 3,
-        borderBottomStyle: "solid"
+        // borderBottomColor: indigo[700],
+        // borderBottomWidth: 3,
+        // borderBottomStyle: "solid",
+
+        [theme.breakpoints.up('sm')]: {
+            fontSize: '2.5em',
+          },
+
     },
 
 }));
@@ -21,7 +26,6 @@ function Person(props: any) {
     return (
         <div>
             <span className={classes.tekstHoofd}>
-                <PlayArrow/>
                 {props.name}
             </span>
         </div>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/active_games_menu_item"
+        android:icon="@drawable/ic_active_games_console_white_24dp"
+        android:title="@string/menu_item_active_games_text"
+        android:iconTint="@color/textColor"/>
+    <item
+        android:id="@+id/join_game_menu_item"
+        android:icon="@drawable/ic_join_game_camera_white_24dp"
+        android:title="@string/menu_item_join_game_text"
+        android:iconTint="@color/textColor"/>
+    <item
+        android:id="@+id/overview_menu_item"
+        android:icon="@drawable/ic_overview_graph_white_24dp"
+        android:title="@string/menu_item_overview_text"
+        android:iconTint="@color/textColor"/>
+</menu>
