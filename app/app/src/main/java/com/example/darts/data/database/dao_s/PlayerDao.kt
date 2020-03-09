@@ -13,7 +13,7 @@ interface PlayerDao {
     fun getAll(): LiveData<List<DatabasePlayer>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(vararg taskteams: DatabasePlayer)
+    fun insertAll(vararg players: DatabasePlayer)
 
     @Query("DELETE FROM DatabasePlayer")
     fun clearTable()
