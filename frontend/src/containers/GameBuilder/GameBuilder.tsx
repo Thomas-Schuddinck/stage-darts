@@ -18,6 +18,8 @@ import { css } from "@emotion/core";
 import { Player } from '../../models/Player';
 import TakePhoto from '../../components/Game/TakePhoto/TakePhoto';
 import CurrentScore from '../../components/Game/CurrentScore/CurrentScore';
+import { PlayerLeg } from '../../models/PlayerLeg';
+import Legs from '../../components/Game/Legs/Legs';
 
 
 const useStyles = makeStyles(theme => ({
@@ -30,7 +32,7 @@ const useStyles = makeStyles(theme => ({
     fixedHeight: {
         height: 240,
     },
-    
+
     alignFlex: {
         display: "flex",
         flexDirection: 'row',
@@ -94,36 +96,41 @@ export default function GameBuilder() {
                     color={"#123abc"}
                 />
             ) : (
-                    <Grid container spacing={3}>
+                    <Aux>
+                        <Grid container spacing={3}>
 
-                        {game.players.map(function (p: Player, i: any) {
-                            return <Grid item xs={12} md={6} lg={6}>
-                                <Paper className={fixedHeightPaper}>
-                                    <Grid container>
-                                    <Grid item xs={5} md={4} lg={4}>
-                                        <Person name={p.name}/>
-                                        <CurrentScore score={501}/> {/*dto laten meegeven wat zijn huidige score is?*/}
-                                    </Grid>
-                                    <Grid item xs={7} md={8} lg={8}>
-                                        <Paper>
-                                        <LastDartThrow score={46}/>
-                                        <CurrentTurn className={classes.currentTurn} turnnumber="2" scores={scores} /> 
-                                        </Paper>
-                                    </Grid>
-                                    </Grid>
-                                </Paper>
-                            </Grid>
-                        }
-                        )}
-                        <Grid container className={classes.alignFlex}>
-                            <Grid item xs={12} md={4} lg={4}>
+                            {game.legGroups![game.legGroups.length - 1].playerLegs.map(function (pl: PlayerLeg, i: any) {
+                                return <Grid item xs={12} md={6} lg={6}>
+                                    <Paper className={fixedHeightPaper}>
+                                        <Grid container spacing={2}>
+                                            <Grid item xs={5} md={4} lg={4}>
+                                                <Person name={pl.player!.name} />
+                                                <CurrentScore score={pl.currentScore} />
+                                            </Grid>
+                                            <Grid item xs={7} md={8} lg={8}>
+                                                <Paper>
+                                                    <LastDartThrow score={pl.turns![pl.turns!.length - 1].throws!.map(t => t.value!).reduce((a, b) => a + b, 0)} />
+                                                    <CurrentTurn className={classes.currentTurn} turnnumber="2" scores={pl.turns![pl.turns!.length - 1].throws!.map(t => t.value)} />
+                                                </Paper>
+                                                    <Legs legs={2}></Legs>
+                                            </Grid>
+                                        </Grid>
+                                    </Paper>
+                                </Grid>
+                            }
+                            )}
+
+
+                        </Grid>
+                        <Grid container spacing={3}>
+                            <Grid item xs={12} md={6} lg={6}>
                                 <Paper>
                                     <TakePhoto />
                                 </Paper>
                             </Grid>
                         </Grid>
-
-                    </Grid>)}
+                    </Aux>
+                )}
         </Aux>
     );
 }
