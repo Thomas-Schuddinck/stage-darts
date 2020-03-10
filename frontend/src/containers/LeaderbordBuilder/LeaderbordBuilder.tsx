@@ -12,6 +12,7 @@ import { Player } from '../../models/Player';
 import PropagateLoader from "react-spinners/PropagateLoader";
 import Wrap from '../../hoc/Wrap';
 import { css } from "@emotion/core";
+import { LeaderboardStats } from '../../models/LeaderboardStats';
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -40,14 +41,14 @@ const useStyles = makeStyles({
 const Leaderbord = () => {
   const classes = useStyles();
 
-  let [players, setPlayers] = useState();
+  let [leaderboardStats, setLeaderboardStats] = useState<LeaderboardStats[]>();
   let [isLoading, setLoading] = React.useState(true);
 
   const FetchData = async () => {
 
     setLoading(true);
 
-    setPlayers(await CallToApiPlayers());
+    setLeaderboardStats(await CallToApiLeaderboardStats());
 
     setLoading(false);
 
@@ -57,22 +58,24 @@ const Leaderbord = () => {
     FetchData();
   }, []);
 
-  const CallToApiPlayers = async (): Promise<Player[]> => {
-    return await GetApiCall('http://localhost:5000/Player').then(players => {
-      return players;
+  const CallToApiLeaderboardStats = async (): Promise<LeaderboardStats[]> => {
+    return await GetApiCall('http://localhost:5000/leaderboard').then(playerswithstats => {
+      return playerswithstats;
     });
   }
 
   const createTable = () => {
     let table: JSX.Element[] = [];
-    players.forEach((p: any) => {
+    leaderboardStats!.forEach((lb: any) => {
       table.push(
         <StyledTableRow>
           <StyledTableCell component="th" scope="row">
-                {p.name}
-              </StyledTableCell>
-              <StyledTableCell align="center">3</StyledTableCell>
-              <StyledTableCell align="center">33</StyledTableCell>
+            {lb.player.name}
+          </StyledTableCell>
+          <StyledTableCell align="center">{lb.numberOfWins}</StyledTableCell>
+          <StyledTableCell align="center">{lb.percentageWins}%</StyledTableCell>
+          <StyledTableCell align="center">{lb.percentageSixties}%</StyledTableCell>
+          <StyledTableCell align="center">{lb.totalScoreThrown}</StyledTableCell>
         </StyledTableRow>
       )
     });
@@ -90,28 +93,30 @@ const Leaderbord = () => {
     <Wrap>
       {isLoading ? (
         <PropagateLoader
-        css={spinner}
-        size={20}
-        color={"#123abc"}
+          css={spinner}
+          size={20}
+          color={"#123abc"}
         />
       ) : (
-        <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="customized table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>Player</StyledTableCell>
-              <StyledTableCell align="center">#Wins</StyledTableCell>
-              <StyledTableCell align="center">Win%</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {createTable()}
-          </TableBody>
-        </Table>
-        </TableContainer>
-      )}
-      </Wrap>
-    
+          <TableContainer component={Paper}>
+            <Table className={classes.table} aria-label="customized table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell>Player</StyledTableCell>
+                  <StyledTableCell align="center">#Wins</StyledTableCell>
+                  <StyledTableCell align="center">Win%</StyledTableCell>
+                  <StyledTableCell align="center">hit 60 %</StyledTableCell>
+                  <StyledTableCell align="center">total score thrown</StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {createTable()}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
+    </Wrap>
+
   );
 }
 
