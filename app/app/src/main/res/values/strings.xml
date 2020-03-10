@@ -10,4 +10,8 @@
     <string name="menu_item_active_games_text">Active Games</string>
     <string name="menu_item_overview_text">Overview</string>
     <string name="no_network_message_text">Er is geen netwerk beschikbaar, probeer later opnieuw</string>
+    <string name="active_games_title_text">Active Games</string>
+    <string name="no_active_games_data">You currently don\'t have any active games</string>
+    <string name="game_name_placeholder_text">Game Name</string>
+    <string name="game_description_placeholder_text">Game Description</string>
 </resources>
