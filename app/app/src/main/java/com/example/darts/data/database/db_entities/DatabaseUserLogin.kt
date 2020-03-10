@@ -5,14 +5,14 @@ import androidx.room.PrimaryKey
 import com.example.darts.domain.Player
 
 @Entity
-data class DatabasePlayer(
+data class DatabaseUserLogin(
     @PrimaryKey
     val id : Int,
     val name: String,
     val email: String
 )
-
-fun List<DatabasePlayer >.asDomainModel(): List<Player>{
+/*  mogelijks niet gebruikt
+fun List<DatabaseUserLogin>.asDomainModel(): List<Player>{
     return map {
         Player (
             id = it.id,
@@ -22,8 +22,4 @@ fun List<DatabasePlayer >.asDomainModel(): List<Player>{
     }
 }
 
-fun DatabasePlayer.asDomainModel() = Player (
-            id = id,
-            name = name,
-            email = email
-        )
+ */
