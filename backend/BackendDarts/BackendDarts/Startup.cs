@@ -85,7 +85,7 @@ namespace BackendDarts
                 routes.MapHub<ChangeHub>("/ChangeHub");
             })
             */
-            app.UseSwaggerUi3(); app.UseSwagger();
+            app.UseSwaggerUi3(); app.UseOpenApi();
 
             dataInitializer.InitializeData().Wait();
         }
