@@ -8,7 +8,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import GetApiCall from '../../services/ApiClient';
-import { Player } from '../../models/Player';
 import PropagateLoader from "react-spinners/PropagateLoader";
 import Wrap from '../../hoc/Wrap';
 import { css } from "@emotion/core";

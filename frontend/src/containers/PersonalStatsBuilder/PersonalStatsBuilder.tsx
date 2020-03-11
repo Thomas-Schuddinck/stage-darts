@@ -11,7 +11,7 @@ import Performance from '../../components/PersonalStats/Performance';
 import History from '../../components/PersonalStats/History/History';
 import GetApiCall from '../../services/ApiClient';
 import { Player } from '../../models/Player';
-import { Stats } from 'fs';
+import { Stats } from '../../models/Stats';
 import PropagateLoader from "react-spinners/PropagateLoader";
 import { css } from "@emotion/core";
 
@@ -58,8 +58,8 @@ const useStyles = makeStyles(theme => ({
 
 const PersonalStatsBuilder = () => {
 
-  let [players, setPlayers] = useState();
-  let [stats, setStats] = useState();
+  let [players, setPlayers] = useState<Player[]>();
+  let [stats, setStats] = useState<Stats>();
   let [isLoading, setLoading] = React.useState(true);
   let [message, setMessage] = useState<string>();
 
@@ -108,9 +108,9 @@ const PersonalStatsBuilder = () => {
     });
   }
 
-  let [childPlayer, setChildPlayer] = useState();
+  let [childPlayer, setChildPlayer] = useState<Player>();
 
-  const getPlayerChild = async (childPlayer: any) => {
+  const getPlayerChild = async (childPlayer: Player) => {
     setChildPlayer(childPlayer);
     console.log('this is the player that is undefined: ' + childPlayer)
     setStats(await CallToApiStats(childPlayer));
