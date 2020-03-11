@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import './App.css';
 import AboutBuilder from './containers/AboutBuilder/AboutBuilder';
 import GameBuilder from './containers/GameBuilder/GameBuilder';
@@ -15,21 +15,20 @@ function App() {
       <header className="App-header">
       </header>
       <Layout>
-        <Route path="/game">
-        <GameBuilder></GameBuilder>
-        </Route>
+        <Route path="/game/:id"  component={GameBuilder} />
         <Route path="/gamelist">
-        <GameListBuilder></GameListBuilder>
+          <GameListBuilder></GameListBuilder>
         </Route>
         <Route path="/stats">
-        <PersonalStatsBuilder></PersonalStatsBuilder>
+          <PersonalStatsBuilder></PersonalStatsBuilder>
         </Route>
         <Route path="/leaderbord">
-        <Leaderbord></Leaderbord>
+          <Leaderbord></Leaderbord>
         </Route>
         <Route path="/about">
-        <AboutBuilder/>
+          <AboutBuilder />
         </Route>
+
       </Layout>
     </Router>
   );

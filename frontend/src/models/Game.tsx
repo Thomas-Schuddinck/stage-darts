@@ -7,5 +7,5 @@ export interface Game {
     beginDate: string
     endDate: string
     players: PlayerDetail[];
-    legGroups: LegGroup[];
+    legGroups?: LegGroup[];
 }

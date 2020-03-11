@@ -14,110 +14,124 @@ import { css } from "@emotion/core";
 import { LeaderboardStats } from '../../models/LeaderboardStats';
 import { Game } from '../../models/Game';
 import GameListPlayerField from '../../components/GameList/GameListPlayerField/GameListPlayerField';
+import { NavLink, Redirect } from 'react-router-dom';
+import { Link } from '@material-ui/core';
 
 const StyledTableCell = withStyles(theme => ({
-  head: {
-    backgroundColor: theme.palette.common.white,
-    color: theme.palette.common.black,
-  },
-  body: {
-    fontSize: 14,
-  },
+    head: {
+        backgroundColor: theme.palette.common.white,
+        color: theme.palette.common.black,
+    },
+    body: {
+        fontSize: 14,
+    },
 }))(TableCell);
 
 const StyledTableRow = withStyles(theme => ({
-  root: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.background.default,
+    root: {
+        '&:nth-of-type(odd)': {
+            backgroundColor: theme.palette.background.default,
+        },
     },
-  },
 }))(TableRow);
 
 const useStyles = makeStyles({
-  table: {
-    minWidth: 700,
-  },
+    table: {
+        minWidth: 700,
+    },
 });
 
-const GameListBuilder = () => {
-  const classes = useStyles();
+export const GameListBuilder = () => {
+    const classes = useStyles();
 
-  let [gameList, setGameList] = useState<Game[]>();
-  let [isLoading, setLoading] = React.useState(true);
+    let [gameList, setGameList] = useState<Game[]>();
+    let [isLoading, setLoading] = React.useState(true);
 
-  const FetchData = async () => {
+    const FetchData = async () => {
 
-    setLoading(true);
+        setLoading(true);
 
-    setGameList(await CallToApiGameListAll());
-    console.log(gameList);
-    setLoading(false);
+        setGameList(await CallToApiGameListAll());
+        setLoading(false);
 
-  }
+    }
 
-  useEffect(() => {
-    FetchData();
-  }, []);
+    useEffect(() => {
+        FetchData();
+    }, []);
 
-  const CallToApiGameListAll = async (): Promise<Game[]> => {
-    return await GetApiCall('http://localhost:5000/gamelist/all').then(gameList => {
-      return gameList;
-    });
-  }
-  const forDate = (dt: string) => {
-    let date = new Date( Date.parse(dt) );
-    return date.toLocaleDateString();
-  }
+    const CallToApiGameListAll = async (): Promise<Game[]> => {
+        return await GetApiCall('http://localhost:5000/gamelist/all').then(gameList => {
+            return gameList;
+        });
+    }
+    const forDate = (dt: string) => {
+        let date = new Date(Date.parse(dt));
+        return date.toLocaleDateString();
+    }
+    const renderRedirect = (game: Game) => {
 
-  const createTable = () => {
-    let table: JSX.Element[] = [];
-    
-    gameList!.forEach((game: Game, i: any) => {
-      table.push(
-        <StyledTableRow key={i}>
-          <StyledTableCell align="center">{game.legGroups.length}</StyledTableCell>
-          <StyledTableCell align="center">{forDate(game.beginDate)}</StyledTableCell>
-          <StyledTableCell align="center"><GameListPlayerField players={game.players} ></GameListPlayerField></StyledTableCell>
-        </StyledTableRow>
-      )
-    });
-    return table;
-  }
+        if (game) {
+            const id = game.id;
+            return <Redirect to={`/game/:id`} />
+        }
+    }
 
-  const spinner = css`
+
+    const createTable = () => {
+        let table: JSX.Element[] = [];
+
+        gameList!.forEach((game: Game, i: any) => {
+            table.push(
+                //onClick = {() => renderRedirect(game)} key={i} 
+                <NavLink to={`/game/${game.id}`}>
+                    <StyledTableRow >
+
+                        <StyledTableCell align="center">{game!.legGroups!.length}</StyledTableCell>
+                        <StyledTableCell align="center">{forDate(game.beginDate)}</StyledTableCell>
+                        <StyledTableCell align="center"><GameListPlayerField players={game.players} ></GameListPlayerField></StyledTableCell>
+                    </StyledTableRow>
+                </NavLink >
+
+            )
+        });
+        return table;
+    }
+
+    const spinner = css`
   display: block;
   margin: 0 auto;
   border-color: red;
   margin-left: 50%;
 `;
 
-  return (
-    <Wrap>
-      {isLoading ? (
-        <PropagateLoader
-          css={spinner}
-          size={20}
-          color={"#123abc"}
-        />
-      ) : (
-          <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="customized table">
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell align="center">Current Leg</StyledTableCell>
-                  <StyledTableCell align="center">Startdate</StyledTableCell>
-                  <StyledTableCell align="center">Players</StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {createTable()}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        )}
-    </Wrap>
+    return (
+        <Wrap>
+            {isLoading ? (
+                <PropagateLoader
+                    css={spinner}
+                    size={20}
+                    color={"#123abc"}
+                />
+            ) : (
+                    <TableContainer component={Paper}>
+                        <Table className={classes.table} aria-label="customized table">
+                            <TableHead>
+                                <TableRow>
+                                    <StyledTableCell align="center">Current Leg</StyledTableCell>
+                                    <StyledTableCell align="center">Startdate</StyledTableCell>
+                                    <StyledTableCell align="center">Players</StyledTableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {createTable()}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                )}
+        </Wrap>
 
-  );
+    );
 }
 
 export default GameListBuilder;
