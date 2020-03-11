@@ -6,6 +6,7 @@ import GameBuilder from './containers/GameBuilder/GameBuilder';
 import Leaderbord from './containers/LeaderbordBuilder/LeaderbordBuilder';
 import PersonalStatsBuilder from './containers/PersonalStatsBuilder/PersonalStatsBuilder';
 import Layout from './hoc/Layout';
+import GameListBuilder from './containers/GameListBuilder/GameListBuilder';
 
 
 function App() {
@@ -16,6 +17,9 @@ function App() {
       <Layout>
         <Route path="/game">
         <GameBuilder></GameBuilder>
+        </Route>
+        <Route path="/gamelist">
+        <GameListBuilder></GameListBuilder>
         </Route>
         <Route path="/stats">
         <PersonalStatsBuilder></PersonalStatsBuilder>

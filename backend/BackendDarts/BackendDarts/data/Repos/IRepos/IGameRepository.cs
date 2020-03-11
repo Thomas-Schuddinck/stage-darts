@@ -14,7 +14,7 @@ namespace BackendDarts.Models
         void Delete(Game game);
 
         IEnumerable<Game> GetAll();
-
+        IEnumerable<Game> GetAllWithPlayers();
         IEnumerable<Game> GetAllDetailed();
 
         void SaveChanges();
