@@ -59,7 +59,7 @@ const Leaderbord = () => {
   }, []);
 
   const CallToApiLeaderboardStats = async (): Promise<LeaderboardStats[]> => {
-    return await GetApiCall('http://localhost:5000/leaderboard').then(playerswithstats => {
+    return await GetApiCall('https://localhost:5000/leaderboard').then(playerswithstats => {
       return playerswithstats;
     });
   }

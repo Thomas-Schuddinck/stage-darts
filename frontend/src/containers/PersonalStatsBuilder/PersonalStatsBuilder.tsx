@@ -15,6 +15,9 @@ import { Stats } from 'fs';
 import PropagateLoader from "react-spinners/PropagateLoader";
 import { css } from "@emotion/core";
 
+import * as signalR from "@aspnet/signalr";
+
+
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -58,6 +61,7 @@ const PersonalStatsBuilder = () => {
   let [players, setPlayers] = useState();
   let [stats, setStats] = useState();
   let [isLoading, setLoading] = React.useState(true);
+  let [message, setMessage] = useState<string>();
 
   const FetchData = async () => {
 
@@ -67,20 +71,39 @@ const PersonalStatsBuilder = () => {
 
     setLoading(false);
 
+    const connection = new signalR.HubConnectionBuilder()
+      .configureLogging(signalR.LogLevel.Information)
+      .withUrl("https://localhost:5000/notify")
+      .build();
+
+      connection.start().then(function () {
+        console.log('Connected!');
+      }).catch(function (err) {
+        return console.error(err.toString());
+      });
+
+      connection.on("BroadcastMessage", (type: string, payload: string) => {
+        setMessage(payload);
+      });
+
   }
 
   useEffect(() => {
     FetchData();
+
+
+
+
   }, []);
 
   const CallToApiPlayers = async (): Promise<Player[]> => {
-    return await GetApiCall('http://localhost:5000/Player').then(players => {
+    return await GetApiCall('https://localhost:5000/Player').then(players => {
       return players;
     });
   }
 
   const CallToApiStats = async (player: Player): Promise<Stats> => {
-    return await GetApiCall('http://localhost:5000/Player/stats/' + player.id).then(stats => {
+    return await GetApiCall('https://localhost:5000/Player/stats/' + player.id).then(stats => {
       return stats;
     });
   }
@@ -156,6 +179,7 @@ const PersonalStatsBuilder = () => {
 
       </Grid>
       )}
+      <p>hallo: {message}</p>
     </Aux>
   );
 }

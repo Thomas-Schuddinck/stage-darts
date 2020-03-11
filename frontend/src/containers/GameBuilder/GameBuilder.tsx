@@ -69,7 +69,7 @@ export default function GameBuilder() {
     }, []);
 
     const CallToApiGame = async (): Promise<Game> => {
-        return await GetApiCall('http://localhost:5000/Game/2').then(game => {
+        return await GetApiCall('https://localhost:5000/Game/2').then(game => {
             return game;
         });
     }
