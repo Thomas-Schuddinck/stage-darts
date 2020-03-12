@@ -55,7 +55,10 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
     let [isLoading, setLoading] = React.useState(true);
     const FetchData = async (id: number) => {
         setLoading(true);
+        console.log("dit is de ID");
+        console.log(id)
         setGame(await CallToApiGame(id));
+
 
         setLoading(false);
         console.log("dit is de game");

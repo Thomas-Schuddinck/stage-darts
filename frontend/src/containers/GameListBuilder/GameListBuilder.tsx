@@ -61,7 +61,7 @@ export const GameListBuilder = () => {
     }, []);
 
     const CallToApiGameListAll = async (): Promise<Game[]> => {
-        return await GetApiCall('http://localhost:5000/gamelist/all').then(gameList => {
+        return await GetApiCall('https://localhost:5000/gamelist/all').then(gameList => {
             return gameList;
         });
     }
