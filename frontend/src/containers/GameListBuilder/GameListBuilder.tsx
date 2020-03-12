@@ -84,14 +84,15 @@ export const GameListBuilder = () => {
         gameList!.forEach((game: Game, i: any) => {
             table.push(
                 //onClick = {() => renderRedirect(game)} key={i} 
-                <NavLink to={`/game/${game.id}`}>
-                    <StyledTableRow >
 
-                        <StyledTableCell align="center">{game!.legGroups!.length}</StyledTableCell>
-                        <StyledTableCell align="center">{forDate(game.beginDate)}</StyledTableCell>
-                        <StyledTableCell align="center"><GameListPlayerField players={game.players} ></GameListPlayerField></StyledTableCell>
-                    </StyledTableRow>
-                </NavLink >
+                <StyledTableRow>
+
+                    <StyledTableCell align="center">{game!.legGroups!.length}</StyledTableCell>
+                    <StyledTableCell align="center">{forDate(game.beginDate)}</StyledTableCell>
+                    <StyledTableCell align="center"><GameListPlayerField players={game.players} ></GameListPlayerField></StyledTableCell>
+                    <StyledTableCell align="center"><NavLink to={`/game/${game.id}`} >Details</NavLink></StyledTableCell>
+                </StyledTableRow>
+
 
             )
         });
@@ -121,6 +122,7 @@ export const GameListBuilder = () => {
                                     <StyledTableCell align="center">Current Leg</StyledTableCell>
                                     <StyledTableCell align="center">Startdate</StyledTableCell>
                                     <StyledTableCell align="center">Players</StyledTableCell>
+                                    <StyledTableCell align="center"></StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
