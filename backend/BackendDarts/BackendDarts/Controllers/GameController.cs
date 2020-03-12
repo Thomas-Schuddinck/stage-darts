@@ -106,21 +106,16 @@ namespace BackendDarts.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<GameDTO> GetBy(int id)
+        public ActionResult<GameDetailsDTO> GetBy(int id)
         {
             Game game = _gameRepository.GetBy(id);
             if (game == null) return NoContent();
-            GameDTO hulp = new GameDTO(game);
-
 
             GameDetailsDTO gamedetails = new GameDetailsDTO(new GameDTO(game));
             gamedetails.Game = new GameDTO(game);
             gamedetails.CurrentPlayer = new PlayerDTO(game.PlayerGames[game.currentPlayerIndex].Player);
-            //gamedetails.CurrentLeg
 
-            return hulp;
-
-            //return gamedetails;
+            return gamedetails;
 
         }
 

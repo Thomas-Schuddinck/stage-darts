@@ -17,6 +17,7 @@ import { PlayerLeg } from '../../models/PlayerLeg';
 import { PlayerDetail } from '../../models/PlayerDetail';
 import Legs from '../../components/Game/Legs/Legs';
 import * as signalR from "@aspnet/signalr";
+import { GameDetails } from '../../models/GameDetails';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -51,33 +52,33 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
 
 
     const classes = useStyles();
-    let [game, setGame] = useState<Game>();
+    let [gameDetails, setGameDetails] = useState<GameDetails>();
     let [isLoading, setLoading] = React.useState(true);
     const FetchData = async (id: number) => {
         setLoading(true);
         console.log("dit is de ID");
         console.log(id)
-        setGame(await CallToApiGame(id));
 
+        setGameDetails(await CallToApiGame(id));
+        
 
         setLoading(false);
-        console.log("dit is de game");
-        console.log(game)
+        
 
         const connection = new signalR.HubConnectionBuilder()
-      .configureLogging(signalR.LogLevel.Information)
-      .withUrl("https://localhost:5000/notify")
-      .build();
+            .configureLogging(signalR.LogLevel.Information)
+            .withUrl("https://localhost:5000/notify")
+            .build();
 
-      connection.start().then(function () {
-        console.log('Connected!');
-      }).catch(function (err) {
-        return console.error(err.toString());
-      });
+        connection.start().then(function () {
+            console.log('Connected!');
+        }).catch(function (err) {
+            return console.error(err.toString());
+        });
 
-      connection.on("UpdateGame", (payload: Game) => {
-        setGame(payload);
-      });
+        connection.on("UpdateGame", (payload: GameDetails) => {
+            setGameDetails(payload);
+        });
 
     }
 
@@ -90,9 +91,11 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
         }
     }, []);
 
-    const CallToApiGame = async (id: number): Promise<Game> => {
-        return await GetApiCall('https://localhost:5000/Game/' + id).then(game => {
-            return game;
+    const CallToApiGame = async (id: number): Promise<GameDetails> => {
+        return await GetApiCall('https://localhost:5000/Game/' + id).then(gameDetails => {
+            console.log("dit is de game");
+            console.log(gameDetails)
+            return gameDetails;
         });
     }
 
@@ -119,14 +122,14 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
 
                             {
 
-                                game!.legGroups && game!.legGroups![game!.legGroups!.length - 1] && game!
-                                    .legGroups![game!.legGroups!.length - 1]
+                                gameDetails!.game!.legGroups && gameDetails!.game!.legGroups![gameDetails!.game!.legGroups!.length - 1] && gameDetails!.game!
+                                    .legGroups![gameDetails!.game!.legGroups!.length - 1]
                                     .playerLegs!.map(function (pl: PlayerLeg, i: any) {
                                         return <Grid item xs={12} md={6} lg={6}>
                                             <Paper className={fixedHeightPaper}>
                                                 <Grid container spacing={2}>
                                                     <Grid item xs={5} md={4} lg={4}>
-                                                        <Person name={pl.player.name} />
+                                                        <Person player={pl.player} currentplayer={gameDetails?.currentPlayer}/>
                                                         <CurrentScore score={pl.currentScore} />
                                                     </Grid>
                                                     <Grid item xs={7} md={8} lg={8}>
@@ -135,13 +138,13 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                                                             <CurrentTurn className={classes.currentTurn} turnnumber="2" scores={pl.turns![pl.turns!.length - 1] && pl.turns![pl.turns!.length - 1].throws && pl.turns![pl.turns!.length - 1].throws!.map(t => t.value)} />
                                                         </Paper>
                                                         <Legs legs={
-                                                            game!
-                                                            .players &&
-                                                            game!
-                                                            .players!
-                                                            .filter((p: PlayerDetail) =>
-                                                                p.playerDTO.id ===
-                                                                pl.player.id)[0].legsWon}></Legs>
+                                                            gameDetails!.game!
+                                                                .players &&
+                                                                gameDetails!.game!
+                                                                .players!
+                                                                .filter((p: PlayerDetail) =>
+                                                                    p.playerDTO.id ===
+                                                                    pl.player.id)[0].legsWon}></Legs>
                                                     </Grid>
                                                 </Grid>
                                             </Paper>
