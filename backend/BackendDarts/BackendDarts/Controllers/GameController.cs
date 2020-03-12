@@ -112,11 +112,16 @@ namespace BackendDarts.Controllers
             if (game == null) return NoContent();
             GameDTO hulp = new GameDTO(game);
 
+
             GameDetailsDTO gamedetails = new GameDetailsDTO(new GameDTO(game));
             gamedetails.Game = new GameDTO(game);
             gamedetails.CurrentPlayer = new PlayerDTO(game.PlayerGames[game.currentPlayerIndex].Player);
             //gamedetails.CurrentLeg
+
             return hulp;
+
+            //return gamedetails;
+
         }
 
         //[HttpPost]
