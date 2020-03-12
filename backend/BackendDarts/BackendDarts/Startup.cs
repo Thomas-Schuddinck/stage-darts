@@ -33,7 +33,6 @@ namespace BackendDarts
         {
             services.AddControllers();
 
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             services.AddSignalR();
@@ -46,7 +45,6 @@ namespace BackendDarts
             services.AddScoped<IPlayerLegRepository, PlayerLegRepository>();
 
 
-
             services.AddControllers().AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
@@ -56,29 +54,36 @@ namespace BackendDarts
 
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddCors(options => options.AddPolicy("AllowAllOrigins", builder => builder.AllowAnyOrigin()));
+            //services.AddCors(options => options.AddPolicy("AllowAllOrigins", builder => builder.AllowAnyOrigin()));
+            services.AddCors(o => o.AddPolicy("CorsPolicy", builder => {
+                builder
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials()
+                .WithOrigins("http://localhost:3000");
+            }));
             services.AddOpenApiDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataInitializer dataInitializer)
         {
+            app.UseCors("CorsPolicy");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
-            app.UseCors("AllowAllOrigins");
+            //app.UseHttpsRedirection();
             app.UseRouting();
-
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                //endpoints.MapHub<ChangeHub>("/ChangeHub");
+                endpoints.MapHub<NotifyHub>("/notify");
             });
+
             /*
             app.UseSignalR(routes =>
             {
@@ -86,6 +91,10 @@ namespace BackendDarts
             })
             */
             app.UseSwaggerUi3(); app.UseOpenApi();
+
+
+            app.UseAuthorization();
+
 
             dataInitializer.InitializeData().Wait();
         }

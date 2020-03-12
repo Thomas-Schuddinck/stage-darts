@@ -16,7 +16,7 @@ import CurrentScore from '../../components/Game/CurrentScore/CurrentScore';
 import { PlayerLeg } from '../../models/PlayerLeg';
 import { PlayerDetail } from '../../models/PlayerDetail';
 import Legs from '../../components/Game/Legs/Legs';
-
+import * as signalR from "@aspnet/signalr";
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -61,6 +61,21 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
         console.log("dit is de game");
         console.log(game)
 
+        const connection = new signalR.HubConnectionBuilder()
+      .configureLogging(signalR.LogLevel.Information)
+      .withUrl("https://localhost:5000/notify")
+      .build();
+
+      connection.start().then(function () {
+        console.log('Connected!');
+      }).catch(function (err) {
+        return console.error(err.toString());
+      });
+
+      connection.on("UpdateGame", (payload: Game) => {
+        setGame(payload);
+      });
+
     }
 
     useEffect(() => {
@@ -73,7 +88,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
     }, []);
 
     const CallToApiGame = async (id: number): Promise<Game> => {
-        return await GetApiCall('http://localhost:5000/Game/' + id).then(game => {
+        return await GetApiCall('https://localhost:5000/Game/' + id).then(game => {
             return game;
         });
     }

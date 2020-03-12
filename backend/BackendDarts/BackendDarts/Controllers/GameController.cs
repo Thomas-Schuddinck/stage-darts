@@ -6,6 +6,7 @@ using BackendDarts.Domain.DTOs;
 using BackendDarts.DTOs;
 using BackendDarts.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace BackendDarts.Controllers
 {
@@ -16,11 +17,13 @@ namespace BackendDarts.Controllers
     {
         private IGameRepository _gameRepository;
         private IPlayerRepository _playerRepository;
+        private IHubContext<NotifyHub, ITypedHubClient> _hubContext;
 
-        public GameController(IGameRepository gameRepository, IPlayerRepository playerRepository)
+        public GameController(IGameRepository gameRepository, IPlayerRepository playerRepository, IHubContext<NotifyHub, ITypedHubClient> hubContext)
         {
             _gameRepository = gameRepository;
             _playerRepository = playerRepository;
+            _hubContext = hubContext;
         }
 
         [HttpGet]
@@ -103,31 +106,29 @@ namespace BackendDarts.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<GameDTO> GetBy(int id)
+        public ActionResult<GameDetailsDTO> GetBy(int id)
         {
-            Game a = _gameRepository.GetBy(id);
-            if (a == null) return NoContent();
-            return new GameDTO(a);
+            Game game = _gameRepository.GetBy(id);
+            if (game == null) return NoContent();
+
+            GameDetailsDTO gamedetails = new GameDetailsDTO(new GameDTO(game));
+            gamedetails.Game = new GameDTO(game);
+            gamedetails.CurrentPlayer = new PlayerDTO(game.PlayerGames[game.currentPlayerIndex].Player);
+            //gamedetails.CurrentLeg
+            return gamedetails;
         }
 
-        [HttpPost]
-        public ActionResult<GameDTO> Post()
-        {
-
-            Game a = new Game();
-            _gameRepository.Add(a);
-            _gameRepository.SaveChanges();
-            return CreatedAtAction(nameof(GetBy), new { id = a.Id }, a);
-
-        }
-
-        // PUT: api/Afbeelding/5
-        //[HttpPut("{id}")]
-        //public ActionResult<Game> Put()
+        //[HttpPost]
+        //public ActionResult<GameDTO> Post()
         //{
 
+        //    Game a = new Game();
+        //    _gameRepository.Add(a);
+        //    _gameRepository.SaveChanges();
+        //    return CreatedAtAction(nameof(GetBy), new { id = a.Id }, a);
 
         //}
+
 
         [HttpDelete("{id}")]
         public ActionResult<GameDTO> Delete(int id)
@@ -163,5 +164,37 @@ namespace BackendDarts.Controllers
             _gameRepository.SaveChanges();
             return new GameDTO(game);
         }
+
+        [HttpPost]
+        public string Post([FromBody]Message msg)
+        {
+            string retMessage;
+            try
+            {
+                _hubContext.Clients.All.BroadcastMessage(msg.Type, msg.Payload);
+                retMessage = "Success";
+            }
+            catch (Exception e)
+            {
+                retMessage = e.ToString();
+            }
+            return retMessage;
+        }
+
+        [HttpPost("game/")]
+        public ActionResult<GameDTO> Post([FromBody]GameDTO game)
+        {
+            //("join/{id}/{value}")
+            try
+            {
+                _hubContext.Clients.All.UpdateGame(game);
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Player already in game");
+            }
+            return game;
+        }
+
     }
 }
