@@ -11,9 +11,12 @@ import Performance from '../../components/PersonalStats/Performance';
 import History from '../../components/PersonalStats/History/History';
 import GetApiCall from '../../services/ApiClient';
 import { Player } from '../../models/Player';
-import { Stats } from 'fs';
+import { Stats } from '../../models/Stats';
 import PropagateLoader from "react-spinners/PropagateLoader";
 import { css } from "@emotion/core";
+
+import * as signalR from "@aspnet/signalr";
+
 
 
 const useStyles = makeStyles(theme => ({
@@ -55,9 +58,10 @@ const useStyles = makeStyles(theme => ({
 
 const PersonalStatsBuilder = () => {
 
-  let [players, setPlayers] = useState();
-  let [stats, setStats] = useState();
+  let [players, setPlayers] = useState<Player[]>();
+  let [stats, setStats] = useState<Stats>();
   let [isLoading, setLoading] = React.useState(true);
+  let [message, setMessage] = useState<string>();
 
   const FetchData = async () => {
 
@@ -65,29 +69,50 @@ const PersonalStatsBuilder = () => {
 
     setPlayers(await CallToApiPlayers());
 
+    setMessage("currentgame")
+
     setLoading(false);
+
+    const connection = new signalR.HubConnectionBuilder()
+      .configureLogging(signalR.LogLevel.Information)
+      .withUrl("https://localhost:5000/notify")
+      .build();
+
+      connection.start().then(function () {
+        console.log('Connected!');
+      }).catch(function (err) {
+        return console.error(err.toString());
+      });
+
+      connection.on("BroadcastMessage", (type: string, payload: string) => {
+        setMessage(payload);
+      });
 
   }
 
   useEffect(() => {
     FetchData();
+
+
+
+
   }, []);
 
   const CallToApiPlayers = async (): Promise<Player[]> => {
-    return await GetApiCall('http://localhost:5000/Player').then(players => {
+    return await GetApiCall('https://localhost:5000/Player').then(players => {
       return players;
     });
   }
 
   const CallToApiStats = async (player: Player): Promise<Stats> => {
-    return await GetApiCall('http://localhost:5000/Player/stats/' + player.id).then(stats => {
+    return await GetApiCall('https://localhost:5000/Player/stats/' + player.id).then(stats => {
       return stats;
     });
   }
 
-  let [childPlayer, setChildPlayer] = useState();
+  let [childPlayer, setChildPlayer] = useState<Player>();
 
-  const getPlayerChild = async (childPlayer: any) => {
+  const getPlayerChild = async (childPlayer: Player) => {
     setChildPlayer(childPlayer);
     console.log('this is the player that is undefined: ' + childPlayer)
     setStats(await CallToApiStats(childPlayer));
@@ -156,6 +181,7 @@ const PersonalStatsBuilder = () => {
 
       </Grid>
       )}
+      <p>hallo: {message}</p>
     </Aux>
   );
 }

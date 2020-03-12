@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BackendDarts.Models
 {
     public class Game
     {
+        [NotMapped]
+        public static Game singletonGame { get; set; }
+
         public Game()
         {
             beginDate = DateTime.Now.Date;
