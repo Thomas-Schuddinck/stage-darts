@@ -100,11 +100,16 @@ namespace BackendDarts.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<GameDTO> GetBy(int id)
+        public ActionResult<GameDetailsDTO> GetBy(int id)
         {
-            Game a = _gameRepository.GetBy(id);
-            if (a == null) return NoContent();
-            return new GameDTO(a);
+            Game game = _gameRepository.GetBy(id);
+            if (game == null) return NoContent();
+
+            GameDetailsDTO gamedetails = new GameDetailsDTO(new GameDTO(game));
+            gamedetails.Game = new GameDTO(game);
+            gamedetails.CurrentPlayer = new PlayerDTO(game.PlayerGames[game.currentPlayerIndex].Player);
+            //gamedetails.CurrentLeg
+            return gamedetails;
         }
 
         //[HttpPost]
@@ -168,6 +173,21 @@ namespace BackendDarts.Controllers
                 retMessage = e.ToString();
             }
             return retMessage;
+        }
+
+        [HttpPost("game/")]
+        public ActionResult<GameDTO> Post([FromBody]GameDTO game)
+        {
+            //("join/{id}/{value}")
+            try
+            {
+                _hubContext.Clients.All.UpdateGame(game);
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Player already in game");
+            }
+            return game;
         }
 
     }

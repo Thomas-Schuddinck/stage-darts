@@ -69,6 +69,8 @@ const PersonalStatsBuilder = () => {
 
     setPlayers(await CallToApiPlayers());
 
+    setMessage("currentgame")
+
     setLoading(false);
 
     const connection = new signalR.HubConnectionBuilder()

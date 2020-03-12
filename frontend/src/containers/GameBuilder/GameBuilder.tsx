@@ -16,7 +16,7 @@ import CurrentScore from '../../components/Game/CurrentScore/CurrentScore';
 import { PlayerLeg } from '../../models/PlayerLeg';
 import { PlayerDetail } from '../../models/PlayerDetail';
 import Legs from '../../components/Game/Legs/Legs';
-
+import * as signalR from "@aspnet/signalr";
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -61,6 +61,21 @@ export default function GameBuilder() {
 
         setLoading(false);
         console.log(game);
+
+        const connection = new signalR.HubConnectionBuilder()
+      .configureLogging(signalR.LogLevel.Information)
+      .withUrl("https://localhost:5000/notify")
+      .build();
+
+      connection.start().then(function () {
+        console.log('Connected!');
+      }).catch(function (err) {
+        return console.error(err.toString());
+      });
+
+      connection.on("UpdateGame", (payload: Game) => {
+        setGame(payload);
+      });
 
     }
 
