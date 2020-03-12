@@ -17,10 +17,24 @@ const StyledTableCell = withStyles(theme => ({
   head: {
     backgroundColor: theme.palette.common.white,
     color: theme.palette.common.black,
+    [theme.breakpoints.up('sm')]: {
+      padding: 16,
+    },
+    padding: 2,
   },
   body: {
-    fontSize: 14,
+    padding: 2,
+    [theme.breakpoints.up('sm')]: {
+      fontSize: 14,
+      padding: 16,
+    },
   },
+  table: {
+    minWidth: 0,
+    [theme.breakpoints.up('sm')]: {
+    minWidth: 450,
+    },
+  },  
 }))(TableCell);
 
 const StyledTableRow = withStyles(theme => ({
@@ -31,14 +45,7 @@ const StyledTableRow = withStyles(theme => ({
   },
 }))(TableRow);
 
-const useStyles = makeStyles({
-  table: {
-    minWidth: 700,
-  },
-});
-
 const Leaderbord = () => {
-  const classes = useStyles();
 
   let [leaderboardStats, setLeaderboardStats] = useState<LeaderboardStats[]>();
   let [isLoading, setLoading] = React.useState(true);
@@ -98,7 +105,7 @@ const Leaderbord = () => {
         />
       ) : (
           <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="customized table">
+            <Table aria-label="customized table">
               <TableHead>
                 <TableRow>
                   <StyledTableCell>Player</StyledTableCell>

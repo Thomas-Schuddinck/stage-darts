@@ -5,5 +5,5 @@ import { PlayerLeg } from './PlayerLeg';
 
 export interface LegGroup {
     id: number;
-    playerLegs: PlayerLeg[];
+    playerLegs?: PlayerLeg[];
 }

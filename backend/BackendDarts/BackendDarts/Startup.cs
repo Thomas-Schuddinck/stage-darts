@@ -84,9 +84,17 @@ namespace BackendDarts
                 endpoints.MapHub<NotifyHub>("/notify");
             });
 
+            /*
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ChangeHub>("/ChangeHub");
+            })
+            */
+            app.UseSwaggerUi3(); app.UseOpenApi();
+
+
             app.UseAuthorization();
 
-            app.UseSwaggerUi3(); app.UseSwagger();
 
             dataInitializer.InitializeData().Wait();
         }

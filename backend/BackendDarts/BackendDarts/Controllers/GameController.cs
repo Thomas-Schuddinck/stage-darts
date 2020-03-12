@@ -31,6 +31,12 @@ namespace BackendDarts.Controllers
         {
             return _gameRepository.GetAll().Select(g => new GameDTO(g)).ToList();
         }
+        [HttpGet]
+        [Route("/gamelist/all")]
+        public IEnumerable<GameDTO> GetAllGameList()
+        {
+            return _gameRepository.GetAllWithPlayers().Select(g => new GameDTO(g)).ToList();
+        }
 
         [HttpGet]
         [Route("/leaderboard")]

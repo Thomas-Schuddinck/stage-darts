@@ -22,7 +22,7 @@ fun List<NetworkDartThrow>.asDomainModel(): List<DartThrow> {
         )
     }
 }
-
+/*
 fun List<NetworkDartThrow>.asDatabaseModel(): Array<DatabaseDartThrow> {
     return map {
         DatabaseDartThrow(
@@ -31,3 +31,5 @@ fun List<NetworkDartThrow>.asDatabaseModel(): Array<DatabaseDartThrow> {
         )
     }.toTypedArray()
 }
+
+ */

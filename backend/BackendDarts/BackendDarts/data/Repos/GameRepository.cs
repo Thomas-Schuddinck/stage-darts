@@ -39,6 +39,10 @@ namespace BackendDarts.Repos
         {
             return _games.ToList();
         }
+        public IEnumerable<Game> GetAllWithPlayers()
+        {
+            return _games.Include(p => p.PlayerGames).ThenInclude(pg => pg.Player).Include(p => p.LegGroups).ToList();
+        }
         public IEnumerable<Game> GetAllDetailed()
         {
             return _games.Include(p => p.LegGroups).ThenInclude(lg => lg.PlayerLegs).ThenInclude(pl => pl.Turns).ThenInclude(t => t.Throws)

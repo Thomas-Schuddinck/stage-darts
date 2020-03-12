@@ -6,15 +6,16 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.darts.data.database.db_entities.DatabasePlayer
+import com.example.darts.data.database.db_entities.DatabaseUserLogin
 
 @Dao
-interface PlayerDao {
-    @Query("SELECT * FROM DatabasePlayer")
-    fun getAll(): LiveData<List<DatabasePlayer>>
+interface UserLoginDao {
+    @Query("SELECT * FROM DatabaseUserLogin LIMIT 1")
+    fun getLoggedInUser(): DatabaseUserLogin
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(vararg players: DatabasePlayer)
+    fun insertLoggedInUser(project: DatabaseUserLogin)
 
-    @Query("DELETE FROM DatabasePlayer")
+    @Query("DELETE FROM DatabaseUserLogin")
     fun clearTable()
 }
