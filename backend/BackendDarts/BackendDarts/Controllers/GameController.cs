@@ -110,15 +110,18 @@ namespace BackendDarts.Controllers
         {
             Game game = _gameRepository.GetBy(id);
             if (game == null) return NoContent();
+            GameDTO hulp = new GameDTO(game);
 
-            GameDTO gametest = new GameDTO(game);
 
             GameDetailsDTO gamedetails = new GameDetailsDTO(new GameDTO(game));
             gamedetails.Game = new GameDTO(game);
             gamedetails.CurrentPlayer = new PlayerDTO(game.PlayerGames[game.currentPlayerIndex].Player);
             //gamedetails.CurrentLeg
+
+            return hulp;
+
             //return gamedetails;
-            return gametest;
+
         }
 
         //[HttpPost]

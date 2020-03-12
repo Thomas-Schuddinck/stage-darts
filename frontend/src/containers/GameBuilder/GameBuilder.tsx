@@ -49,13 +49,16 @@ const useStyles = makeStyles(theme => ({
 
 export const GameBuilder = (props: { match: { params: any; }; }) => {
 
-    
+
     const classes = useStyles();
     let [game, setGame] = useState<Game>();
     let [isLoading, setLoading] = React.useState(true);
     const FetchData = async (id: number) => {
         setLoading(true);
+        console.log("dit is de ID");
+        console.log(id)
         setGame(await CallToApiGame(id));
+
 
         setLoading(false);
         console.log("dit is de game");
@@ -79,17 +82,16 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
     }
 
     useEffect(() => {
-        
-        if(props.match.params.id){
+
+        if (props.match.params.id) {
             FetchData(props.match.params.id);
-        }else{
+        } else {
             FetchData(1);
         }
     }, []);
 
     const CallToApiGame = async (id: number): Promise<Game> => {
-        return await GetApiCall('https://localhost:5000/Game/'+ id).then(game => {
-
+        return await GetApiCall('https://localhost:5000/Game/' + id).then(game => {
             return game;
         });
     }
@@ -115,32 +117,40 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                     <Aux>
                         <Grid container spacing={3}>
 
-                            {game!
-                            .legGroups![game!.legGroups!.length - 1]
-                            .playerLegs!.map(function (pl: PlayerLeg, i: any) {
-                                return <Grid item xs={12} md={6} lg={6}>
-                                    <Paper className={fixedHeightPaper}>
-                                        <Grid container spacing={2}>
-                                            <Grid item xs={5} md={4} lg={4}>
-                                                <Person name={pl.player.name} />
-                                                <CurrentScore score={pl.currentScore} />
-                                            </Grid>
-                                            <Grid item xs={7} md={8} lg={8}>
-                                                <Paper>
-                                                    <LastDartThrow score={pl.turns![pl.turns!.length - 1].throws!.map(t => t.value!).reduce((a, b) => a + b, 0)} />
-                                                    <CurrentTurn className={classes.currentTurn} turnnumber="2" scores={pl.turns![pl.turns!.length - 1].throws!.map(t => t.value)} />
-                                                </Paper>
-                                                    <Legs legs={game!
-                                                    .players!
-                                                    .filter((p: PlayerDetail) => 
-                                                    p.playerDTO.id === 
-                                                        pl.player.id)[0].legsWon}></Legs>
-                                            </Grid>
+                            {
+
+                                game!.legGroups && game!.legGroups![game!.legGroups!.length - 1] && game!
+                                    .legGroups![game!.legGroups!.length - 1]
+                                    .playerLegs!.map(function (pl: PlayerLeg, i: any) {
+                                        return <Grid item xs={12} md={6} lg={6}>
+                                            <Paper className={fixedHeightPaper}>
+                                                <Grid container spacing={2}>
+                                                    <Grid item xs={5} md={4} lg={4}>
+                                                        <Person name={pl.player.name} />
+                                                        <CurrentScore score={pl.currentScore} />
+                                                    </Grid>
+                                                    <Grid item xs={7} md={8} lg={8}>
+                                                        <Paper>
+                                                            <LastDartThrow score={pl.turns![pl.turns!.length - 1] && pl.turns![pl.turns!.length - 1].throws!.map(t => t.value!).reduce((a, b) => a + b, 0)} />
+                                                            <CurrentTurn className={classes.currentTurn} turnnumber="2" scores={pl.turns![pl.turns!.length - 1] && pl.turns![pl.turns!.length - 1].throws && pl.turns![pl.turns!.length - 1].throws!.map(t => t.value)} />
+                                                        </Paper>
+                                                        <Legs legs={
+                                                            game!
+                                                            .players &&
+                                                            game!
+                                                            .players!
+                                                            .filter((p: PlayerDetail) =>
+                                                                p.playerDTO.id ===
+                                                                pl.player.id)[0].legsWon}></Legs>
+                                                    </Grid>
+                                                </Grid>
+                                            </Paper>
                                         </Grid>
-                                    </Paper>
-                                </Grid>
+                                    }
+
+
+                                    )
                             }
-                            )}
 
 
                         </Grid>

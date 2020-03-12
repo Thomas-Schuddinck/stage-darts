@@ -42,7 +42,7 @@ function CurrentTurn(props: any) {
   return (
     <Aux>
       <div className={classes.lijst}>
-        {props.scores.map(function (s: any, i: any) {
+        {props.scores && props.scores.map(function (s: any, i: any) {
           return <DartThrow key={i} score={s} />
         }
         )}
