@@ -18,7 +18,7 @@ import { PlayerDetail } from '../../models/PlayerDetail';
 import Legs from '../../components/Game/Legs/Legs';
 import * as signalR from "@aspnet/signalr";
 import { GameDetails } from '../../models/GameDetails';
-import AddThrow from '../../components/Game/AddThrow/AddThrow';
+import { Status } from '../../models/Status'
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -77,8 +77,9 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
             return console.error(err.toString());
         });
 
-        connection.on("UpdateGame", (payload: GameDetails) => {
-            setGameDetails(payload);
+        connection.on("UpdateGame", (payload: Status) => {
+            console.log(payload);
+            setGameDetails(payload.gameDTO);
         });
 
     }
