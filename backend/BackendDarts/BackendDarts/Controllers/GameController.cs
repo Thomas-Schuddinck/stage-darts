@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using BackendDarts.data.Repos.IRepos;
 using BackendDarts.Domain.DTOs;
-using BackendDarts.Domain.DTOs.Status;
 using BackendDarts.DTOs;
+using BackendDarts.DTOs.Status;
 using BackendDarts.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -210,13 +210,11 @@ namespace BackendDarts.Controllers
             {
                 hulpgame.CreateNextTurn();
                 statusDTO.Status = 2;
-                statusDTO.NewTurn = new NewTurnDTO();
             }
             else
             {
 
                 statusDTO.Status = 1;
-                statusDTO.AddThrow = new AddThrowDTO();
             }
             hulpgame.AddThrow(dartThrow.Value);
             if (currentPlayerLeg.Turns[currentPlayerLeg.Turns.Count - 1].Throws.Count >= 3)
@@ -231,14 +229,12 @@ namespace BackendDarts.Controllers
                 {
                     hulpgame.Winner = currentPlayer.Id;
                     statusDTO.Status = 4;
-                    statusDTO.EndGame = new EndGameDTO();
                 }
                 //indien geen 3 legs maar wel uigespeeld eindig leg
                 else
                 {
                     hulpgame.EndLeg();
                     statusDTO.Status = 3;
-                    statusDTO.NewLeg = new NewLegDTO();
                 }
             }
             else
@@ -253,8 +249,8 @@ namespace BackendDarts.Controllers
 
             }
 
-
-
+            ;
+            statusDTO.gameDTO = new GameDetailsDTO(new GameDTO(hulpgame));
             _gameRepository.SaveChanges();
             _hubContext.Clients.All.UpdateGame(statusDTO);
 
