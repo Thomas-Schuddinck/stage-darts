@@ -200,19 +200,27 @@ namespace BackendDarts.Controllers
             //3: NEW LEG
             //4: END GAME
 
-                GameDTO gmdto = new GameDTO(hulpgame);
-                PlayerLeg currentPlayerLeg = hulpgame.GetCurrenPlayerLeg();
-                Player currentPlayer = hulpgame.PlayerGames[hulpgame.currentPlayerIndex].Player;
+            GameDTO gmdto = new GameDTO(hulpgame);
+            PlayerLeg currentPlayerLeg = hulpgame.GetCurrenPlayerLeg();
+            Player currentPlayer = hulpgame.PlayerGames[hulpgame.currentPlayerIndex].Player;
+            
 
-                //de laatste beurt
-                Turn lastTurn = currentPlayerLeg.Turns.Last();
+            //laatste turn in beurt eindig turn
+            if (currentPlayerLeg.Turns[currentPlayerLeg.Turns.Count - 1].Throws.Count >= 3)
+            {
+                hulpgame.EndTurn();
+                statusDTO.Status = 2;
+                statusDTO.NewTurn = new NewTurnDTO();
+            }
+            else
+            {
 
-                lastTurn.AddThrow(dartThrow.Value);
-
-                hulpgame.AddThrow(dartThrow.Value);
-                int score = hulpgame.CalculateScore(currentPlayerLeg);
-
-                if(score == 501)
+                statusDTO.Status = 1;
+                statusDTO.AddThrow = new AddThrowDTO();
+            }
+            hulpgame.AddThrow(dartThrow.Value);
+            int score = hulpgame.CalculateScore(currentPlayerLeg);
+            if (score == 501)
                 {
                     //indien 3de leg gewonnen eindig game
                     if (gmdto.Players.SingleOrDefault(p => p.PlayerDTO.Id == currentPlayer.Id).LegsWon == 3)
@@ -230,19 +238,7 @@ namespace BackendDarts.Controllers
                     }
                 } else
                 {
-                    //laatste turn in beurt eindig turn
-                    if(currentPlayerLeg.Turns[currentPlayerLeg.Turns.Count - 1].Throws.Count >= 3)
-                    {
-                        hulpgame.EndTurn();
-                        statusDTO.Status = 2;
-                        statusDTO.NewTurn = new NewTurnDTO();
-                    }
-                    else
-                    {
-                        hulpgame.AddThrow(dartThrow.Value);
-                        statusDTO.Status = 1;
-                        statusDTO.AddThrow = new AddThrowDTO();
-                    }
+                    
 
                 }
 
