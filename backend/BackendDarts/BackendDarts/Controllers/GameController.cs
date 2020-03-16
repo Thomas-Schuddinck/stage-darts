@@ -236,16 +236,12 @@ namespace BackendDarts.Controllers
                         statusDTO.Status = 3;
                         statusDTO.NewLeg = new NewLegDTO();
                     }
-                } else
-                {
-                    
-
                 }
 
-                _hubContext.Clients.All.UpdateGame(statusDTO);
+                
 
-            _gameRepository.SaveChanges();            
-            
+            _gameRepository.SaveChanges();
+            _hubContext.Clients.All.UpdateGame(statusDTO);
             return statusDTO;
         }
 
