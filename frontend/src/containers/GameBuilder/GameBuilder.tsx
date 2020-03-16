@@ -18,7 +18,6 @@ import { PlayerDetail } from '../../models/PlayerDetail';
 import Legs from '../../components/Game/Legs/Legs';
 import * as signalR from "@aspnet/signalr";
 import { GameDetails } from '../../models/GameDetails';
-import {Status} from '../../models/status/Status'
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -77,25 +76,8 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
             return console.error(err.toString());
         });
 
-        connection.on("UpdateGame", (payload: Status) => {
-            switch(payload.status) { 
-                case 1: { 
-                   console.log("status 1");
-                   break; 
-                } 
-                case 2: { 
-                    console.log("status 1");
-                   break; 
-                } 
-                case 3: { 
-                    console.log("status 1");
-                   break; 
-                }
-                case 4: {
-                    console.log("status 1");
-                    break;
-                }
-             }
+        connection.on("UpdateGame", (payload: GameDetails) => {
+            setGameDetails(payload);
         });
 
     }
@@ -137,9 +119,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
             ) : (
                     <Aux>
                         <Grid container spacing={3}>
-
                             {
-
                                 gameDetails!.game!.legGroups && gameDetails!.game!.legGroups![gameDetails!.game!.legGroups!.length - 1] && gameDetails!.game!
                                     .legGroups![gameDetails!.game!.legGroups!.length - 1]
                                     .playerLegs!.map(function (pl: PlayerLeg, i: any) {
