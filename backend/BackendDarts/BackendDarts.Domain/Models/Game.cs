@@ -76,9 +76,13 @@ namespace BackendDarts.Models
             int result = 0;
             foreach(Turn turn in pl.Turns)
             {
-                foreach(DartThrow dartThrow in turn.Throws)
+                if (!turn.IgnoreScore)
                 {
-                    result = result + dartThrow.Value;
+
+                    foreach (DartThrow dartThrow in turn.Throws)
+                    {
+                        result = result + dartThrow.Value;
+                    }
                 }
             }
             return result;
