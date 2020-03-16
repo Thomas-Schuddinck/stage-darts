@@ -18,6 +18,7 @@ import { PlayerDetail } from '../../models/PlayerDetail';
 import Legs from '../../components/Game/Legs/Legs';
 import * as signalR from "@aspnet/signalr";
 import { GameDetails } from '../../models/GameDetails';
+import AddThrow from '../../components/Game/AddThrow/AddThrow';
 
 const useStyles = makeStyles(theme => ({
     paper: {
