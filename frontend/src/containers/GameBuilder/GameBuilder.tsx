@@ -81,18 +81,22 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
             switch(payload.status) { 
                 case 1: { 
                    console.log("status 1");
-                   break; 
+                   gameDetails!.game!.legGroups![gameDetails!.game!.legGroups!.length - 1]
+                   .playerLegs?.find(pl => pl.player.id === gameDetails?.currentPlayer.id)?.turns?.push(payload.addThrow.dartThrow);
+                   break;
                 } 
-                case 2: { 
-                    console.log("status 1");
-                   break; 
+                case 2: {
+                    console.log("status 2");
+                    gameDetails!.game!.legGroups![gameDetails!.game!.legGroups!.length - 1]
+                   .playerLegs?.find(pl => pl.player.id === gameDetails?.currentPlayer.id)?.turns?.push(payload.addThrow.dartThrow);
+                   break;
                 } 
                 case 3: { 
-                    console.log("status 1");
-                   break; 
+                    console.log("status 3");
+                   break;
                 }
                 case 4: {
-                    console.log("status 1");
+                    console.log("status 4");
                     break;
                 }
              }
@@ -137,9 +141,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
             ) : (
                     <Aux>
                         <Grid container spacing={3}>
-
                             {
-
                                 gameDetails!.game!.legGroups && gameDetails!.game!.legGroups![gameDetails!.game!.legGroups!.length - 1] && gameDetails!.game!
                                     .legGroups![gameDetails!.game!.legGroups!.length - 1]
                                     .playerLegs!.map(function (pl: PlayerLeg, i: any) {
