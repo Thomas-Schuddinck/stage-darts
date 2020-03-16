@@ -37,7 +37,7 @@ namespace BackendDarts.Models
         public int currentPlayerIndex { get; set; }
 
 
-        public void EndTurn()
+        public void CreateNextTurn()
         {
             currentPlayerIndex = (currentPlayerIndex + 1) % PlayerGames.Count;
             Player player = PlayerGames[currentPlayerIndex].Player;
@@ -81,7 +81,7 @@ namespace BackendDarts.Models
 
                     foreach (DartThrow dartThrow in turn.Throws)
                     {
-                        result = result + dartThrow.Value;
+                        result += dartThrow.Value;
                     }
                 }
             }

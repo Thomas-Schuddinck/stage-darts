@@ -206,9 +206,9 @@ namespace BackendDarts.Controllers
 
 
             //laatste turn in beurt eindig turn
-            if (currentPlayerLeg.Turns[currentPlayerLeg.Turns.Count - 1].Throws.Count >= 3)
+            if (currentPlayerLeg.Turns[currentPlayerLeg.Turns.Count - 1].IsFinished)
             {
-                hulpgame.EndTurn();
+                hulpgame.CreateNextTurn();
                 statusDTO.Status = 2;
                 statusDTO.NewTurn = new NewTurnDTO();
             }
@@ -219,6 +219,10 @@ namespace BackendDarts.Controllers
                 statusDTO.AddThrow = new AddThrowDTO();
             }
             hulpgame.AddThrow(dartThrow.Value);
+            if (currentPlayerLeg.Turns[currentPlayerLeg.Turns.Count - 1].Throws.Count >= 3)
+            {
+                currentPlayerLeg.Turns[currentPlayerLeg.Turns.Count - 1].EndTurn();
+            }
             int score = hulpgame.CalculateScore(currentPlayerLeg);
             if (score == 501)
             {
@@ -241,7 +245,7 @@ namespace BackendDarts.Controllers
             {
                 if (score > 501)
                 {
-                    currentPlayerLeg.Turns[currentPlayerLeg.Turns.Count - 1].Ignore();
+                    currentPlayerLeg.Turns[currentPlayerLeg.Turns.Count - 1].IgnoreAndEndTurn();
 
                 }
 

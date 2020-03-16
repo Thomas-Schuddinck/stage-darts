@@ -19,7 +19,11 @@ namespace BackendDarts.DTOs
                 this.Turns.Add(new TurnDTO(t));
                 foreach(DartThrow dt in t.Throws)
                 {
-                    CurrentScore -= dt.Value;
+                    if (!t.IgnoreScore)
+                    {
+                        CurrentScore -= dt.Value;
+                    }
+                    
                 }
             }
             
