@@ -1,5 +1,6 @@
-﻿using BackendDarts.Domain.DTOs.Status;
+﻿
 using BackendDarts.DTOs;
+using BackendDarts.DTOs.Status;
 using System.Threading.Tasks;
 
 namespace BackendDarts
