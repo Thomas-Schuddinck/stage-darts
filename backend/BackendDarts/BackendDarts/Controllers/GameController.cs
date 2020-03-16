@@ -249,8 +249,10 @@ namespace BackendDarts.Controllers
 
             }
 
-            ;
+            
+
             statusDTO.gameDTO = new GameDetailsDTO(new GameDTO(hulpgame));
+            statusDTO.gameDTO.CurrentPlayer = new PlayerDTO(hulpgame.PlayerGames[hulpgame.currentPlayerIndex].Player);
             _gameRepository.SaveChanges();
             _hubContext.Clients.All.UpdateGame(statusDTO);
 
