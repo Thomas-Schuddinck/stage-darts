@@ -57,7 +57,7 @@ namespace BackendDarts.Controllers
             //database doorlopen en gegevens per speler opvullen
             foreach (Game game in _gameRepository.GetAllDetailed())
             {
-                
+
                 foreach (LegGroup lg in game.LegGroups)
                 {
                     if (lg.Winner != -1)
@@ -71,7 +71,7 @@ namespace BackendDarts.Controllers
                         {
                             foreach (DartThrow dt in turn.Throws)
                             {
-                                templayerMap[pg.Player.Id].TotalNumberDartsThrown =  +1 ;
+                                templayerMap[pg.Player.Id].TotalNumberDartsThrown = +1;
                                 templayerMap[pg.Player.Id].TotalScoreThrown += dt.Value;
                                 if (dt.Value == 60)
                                 {
@@ -91,7 +91,7 @@ namespace BackendDarts.Controllers
                 int numberofgames = games.Count();
                 LeaderboardDTO lbdto = new LeaderboardDTO();
                 lbdto.NumberOfWins = playerdata.Value.NumberOfWins;
-                lbdto.PercentageWins= numberofgames == 0 ? 0 : (playerdata.Value.NumberOfWins / numberofgames) * 100;
+                lbdto.PercentageWins = numberofgames == 0 ? 0 : (playerdata.Value.NumberOfWins / numberofgames) * 100;
                 lbdto.TotalScoreThrown = playerdata.Value.TotalScoreThrown;
                 lbdto.PercentageSixties = playerdata.Value.TotalNumberDartsThrown == 0 ? 0 : playerdata.Value.NumberOfSixties / playerdata.Value.TotalNumberDartsThrown;
                 Player tempplayer = _playerRepository.GetBy(playerdata.Key);
@@ -203,12 +203,12 @@ namespace BackendDarts.Controllers
             GameDTO gmdto = new GameDTO(hulpgame);
             PlayerLeg currentPlayerLeg = hulpgame.GetCurrenPlayerLeg();
             Player currentPlayer = hulpgame.PlayerGames[hulpgame.currentPlayerIndex].Player;
-            
+
 
             //laatste turn in beurt eindig turn
-            if (currentPlayerLeg.Turns[currentPlayerLeg.Turns.Count - 1].Throws.Count >= 3)
+            if (currentPlayerLeg.Turns[currentPlayerLeg.Turns.Count - 1].IsFinished)
             {
-                hulpgame.EndTurn();
+                hulpgame.CreateNextTurn();
                 statusDTO.Status = 2;
                 statusDTO.NewTurn = new NewTurnDTO();
             }
@@ -219,29 +219,45 @@ namespace BackendDarts.Controllers
                 statusDTO.AddThrow = new AddThrowDTO();
             }
             hulpgame.AddThrow(dartThrow.Value);
+            if (currentPlayerLeg.Turns[currentPlayerLeg.Turns.Count - 1].Throws.Count >= 3)
+            {
+                currentPlayerLeg.Turns[currentPlayerLeg.Turns.Count - 1].EndTurn();
+            }
             int score = hulpgame.CalculateScore(currentPlayerLeg);
             if (score == 501)
+            {
+                //indien 3de leg gewonnen eindig game
+                if (gmdto.Players.SingleOrDefault(p => p.PlayerDTO.Id == currentPlayer.Id).LegsWon == 3)
                 {
-                    //indien 3de leg gewonnen eindig game
-                    if (gmdto.Players.SingleOrDefault(p => p.PlayerDTO.Id == currentPlayer.Id).LegsWon == 3)
-                    {
-                        hulpgame.Winner = currentPlayer.Id;
-                        statusDTO.Status = 4;
-                        statusDTO.EndGame = new EndGameDTO();
-                    }
-                    //indien geen 3 legs maar wel uigespeeld eindig leg
-                    else
-                    {
-                        hulpgame.EndLeg();
-                        statusDTO.Status = 3;
-                        statusDTO.NewLeg = new NewLegDTO();
-                    }
+                    hulpgame.Winner = currentPlayer.Id;
+                    statusDTO.Status = 4;
+                    statusDTO.EndGame = new EndGameDTO();
+                }
+                //indien geen 3 legs maar wel uigespeeld eindig leg
+                else
+                {
+                    hulpgame.EndLeg();
+                    statusDTO.Status = 3;
+                    statusDTO.NewLeg = new NewLegDTO();
+                }
+            }
+            else
+            {
+                if (score > 501)
+                {
+                    currentPlayerLeg.Turns[currentPlayerLeg.Turns.Count - 1].IgnoreAndEndTurn();
+
                 }
 
-                
+
+
+            }
+
+
 
             _gameRepository.SaveChanges();
             _hubContext.Clients.All.UpdateGame(statusDTO);
+
             return statusDTO;
         }
 
