@@ -1,4 +1,5 @@
-﻿using BackendDarts.DTOs;
+﻿using BackendDarts.Domain.DTOs.Status;
+using BackendDarts.DTOs;
 using System.Threading.Tasks;
 
 namespace BackendDarts
@@ -7,6 +8,6 @@ namespace BackendDarts
     {
         Task BroadcastMessage(string type, string payload);
 
-        Task UpdateGame(GameDTO game);
+        Task UpdateGame(StatusDTO statusDTO);
     }
 }

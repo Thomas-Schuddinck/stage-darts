@@ -110,5 +110,12 @@ namespace BackendDarts.Models
             }
             );
         }
+
+        public PlayerLeg GetCurrenPlayerLeg()
+        {
+            Player p = PlayerGames[currentPlayerIndex].Player;
+            LegGroup currentLegGroup = LegGroups[LegGroups.Count - 1];
+            return currentLegGroup.PlayerLegs.Find(pl => pl.Player.Id == p.Id);
+        }
     }
 }

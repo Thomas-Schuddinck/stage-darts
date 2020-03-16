@@ -2,7 +2,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import PlayArrow from '@material-ui/icons/PlayArrow';
 import { indigo } from '@material-ui/core/colors';
-import Wrap from '../../hoc/Wrap'
 
 const useStyles = makeStyles(theme => ({
     tekstHoofd: {

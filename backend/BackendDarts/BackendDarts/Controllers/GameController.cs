@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BackendDarts.data.Repos.IRepos;
 using BackendDarts.Domain.DTOs;
+using BackendDarts.Domain.DTOs.Status;
 using BackendDarts.DTOs;
 using BackendDarts.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -183,18 +184,75 @@ namespace BackendDarts.Controllers
         }
 
         [HttpPost("game/")]
-        public ActionResult<GameDTO> Post([FromBody]GameDTO game)
+        public ActionResult<StatusDTO> Post([FromBody]DartThrow dartThrow)
         {
-            //("join/{id}/{value}")
+            StatusDTO statusDTO = new StatusDTO();
+            int status = 0;
+            //STATUS
+            //1: ADDTHROW
+            //2: NEW TURN
+            //3: NEW LEG
+            //4: END GAME
+
             try
             {
-                _hubContext.Clients.All.UpdateGame(game);
+                GameDTO gmdto = new GameDTO(Game.singletonGame);
+                PlayerLeg currentPlayerLeg = Game.singletonGame.GetCurrenPlayerLeg();
+                Player currentPlayer = Game.singletonGame.PlayerGames[Game.singletonGame.currentPlayerIndex].Player;
+
+                //de laatste beurt
+                Turn lastTurn = currentPlayerLeg.Turns.Last();
+
+                lastTurn.AddThrow(dartThrow.Value);
+
+                Game.singletonGame.AddThrow(dartThrow.Value);
+                int score = Game.singletonGame.CalculateScore(currentPlayerLeg);
+
+                if(score == 0)
+                {
+                    //indien 3de leg gewonnen eindig game
+                    if (gmdto.Players.SingleOrDefault(p => p.PlayerDTO.Id == currentPlayer.Id).LegsWon == 3)
+                    {
+                        Game.singletonGame.Winner = currentPlayer.Id;
+                        status = 4;
+                        statusDTO.Status = 4;
+                        statusDTO.EndGame = new EndGameDTO();
+                    }
+                    //indien geen 3 legs maar wel uigespeeld eindig leg
+                    else
+                    {
+                        Game.singletonGame.EndLeg();
+                        status = 3;
+                        statusDTO.Status = 3;
+                        statusDTO.NewLeg = new NewLegDTO();
+                    }
+                } else
+                {
+                    //laatste turn in beurt eindig turn
+                    if(currentPlayerLeg.Turns.Count() >= 3)
+                    {
+                        Game.singletonGame.EndTurn();
+                        status = 2;
+                        statusDTO.Status = 2;
+                        statusDTO.NewTurn = new NewTurnDTO();
+                    }
+                    else
+                    {
+                        Game.singletonGame.AddThrow(dartThrow.Value);
+                        status = 1;
+                        statusDTO.Status = 1;
+                        statusDTO.AddThrow = new AddThrowDTO();
+                    }
+
+                }
+
+                _hubContext.Clients.All.UpdateGame(statusDTO);
             }
             catch (Exception e)
             {
                 return BadRequest("Player already in game");
             }
-            return game;
+            return statusDTO;
         }
 
     }
