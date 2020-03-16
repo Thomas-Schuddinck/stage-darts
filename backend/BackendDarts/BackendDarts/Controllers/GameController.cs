@@ -112,6 +112,8 @@ namespace BackendDarts.Controllers
             Game game = _gameRepository.GetBy(id);
             if (game == null) return NoContent();
 
+            Game.StartGame(game);
+
             GameDetailsDTO gamedetails = new GameDetailsDTO(new GameDTO(game));
             gamedetails.Game = new GameDTO(game);
             gamedetails.CurrentPlayer = new PlayerDTO(game.PlayerGames[game.currentPlayerIndex].Player);
@@ -184,8 +186,12 @@ namespace BackendDarts.Controllers
         }
 
         [HttpPost("game/")]
-        public ActionResult<StatusDTO> Post([FromBody]DartThrow dartThrow)
+        public ActionResult<StatusDTO> Post([FromBody]DartThrowDTO dartThrow)
         {
+
+            Game hulpgame = _gameRepository.GetBy(Game.singletonGame.Id);
+
+
             StatusDTO statusDTO = new StatusDTO();
             int status = 0;
             //STATUS
@@ -194,52 +200,46 @@ namespace BackendDarts.Controllers
             //3: NEW LEG
             //4: END GAME
 
-            try
-            {
-                GameDTO gmdto = new GameDTO(Game.singletonGame);
-                PlayerLeg currentPlayerLeg = Game.singletonGame.GetCurrenPlayerLeg();
-                Player currentPlayer = Game.singletonGame.PlayerGames[Game.singletonGame.currentPlayerIndex].Player;
+                GameDTO gmdto = new GameDTO(hulpgame);
+                PlayerLeg currentPlayerLeg = hulpgame.GetCurrenPlayerLeg();
+                Player currentPlayer = hulpgame.PlayerGames[hulpgame.currentPlayerIndex].Player;
 
                 //de laatste beurt
                 Turn lastTurn = currentPlayerLeg.Turns.Last();
 
                 lastTurn.AddThrow(dartThrow.Value);
 
-                Game.singletonGame.AddThrow(dartThrow.Value);
-                int score = Game.singletonGame.CalculateScore(currentPlayerLeg);
+                hulpgame.AddThrow(dartThrow.Value);
+                int score = hulpgame.CalculateScore(currentPlayerLeg);
 
-                if(score == 0)
+                if(score == 501)
                 {
                     //indien 3de leg gewonnen eindig game
                     if (gmdto.Players.SingleOrDefault(p => p.PlayerDTO.Id == currentPlayer.Id).LegsWon == 3)
                     {
-                        Game.singletonGame.Winner = currentPlayer.Id;
-                        status = 4;
+                        hulpgame.Winner = currentPlayer.Id;
                         statusDTO.Status = 4;
                         statusDTO.EndGame = new EndGameDTO();
                     }
                     //indien geen 3 legs maar wel uigespeeld eindig leg
                     else
                     {
-                        Game.singletonGame.EndLeg();
-                        status = 3;
+                        hulpgame.EndLeg();
                         statusDTO.Status = 3;
                         statusDTO.NewLeg = new NewLegDTO();
                     }
                 } else
                 {
                     //laatste turn in beurt eindig turn
-                    if(currentPlayerLeg.Turns.Count() >= 3)
+                    if(currentPlayerLeg.Turns[currentPlayerLeg.Turns.Count - 1].Throws.Count >= 3)
                     {
-                        Game.singletonGame.EndTurn();
-                        status = 2;
+                        hulpgame.EndTurn();
                         statusDTO.Status = 2;
                         statusDTO.NewTurn = new NewTurnDTO();
                     }
                     else
                     {
-                        Game.singletonGame.AddThrow(dartThrow.Value);
-                        status = 1;
+                        hulpgame.AddThrow(dartThrow.Value);
                         statusDTO.Status = 1;
                         statusDTO.AddThrow = new AddThrowDTO();
                     }
@@ -247,11 +247,9 @@ namespace BackendDarts.Controllers
                 }
 
                 _hubContext.Clients.All.UpdateGame(statusDTO);
-            }
-            catch (Exception e)
-            {
-                return BadRequest("Player already in game");
-            }
+
+            _gameRepository.SaveChanges();            
+            
             return statusDTO;
         }
 

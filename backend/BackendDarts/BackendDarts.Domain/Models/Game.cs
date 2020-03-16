@@ -16,6 +16,11 @@ namespace BackendDarts.Models
             currentPlayerIndex = 0;
         }
 
+        public static void StartGame(Game game)
+        {
+            singletonGame = game;
+        }
+
         public void FinishGame(int id)
         {
             Winner = id;
@@ -35,6 +40,9 @@ namespace BackendDarts.Models
         public void EndTurn()
         {
             currentPlayerIndex = (currentPlayerIndex + 1) % PlayerGames.Count;
+            Player player = PlayerGames[currentPlayerIndex].Player;
+            PlayerLeg pl = LegGroups[LegGroups.Count - 1].PlayerLegs.Find(p => p.Player.Id == player.Id);
+            pl.AddTurn();
         }
 
 
