@@ -19,6 +19,7 @@ import * as signalR from "@aspnet/signalr";
 import { GameDetails } from '../../models/GameDetails';
 import { Status } from '../../models/Status'
 import AddThrow from '../../components/Game/AddThrow/AddThrow';
+import Snackbar from '@material-ui/core/Snackbar';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -55,16 +56,25 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
     const classes = useStyles();
     let [gameDetails, setGameDetails] = useState<GameDetails>();
     let [isLoading, setLoading] = React.useState(true);
+    const [state, setState] = React.useState({
+        open: false
+    })
+    const { open } = state;
+    const handleStatus = () => {
+        setState({ open: true });
+      };
+    
+      const handleClose = () => {
+        setState({ open: false });
+      };
+
     const FetchData = async (id: number) => {
         setLoading(true);
-        console.log("dit is de ID");
-        console.log(id)
-
         setGameDetails(await CallToApiGame(id));
-        
+
 
         setLoading(false);
-        
+
 
         const connection = new signalR.HubConnectionBuilder()
             .configureLogging(signalR.LogLevel.Information)
@@ -80,6 +90,9 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
         connection.on("UpdateGame", (payload: Status) => {
             console.log(payload);
             setGameDetails(payload.gameDTO);
+            if (payload.status === 1) {
+                handleStatus();
+            }
         });
 
     }
@@ -91,7 +104,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
         } else {
             FetchData(1);
         }
-    },[]);
+    }, []);
 
     const CallToApiGame = async (id: number): Promise<GameDetails> => {
         return await GetApiCall('https://localhost:5000/Game/' + id).then(gameDetails => {
@@ -120,6 +133,12 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                 />
             ) : (
                     <Aux>
+                        <Snackbar
+                            anchorOrigin={{ vertical: 'top', horizontal: 'center'}}
+                            open={open}
+                            onClose={handleClose}
+                            message="GAme ended"
+                        />
                         <Grid container spacing={3}>
                             {
                                 gameDetails!.game!.legGroups && gameDetails!.game!.legGroups![gameDetails!.game!.legGroups!.length - 1] && gameDetails!.game!
@@ -129,7 +148,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                                             <Paper className={fixedHeightPaper}>
                                                 <Grid container spacing={2}>
                                                     <Grid item xs={5} md={4} lg={4}>
-                                                        <Person player={pl.player} currentplayer={gameDetails?.currentPlayer}/>
+                                                        <Person player={pl.player} currentplayer={gameDetails?.currentPlayer} />
                                                         <CurrentScore score={pl.currentScore} />
                                                     </Grid>
                                                     <Grid item xs={7} md={8} lg={8}>
@@ -140,7 +159,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                                                         <Legs legs={
                                                             gameDetails!.game!
                                                                 .players &&
-                                                                gameDetails!.game!
+                                                            gameDetails!.game!
                                                                 .players!
                                                                 .filter((p: PlayerDetail) =>
                                                                     p.playerDTO.id ===
@@ -155,7 +174,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                                     )
                             }
 
-                        <AddThrow/>
+                            <AddThrow />
                         </Grid>
                         {/* <Grid container spacing={3}>
                             <Grid item xs={12} md={6} lg={6}>
