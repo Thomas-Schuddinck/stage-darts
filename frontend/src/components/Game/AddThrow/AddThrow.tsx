@@ -19,6 +19,9 @@ const useStyles = makeStyles(theme => ({
         color: 'white',
         width: '100%',
         minWidth: '0',
+        "&:hover": {
+            backgroundColor: indigo[200],
+        }
     },
     wrap: {
         position: 'fixed',
