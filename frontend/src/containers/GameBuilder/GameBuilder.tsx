@@ -19,6 +19,7 @@ import Legs from '../../components/Game/Legs/Legs';
 import * as signalR from "@aspnet/signalr";
 import { GameDetails } from '../../models/GameDetails';
 import { Status } from '../../models/Status'
+import AddThrow from '../../components/Game/AddThrow/AddThrow';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -155,9 +156,9 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                                     )
                             }
 
-
+                        <AddThrow/>
                         </Grid>
-                        <Grid container spacing={3}>
+                        {/* <Grid container spacing={3}>
                             <Grid item xs={12} md={6} lg={6}>
                                 <Paper>
                                     <TakePhoto />
@@ -168,7 +169,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                                     <TakePhoto />
                                 </Paper>
                             </Grid>
-                        </Grid>
+                        </Grid> */}
                     </Aux>
                 )}
         </Aux>
