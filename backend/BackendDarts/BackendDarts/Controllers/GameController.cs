@@ -188,81 +188,95 @@ namespace BackendDarts.Controllers
         [HttpPost("game/")]
         public ActionResult<StatusDTO> Post([FromBody]DartThrowDTO dartThrow)
         {
-
-            Game hulpgame = _gameRepository.GetBy(Game.singletonGame.Id);
-
+            Game currentGame = _gameRepository.GetBy(Game.singletonGame.Id);
 
             StatusDTO statusDTO = new StatusDTO();
-            int status = 0;
+
             //STATUS
             //1: ADDTHROW
             //2: NEW TURN
             //3: NEW LEG
             //4: END GAME
 
-            GameDTO gmdto = new GameDTO(hulpgame);
-            PlayerLeg currentPlayerLeg = hulpgame.GetCurrenPlayerLeg();
-            Player currentPlayer = hulpgame.PlayerGames[hulpgame.currentPlayerIndex].Player;
+            int status = HandleThrow(currentGame, dartThrow, statusDTO);
+            FillStatusDTO(statusDTO, currentGame, status);
+            _gameRepository.SaveChanges();
+            _hubContext.Clients.All.UpdateGame(statusDTO);
 
+            return statusDTO;
+        }
 
-            //laatste turn in beurt eindig turn
-            if(currentPlayerLeg.Turns.Count == 0)
+        public void FillStatusDTO(StatusDTO statusDTO, Game game, int status)
+        {
+            statusDTO.Status = status;
+            statusDTO.gameDTO = new GameDetailsDTO(new GameDTO(game));
+            statusDTO.gameDTO.CurrentPlayer = new PlayerDTO(game.PlayerGames[game.currentPlayerIndex].Player);
+            statusDTO.gameDTO.NextPlayer = new PlayerDTO(game.PlayerGames[(game.currentPlayerIndex + 1) % game.PlayerGames.Count].Player);
+        }
+
+        public void ValidateAllThrowsThrown(PlayerLeg playerLeg)
+        {
+            if (playerLeg.Turns[playerLeg.Turns.Count - 1].Throws.Count >= 3)
             {
-                hulpgame.CreateEmptyTurn(currentPlayerLeg);
+                playerLeg.Turns[playerLeg.Turns.Count - 1].EndTurn();
             }
-            if (currentPlayerLeg.Turns[currentPlayerLeg.Turns.Count - 1].IsFinished)
+        }
+
+        public int HandleThrow(Game game, DartThrowDTO dartThrow, StatusDTO statusDTO)
+        {
+            GameDTO gameDTO = new GameDTO(game);
+            PlayerLeg currentPlayerLeg = game.GetCurrenPlayerLeg();
+            Player currentPlayer = game.PlayerGames[game.currentPlayerIndex].Player;
+
+            int status1 = StatusFase1(currentPlayerLeg, game);
+            game.AddThrow(dartThrow.Value);
+            ValidateAllThrowsThrown(currentPlayerLeg);
+            int status2 = StatusFase2(currentPlayerLeg, game, game.CalculateScore(currentPlayerLeg), gameDTO, currentPlayer);
+
+            return (status2 != -1 ? status2 : status1);
+
+
+        }
+
+        public int StatusFase1(PlayerLeg playerLeg, Game game)
+        {
+            //laatste turn in beurt eindig turn
+            if (playerLeg.Turns.Count == 0)
+                game.CreateEmptyTurn(playerLeg);
+
+            if (playerLeg.Turns[playerLeg.Turns.Count - 1].IsFinished)
             {
-                hulpgame.CreateNextTurn();
-                statusDTO.Status = 2;
+                game.CreateNextTurn();
+                return 2;
             }
             else
-            {
+                return 1;
+        }
 
-                statusDTO.Status = 1;
-            }
-
-            if (currentPlayerLeg.Turns[currentPlayerLeg.Turns.Count - 1].Throws.Count >= 3)
-            {
-                currentPlayerLeg.Turns[currentPlayerLeg.Turns.Count - 1].EndTurn();
-            }
-            int score = hulpgame.CalculateScore(currentPlayerLeg);
+        public int StatusFase2(PlayerLeg playerLeg, Game game, int score, GameDTO gameDTO, Player currentPlayer)
+        {
             if (score == 501)
             {
                 //indien 3de leg gewonnen eindig game
-                if (gmdto.Players.SingleOrDefault(p => p.PlayerDTO.Id == currentPlayer.Id).LegsWon == 3)
+                if (gameDTO.Players.SingleOrDefault(p => p.PlayerDTO.Id == currentPlayer.Id).LegsWon == 3)
                 {
-                    hulpgame.Winner = currentPlayer.Id;
-                    statusDTO.Status = 4;
+                    game.Winner = currentPlayer.Id;
+                    return 4;
                 }
                 //indien geen 3 legs maar wel uigespeeld eindig leg
                 else
                 {
-
-                    hulpgame.EndLeg();
-                    statusDTO.Status = 3;
+                    game.EndLeg();
+                    return 3;
                 }
             }
             else
             {
                 if (score > 501)
-                {
-                    currentPlayerLeg.Turns[currentPlayerLeg.Turns.Count - 1].IgnoreAndEndTurn();
-
-                }
-
-
-
+                    playerLeg.Turns[playerLeg.Turns.Count - 1].IgnoreAndEndTurn();
+                return -1;
             }
-
             
-
-            statusDTO.gameDTO = new GameDetailsDTO(new GameDTO(hulpgame));
-            statusDTO.gameDTO.CurrentPlayer = new PlayerDTO(hulpgame.PlayerGames[hulpgame.currentPlayerIndex].Player);
-            statusDTO.gameDTO.NextPlayer = new PlayerDTO(hulpgame.PlayerGames[(hulpgame.currentPlayerIndex + 1)%hulpgame.PlayerGames.Count].Player); 
-            _gameRepository.SaveChanges();
-            _hubContext.Clients.All.UpdateGame(statusDTO);
-
-            return statusDTO;
         }
 
     }
