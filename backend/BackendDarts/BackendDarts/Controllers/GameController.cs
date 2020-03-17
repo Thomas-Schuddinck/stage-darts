@@ -190,7 +190,7 @@ namespace BackendDarts.Controllers
         {
             Game currentGame = _gameRepository.GetBy(Game.singletonGame.Id);
 
-            StatusDTO statusDTO = new StatusDTO();
+           
 
             //STATUS
             //1: ADDTHROW
@@ -198,23 +198,30 @@ namespace BackendDarts.Controllers
             //3: NEW LEG
             //4: END GAME
 
-            int status = HandleThrow(currentGame, dartThrow, statusDTO);
-            FillStatusDTO(statusDTO, currentGame, status);
+            int status = HandleThrow(currentGame, dartThrow);
+
+            StatusDTO statusDTO = FillStatusDTO(currentGame, status);
             _gameRepository.SaveChanges();
             _hubContext.Clients.All.UpdateGame(statusDTO);
 
             return statusDTO;
         }
 
-        public void FillStatusDTO(StatusDTO statusDTO, Game game, int status)
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public StatusDTO FillStatusDTO(Game game, int status)
         {
+            StatusDTO statusDTO = new StatusDTO();
             statusDTO.Status = status;
-            statusDTO.gameDTO = new GameDetailsDTO(new GameDTO(game));
-            statusDTO.gameDTO.CurrentPlayer = new PlayerDTO(game.PlayerGames[game.currentPlayerIndex].Player);
-            statusDTO.gameDTO.NextPlayer = new PlayerDTO(game.PlayerGames[(game.currentPlayerIndex + 1) % game.PlayerGames.Count].Player);
+            statusDTO.gameDTO = new GameDetailsDTO(new GameDTO(game))
+            {
+                CurrentPlayer = new PlayerDTO(game.PlayerGames[game.currentPlayerIndex].Player),
+                NextPlayer = new PlayerDTO(game.PlayerGames[(game.currentPlayerIndex + 1) % game.PlayerGames.Count].Player)
+            };
+            return statusDTO;
         }
 
-        public void ValidateAllThrowsThrown(PlayerLeg playerLeg)
+        [ApiExplorerSettings(IgnoreApi = true)]
+        private void ValidateAllThrowsThrown(PlayerLeg playerLeg)
         {
             if (playerLeg.Turns[playerLeg.Turns.Count - 1].Throws.Count >= 3)
             {
@@ -222,23 +229,25 @@ namespace BackendDarts.Controllers
             }
         }
 
-        public int HandleThrow(Game game, DartThrowDTO dartThrow, StatusDTO statusDTO)
+        [ApiExplorerSettings(IgnoreApi = true)]
+        private int HandleThrow(Game game, DartThrowDTO dartThrow)
         {
             GameDTO gameDTO = new GameDTO(game);
             PlayerLeg currentPlayerLeg = game.GetCurrenPlayerLeg();
             Player currentPlayer = game.PlayerGames[game.currentPlayerIndex].Player;
 
-            int status1 = StatusFase1(currentPlayerLeg, game);
+            CheckTurnEnded(currentPlayerLeg, game);
             game.AddThrow(dartThrow.Value);
             ValidateAllThrowsThrown(currentPlayerLeg);
-            int status2 = StatusFase2(currentPlayerLeg, game, game.CalculateScore(currentPlayerLeg), gameDTO, currentPlayer);
+            int status2 = StatusFase(currentPlayerLeg, game, game.CalculateScore(currentPlayerLeg), gameDTO, currentPlayer);
 
-            return (status2 != -1 ? status2 : status1);
+            return status2;
 
 
         }
 
-        public int StatusFase1(PlayerLeg playerLeg, Game game)
+        [ApiExplorerSettings(IgnoreApi = true)]
+        private void CheckTurnEnded(PlayerLeg playerLeg, Game game)
         {
             //laatste turn in beurt eindig turn
             if (playerLeg.Turns.Count == 0)
@@ -247,13 +256,11 @@ namespace BackendDarts.Controllers
             if (playerLeg.Turns[playerLeg.Turns.Count - 1].IsFinished)
             {
                 game.CreateNextTurn();
-                return 2;
             }
-            else
-                return 1;
         }
 
-        public int StatusFase2(PlayerLeg playerLeg, Game game, int score, GameDTO gameDTO, Player currentPlayer)
+        [ApiExplorerSettings(IgnoreApi = true)]
+        private int StatusFase(PlayerLeg playerLeg, Game game, int score, GameDTO gameDTO, Player currentPlayer)
         {
             if (score == 501)
             {
@@ -261,13 +268,13 @@ namespace BackendDarts.Controllers
                 if (gameDTO.Players.SingleOrDefault(p => p.PlayerDTO.Id == currentPlayer.Id).LegsWon == 3)
                 {
                     game.Winner = currentPlayer.Id;
-                    return 4;
+                    return 2;
                 }
                 //indien geen 3 legs maar wel uigespeeld eindig leg
                 else
                 {
                     game.EndLeg();
-                    return 3;
+                    return 1;
                 }
             }
             else
