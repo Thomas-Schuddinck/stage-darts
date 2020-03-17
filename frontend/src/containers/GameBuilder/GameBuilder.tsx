@@ -9,7 +9,6 @@ import PropagateLoader from "react-spinners/PropagateLoader";
 import GetApiCall from '../../services/ApiClient';
 import LastDartThrow from '../../components/Game/LastDartThrow/LastDartThrow';
 import CurrentTurn from '../../components/Game/CurrentTurn/CurrentTurn';
-import { Game } from '../../models/Game';
 import { css } from "@emotion/core";
 import TakePhoto from '../../components/Game/TakePhoto/TakePhoto';
 import CurrentScore from '../../components/Game/CurrentScore/CurrentScore';
@@ -89,7 +88,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
         } else {
             FetchData(1);
         }
-    }, []);
+    });
 
     const CallToApiGame = async (id: number): Promise<GameDetails> => {
         return await GetApiCall('https://localhost:5000/Game/' + id).then(gameDetails => {
