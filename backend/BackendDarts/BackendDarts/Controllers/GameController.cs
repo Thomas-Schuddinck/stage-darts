@@ -111,7 +111,7 @@ namespace BackendDarts.Controllers
         {
             Game game = _gameRepository.GetBy(id);
             if (game == null) return NoContent();
-
+            game.SortPlayerLegs();
             Game.StartGame(game);
 
             GameDetailsDTO gamedetails = new GameDetailsDTO(new GameDTO(game));
@@ -258,6 +258,7 @@ namespace BackendDarts.Controllers
 
             statusDTO.gameDTO = new GameDetailsDTO(new GameDTO(hulpgame));
             statusDTO.gameDTO.CurrentPlayer = new PlayerDTO(hulpgame.PlayerGames[hulpgame.currentPlayerIndex].Player);
+            statusDTO.gameDTO.NextPlayer = new PlayerDTO(hulpgame.PlayerGames[(hulpgame.currentPlayerIndex + 1)%hulpgame.PlayerGames.Count].Player); 
             _gameRepository.SaveChanges();
             _hubContext.Clients.All.UpdateGame(statusDTO);
 
