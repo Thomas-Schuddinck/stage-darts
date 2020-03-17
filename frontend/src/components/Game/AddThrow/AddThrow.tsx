@@ -19,13 +19,20 @@ const useStyles = makeStyles(theme => ({
         color: 'white',
         width: '100%',
         minWidth: '0',
+        "&:hover": {
+            backgroundColor: indigo[200],
+        }
     },
     wrap: {
         position: 'fixed',
         bottom: '0',
         width: '100%',
         left: '0',
-        right: '0'
+        right: '0',
+        backgroundColor: 'black',
+        // paddingLeft: '2em',
+        // paddingRight: '2em',
+        // backgroundClip: 'content-box'
     },
     photo: {
         color: "#FFFFFF",
@@ -40,7 +47,7 @@ const useStyles = makeStyles(theme => ({
         width: '100%',
         minWidth: '0',
         border: '0.1em solid black',
-    }
+    },
 }));
 
 const AddThrow = (props: any) => {
@@ -118,7 +125,8 @@ const AddThrow = (props: any) => {
     return (
         <Wrap>
 
-            {size < 499 ? (<Grid className={classes.wrap} container>
+            {size < 499 ? (
+            <Grid className={classes.wrap} container>
                 {createButtons()}
                 <Grid item xs={2} md={2} lg={2}>
                     <Button onClick={() => PostThrowCall('25')} className={classes.button}>25</Button>
@@ -132,7 +140,10 @@ const AddThrow = (props: any) => {
                 <Grid item xs={2} md={2} lg={2}>
                     <Button className={classes.photo}><AddAPhotoIcon /></Button>
                 </Grid>
-            </Grid>) : (null)}
+            </Grid>
+            ) : (
+                null
+                )}
 
         </Wrap>
 
