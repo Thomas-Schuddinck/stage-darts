@@ -51,7 +51,6 @@ const useStyles = makeStyles(theme => ({
 
 export const GameBuilder = (props: { match: { params: any; }; }) => {
 
-
     const classes = useStyles();
     let [gameDetails, setGameDetails] = useState<GameDetails>();
     let [isLoading, setLoading] = React.useState(true);
@@ -61,11 +60,8 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
         console.log(id)
 
         setGameDetails(await CallToApiGame(id));
-        
-
         setLoading(false);
         
-
         const connection = new signalR.HubConnectionBuilder()
             .configureLogging(signalR.LogLevel.Information)
             .withUrl("https://localhost:5000/notify")
@@ -85,7 +81,6 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
     }
 
     useEffect(() => {
-
         if (props.match.params.id) {
             FetchData(props.match.params.id);
         } else {
@@ -102,7 +97,6 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
     }
 
     const fixedHeightPaper = clsx(classes.paper, classes.centerContent);
-
     const spinner = css`
     display: block;
     margin: 0 auto;
@@ -158,11 +152,6 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                         <AddThrow/>
                         </Grid>
                         {/* <Grid container spacing={3}>
-                            <Grid item xs={12} md={6} lg={6}>
-                                <Paper>
-                                    <TakePhoto />
-                                </Paper>
-                            </Grid>
                             <Grid item xs={12} md={6} lg={6}>
                                 <Paper>
                                     <TakePhoto />

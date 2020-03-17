@@ -3,7 +3,6 @@ import Aux from '../../hoc/Wrap';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-
 import PersonStat from '../../components/PersonalStats/PersonStat';
 import WinLoss from '../../components/PersonalStats/WinLoss';
 import Heatmap from '../../components/PersonalStats/Heatmap';
@@ -14,10 +13,6 @@ import { Player } from '../../models/Player';
 import { Stats } from '../../models/Stats';
 import PropagateLoader from "react-spinners/PropagateLoader";
 import { css } from "@emotion/core";
-
-import * as signalR from "@aspnet/signalr";
-
-
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -61,41 +56,15 @@ const PersonalStatsBuilder = () => {
   let [players, setPlayers] = useState<Player[]>();
   let [stats, setStats] = useState<Stats>();
   let [isLoading, setLoading] = React.useState(true);
-  let [message, setMessage] = useState<string>();
 
   const FetchData = async () => {
-
     setLoading(true);
-
     setPlayers(await CallToApiPlayers());
-
-    setMessage("currentgame")
-
     setLoading(false);
-
-    const connection = new signalR.HubConnectionBuilder()
-      .configureLogging(signalR.LogLevel.Information)
-      .withUrl("https://localhost:5000/notify")
-      .build();
-
-      connection.start().then(function () {
-        console.log('Connected!');
-      }).catch(function (err) {
-        return console.error(err.toString());
-      });
-
-      connection.on("BroadcastMessage", (type: string, payload: string) => {
-        setMessage(payload);
-      });
-
   }
 
   useEffect(() => {
     FetchData();
-
-
-
-
   }, []);
 
   const CallToApiPlayers = async (): Promise<Player[]> => {
@@ -120,10 +89,6 @@ const PersonalStatsBuilder = () => {
   }
 
   const classes = useStyles();
-
-
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
   const spinner = css`
   display: block;
   margin: 0 auto;
@@ -181,7 +146,6 @@ const PersonalStatsBuilder = () => {
 
       </Grid>
       )}
-      <p>hallo: {message}</p>
     </Aux>
   );
 }
