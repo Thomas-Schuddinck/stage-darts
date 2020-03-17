@@ -206,6 +206,10 @@ namespace BackendDarts.Controllers
 
 
             //laatste turn in beurt eindig turn
+            if(currentPlayerLeg.Turns.Count == 0)
+            {
+                hulpgame.CreateEmptyTurn(currentPlayerLeg);
+            }
             if (currentPlayerLeg.Turns[currentPlayerLeg.Turns.Count - 1].IsFinished)
             {
                 hulpgame.CreateNextTurn();
@@ -216,7 +220,7 @@ namespace BackendDarts.Controllers
 
                 statusDTO.Status = 1;
             }
-            hulpgame.AddThrow(dartThrow.Value);
+
             if (currentPlayerLeg.Turns[currentPlayerLeg.Turns.Count - 1].Throws.Count >= 3)
             {
                 currentPlayerLeg.Turns[currentPlayerLeg.Turns.Count - 1].EndTurn();
@@ -233,6 +237,7 @@ namespace BackendDarts.Controllers
                 //indien geen 3 legs maar wel uigespeeld eindig leg
                 else
                 {
+
                     hulpgame.EndLeg();
                     statusDTO.Status = 3;
                 }
