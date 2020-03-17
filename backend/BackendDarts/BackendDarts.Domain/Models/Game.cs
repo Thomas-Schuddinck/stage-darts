@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace BackendDarts.Models
 {
@@ -19,6 +20,7 @@ namespace BackendDarts.Models
         public static void StartGame(Game game)
         {
             singletonGame = game;
+            
         }
 
         public void FinishGame(int id)
@@ -83,8 +85,17 @@ namespace BackendDarts.Models
             {
                 PlayerGames.Add(playerCopy.Find(pl => pl.Player.Id == psr.Player.Id));
             }
+
             
         }
+        public void SortPlayerLegs()
+        {
+            LegGroup legGroup = LegGroups[LegGroups.Count - 1];
+            legGroup.PlayerLegs = legGroup.PlayerLegs.OrderBy(p => PlayerGames.IndexOf(PlayerGames.Find(pg => pg.PlayerId == p.Player.Id))).ToList();
+
+
+        }
+
         public int CalculateScore(PlayerLeg pl)
         {
             int result = 0;
@@ -104,6 +115,7 @@ namespace BackendDarts.Models
 
         public void AddLeg()
         {
+            //TODO checked als ze in volgorde zitten            
             LegGroup lg = new LegGroup();
             lg.Legnr = LegGroups.Count + 1;
             foreach(PlayerGame pg in PlayerGames)
