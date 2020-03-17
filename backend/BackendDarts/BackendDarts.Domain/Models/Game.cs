@@ -16,6 +16,11 @@ namespace BackendDarts.Models
             currentPlayerIndex = 0;
         }
 
+        public static void StartGame(Game game)
+        {
+            singletonGame = game;
+        }
+
         public void FinishGame(int id)
         {
             Winner = id;
@@ -32,29 +37,46 @@ namespace BackendDarts.Models
         public int currentPlayerIndex { get; set; }
 
 
-        public void EndTurn()
+        public void CreateNextTurn()
         {
             currentPlayerIndex = (currentPlayerIndex + 1) % PlayerGames.Count;
+            Player player = PlayerGames[currentPlayerIndex].Player;
+            PlayerLeg pl = LegGroups[LegGroups.Count - 1].PlayerLegs.Find(p => p.Player.Id == player.Id);
+            CreateEmptyTurn(pl);
+        }
+        public void CreateEmptyTurn(PlayerLeg pl)
+        {
+            pl.AddTurn();
         }
 
 
         public void EndLeg()
         {
-            LegGroup currentLegGroup = LegGroups[LegGroups.Count - 1];
-            SortPlayers(currentLegGroup);
+            int curIndex = LegGroups.Count - 1;
+            LegGroup prevLegGroup = LegGroups[curIndex];
+            DetermineWinner(prevLegGroup);
+            SortPlayers(prevLegGroup);
+            AddLeg();
+            LegGroup currentLegGroup = LegGroups[curIndex + 1];
             currentPlayerIndex = 0;
         }
 
-        public void SortPlayers(LegGroup legGroup)
+        public void DetermineWinner(LegGroup lg)
+        {
+            lg.Winner = lg.PlayerLegs[currentPlayerIndex].Player.Id;
+        }
+
+        public void SortPlayers(LegGroup prevGroup)
         {
             List<PlayerGame> playerCopy = new List<PlayerGame>(PlayerGames);
             PlayerGames.Clear();
             List<PlayerScoreSorter> sorteerlijst = new List<PlayerScoreSorter>();
-            foreach(PlayerLeg pl in legGroup.PlayerLegs)
+            foreach(PlayerLeg pl in prevGroup.PlayerLegs)
             {
                 PlayerScoreSorter psr = new PlayerScoreSorter();
                 psr.Player = pl.Player;
                 psr.Score = CalculateScore(pl);
+                sorteerlijst.Add(psr);
             }
             sorteerlijst.Sort((x, y) => (x.Score.CompareTo(y.Score)));
             foreach(PlayerScoreSorter psr in sorteerlijst)
@@ -68,9 +90,13 @@ namespace BackendDarts.Models
             int result = 0;
             foreach(Turn turn in pl.Turns)
             {
-                foreach(DartThrow dartThrow in turn.Throws)
+                if (!turn.IgnoreScore)
                 {
-                    result = result + dartThrow.Value;
+
+                    foreach (DartThrow dartThrow in turn.Throws)
+                    {
+                        result += dartThrow.Value;
+                    }
                 }
             }
             return result;
@@ -84,6 +110,7 @@ namespace BackendDarts.Models
             {
                 lg.PlayerLegs.Add(new PlayerLeg(pg.Player));
             }
+            LegGroups.Add(lg);
         }
 
         public void AddTurn(Player p)
@@ -109,6 +136,13 @@ namespace BackendDarts.Models
                 Game = this
             }
             );
+        }
+
+        public PlayerLeg GetCurrenPlayerLeg()
+        {
+            Player p = PlayerGames[currentPlayerIndex].Player;
+            LegGroup currentLegGroup = LegGroups[LegGroups.Count - 1];
+            return currentLegGroup.PlayerLegs.Find(pl => pl.Player.Id == p.Id);
         }
     }
 }

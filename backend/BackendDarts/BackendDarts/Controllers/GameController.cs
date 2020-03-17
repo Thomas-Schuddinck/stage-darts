@@ -4,6 +4,7 @@ using System.Linq;
 using BackendDarts.data.Repos.IRepos;
 using BackendDarts.Domain.DTOs;
 using BackendDarts.DTOs;
+using BackendDarts.DTOs.Status;
 using BackendDarts.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -56,7 +57,7 @@ namespace BackendDarts.Controllers
             //database doorlopen en gegevens per speler opvullen
             foreach (Game game in _gameRepository.GetAllDetailed())
             {
-                
+
                 foreach (LegGroup lg in game.LegGroups)
                 {
                     if (lg.Winner != -1)
@@ -70,7 +71,7 @@ namespace BackendDarts.Controllers
                         {
                             foreach (DartThrow dt in turn.Throws)
                             {
-                                templayerMap[pg.Player.Id].TotalNumberDartsThrown =  +1 ;
+                                templayerMap[pg.Player.Id].TotalNumberDartsThrown = +1;
                                 templayerMap[pg.Player.Id].TotalScoreThrown += dt.Value;
                                 if (dt.Value == 60)
                                 {
@@ -90,7 +91,7 @@ namespace BackendDarts.Controllers
                 int numberofgames = games.Count();
                 LeaderboardDTO lbdto = new LeaderboardDTO();
                 lbdto.NumberOfWins = playerdata.Value.NumberOfWins;
-                lbdto.PercentageWins= numberofgames == 0 ? 0 : (playerdata.Value.NumberOfWins / numberofgames) * 100;
+                lbdto.PercentageWins = numberofgames == 0 ? 0 : (playerdata.Value.NumberOfWins / numberofgames) * 100;
                 lbdto.TotalScoreThrown = playerdata.Value.TotalScoreThrown;
                 lbdto.PercentageSixties = playerdata.Value.TotalNumberDartsThrown == 0 ? 0 : playerdata.Value.NumberOfSixties / playerdata.Value.TotalNumberDartsThrown;
                 Player tempplayer = _playerRepository.GetBy(playerdata.Key);
@@ -106,21 +107,18 @@ namespace BackendDarts.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<GameDTO> GetBy(int id)
+        public ActionResult<GameDetailsDTO> GetBy(int id)
         {
             Game game = _gameRepository.GetBy(id);
             if (game == null) return NoContent();
-            GameDTO hulp = new GameDTO(game);
 
+            Game.StartGame(game);
 
             GameDetailsDTO gamedetails = new GameDetailsDTO(new GameDTO(game));
             gamedetails.Game = new GameDTO(game);
             gamedetails.CurrentPlayer = new PlayerDTO(game.PlayerGames[game.currentPlayerIndex].Player);
-            //gamedetails.CurrentLeg
 
-            return hulp;
-
-            //return gamedetails;
+            return gamedetails;
 
         }
 
@@ -188,18 +186,82 @@ namespace BackendDarts.Controllers
         }
 
         [HttpPost("game/")]
-        public ActionResult<GameDTO> Post([FromBody]GameDTO game)
+        public ActionResult<StatusDTO> Post([FromBody]DartThrowDTO dartThrow)
         {
-            //("join/{id}/{value}")
-            try
+
+            Game hulpgame = _gameRepository.GetBy(Game.singletonGame.Id);
+
+
+            StatusDTO statusDTO = new StatusDTO();
+            int status = 0;
+            //STATUS
+            //1: ADDTHROW
+            //2: NEW TURN
+            //3: NEW LEG
+            //4: END GAME
+
+            GameDTO gmdto = new GameDTO(hulpgame);
+            PlayerLeg currentPlayerLeg = hulpgame.GetCurrenPlayerLeg();
+            Player currentPlayer = hulpgame.PlayerGames[hulpgame.currentPlayerIndex].Player;
+
+
+            //laatste turn in beurt eindig turn
+            if(currentPlayerLeg.Turns.Count == 0)
             {
-                _hubContext.Clients.All.UpdateGame(game);
+                hulpgame.CreateEmptyTurn(currentPlayerLeg);
             }
-            catch (Exception e)
+            if (currentPlayerLeg.Turns[currentPlayerLeg.Turns.Count - 1].IsFinished)
             {
-                return BadRequest("Player already in game");
+                hulpgame.CreateNextTurn();
+                statusDTO.Status = 2;
             }
-            return game;
+            else
+            {
+
+                statusDTO.Status = 1;
+            }
+
+            if (currentPlayerLeg.Turns[currentPlayerLeg.Turns.Count - 1].Throws.Count >= 3)
+            {
+                currentPlayerLeg.Turns[currentPlayerLeg.Turns.Count - 1].EndTurn();
+            }
+            int score = hulpgame.CalculateScore(currentPlayerLeg);
+            if (score == 501)
+            {
+                //indien 3de leg gewonnen eindig game
+                if (gmdto.Players.SingleOrDefault(p => p.PlayerDTO.Id == currentPlayer.Id).LegsWon == 3)
+                {
+                    hulpgame.Winner = currentPlayer.Id;
+                    statusDTO.Status = 4;
+                }
+                //indien geen 3 legs maar wel uigespeeld eindig leg
+                else
+                {
+
+                    hulpgame.EndLeg();
+                    statusDTO.Status = 3;
+                }
+            }
+            else
+            {
+                if (score > 501)
+                {
+                    currentPlayerLeg.Turns[currentPlayerLeg.Turns.Count - 1].IgnoreAndEndTurn();
+
+                }
+
+
+
+            }
+
+            
+
+            statusDTO.gameDTO = new GameDetailsDTO(new GameDTO(hulpgame));
+            statusDTO.gameDTO.CurrentPlayer = new PlayerDTO(hulpgame.PlayerGames[hulpgame.currentPlayerIndex].Player);
+            _gameRepository.SaveChanges();
+            _hubContext.Clients.All.UpdateGame(statusDTO);
+
+            return statusDTO;
         }
 
     }

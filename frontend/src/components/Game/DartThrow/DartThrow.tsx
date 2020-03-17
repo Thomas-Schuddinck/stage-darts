@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ListItem, TextField } from '@material-ui/core';
 import './DartThrow.css'
 import indigo from '@material-ui/core/colors/indigo';
@@ -36,7 +36,12 @@ const useStyles = makeStyles(theme => ({
 
 function DartThrow(props: any) {
     const classes = useStyles();
-    let [eroor, setEroor] = useState();
+    let [eroor, setEroor] = useState<boolean>();
+    let [scorevalue, setScorevalue] = useState<number>();
+    useEffect(() => {
+        console.log("usefefect gebruiket");
+        setScorevalue(props.score);
+    }, []);
 
     const rightinput = ((inv: number) => {
         if(inv <= 60 &&  inv >= 0 && (inv <= 20 || (inv %2 === 0 && inv < 40)|| inv % 3 === 0 || inv === 25 || inv === 50))
@@ -45,7 +50,7 @@ function DartThrow(props: any) {
             setEroor(true);
             throwcolor = 'red';
         }
-        
+        setScorevalue(inv);
         console.log(eroor);
     });
 
@@ -54,7 +59,7 @@ function DartThrow(props: any) {
             <TextField type='number' InputProps={{ inputProps: { min: 0, max: 60, className:clsx( classes.input, classes.listItemText , eroor && classes.colR, !eroor && classes.colI )  } }}
                 onChange={event => rightinput(Number.parseInt(event.target.value))}
                 error={eroor}
-                id="outlined-basic" variant="outlined" defaultValue={props.score} />
+                id="outlined-basic" variant="outlined" value={scorevalue} />
         </ListItem>
     );
 

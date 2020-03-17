@@ -149,7 +149,9 @@ namespace BackendDarts.data
 
                 game3.AddPlayer(player1);
                 game3.AddPlayer(player2);
-
+                game1.currentPlayerIndex = 2;
+                game2.currentPlayerIndex = 1;
+                game3.currentPlayerIndex = 1;
                 //adding dartthrows
                 DartThrow dt1 = new DartThrow(13);
                 DartThrow dt2 = new DartThrow(19);
@@ -223,15 +225,25 @@ namespace BackendDarts.data
                 _dbContext.DartThrows.Add(dt30);
 
                 Turn turn1 = new Turn();
+                turn1.EndTurn();
                 Turn turn2 = new Turn();
+                turn2.EndTurn();
                 Turn turn3 = new Turn();
+                turn3.EndTurn();
                 Turn turn4 = new Turn();
+                turn4.EndTurn();
                 Turn turn5 = new Turn();
+                turn5.EndTurn();
                 Turn turn6 = new Turn();
+                turn6.EndTurn();
                 Turn turn7 = new Turn();
+                turn7.EndTurn();
                 Turn turn8 = new Turn();
+                turn8.EndTurn();
                 Turn turn9 = new Turn();
+                turn9.EndTurn();
                 Turn turn10 = new Turn();
+                turn10.EndTurn();
 
                 gp20.Turns.Add(turn1);
                 gp21.Turns.Add(turn2);
@@ -294,6 +306,7 @@ namespace BackendDarts.data
                 _dbContext.Turns.Add(turn8);
                 _dbContext.Turns.Add(turn9);
                 _dbContext.Turns.Add(turn10);
+                
                 _dbContext.SaveChanges();
             }
         }
