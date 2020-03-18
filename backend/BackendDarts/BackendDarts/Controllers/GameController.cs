@@ -27,6 +27,7 @@ namespace BackendDarts.Controllers
             _hubContext = hubContext;
         }
 
+        #region Call Methods
         [HttpGet]
         public IEnumerable<GameDTO> GetAll()
         {
@@ -44,67 +45,17 @@ namespace BackendDarts.Controllers
         public List<LeaderboardDTO> GetLeaderboard()
         {
             //map aanmaken met alle spelers in
-            Dictionary<int, TempPlayerDataDTO> templayerMap = new Dictionary<int, TempPlayerDataDTO>();
-            foreach (Player player in _playerRepository.GetAll())
-            {
-                templayerMap.Add(player.Id, new TempPlayerDataDTO());
-                templayerMap[player.Id].NumberOfSixties = 0;
-                templayerMap[player.Id].NumberOfWins = 0;
-                templayerMap[player.Id].TotalGamesPlayed = 0;
-                templayerMap[player.Id].TotalNumberDartsThrown = 0;
-                templayerMap[player.Id].TotalScoreThrown = 0;
-            }
-            //database doorlopen en gegevens per speler opvullen
-            foreach (Game game in _gameRepository.GetAllDetailed())
-            {
 
-                foreach (LegGroup lg in game.LegGroups)
-                {
-                    if (lg.Winner != -1)
-                    {
-                        templayerMap[lg.Winner].NumberOfWins = templayerMap[lg.Winner].NumberOfWins + 1;
-                    }
-
-                    foreach (PlayerLeg pg in lg.PlayerLegs)
-                    {
-                        foreach (Turn turn in pg.Turns)
-                        {
-                            foreach (DartThrow dt in turn.Throws)
-                            {
-                                templayerMap[pg.Player.Id].TotalNumberDartsThrown = +1;
-                                templayerMap[pg.Player.Id].TotalScoreThrown += dt.Value;
-                                if (dt.Value == 60)
-                                {
-                                    templayerMap[pg.Player.Id].NumberOfSixties = templayerMap[pg.Player.Id].NumberOfSixties + 1;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
 
             //leaderborddtos aanmaken per speler en in lijst steken
-            List<LeaderboardDTO> leaderboard = new List<LeaderboardDTO>();
-            foreach (KeyValuePair<int, TempPlayerDataDTO> playerdata in templayerMap)
-            {
-                IEnumerable<Game> games = _playerRepository.GetAllGamesFromPlayer(playerdata.Key);
-                int numberofgames = games.Count();
-                LeaderboardDTO lbdto = new LeaderboardDTO();
-                lbdto.NumberOfWins = playerdata.Value.NumberOfWins;
-                lbdto.PercentageWins = numberofgames == 0 ? 0 : (playerdata.Value.NumberOfWins / numberofgames) * 100;
-                lbdto.TotalScoreThrown = playerdata.Value.TotalScoreThrown;
-                lbdto.PercentageSixties = playerdata.Value.TotalNumberDartsThrown == 0 ? 0 : playerdata.Value.NumberOfSixties / playerdata.Value.TotalNumberDartsThrown;
-                Player tempplayer = _playerRepository.GetBy(playerdata.Key);
-                PlayerDTO pldto = new PlayerDTO();
-                pldto.Id = tempplayer.Id;
-                pldto.Name = tempplayer.Name;
-                lbdto.player = pldto;
-                leaderboard.Add(lbdto);
-            }
+
             var temp = 0;
-            return leaderboard;
+            return CreateLeaderBoardDTO(MapPlayerData());
 
         }
+
+
+
 
         [HttpGet("{id}")]
         public ActionResult<GameDetailsDTO> GetBy(int id)
@@ -189,15 +140,6 @@ namespace BackendDarts.Controllers
         public ActionResult<StatusDTO> Post([FromBody]DartThrowDTO dartThrow)
         {
             Game currentGame = _gameRepository.GetBy(Game.singletonGame.Id);
-
-           
-
-            //STATUS
-            //1: ADDTHROW
-            //2: NEW TURN
-            //3: NEW LEG
-            //4: END GAME
-
             int status = HandleThrow(currentGame, dartThrow);
 
             StatusDTO statusDTO = FillStatusDTO(currentGame, status);
@@ -205,6 +147,75 @@ namespace BackendDarts.Controllers
             _hubContext.Clients.All.UpdateGame(statusDTO);
 
             return statusDTO;
+        } 
+        #endregion
+
+        #region Support Methods
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public Dictionary<int, TempPlayerDataDTO> MapPlayerData()
+        {
+            Dictionary<int, TempPlayerDataDTO> templayerMap = new Dictionary<int, TempPlayerDataDTO>();
+            foreach (Player player in _playerRepository.GetAll())
+            {
+                templayerMap.Add(player.Id, new TempPlayerDataDTO());
+                templayerMap[player.Id].NumberOfSixties = 0;
+                templayerMap[player.Id].NumberOfWins = 0;
+                templayerMap[player.Id].TotalGamesPlayed = 0;
+                templayerMap[player.Id].TotalNumberDartsThrown = 0;
+                templayerMap[player.Id].TotalScoreThrown = 0;
+            }
+            //database doorlopen en gegevens per speler opvullen
+            foreach (Game game in _gameRepository.GetAllDetailed())
+            {
+
+                foreach (LegGroup lg in game.LegGroups)
+                {
+                    if (lg.Winner != -1)
+                    {
+                        templayerMap[lg.Winner].NumberOfWins = templayerMap[lg.Winner].NumberOfWins + 1;
+                    }
+
+                    foreach (PlayerLeg pg in lg.PlayerLegs)
+                    {
+                        foreach (Turn turn in pg.Turns)
+                        {
+                            foreach (DartThrow dt in turn.Throws)
+                            {
+                                templayerMap[pg.Player.Id].TotalNumberDartsThrown = +1;
+                                templayerMap[pg.Player.Id].TotalScoreThrown += dt.Value;
+                                if (dt.Value == 60)
+                                {
+                                    templayerMap[pg.Player.Id].NumberOfSixties = templayerMap[pg.Player.Id].NumberOfSixties + 1;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return templayerMap;
+        }
+
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public List<LeaderboardDTO> CreateLeaderBoardDTO(Dictionary<int, TempPlayerDataDTO> templayerMap)
+        {
+            List<LeaderboardDTO> leaderboard = new List<LeaderboardDTO>();
+            foreach (KeyValuePair<int, TempPlayerDataDTO> playerdata in templayerMap)
+            {
+                IEnumerable<Game> games = _playerRepository.GetAllGamesFromPlayer(playerdata.Key);
+                int numberofgames = games.Count();
+                LeaderboardDTO lbdto = new LeaderboardDTO();
+                lbdto.NumberOfWins = playerdata.Value.NumberOfWins;
+                lbdto.PercentageWins = numberofgames == 0 ? 0 : (playerdata.Value.NumberOfWins / numberofgames) * 100;
+                lbdto.TotalScoreThrown = playerdata.Value.TotalScoreThrown;
+                lbdto.PercentageSixties = playerdata.Value.TotalNumberDartsThrown == 0 ? 0 : playerdata.Value.NumberOfSixties / playerdata.Value.TotalNumberDartsThrown;
+                Player tempplayer = _playerRepository.GetBy(playerdata.Key);
+                PlayerDTO pldto = new PlayerDTO();
+                pldto.Id = tempplayer.Id;
+                pldto.Name = tempplayer.Name;
+                lbdto.player = pldto;
+                leaderboard.Add(lbdto);
+            }
+            return leaderboard;
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -218,7 +229,7 @@ namespace BackendDarts.Controllers
                 CurrentPlayer = new PlayerDTO(game.PlayerGames[game.currentPlayerIndex].Player),
                 NextPlayer = new PlayerDTO(game.PlayerGames[(game.currentPlayerIndex + 1) % game.PlayerGames.Count].Player)
             };
-            if(bol)
+            if (bol)
                 statusDTO.gameDTO.Game.LegGroups.Last().GoNextPlayerLeg();
             return statusDTO;
         }
@@ -239,34 +250,47 @@ namespace BackendDarts.Controllers
         {
             GameDTO gameDTO = new GameDTO(game);
             PlayerLeg currentPlayerLeg = game.GetCurrenPlayerLeg();
-            Player currentPlayer = currentPlayerLeg.Player;
 
             CheckNewTurnRequired(currentPlayerLeg, game);
             game.AddThrow(dartThrow.Value);
             Boolean bol = ValidateAllThrowsThrown(currentPlayerLeg);
-            int status = StatusFase(currentPlayerLeg, game, game.CalculateScore(currentPlayerLeg), gameDTO, currentPlayer);
+            int status = StatusFase(game, game.CalculateScore(currentPlayerLeg));
             status = !bol ? status : status * 2;
             return status;
 
 
         }
-
+        /// <summary>
+        /// Checks if a new Turn should be made.
+        /// If the requirements are met, a new Turn will be added to the given PlayerLeg of a given Game
+        /// </summary>
+        /// <param name="playerLeg">The given PlayerLeg</param>
+        /// <param name="game">The gvien Game</param>
         [ApiExplorerSettings(IgnoreApi = true)]
         private void CheckNewTurnRequired(PlayerLeg playerLeg, Game game)
         {
             //laatste turn in beurt eindig turn
             if (playerLeg.Turns.Count == 0 || playerLeg.Turns[playerLeg.Turns.Count - 1].IsFinished)
                 game.CreateEmptyTurn(playerLeg);
-                
+
         }
-         
+
+        /// <summary>
+        /// Returns a status depending on the current game situation.
+        /// 
+        /// </summary>
+        /// <param name="game">The current Game</param>
+        /// <param name="score">The score of the current PlayerLeg</param>
+        /// <returns>Returns "1" if the current Leg is finished (when a player reaches score 501), returns "2" if the game has ended, returns "-1" by default</returns>
         [ApiExplorerSettings(IgnoreApi = true)]
-        private int StatusFase(PlayerLeg playerLeg, Game game, int score, GameDTO gameDTO, Player currentPlayer)
+        private int StatusFase(Game game, int score)
         {
+            Player currentPlayer = game.GetCurrentPlayer();
+            PlayerLeg playerLeg = game.GetCurrenPlayerLeg();
             if (score == 501)
             {
                 //indien 3de leg gewonnen eindig game
-                if (gameDTO.Players.SingleOrDefault(p => p.PlayerDTO.Id == currentPlayer.Id).LegsWon == 3)
+                if (game.LegGroups.Count(lg => lg.Winner == currentPlayer.Id) == 3)
                 {
                     game.Winner = currentPlayer.Id;
                     return 2;
@@ -274,6 +298,7 @@ namespace BackendDarts.Controllers
                 //indien geen 3 legs maar wel uigespeeld eindig leg
                 else
                 {
+                    game.GetCurrenLegGroup().FinishLeg(currentPlayer.Id);
                     game.EndLeg();
                     return 1;
                 }
@@ -282,11 +307,12 @@ namespace BackendDarts.Controllers
             {
                 if (score > 501)
                     playerLeg.Turns[playerLeg.Turns.Count - 1].IgnoreAndEndTurn(); ;
-                
+
                 return -1;
             }
-            
+
         }
 
     }
-}
+} 
+#endregion

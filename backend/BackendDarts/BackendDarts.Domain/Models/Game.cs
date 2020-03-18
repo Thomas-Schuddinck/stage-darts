@@ -54,7 +54,7 @@ namespace BackendDarts.Models
         /// <param name="legGroup"></param>
         public void DetermineWinner(LegGroup legGroup)
         {
-            legGroup.Winner = legGroup.PlayerLegs[currentPlayerIndex].Player.Id;
+            legGroup.FinishLeg(GetCurrentPlayer().Id);
         }
 
         /// <summary>
