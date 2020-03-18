@@ -30,5 +30,15 @@ namespace BackendDarts.DTOs
         public int Legnr { get; set; }
         public int Winner { get; set; }
         public List<PlayerLegDTO> PlayerLegs { get; set; }
+
+        public void GoNextPlayerLeg()
+        {
+
+            PlayerLegDTO playerleg = PlayerLegs[0];
+            PlayerLegs.RemoveAt(0);
+            PlayerLegs.Add(playerleg);
+
+
+        }
     }
 }

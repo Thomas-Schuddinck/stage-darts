@@ -211,22 +211,27 @@ namespace BackendDarts.Controllers
         public StatusDTO FillStatusDTO(Game game, int status)
         {
             StatusDTO statusDTO = new StatusDTO();
-            statusDTO.Status = status;
+            Boolean bol = status > 2;
+            statusDTO.Status = bol ? status / 2 : status;
             statusDTO.gameDTO = new GameDetailsDTO(new GameDTO(game))
             {
                 CurrentPlayer = new PlayerDTO(game.PlayerGames[game.currentPlayerIndex].Player),
                 NextPlayer = new PlayerDTO(game.PlayerGames[(game.currentPlayerIndex + 1) % game.PlayerGames.Count].Player)
             };
+            if(bol)
+                statusDTO.gameDTO.Game.LegGroups.Last().GoNextPlayerLeg();
             return statusDTO;
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
-        private void ValidateAllThrowsThrown(PlayerLeg playerLeg)
+        private Boolean ValidateAllThrowsThrown(PlayerLeg playerLeg)
         {
             if (playerLeg.Turns[playerLeg.Turns.Count - 1].Throws.Count >= 3)
             {
-                playerLeg.Turns[playerLeg.Turns.Count - 1].EndTurn();
+                //playerLeg.Turns[playerLeg.Turns.Count - 1].EndTurn();
+                return true;
             }
+            return false;
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -234,31 +239,27 @@ namespace BackendDarts.Controllers
         {
             GameDTO gameDTO = new GameDTO(game);
             PlayerLeg currentPlayerLeg = game.GetCurrenPlayerLeg();
-            Player currentPlayer = game.PlayerGames[game.currentPlayerIndex].Player;
+            Player currentPlayer = currentPlayerLeg.Player;
 
-            CheckTurnEnded(currentPlayerLeg, game);
+            CheckNewTurnRequired(currentPlayerLeg, game);
             game.AddThrow(dartThrow.Value);
-            ValidateAllThrowsThrown(currentPlayerLeg);
-            int status2 = StatusFase(currentPlayerLeg, game, game.CalculateScore(currentPlayerLeg), gameDTO, currentPlayer);
-
-            return status2;
+            Boolean bol = ValidateAllThrowsThrown(currentPlayerLeg);
+            int status = StatusFase(currentPlayerLeg, game, game.CalculateScore(currentPlayerLeg), gameDTO, currentPlayer);
+            status = !bol ? status : status * 2;
+            return status;
 
 
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
-        private void CheckTurnEnded(PlayerLeg playerLeg, Game game)
+        private void CheckNewTurnRequired(PlayerLeg playerLeg, Game game)
         {
             //laatste turn in beurt eindig turn
-            if (playerLeg.Turns.Count == 0)
+            if (playerLeg.Turns.Count == 0 || playerLeg.Turns[playerLeg.Turns.Count - 1].IsFinished)
                 game.CreateEmptyTurn(playerLeg);
-
-            if (playerLeg.Turns[playerLeg.Turns.Count - 1].IsFinished)
-            {
-                game.CreateNextTurn();
-            }
+                
         }
-
+         
         [ApiExplorerSettings(IgnoreApi = true)]
         private int StatusFase(PlayerLeg playerLeg, Game game, int score, GameDTO gameDTO, Player currentPlayer)
         {
@@ -280,7 +281,8 @@ namespace BackendDarts.Controllers
             else
             {
                 if (score > 501)
-                    playerLeg.Turns[playerLeg.Turns.Count - 1].IgnoreAndEndTurn();
+                    playerLeg.Turns[playerLeg.Turns.Count - 1].IgnoreAndEndTurn(); ;
+                
                 return -1;
             }
             

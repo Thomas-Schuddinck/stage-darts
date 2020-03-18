@@ -25,16 +25,32 @@ namespace BackendDarts.Models
             this.TurnNr = turnnr;
         }
 
-        public void AddThrow(int value)
+        /// <summary>
+        /// Adds Throw to the list of throws
+        /// </summary>
+        /// <param name="value">The throw value</param>
+        /// <returns>true if the turn is full and so has ended</returns>
+        public Boolean AddThrow(int value)
         {
             Throws.Add(new DartThrow(value));
+            if(Throws.Count == 3)
+            {
+                EndTurn();
+                return true;
+            }
+            return false;
         }
+        /// <summary>
+        /// called when a turn would result in a negative score. When called, this turn is ignored when calculating a score.
+        /// </summary>
         public void IgnoreAndEndTurn()
         {
             IgnoreScore = true;
             IsFinished = true;
         }
-
+        /// <summary>
+        /// End this turn
+        /// </summary>
         public void EndTurn()
         {
             IsFinished = true;
