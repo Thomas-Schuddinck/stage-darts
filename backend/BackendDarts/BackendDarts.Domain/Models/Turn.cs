@@ -9,6 +9,10 @@ namespace BackendDarts.Models
 
         public int Id { get; set; }
         public int TurnNr { get; set; }
+        public Boolean IgnoreScore { get; private set; } = false;
+        public Boolean IsFinished { get; private set; } = false;
+
+
         public List<DartThrow> Throws { get; set; }
 
         public Turn()
@@ -24,6 +28,16 @@ namespace BackendDarts.Models
         public void AddThrow(int value)
         {
             Throws.Add(new DartThrow(value));
+        }
+        public void IgnoreAndEndTurn()
+        {
+            IgnoreScore = true;
+            IsFinished = true;
+        }
+
+        public void EndTurn()
+        {
+            IsFinished = true;
         }
     }
 }

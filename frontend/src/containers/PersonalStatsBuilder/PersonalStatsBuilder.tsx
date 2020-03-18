@@ -3,7 +3,6 @@ import Aux from '../../hoc/Wrap';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-
 import PersonStat from '../../components/PersonalStats/PersonStat';
 import WinLoss from '../../components/PersonalStats/WinLoss';
 import Heatmap from '../../components/PersonalStats/Heatmap';
@@ -11,10 +10,9 @@ import Performance from '../../components/PersonalStats/Performance';
 import History from '../../components/PersonalStats/History/History';
 import GetApiCall from '../../services/ApiClient';
 import { Player } from '../../models/Player';
-import { Stats } from 'fs';
+import { Stats } from '../../models/Stats';
 import PropagateLoader from "react-spinners/PropagateLoader";
 import { css } from "@emotion/core";
-
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -55,18 +53,14 @@ const useStyles = makeStyles(theme => ({
 
 const PersonalStatsBuilder = () => {
 
-  let [players, setPlayers] = useState();
-  let [stats, setStats] = useState();
+  let [players, setPlayers] = useState<Player[]>();
+  let [stats, setStats] = useState<Stats>();
   let [isLoading, setLoading] = React.useState(true);
 
   const FetchData = async () => {
-
     setLoading(true);
-
     setPlayers(await CallToApiPlayers());
-
     setLoading(false);
-
   }
 
   useEffect(() => {
@@ -74,20 +68,20 @@ const PersonalStatsBuilder = () => {
   }, []);
 
   const CallToApiPlayers = async (): Promise<Player[]> => {
-    return await GetApiCall('http://localhost:5000/Player').then(players => {
+    return await GetApiCall('https://localhost:5000/Player').then(players => {
       return players;
     });
   }
 
   const CallToApiStats = async (player: Player): Promise<Stats> => {
-    return await GetApiCall('http://localhost:5000/Player/stats/' + player.id).then(stats => {
+    return await GetApiCall('https://localhost:5000/Player/stats/' + player.id).then(stats => {
       return stats;
     });
   }
 
-  let [childPlayer, setChildPlayer] = useState();
+  let [childPlayer, setChildPlayer] = useState<Player>();
 
-  const getPlayerChild = async (childPlayer: any) => {
+  const getPlayerChild = async (childPlayer: Player) => {
     setChildPlayer(childPlayer);
     console.log('this is the player that is undefined: ' + childPlayer)
     setStats(await CallToApiStats(childPlayer));
@@ -95,10 +89,6 @@ const PersonalStatsBuilder = () => {
   }
 
   const classes = useStyles();
-
-
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
   const spinner = css`
   display: block;
   margin: 0 auto;

@@ -5,8 +5,8 @@ import { PlayerLeg } from './PlayerLeg';
 import { LegGroup } from './LegGroup';
 
 export interface GameDetails {
-    game?: Game;
-    currentplayer?: Player;
+    game: Game;
+    currentPlayer: Player;
     nextplayer?: Player;
     lastThrow?: number;
     currentLeg?: PlayerLeg;

@@ -53,4 +53,39 @@
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/textColor</item>
     </style>
+    <style name="list_item_title_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/textColor</item>
+
+    </style>
+    <style name="list_item_description_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/textColor</item>
+    </style>
+
+    <style name="header_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">32dp</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:textColor">@color/textColor</item>
+    </style>
+    <style name="list_item_holder" parent="CardView.Light">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="cardBackgroundColor">@android:color/transparent</item>
+        <item name="cardElevation">0dp</item>
+
+
+    </style>
+
+    <style name="border_style" parent="CardView.Light">
+        <item name="android:padding">6dp</item>
+        <item name="android:background">@drawable/border_trans</item>
+
+    </style>
 </resources>

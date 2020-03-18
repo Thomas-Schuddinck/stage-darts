@@ -61,7 +61,7 @@ namespace BackendDarts.data
                 //adding playerlegs
                 PlayerLeg gp00 = new PlayerLeg();
                 PlayerLeg gp01 = new PlayerLeg();
-                PlayerLeg gp02= new PlayerLeg();
+                PlayerLeg gp02 = new PlayerLeg();
 
                 PlayerLeg gp10 = new PlayerLeg();
                 PlayerLeg gp11 = new PlayerLeg();
@@ -129,6 +129,12 @@ namespace BackendDarts.data
                 lg6.PlayerLegs.Add(gp25);
 
                 //adding leggroups to games
+                lg1.Legnr = 1;
+                lg2.Legnr = 1;
+                lg3.Legnr = 2;
+                lg4.Legnr = 1;
+                lg5.Legnr = 2;
+                lg6.Legnr = 3;
                 game1.LegGroups.Add(lg1);
 
                 game2.LegGroups.Add(lg2);
@@ -149,7 +155,6 @@ namespace BackendDarts.data
 
                 game3.AddPlayer(player1);
                 game3.AddPlayer(player2);
-
                 //adding dartthrows
                 DartThrow dt1 = new DartThrow(13);
                 DartThrow dt2 = new DartThrow(19);
@@ -222,18 +227,28 @@ namespace BackendDarts.data
                 _dbContext.DartThrows.Add(dt29);
                 _dbContext.DartThrows.Add(dt30);
 
-                Turn turn1 = new Turn();
-                Turn turn2 = new Turn();
-                Turn turn3 = new Turn();
-                Turn turn4 = new Turn();
-                Turn turn5 = new Turn();
-                Turn turn6 = new Turn();
-                Turn turn7 = new Turn();
-                Turn turn8 = new Turn();
-                Turn turn9 = new Turn();
-                Turn turn10 = new Turn();
+                Turn turn1 = new Turn(1);
+                turn1.EndTurn();
+                Turn turn2 = new Turn(1);
+                turn2.EndTurn();
+                Turn turn3 = new Turn(1);
+                turn3.EndTurn();
+                Turn turn4 = new Turn(1);
+                turn4.EndTurn();
+                Turn turn5 = new Turn(1);
+                turn5.EndTurn();
+                Turn turn6 = new Turn(1);
+                turn6.EndTurn();
+                Turn turn7 = new Turn(1);
+                turn7.EndTurn();
+                Turn turn8 = new Turn(1);
+                turn8.EndTurn();
+                Turn turn9 = new Turn(1);
+                turn9.EndTurn();
+                Turn turn10 = new Turn(1);
+                turn10.EndTurn();
 
-                gp20.Turns.Add(turn1);
+                gp20.Turns.Add(turn1); 
                 gp21.Turns.Add(turn2);
                 gp22.Turns.Add(turn3);
                 gp23.Turns.Add(turn4);
@@ -294,6 +309,7 @@ namespace BackendDarts.data
                 _dbContext.Turns.Add(turn8);
                 _dbContext.Turns.Add(turn9);
                 _dbContext.Turns.Add(turn10);
+                
                 _dbContext.SaveChanges();
             }
         }

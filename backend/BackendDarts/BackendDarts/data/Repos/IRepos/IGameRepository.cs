@@ -10,10 +10,12 @@ namespace BackendDarts.Models
         void Update(Game game);
         Game GetBy(int id);
         void Add(Game game);
-
+        
         void Delete(Game game);
 
         IEnumerable<Game> GetAll();
+        IEnumerable<Game> GetAllWithPlayers();
+        IEnumerable<Game> GetAllDetailed();
 
         void SaveChanges();
     }
