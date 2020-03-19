@@ -73,16 +73,16 @@ namespace BackendDarts.Controllers
 
         }
 
-        //[HttpPost]
-        //public ActionResult<GameDTO> Post()
-        //{
+        [HttpPost("new-game/")]
+        public ActionResult<GameDTO> Post()
+        {
 
-        //    Game a = new Game();
-        //    _gameRepository.Add(a);
-        //    _gameRepository.SaveChanges();
-        //    return CreatedAtAction(nameof(GetBy), new { id = a.Id }, a);
+            Game a = new Game();
+            _gameRepository.Add(a);
+            _gameRepository.SaveChanges();
+            return CreatedAtAction(nameof(GetBy), new { id = a.Id }, a);
 
-        //}
+        }
 
 
         [HttpDelete("{id}")]
