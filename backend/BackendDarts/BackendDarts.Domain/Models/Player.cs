@@ -11,14 +11,13 @@ namespace BackendDarts.Models
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public List<Game> Games { get; set; }
+        public List<Game> Games { get; set; } 
         [NotMapped]
-        public string Name { get; set; }
+        public string Name => String.Format("{0} {1}", FirstName ,LastName);
         public Player(string firstName, string lastName) : this()
         {
             FirstName = firstName;
             LastName = lastName;
-            Name = FirstName + " " + LastName;
 
         }
         public Player()
