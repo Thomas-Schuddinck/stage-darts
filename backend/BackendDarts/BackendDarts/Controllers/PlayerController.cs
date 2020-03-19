@@ -95,10 +95,10 @@ namespace BackendDarts.Controllers
         }
 
         [HttpPost]
-        public ActionResult<PlayerDTO> Post(string naam)
+        public ActionResult<PlayerDTO> Post(string firstName, string lastName)
         {
 
-            Player a = new Player(naam);
+            Player a = new Player(firstName, lastName);
             _playerRepository.Add(a);
             _playerRepository.SaveChanges();
             return CreatedAtAction(nameof(GetBy), new { id = a.Id }, a);

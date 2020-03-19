@@ -35,9 +35,9 @@ namespace BackendDarts.data
 
 
                 //adding players
-                Player player1 = new Player("Peter");
-                Player player2 = new Player("Tom");
-                Player player3 = new Player("Quinten");
+                Player player1 = new Player("Thomas", "Schuddinck");
+                Player player2 = new Player("Wouter", "Opsommer");
+                Player player3 = new Player("Johan", "Van Schoor");
                 _dbContext.Players.Add(player1);
                 _dbContext.Players.Add(player2);
                 _dbContext.Players.Add(player3);
