@@ -138,7 +138,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                             open={open}
                             onClose={handleClose}
                             message="GAme ended"
-                        />
+                        /> 
                         <Grid container spacing={3}>
                             {
                                 gameDetails!.game!.legGroups && gameDetails!.game!.legGroups![gameDetails!.game!.legGroups!.length - 1] && gameDetails!.game!

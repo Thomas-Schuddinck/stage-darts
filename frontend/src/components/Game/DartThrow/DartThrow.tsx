@@ -48,7 +48,7 @@ function DartThrow(props: any) {
             setEroor(false);
         else {
             setEroor(true);
-            throwcolor = 'red';
+            throwcolor = '#5c6bc0';
         }
         setScorevalue(inv);
         console.log(eroor);
