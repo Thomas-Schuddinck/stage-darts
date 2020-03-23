@@ -56,6 +56,15 @@ export const SideList = () => {
       </MenuItem>
     </NavLink>
 
+    <NavLink activeClassName={classes.active} to="/new-game">
+      <MenuItem className={classes.itemLi}>
+        <ListItemIcon className={classes.icon}>
+          <GamesIcon/>
+        </ListItemIcon>
+        <ListItemText primary="New Game" />
+      </MenuItem>
+    </NavLink>
+
     <NavLink activeClassName={classes.active} to="/gamelist">
       <MenuItem className={classes.itemLi}>
         <ListItemIcon className={classes.icon}>
