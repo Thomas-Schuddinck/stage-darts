@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BackendDarts.DTOs;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -8,8 +9,10 @@ namespace BackendDarts.Models
     public class Game
     {
         public int Id { get; set; }
-        public DateTime beginDate { get; set; }
-        public DateTime endDate { get; set; }
+        public DateTime BeginDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public String Name { get; set; }
+        public int Type { get; set; }
         public List<LegGroup> LegGroups { get; set; } = new List<LegGroup>();
         public int Winner { get; set; }
         public List<PlayerGame> PlayerGames { get; set; } = new List<PlayerGame>();
@@ -20,9 +23,20 @@ namespace BackendDarts.Models
 
         public Game()
         {
-            beginDate = DateTime.Now.Date;
+            BeginDate = DateTime.Now.Date;
             Winner = -1;
             currentPlayerIndex = 0;
+        }
+
+        public Game(NewGameDTO newGameDTO) : this()
+        {
+            Name = newGameDTO.Name;
+            Type = newGameDTO.Type;
+            foreach(Player player in newGameDTO.Players)
+            {
+                AddPlayer(player);
+            }
+            
         }
 
         #region GameOperations
@@ -44,7 +58,7 @@ namespace BackendDarts.Models
         public void FinishGame(int winnerId)
         {
             Winner = winnerId;
-            endDate = DateTime.Now.Date;
+            EndDate = DateTime.Now.Date;
         }
 
         /// <summary>
