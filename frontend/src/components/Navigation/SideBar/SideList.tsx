@@ -12,6 +12,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import PersonIcon from '@material-ui/icons/Person';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import React from 'react';
 import { NavLink } from "react-router-dom";
 import './SideList.css';
@@ -60,7 +61,7 @@ export const SideList = () => {
       <NavLink activeClassName={classes.active} to="/new-game">
         <MenuItem className={classes.itemLi}>
           <ListItemIcon className={classes.icon}>
-            <GamesIcon />
+            <AddCircleIcon/>
           </ListItemIcon>
           <ListItemText primary="New Game" />
         </MenuItem>
@@ -69,7 +70,7 @@ export const SideList = () => {
       <NavLink activeClassName={classes.active} to="/new-player">
         <MenuItem className={classes.itemLi}>
           <ListItemIcon className={classes.icon}>
-            <AddCircleIcon />
+            <PersonAddIcon />
           </ListItemIcon>
           <ListItemText primary="Add Player" />
         </MenuItem>
