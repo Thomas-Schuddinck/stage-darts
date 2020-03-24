@@ -10,6 +10,6 @@ namespace BackendDarts.DTOs
         public String Name { get; set; }
         public int Type { get; set; }
 
-        public List<Player> Players { get; set; }
+        public List<int> Players { get; set; }
     }
 }

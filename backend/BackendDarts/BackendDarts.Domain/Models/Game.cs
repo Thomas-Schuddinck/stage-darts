@@ -24,19 +24,21 @@ namespace BackendDarts.Models
         public Game()
         {
             BeginDate = DateTime.Now.Date;
-            Winner = -1;
-            currentPlayerIndex = 0;
+            SetupGame();
         }
 
         public Game(NewGameDTO newGameDTO) : this()
         {
             Name = newGameDTO.Name;
             Type = newGameDTO.Type;
-            foreach(Player player in newGameDTO.Players)
-            {
-                AddPlayer(player);
-            }
             
+        }
+
+        public void SetupGame()
+        {
+            Winner = -1;
+            currentPlayerIndex = 0;
+            LegGroups.Add(new LegGroup());
         }
 
         #region GameOperations

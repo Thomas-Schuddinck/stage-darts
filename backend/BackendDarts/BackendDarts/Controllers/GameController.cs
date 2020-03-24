@@ -74,10 +74,13 @@ namespace BackendDarts.Controllers
         }
 
         [HttpPost("new-game/")]
-        public ActionResult<GameDTO> Post()
+        public ActionResult<GameDTO> Post([FromBody]NewGameDTO newGame)
         {
 
-            Game a = new Game();
+            Game a = new Game(newGame);
+            foreach (int id in newGame.Players)
+
+                a.AddPlayer(_playerRepository.GetBy(id));
             _gameRepository.Add(a);
             _gameRepository.SaveChanges();
             return CreatedAtAction(nameof(GetBy), new { id = a.Id }, a);
