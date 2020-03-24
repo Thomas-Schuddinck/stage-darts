@@ -18,7 +18,8 @@ import { Player } from "../../models/Player";
 import { css } from "@emotion/core";
 import PropagateLoader from "react-spinners/PropagateLoader";
 import Wrap from '../../hoc/Wrap';
-import { GetApiCall, PostApiCall }  from '../../services/ApiClient';
+import { GetApiCall, PostApiCall } from '../../services/ApiClient';
+import { AddGameDialog } from "../../components/NewGame/AddGameDialog";
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -71,7 +72,7 @@ const validationSchema = yup.object({
     .string()
     .required()
     .max(10),
-  
+
 });
 
 const NewGameBuilderForm: React.FC = () => {
@@ -87,6 +88,7 @@ const NewGameBuilderForm: React.FC = () => {
   let [playersInput, setPlayers] = React.useState([]);
   let [playerList, setPlayerList] = React.useState<Player[]>();
   let [isLoading, setLoading] = React.useState(true);
+  let [openDialog, setOpenDialog] = React.useState(false);
 
   const FetchData = async () => {
 
@@ -133,7 +135,7 @@ const NewGameBuilderForm: React.FC = () => {
               }}
               enableReinitialize={true}
               validationSchema={validationSchema}
-              onSubmit={ async (data, { setSubmitting }) => {
+              onSubmit={async (data, { setSubmitting }) => {
                 setSubmitting(true);
                 const newGame = {
                   name: data.gameName,
@@ -142,10 +144,12 @@ const NewGameBuilderForm: React.FC = () => {
                 };
                 console.log(data);
                 console.log(newGame);
-                await PostApiCall('https://localhost:5000/Game/new-game', newGame )
-                
+                const id = await PostApiCall('https://localhost:5000/Game/new-game', newGame)
+
                 console.log("submit: ", data);
                 setSubmitting(false);
+                setOpenDialog(true);
+
               }}
             >
               {({ values, errors, isSubmitting }) => (
@@ -167,13 +171,14 @@ const NewGameBuilderForm: React.FC = () => {
                       multiple
                       value={playersInput}
                       onChange={handleChange}
-                      
+
                       renderValue={(selected: any) => (
                         <div className={classes.chips}>
                           {selected.map((value: any) => (
-                            
+
                             <Chip key={value} label={playerList!.find(p => {
-                              return p!.id === value})!.name} className={classes.chip} />
+                              return p!.id === value
+                            })!.name} className={classes.chip} />
                           ))}
                         </div>
                       )}
@@ -198,6 +203,12 @@ const NewGameBuilderForm: React.FC = () => {
                 </Form>
               )}
             </Formik>
+            {openDialog ? (
+              <AddGameDialog />
+            ) : (
+                <div></div>
+              )}
+
           </div>
         )}
     </Wrap>

@@ -14,6 +14,7 @@ export const PostApiCall = async (url: string, body: any): Promise<any> => {
    return axios.post(url, body )
       .then((response) => {
         console.log(response);
+        return response.data.id;
       }, (error) => {
         console.log(error);
       });
