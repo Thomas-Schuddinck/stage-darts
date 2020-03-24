@@ -6,7 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import PropagateLoader from "react-spinners/PropagateLoader";
-import GetApiCall from '../../services/ApiClient';
+import { GetApiCall } from '../../services/ApiClient';
 import LastDartThrow from '../../components/Game/LastDartThrow/LastDartThrow';
 import CurrentTurn from '../../components/Game/CurrentTurn/CurrentTurn';
 import { css } from "@emotion/core";

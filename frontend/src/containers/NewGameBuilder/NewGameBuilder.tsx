@@ -18,8 +18,7 @@ import { Player } from "../../models/Player";
 import { css } from "@emotion/core";
 import PropagateLoader from "react-spinners/PropagateLoader";
 import Wrap from '../../hoc/Wrap';
-import GetApiCall from '../../services/ApiClient';
-
+import { GetApiCall, PostApiCall }  from '../../services/ApiClient';
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -136,7 +135,15 @@ const NewGameBuilderForm: React.FC = () => {
               validationSchema={validationSchema}
               onSubmit={(data, { setSubmitting }) => {
                 setSubmitting(true);
-                // make async call
+                const newGame = {
+                  name: data.gameName,
+                  type: data.gameType,
+                  players: data.players,
+                };
+                console.log(data);
+                console.log(newGame);
+                PostApiCall('https://localhost:5000/Game/new-game', newGame )
+                
                 console.log("submit: ", data);
                 setSubmitting(false);
               }}
