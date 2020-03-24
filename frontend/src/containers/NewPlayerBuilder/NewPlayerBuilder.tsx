@@ -13,6 +13,11 @@ import { css } from "@emotion/core";
 import Wrap from '../../hoc/Wrap';
 import { PostApiCall } from '../../services/ApiClient';
 
+import { GetApiCall } from '../../services/ApiClient';
+import PropagateLoader from "react-spinners/PropagateLoader";
+import { PlayerList } from "../../components/NewPlayer/PlayerList";
+import { Player } from "../../models/Player";
+
 const useStyles = makeStyles(theme => ({
     formControl: {
         margin: theme.spacing(1),
@@ -33,7 +38,39 @@ const useStyles = makeStyles(theme => ({
         alignSelf: 'center',
         color: "#004BFF",
         fontSize: '1.2em',
+    },
+    but: {
+        backgroundColor: '#004BFF',
+        color: "#FFFFFF",
+        padding: '1.2em 2em',
+        margin: '0 auto',
+        '&:hover': {
+            backgroundColor: 'darkgreen',
+         },
+    },
+    form: {
+        padding: theme.spacing(1),
+        display: 'flex',
+
+        flexDirection: 'row',
+
+    },
+    input: {
+        margin: '20px'
+    },
+    hr: {
+        color: '#004BFF',
+        borderColor: '#004BFF',
+        borderWidth: '2px',
+        margin: '1.5em 0',
+        borderStyle: 'solid'
+    },
+    center: {
+        display: 'flex',
+        alignItems: 'center', 
+        justifyContent: 'space-evenly', 
     }
+
 }));
 
 
@@ -42,11 +79,13 @@ const validationSchema = yup.object({
     firstName: yup
         .string()
         .required()
-        .max(10),
+        .max(20)
+        .min(2),
     lastName: yup
         .string()
         .required()
-        .max(10),
+        .max(20)
+        .min(2),
     email: yup
         .string()
         .email()
@@ -60,14 +99,37 @@ const NewPlayerBuilderForm: React.FC = () => {
 
 
 
+    let [playerList, setPlayerList] = React.useState<Player[]>();
+    let [isLoading, setLoading] = React.useState(true);
+
+    const FetchData = async () => {
+
+        setLoading(true);
+        setPlayerList(await CallToApiPlayerListAll());
+        setLoading(false);
+
+    }
+
+    useEffect(() => {
+        FetchData();
+    }, []);
+
+    const CallToApiPlayerListAll = async (): Promise<Player[]> => {
+        return await GetApiCall('https://localhost:5000/Player').then(pl => {
+            return pl;
+
+        });
+    }
+
     const spinner = css`
-  display: block;
-  margin: 0 auto;
-  border-color: red;
-  margin-left: 50%;
-`;
+    display: block;
+    margin: 0 auto;
+    border-color: red;
+    margin-left: 50%;
+  `;
 
     return (
+
         <Wrap>
             <div>
                 <Formik
@@ -89,37 +151,50 @@ const NewPlayerBuilderForm: React.FC = () => {
                         console.log(data);
                         console.log(newPlayer);
                         await PostApiCall('https://localhost:5000/Player', newPlayer)
-
+                        FetchData();
                         console.log("submit: ", data);
                         setSubmitting(false);
                     }}
                 >
                     {({ values, errors, isSubmitting }) => (
-                        <Form>
-                            <div>
-                                <h5 className={classes.label}>Set Firstname</h5>
-                                <TextInput placeholder="your firstname" name="firstName" />
-                            </div>
-                            <div>
-                                <h5 className={classes.label}>Set Lastname</h5>
-                                <TextInput placeholder="your lastname" name="lastName" />
-                            </div>
-                            <div>
-                                <h5 className={classes.label}>Set Email</h5>
-                                <TextInput placeholder="your email" name="email" />
+                        <Form className={classes.center} >
+                            <div className={classes.form}>
+                                <div className={classes.input}>
+                                    <h5 className={classes.label}>Set Firstname</h5>
+                                    <TextInput placeholder="your firstname" name="firstName" />
+                                </div>
+                                <div className={classes.input}>
+                                    <h5 className={classes.label}>Set Lastname</h5>
+                                    <TextInput placeholder="your lastname" name="lastName" />
+                                </div>
+                                <div className={classes.input}>
+                                    <h5 className={classes.label}>Set Email</h5>
+                                    <TextInput placeholder="your email" name="email" />
+                                </div>
                             </div>
 
-                            <div>
-                                <Button disabled={isSubmitting} type="submit">
+
+                            <div className={classes.center} >
+                                <Button disabled={isSubmitting} className={classes.but} type="submit">
                                     submit
-              </Button>
+                                </Button>
                             </div>
-                            <pre>{JSON.stringify(values, null, 2)}</pre>
-                            <pre>{JSON.stringify(errors, null, 2)}</pre>
+                            {/*<pre>{JSON.stringify(values, null, 2)}</pre>
+                            <pre>{JSON.stringify(errors, null, 2)}</pre>*/}
                         </Form>
                     )}
                 </Formik>
             </div>
+            <hr className={classes.hr}/>
+            {isLoading ? (
+                <PropagateLoader
+                    css={spinner}
+                    size={20}
+                    color={"#123abc"}
+                />
+            ) : (
+                    <PlayerList players={playerList} />
+                )}
         </Wrap>
     );
 };
