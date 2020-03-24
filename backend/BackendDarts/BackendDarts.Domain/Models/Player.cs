@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BackendDarts.Domain.DTOs;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -27,6 +28,9 @@ namespace BackendDarts.Models
             
             Games = new List<Game>();
 
+        }
+        public Player(NewPlayerDTO newPlayerDTO):this(newPlayerDTO.FirstName, newPlayerDTO.LastName, newPlayerDTO.Email)
+        {
         }
 
     }

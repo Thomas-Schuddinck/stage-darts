@@ -4,6 +4,7 @@ using BackendDarts.data.Repos.IRepos;
 using BackendDarts.Models;
 using BackendDarts.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using BackendDarts.Domain.DTOs;
 
 namespace BackendDarts.Controllers
 {
@@ -95,10 +96,10 @@ namespace BackendDarts.Controllers
         }
 
         [HttpPost]
-        public ActionResult<PlayerDTO> Post(string firstName, string lastName)
+        public ActionResult<PlayerDTO> Post([FromBody]NewPlayerDTO newPlayer)
         {
 
-            Player a = new Player(firstName, lastName);
+            Player a = new Player(newPlayer);
             _playerRepository.Add(a);
             _playerRepository.SaveChanges();
             return CreatedAtAction(nameof(GetBy), new { id = a.Id }, a);
