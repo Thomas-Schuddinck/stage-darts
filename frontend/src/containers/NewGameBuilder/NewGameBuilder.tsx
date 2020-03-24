@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Formik,
   Form
@@ -14,6 +14,11 @@ import Chip from '@material-ui/core/Chip';
 import * as yup from "yup";
 import TextInput from "../../components/NewGame/TextInput";
 import RadioInput from "../../components/NewGame/RadioInput";
+import { Player } from "../../models/Player";
+import { css } from "@emotion/core";
+import PropagateLoader from "react-spinners/PropagateLoader";
+import Wrap from '../../hoc/Wrap';
+import GetApiCall from '../../services/ApiClient';
 
 
 const useStyles = makeStyles(theme => ({
@@ -37,7 +42,7 @@ const useStyles = makeStyles(theme => ({
     color: "#004BFF",
     fontSize: '1.2em',
   }
-  }));
+}));
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -50,23 +55,12 @@ const MenuProps = {
   },
 };
 
-const names = [
-  'Oliver Hansen',
-  'Van Henry',
-  'April Tucker',
-  'Ralph Hubbard',
-  'Omar Alexander',
-  'Carlos Abbott',
-  'Miriam Wagner',
-  'Bradley Wilkerson',
-  'Virginia Andrews',
-  'Kelly Snyder',
-];
 
-function getStyles(name: any, personName: any, theme: any) {
+
+function getStyles(id: number, playerList: any, theme: any) {
   return {
     fontWeight:
-      personName.indexOf(name) === -1
+      playerList.indexOf(id) === -1
         ? theme.typography.fontWeightRegular
         : theme.typography.fontWeightMedium,
   };
@@ -74,93 +68,132 @@ function getStyles(name: any, personName: any, theme: any) {
 
 
 const validationSchema = yup.object({
-  firstName: yup
+  gameName: yup
     .string()
     .required()
     .max(10),
-  pets: yup.array().of(
-    yup.object({
-      name: yup.string().required()
-    })
-  )
+  
 });
 
 const NewGameBuilderForm: React.FC = () => {
   const classes = useStyles();
   const theme = useTheme();
-  const [player, setPlayer] = React.useState([]);
 
   const handleChange = (event: any) => {
-    setPlayer(event.target.value);
+    console.log('i changed');
+    console.log(event.target.value);
+    setPlayers(event.target.value);
   };
-  return (
-    <div>
-      <Formik
-        validateOnChange={true}
-        initialValues={{
-          gameName: "",
-          gameType: "",
-          players: []
-        }}
-        validationSchema={validationSchema}
-        onSubmit={(data, { setSubmitting }) => {
-          setSubmitting(true);
-          // make async call
-          console.log("submit: ", data);
-          setSubmitting(false);
-        }}
-      >
-        {({ values, errors, isSubmitting }) => (
-          <Form>
-            <div>
-              <h5 className={classes.label}>Set Game Name</h5>
-              <TextInput placeholder="game name" name="gameName" />
-            </div>
-            <div>
-              <h5 className={classes.label}>Select Game Type</h5>
-              <RadioInput name="gameType" type="radio" value="1" label="casual" />
-              <RadioInput name="gameType" type="radio" value="2" label="competitive" />
-              <RadioInput name="gameType" type="radio" value="3" label="championship" />
-            </div>
-            <div>
-            <h5 className={classes.label}>Select Players</h5>
-              <Select
-                labelId="demo-mutiple-chip-label"
-                id="demo-mutiple-chip"
-                multiple
-                name="players"
-                value={player}
-                onChange={handleChange}
-                input={<Input id="select-multiple-chip" />}
-                renderValue={(selected: any) => (
-                  <div className={classes.chips}>
-                    {selected.map((value: any) => (
-                      <Chip key={value} label={value} className={classes.chip} />
-                    ))}
-                  </div>
-                )}
-                className={classes.formControl}
-                MenuProps={MenuProps}
-              >
-                {names.map(name => (
-                  <MenuItem key={name} value={name} style={getStyles(name, player, theme)}>
-                    {name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </div>
 
-            <div>
-              <Button disabled={isSubmitting} type="submit">
-                submit
+  let [playersInput, setPlayers] = React.useState([]);
+  let [playerList, setPlayerList] = React.useState<Player[]>();
+  let [isLoading, setLoading] = React.useState(true);
+
+  const FetchData = async () => {
+
+    setLoading(true);
+    setPlayerList(await CallToApiPlayerListAll());
+    setLoading(false);
+
+  }
+
+  useEffect(() => {
+    FetchData();
+  }, []);
+
+  const CallToApiPlayerListAll = async (): Promise<Player[]> => {
+    return await GetApiCall('https://localhost:5000/Player').then(pl => {
+      return pl;
+
+    });
+  }
+
+  const spinner = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+  margin-left: 50%;
+`;
+
+  return (
+    <Wrap>
+      {isLoading ? (
+        <PropagateLoader
+          css={spinner}
+          size={20}
+          color={"#123abc"}
+        />
+      ) : (
+          <div>
+            <Formik
+              validateOnChange={true}
+              initialValues={{
+                gameName: "",
+                gameType: "",
+                players: playersInput
+              }}
+              enableReinitialize={true}
+              validationSchema={validationSchema}
+              onSubmit={(data, { setSubmitting }) => {
+                setSubmitting(true);
+                // make async call
+                console.log("submit: ", data);
+                setSubmitting(false);
+              }}
+            >
+              {({ values, errors, isSubmitting }) => (
+                <Form>
+                  <div>
+                    <h5 className={classes.label}>Set Game Name</h5>
+                    <TextInput placeholder="game name" name="gameName" />
+                  </div>
+                  <div>
+                    <h5 className={classes.label}>Select Game Type</h5>
+                    <RadioInput name="gameType" type="radio" value="1" label="casual" />
+                    <RadioInput name="gameType" type="radio" value="2" label="competitive" />
+                    <RadioInput name="gameType" type="radio" value="3" label="championship" />
+                  </div>
+                  <div>
+                    <h5 className={classes.label}>Select Players</h5>
+                    <Select
+                      name="players"
+                      multiple
+                      value={playersInput}
+                      onChange={handleChange}
+                      
+                      renderValue={(selected: any) => (
+                        <div className={classes.chips}>
+                          {selected.map((value: any) => (
+                            
+                            <Chip key={value} label={playerList!.find(p => {
+                              return p!.id === value})!.name} className={classes.chip} />
+                          ))}
+                        </div>
+                      )}
+                      className={classes.formControl}
+                      MenuProps={MenuProps}
+                    >
+                      {playerList?.map(player => (
+                        <MenuItem key={player.id} value={player.id} style={getStyles(player.id, playersInput, theme)}>
+                          {player.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </div>
+
+                  <div>
+                    <Button disabled={isSubmitting} type="submit">
+                      submit
               </Button>
-            </div>
-            <pre>{JSON.stringify(values, null, 2)}</pre>
-            <pre>{JSON.stringify(errors, null, 2)}</pre>
-          </Form>
+                  </div>
+                  <pre>{JSON.stringify(values, null, 2)}</pre>
+                  <pre>{JSON.stringify(errors, null, 2)}</pre>
+                </Form>
+              )}
+            </Formik>
+          </div>
         )}
-      </Formik>
-    </div>
+    </Wrap>
   );
 };
 
