@@ -7,7 +7,7 @@ namespace BackendDarts.DTOs
 {
     public class NewGameDTO
     {
-        public String Name { get; set; }
+        public string Name { get; set; }
         public int Type { get; set; }
 
         public List<int> Players { get; set; }

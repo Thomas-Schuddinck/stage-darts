@@ -11,11 +11,9 @@ import { GetApiCall } from '../../services/ApiClient';
 import PropagateLoader from "react-spinners/PropagateLoader";
 import Wrap from '../../hoc/Wrap';
 import { css } from "@emotion/core";
-import { LeaderboardStats } from '../../models/LeaderboardStats';
 import { Game } from '../../models/Game';
 import GameListPlayerField from '../../components/GameList/GameListPlayerField/GameListPlayerField';
 import { NavLink, Redirect } from 'react-router-dom';
-import { Link } from '@material-ui/core';
 
 const StyledTableCell = withStyles(theme => ({
     head: {

@@ -10,11 +10,12 @@ export const GetApiCall = async (url: string): Promise<any> => {
    })
 }
 
-export const PostApiCall = (url: string, body: any): Promise<any> => {
-   return axios.post(url, { body })
-      .then(res => {
-         console.log(res);
-         console.log(res.data);
-      })
+export const PostApiCall = async (url: string, body: any): Promise<any> => {
+   return axios.post(url, body )
+      .then((response) => {
+        console.log(response);
+      }, (error) => {
+        console.log(error);
+      });
 }
 

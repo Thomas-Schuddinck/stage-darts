@@ -133,7 +133,7 @@ const NewGameBuilderForm: React.FC = () => {
               }}
               enableReinitialize={true}
               validationSchema={validationSchema}
-              onSubmit={(data, { setSubmitting }) => {
+              onSubmit={ async (data, { setSubmitting }) => {
                 setSubmitting(true);
                 const newGame = {
                   name: data.gameName,
@@ -142,7 +142,7 @@ const NewGameBuilderForm: React.FC = () => {
                 };
                 console.log(data);
                 console.log(newGame);
-                PostApiCall('https://localhost:5000/Game/new-game', newGame )
+                await PostApiCall('https://localhost:5000/Game/new-game', newGame )
                 
                 console.log("submit: ", data);
                 setSubmitting(false);
