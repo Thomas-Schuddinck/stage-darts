@@ -78,18 +78,18 @@ const useStyles = makeStyles(theme => ({
 const validationSchema = yup.object({
     firstName: yup
         .string()
-        .required()
+        .required("Your firstname is required")
         .max(20)
         .min(2),
     lastName: yup
         .string()
-        .required()
+        .required("Your lastname is required")
         .max(20)
         .min(2),
     email: yup
         .string()
-        .email()
-        .required(),
+        .email("Must be a valid email")
+        .required("Your email is required"),
 
 });
 
