@@ -4,7 +4,7 @@ import {
   Form
 } from "formik";
 import {
-  Button
+  Button, RadioGroup
 } from "@material-ui/core";
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
@@ -20,6 +20,7 @@ import PropagateLoader from "react-spinners/PropagateLoader";
 import Wrap from '../../hoc/Wrap';
 import { GetApiCall, PostApiCall } from '../../services/ApiClient';
 import { AddGameDialog } from "../../components/NewGame/AddGameDialog";
+import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -55,6 +56,7 @@ const MenuProps = {
   },
 };
 
+const PowerOf2 = [2, 4, 8, 16, 32, 64, 128, 256]
 
 
 function getStyles(id: number, playerList: any, theme: any) {
@@ -70,8 +72,19 @@ function getStyles(id: number, playerList: any, theme: any) {
 const validationSchema = yup.object({
   gameName: yup
     .string()
-    .required()
+    .required("A game name is required")
     .max(10),
+  gameType: yup
+  .number()
+  .required("Select a game type"),
+  players: yup
+    .array()
+    .required("You must add players to the game")
+    .min(2, "You need at least 2 players")
+    .when("gameType",{
+      is: 3,
+      then: yup.array().test('len', 'Must be a power of 2', val => PowerOf2?.includes(val.length))
+    })
 
 });
 
@@ -89,6 +102,7 @@ const NewGameBuilderForm: React.FC = () => {
   let [playerList, setPlayerList] = React.useState<Player[]>();
   let [isLoading, setLoading] = React.useState(true);
   let [openDialog, setOpenDialog] = React.useState(false);
+  let [gameMode, setGameMode] = React.useState(-1);
 
   const FetchData = async () => {
 
@@ -107,6 +121,11 @@ const NewGameBuilderForm: React.FC = () => {
       return pl;
 
     });
+  }
+
+  const onRadioChange = (e: any) => {
+    setGameMode(+e.target.value);
+
   }
 
   const spinner = css`
@@ -142,11 +161,7 @@ const NewGameBuilderForm: React.FC = () => {
                   type: data.gameType,
                   players: data.players,
                 };
-                console.log(data);
-                console.log(newGame);
                 const id = await PostApiCall('https://localhost:5000/Game/new-game', newGame)
-
-                console.log("submit: ", data);
                 setSubmitting(false);
                 setOpenDialog(true);
 
@@ -160,9 +175,22 @@ const NewGameBuilderForm: React.FC = () => {
                   </div>
                   <div>
                     <h5 className={classes.label}>Select Game Type</h5>
-                    <RadioInput name="gameType" type="radio" value="1" label="casual" />
-                    <RadioInput name="gameType" type="radio" value="2" label="competitive" />
-                    <RadioInput name="gameType" type="radio" value="3" label="championship" />
+                    {gameMode === 1 &&
+                      <Alert severity="info">Play a casual game: this will not affect your statistics</Alert>
+                    }
+                    {gameMode === 2 &&
+                      <Alert severity="error">Play a ranked game: this will affect your statistics and your rank</Alert>
+                    }
+                    {gameMode === 3 &&
+                      <Alert severity="warning">Create a tournament consisting of multiple elimination rounds: this will affect player's statistics but not their rank</Alert>
+                    }
+
+                    <RadioGroup row onChange={onRadioChange} >
+                      <RadioInput name="gameType" type="radio" value="1" label="casual" />
+                      <RadioInput name="gameType" type="radio" value="2" label="competitive" />
+                      <RadioInput name="gameType" type="radio" value="3" label="tournament" />
+                    </RadioGroup>
+
                   </div>
                   <div>
                     <h5 className={classes.label}>Select Players</h5>
