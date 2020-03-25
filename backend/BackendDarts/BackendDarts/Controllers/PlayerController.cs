@@ -106,14 +106,6 @@ namespace BackendDarts.Controllers
 
         }
 
-        // PUT: api/Afbeelding/5
-        //[HttpPut("{id}")]
-        //public ActionResult<Player> Put()
-        //{
-
-
-        //}
-
         [HttpDelete("{id}")]
         public ActionResult<PlayerDTO> Delete(int id)
         {
