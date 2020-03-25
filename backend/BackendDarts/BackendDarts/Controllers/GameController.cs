@@ -94,13 +94,19 @@ namespace BackendDarts.Controllers
             return new GameDTO(game);
         }
 
-        [HttpPut("join/{id}/{value}")]
-        public ActionResult<GameDTO> AddThrow(int id, int value)
+        [HttpPut("throwedit/{id}/{value}")]
+        public ActionResult<StatusDTO> AddThrow(int id, int idThrow, int value)
         {
             Game game = _gameRepository.GetBy(id);
-            game.AddThrow(value);
+            game.GetCurrenPlayerLeg().Turns.Last().Throws.SingleOrDefault(t => t.Id == idThrow).Value = value;
+
+            Game currentGame = _gameRepository.GetBy(Game.singletonGame.Id);
+
+            StatusDTO statusDTO = FillStatusDTO(currentGame, 4);
             _gameRepository.SaveChanges();
-            return new GameDTO(game);
+            _hubContext.Clients.All.UpdateGame(statusDTO);
+
+            return statusDTO;
         }
 
         [HttpPut("{id}/{idPlayer}")]
@@ -118,22 +124,6 @@ namespace BackendDarts.Controllers
             game.AddPlayer(player);
             _gameRepository.SaveChanges();
             return new GameDTO(game);
-        }
-
-        [HttpPost]
-        public string Post([FromBody]Message msg)
-        {
-            string retMessage;
-            try
-            {
-                _hubContext.Clients.All.BroadcastMessage(msg.Type, msg.Payload);
-                retMessage = "Success";
-            }
-            catch (Exception e)
-            {
-                retMessage = e.ToString();
-            }
-            return retMessage;
         }
 
         [HttpPost("game/")]

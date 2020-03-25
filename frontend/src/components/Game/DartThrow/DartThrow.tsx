@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useState, useEffect } from 'react';
-import { ListItem, TextField } from '@material-ui/core';
+import { ListItem, TextField, Button } from '@material-ui/core';
 import './DartThrow.css'
 import indigo from '@material-ui/core/colors/indigo';
 import clsx from 'clsx';
@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
           },
     },
     noPadding: {
-        padding: '0.2em',
+        padding: '0',
         justifyContent: 'inherit'
     },
     colR:{
@@ -31,6 +31,16 @@ const useStyles = makeStyles(theme => ({
     },
     colI:{
         color: indigo[400],
+    },
+    buttonstyle: {
+        padding: '0',
+        minWidth: '30px'
+    },
+    buttonselected: {
+        padding: '0',
+        minWidth: '30px',
+        backgroundColor: indigo[600],
+        color: 'white',
     }
 }));
 
@@ -38,6 +48,8 @@ function DartThrow(props: any) {
     const classes = useStyles();
     let [eroor, setEroor] = useState<boolean>();
     let [scorevalue, setScorevalue] = useState<number>();
+    let [selected = false, setSelected] = useState<boolean>();
+
     useEffect(() => {
         console.log("usefefect gebruiket");
         setScorevalue(props.score);
@@ -54,12 +66,22 @@ function DartThrow(props: any) {
         console.log(eroor);
     });
 
+    const toggleSelected = () => {
+        if(selected)
+            setSelected(false);
+        else
+            setSelected(true);
+        
+    }
     return (
         <ListItem className={classes.noPadding}>
-            <TextField type='number' InputProps={{ inputProps: { min: 0, max: 60, className:clsx( classes.input, classes.listItemText , eroor && classes.colR, !eroor && classes.colI )  } }}
+            {/* <TextField type='number' InputProps={{ inputProps: { min: 0, max: 60, className:clsx( classes.input, classes.listItemText , eroor && classes.colR, !eroor && classes.colI )  } }}
                 onChange={event => rightinput(Number.parseInt(event.target.value))}
                 error={eroor}
-                id="outlined-basic" variant="outlined" value={scorevalue} />
+                id="outlined-basic" variant="outlined" value={scorevalue} /> */}
+                <Button onClick={() => toggleSelected()} className={selected ? classes.buttonselected: classes.buttonstyle}>
+                    {props.score}
+                </Button>
         </ListItem>
     );
 

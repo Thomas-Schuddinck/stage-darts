@@ -14,7 +14,6 @@ const useStyles = makeStyles(theme => ({
   },
   lijst: {
     display: 'flex',
-    overflow: 'auto',
     flexDirection: 'row',
     justifyContent: 'center'
   },
