@@ -155,6 +155,10 @@ namespace BackendDarts.data
 
                 game3.AddPlayer(player1);
                 game3.AddPlayer(player2);
+
+                game1.AddLeg();
+                game2.AddLeg();
+                game3.AddLeg();
                 //adding dartthrows
                 DartThrow dt1 = new DartThrow(13);
                 DartThrow dt2 = new DartThrow(19);

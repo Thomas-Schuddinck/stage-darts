@@ -45,10 +45,7 @@ namespace BackendDarts.Controllers
         public List<LeaderboardDTO> GetLeaderboard()
         {
             //map aanmaken met alle spelers in
-
-
             //leaderborddtos aanmaken per speler en in lijst steken
-
             var temp = 0;
             return CreateLeaderBoardDTO(MapPlayerData());
 
