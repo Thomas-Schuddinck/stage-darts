@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BackendDarts.Domain.DTOs
 {
-    public class LeaderboardDTO
+    public class LeaderboardRowDTO
     {
         public PlayerDTO player { get; set; }
         public int NumberOfWins { get; set; }
