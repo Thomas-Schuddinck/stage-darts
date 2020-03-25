@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import {
   Formik,
-  Form
+  Form,
+  ErrorMessage
 } from "formik";
 import {
   Button, RadioGroup
@@ -171,10 +172,13 @@ const NewGameBuilderForm: React.FC = () => {
                 <Form>
                   <div>
                     <h5 className={classes.label}>Set Game Name</h5>
+                    
+                    
                     <TextInput placeholder="game name" name="gameName" />
                   </div>
                   <div>
                     <h5 className={classes.label}>Select Game Type</h5>
+                    <ErrorMessage component="div" name="gameType" />
                     {gameMode === 1 &&
                       <Alert severity="info">Play a casual game: this will not affect your statistics</Alert>
                     }
@@ -190,10 +194,13 @@ const NewGameBuilderForm: React.FC = () => {
                       <RadioInput name="gameType" type="radio" value="2" label="competitive" />
                       <RadioInput name="gameType" type="radio" value="3" label="tournament" />
                     </RadioGroup>
+                    
 
                   </div>
                   <div>
                     <h5 className={classes.label}>Select Players</h5>
+                    <ErrorMessage component="div" name="players" />
+                    
                     <Select
                       name="players"
                       multiple
@@ -219,6 +226,7 @@ const NewGameBuilderForm: React.FC = () => {
                         </MenuItem>
                       ))}
                     </Select>
+
                   </div>
 
                   <div>
