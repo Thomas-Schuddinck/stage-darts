@@ -119,17 +119,23 @@ namespace BackendDarts.Controllers
         /// Edit a throw of a given game with given dartthrow
         /// </summary>
         /// <param name="id">ID of the game to update</param>
+        /// <param name="idThrow">ID of the dartthrow to update</param>
         /// <param name="value">the score of the throw</param>
         /// <returns>The updated game</returns>
-        [HttpPut("join/{id}/{value}")]
-        public ActionResult<GameDTO> AddThrow(int id, int value)
+        [HttpPut("throwedit/{id}/{value}")]
+        public ActionResult<StatusDTO> AddThrow(int id, int idThrow, int value)
         {
             Game game = _gameRepository.GetBy(id);
-            game.AddThrow(value);
-            _gameRepository.SaveChanges();
-            return new GameDTO(game);
-        }
+            game.GetCurrenPlayerLeg().Turns.Last().Throws.SingleOrDefault(t => t.Id == idThrow).Value = value;
 
+            Game currentGame = _gameRepository.GetBy(Game.singletonGame.Id);
+
+            StatusDTO statusDTO = FillStatusDTO(currentGame, 4);
+            _gameRepository.SaveChanges();
+            _hubContext.Clients.All.UpdateGame(statusDTO);
+
+            return statusDTO;
+        }
         /// <summary>
         /// LEt a given player join a game with given ID
         /// </summary>
