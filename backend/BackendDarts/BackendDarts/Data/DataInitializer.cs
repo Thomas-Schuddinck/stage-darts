@@ -35,9 +35,9 @@ namespace BackendDarts.data
 
 
                 //adding players
-                Player player1 = new Player("Peter");
-                Player player2 = new Player("Tom");
-                Player player3 = new Player("Quinten");
+                Player player1 = new Player("Thomas", "Schuddinck", "thomas.schuddinck@realdolmen.com");
+                Player player2 = new Player("Wouter", "Opsommer", "wouter.opsommer@realdolmen.com");
+                Player player3 = new Player("Johan", "Van Schoor", "johan.vanschoor@hogent.be");
                 _dbContext.Players.Add(player1);
                 _dbContext.Players.Add(player2);
                 _dbContext.Players.Add(player3);
@@ -135,14 +135,14 @@ namespace BackendDarts.data
                 lg4.Legnr = 1;
                 lg5.Legnr = 2;
                 lg6.Legnr = 3;
-                game1.LegGroups.Add(lg1);
+                game1.CurrentLegGroup = lg1;
 
                 game2.LegGroups.Add(lg2);
-                game2.LegGroups.Add(lg3);
+                game2.CurrentLegGroup = lg3;
 
                 game3.LegGroups.Add(lg4);
                 game3.LegGroups.Add(lg5);
-                game3.LegGroups.Add(lg6);
+                game3.CurrentLegGroup = lg6;
 
                 //adding players to games
                 game1.AddPlayer(player1);
@@ -155,6 +155,11 @@ namespace BackendDarts.data
 
                 game3.AddPlayer(player1);
                 game3.AddPlayer(player2);
+                /*
+                game1.SetNextLegGroup();
+                game2.SetNextLegGroup();
+                game3.SetNextLegGroup();
+                */
                 //adding dartthrows
                 DartThrow dt1 = new DartThrow(13);
                 DartThrow dt2 = new DartThrow(19);

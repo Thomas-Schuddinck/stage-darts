@@ -7,15 +7,13 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import GetApiCall from '../../services/ApiClient';
+import { GetApiCall } from '../../services/ApiClient';
 import PropagateLoader from "react-spinners/PropagateLoader";
 import Wrap from '../../hoc/Wrap';
 import { css } from "@emotion/core";
-import { LeaderboardStats } from '../../models/LeaderboardStats';
 import { Game } from '../../models/Game';
 import GameListPlayerField from '../../components/GameList/GameListPlayerField/GameListPlayerField';
 import { NavLink, Redirect } from 'react-router-dom';
-import { Link } from '@material-ui/core';
 
 const StyledTableCell = withStyles(theme => ({
     head: {

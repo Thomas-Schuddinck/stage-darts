@@ -1,5 +1,5 @@
 import React from 'react';
-import DartThrow from './DartThrow/DartThrow';
+import DartThrow from './DartThrow/DartThrowComponent';
 import GamePlayer from './GamePlayer/GamePlayer';
 
 

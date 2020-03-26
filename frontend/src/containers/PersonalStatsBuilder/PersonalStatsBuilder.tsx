@@ -8,7 +8,7 @@ import WinLoss from '../../components/PersonalStats/WinLoss';
 import Heatmap from '../../components/PersonalStats/Heatmap';
 import Performance from '../../components/PersonalStats/Performance';
 import History from '../../components/PersonalStats/History/History';
-import GetApiCall from '../../services/ApiClient';
+import { GetApiCall } from '../../services/ApiClient';
 import { Player } from '../../models/Player';
 import { Stats } from '../../models/Stats';
 import PropagateLoader from "react-spinners/PropagateLoader";

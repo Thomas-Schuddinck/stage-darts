@@ -1,9 +1,11 @@
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useState, useEffect } from 'react';
-import { ListItem, TextField } from '@material-ui/core';
+import { ListItem, TextField, Button } from '@material-ui/core';
 import './DartThrow.css'
 import indigo from '@material-ui/core/colors/indigo';
 import clsx from 'clsx';
+import { DartThrow } from '../../../models/DartThrow';
+
 let throwcolor = indigo[400];
 
 const useStyles = makeStyles(theme => ({
@@ -23,7 +25,7 @@ const useStyles = makeStyles(theme => ({
           },
     },
     noPadding: {
-        padding: '0.2em',
+        padding: '0',
         justifyContent: 'inherit'
     },
     colR:{
@@ -31,15 +33,27 @@ const useStyles = makeStyles(theme => ({
     },
     colI:{
         color: indigo[400],
+    },
+    buttonstyle: {
+        padding: '0',
+        minWidth: '30px'
+    },
+    buttonselected: {
+        padding: '0',
+        minWidth: '30px',
+        backgroundColor: indigo[600],
+        color: 'white',
     }
 }));
 
-function DartThrow(props: any) {
+function DartThrowComponent(props: any) {
     const classes = useStyles();
     let [eroor, setEroor] = useState<boolean>();
     let [scorevalue, setScorevalue] = useState<number>();
+    let [selected = false, setSelected] = useState<boolean>();
+
     useEffect(() => {
-        console.log("usefefect gebruiket");
+        console.log("usefefect gebruiket: " + props.score.id);
         setScorevalue(props.score);
     }, []);
 
@@ -48,22 +62,38 @@ function DartThrow(props: any) {
             setEroor(false);
         else {
             setEroor(true);
-            throwcolor = 'red';
+            throwcolor = '#5c6bc0';
         }
         setScorevalue(inv);
         console.log(eroor);
     });
 
+    const toggleSelected = (tr: DartThrow) => {
+        if(selected) {
+            setSelected(false);
+            props.sendThrowToParent(null);
+        }
+        else {
+            setSelected(true);
+            props.sendThrowToParent(tr);
+        }
+            
+        console.log("de throw id die geselecteerd is: " + tr.id);
+        
+    }
     return (
         <ListItem className={classes.noPadding}>
-            <TextField type='number' InputProps={{ inputProps: { min: 0, max: 60, className:clsx( classes.input, classes.listItemText , eroor && classes.colR, !eroor && classes.colI )  } }}
+            {/* <TextField type='number' InputProps={{ inputProps: { min: 0, max: 60, className:clsx( classes.input, classes.listItemText , eroor && classes.colR, !eroor && classes.colI )  } }}
                 onChange={event => rightinput(Number.parseInt(event.target.value))}
                 error={eroor}
-                id="outlined-basic" variant="outlined" value={scorevalue} />
+                id="outlined-basic" variant="outlined" value={scorevalue} /> */}
+                <Button onClick={() => toggleSelected(props.score)} className={selected ? classes.buttonselected: classes.buttonstyle}>
+                    {props.score.value}
+                </Button>
         </ListItem>
     );
 
 
 };
 
-export default DartThrow;
+export default DartThrowComponent;

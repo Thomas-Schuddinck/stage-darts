@@ -24,8 +24,8 @@ namespace BackendDarts.DTOs
         public GameDTO(Game g) : this()
         {
             this.Id = g.Id;
-            this.beginDate = g.beginDate;
-            this.endDate = g.endDate;
+            this.beginDate = g.BeginDate;
+            this.endDate = g.EndDate;
             Dictionary<int, int> winnarsmap = new Dictionary<int, int>();
             foreach (LegGroup lg in g.LegGroups)
             {

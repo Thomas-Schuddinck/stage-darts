@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BackendDarts.Domain.DTOs
 {
-    public class TempPlayerDataDTO
+    public class LeaderboardPlayerDataDTO
     {
         public int NumberOfWins { get; set; }
         public int NumberOfSixties { get; set; }

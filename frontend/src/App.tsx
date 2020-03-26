@@ -7,6 +7,8 @@ import Leaderbord from './containers/LeaderbordBuilder/LeaderbordBuilder';
 import PersonalStatsBuilder from './containers/PersonalStatsBuilder/PersonalStatsBuilder';
 import Layout from './hoc/Layout';
 import GameListBuilder from './containers/GameListBuilder/GameListBuilder';
+import NewGameBuilderForm from './containers/NewGameBuilder/NewGameBuilder';
+import NewPlayerBuilderForm from './containers/NewPlayerBuilder/NewPlayerBuilder';
 
 
 function App() {
@@ -15,15 +17,21 @@ function App() {
       <header className="App-header">
       </header>
       <Layout>
-        <Route path="/game/:id"  component={GameBuilder} />
+        <Route path="/new-game">
+          <NewGameBuilderForm />
+        </Route>
+        <Route path="/new-player">
+          <NewPlayerBuilderForm />
+        </Route>
+        <Route path="/game/:id" component={GameBuilder} />
         <Route path="/gamelist">
-          <GameListBuilder></GameListBuilder>
+          <GameListBuilder />
         </Route>
         <Route path="/stats">
-          <PersonalStatsBuilder></PersonalStatsBuilder>
+          <PersonalStatsBuilder />
         </Route>
         <Route path="/leaderbord">
-          <Leaderbord></Leaderbord>
+          <Leaderbord />
         </Route>
         <Route path="/about">
           <AboutBuilder />
