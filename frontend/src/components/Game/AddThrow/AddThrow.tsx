@@ -5,6 +5,8 @@ import Wrap from '../../../hoc/Wrap'
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import PostApiCall from '../../../services/ApiClientPost';
 
+import {PutApiCall} from '../../../services/ApiClient';
+
 const useStyles = makeStyles(theme => ({
     leg: {
         fontSize: '1.5em',
@@ -68,18 +70,31 @@ const AddThrow = (props: any) => {
 
     const PostThrowCall = async (value: string) => {
         let val = parseInt(value);
+        console.log(props.selectedThrow);
 
-        if (double)
-            val = val * 2;
-        if (tripple)
-            val = val * 3;
+        
+            if (double)
+                val = val * 2;
+            if (tripple)
+                val = val * 3;
 
-        setDouble(false);
-        setTripple(false);
-        console.log(val);
-        return await PostApiCall('https://localhost:5000/Game/game', val.toString()).then(resp => {
-            console.log(resp);
-        });
+            setDouble(false);
+            setTripple(false);
+            if (props.selectedThrow == null) {
+                return await PostApiCall('https://localhost:5000/Game/game', val.toString()).then(resp => {
+                console.log(resp);
+            });
+            } else {
+                return await PutApiCall('https://localhost:5000/Game/throwedit/'+ props.currentgame + '/' + props.selectedThrow.id + '/' + val).then(resp => {
+                console.log("--------");
+                console.log(props.selectedThrow);
+                console.log(props.currentgame);
+                console.log(resp);
+            });
+            }
+            
+
+
     }
 
     const createButtons = () => {
@@ -126,23 +141,23 @@ const AddThrow = (props: any) => {
         <Wrap>
 
             {size < 499 ? (
-            <Grid className={classes.wrap} container>
-                {createButtons()}
-                <Grid item xs={2} md={2} lg={2}>
-                    <Button onClick={() => PostThrowCall('25')} className={classes.button}>25</Button>
+                <Grid className={classes.wrap} container>
+                    {createButtons()}
+                    <Grid item xs={2} md={2} lg={2}>
+                        <Button onClick={() => PostThrowCall('25')} className={classes.button}>25</Button>
+                    </Grid>
+                    <Grid item xs={2} md={2} lg={2}>
+                        <Button onClick={() => toggleDouble()} className={double ? classes.buttonSelected : classes.button}>D</Button>
+                    </Grid>
+                    <Grid item xs={2} md={2} lg={2}>
+                        <Button onClick={() => toggleTripple()} className={tripple ? classes.buttonSelected : classes.button}>T</Button>
+                    </Grid>
+                    <Grid item xs={2} md={2} lg={2}>
+                        <Button className={classes.photo}><AddAPhotoIcon /></Button>
+                    </Grid>
                 </Grid>
-                <Grid item xs={2} md={2} lg={2}>
-                    <Button onClick={() => toggleDouble()} className={double ? classes.buttonSelected: classes.button}>D</Button>
-                </Grid>
-                <Grid item xs={2} md={2} lg={2}>
-                    <Button onClick={() => toggleTripple()} className={tripple ? classes.buttonSelected: classes.button}>T</Button>
-                </Grid>
-                <Grid item xs={2} md={2} lg={2}>
-                    <Button className={classes.photo}><AddAPhotoIcon /></Button>
-                </Grid>
-            </Grid>
             ) : (
-                null
+                    null
                 )}
 
         </Wrap>
