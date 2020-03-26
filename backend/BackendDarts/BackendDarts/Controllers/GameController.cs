@@ -190,9 +190,11 @@ namespace BackendDarts.Controllers
         {
             Game currentGame = _gameRepository.GetBy(Game.singletonGame.Id);
             int status = HandleThrow(currentGame, dartThrow);
-
-            StatusDTO statusDTO = FillStatusDTO(currentGame, status);
             _gameRepository.SaveChanges();
+
+            currentGame = _gameRepository.GetBy(Game.singletonGame.Id);
+            StatusDTO statusDTO = FillStatusDTO(currentGame, status);
+            
             _hubContext.Clients.All.UpdateGame(statusDTO);
 
             return statusDTO;

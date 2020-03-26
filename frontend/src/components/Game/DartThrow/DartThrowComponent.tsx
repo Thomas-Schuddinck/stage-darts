@@ -53,7 +53,7 @@ function DartThrowComponent(props: any) {
     let [selected = false, setSelected] = useState<boolean>();
 
     useEffect(() => {
-        console.log("usefefect gebruiket");
+        console.log("usefefect gebruiket: " + props.score.id);
         setScorevalue(props.score);
     }, []);
 
@@ -78,7 +78,7 @@ function DartThrowComponent(props: any) {
             props.sendThrowToParent(tr);
         }
             
-
+        console.log("de throw id die geselecteerd is: " + tr.id);
         
     }
     return (

@@ -5,7 +5,7 @@ import { indigo } from '@material-ui/core/colors';
 
 const useStyles = makeStyles(theme => ({
     tekstHoofd: {
-        fontSize: '1.5em',
+        fontSize: '1.2em',
         alignSelf: 'center',
         color: indigo[700],
 
