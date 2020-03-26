@@ -4,6 +4,8 @@ import { ListItem, TextField, Button } from '@material-ui/core';
 import './DartThrow.css'
 import indigo from '@material-ui/core/colors/indigo';
 import clsx from 'clsx';
+import { DartThrow } from '../../../models/DartThrow';
+
 let throwcolor = indigo[400];
 
 const useStyles = makeStyles(theme => ({
@@ -44,14 +46,14 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-function DartThrow(props: any) {
+function DartThrowComponent(props: any) {
     const classes = useStyles();
     let [eroor, setEroor] = useState<boolean>();
     let [scorevalue, setScorevalue] = useState<number>();
     let [selected = false, setSelected] = useState<boolean>();
 
     useEffect(() => {
-        console.log("usefefect gebruiket");
+        console.log("usefefect gebruiket: " + props.score.id);
         setScorevalue(props.score);
     }, []);
 
@@ -66,11 +68,17 @@ function DartThrow(props: any) {
         console.log(eroor);
     });
 
-    const toggleSelected = () => {
-        if(selected)
+    const toggleSelected = (tr: DartThrow) => {
+        if(selected) {
             setSelected(false);
-        else
+            props.sendThrowToParent(null);
+        }
+        else {
             setSelected(true);
+            props.sendThrowToParent(tr);
+        }
+            
+        console.log("de throw id die geselecteerd is: " + tr.id);
         
     }
     return (
@@ -79,8 +87,8 @@ function DartThrow(props: any) {
                 onChange={event => rightinput(Number.parseInt(event.target.value))}
                 error={eroor}
                 id="outlined-basic" variant="outlined" value={scorevalue} /> */}
-                <Button onClick={() => toggleSelected()} className={selected ? classes.buttonselected: classes.buttonstyle}>
-                    {props.score}
+                <Button onClick={() => toggleSelected(props.score)} className={selected ? classes.buttonselected: classes.buttonstyle}>
+                    {props.score.value}
                 </Button>
         </ListItem>
     );
@@ -88,4 +96,4 @@ function DartThrow(props: any) {
 
 };
 
-export default DartThrow;
+export default DartThrowComponent;

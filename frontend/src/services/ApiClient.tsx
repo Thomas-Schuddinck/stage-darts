@@ -20,3 +20,13 @@ export const PostApiCall = async (url: string, body: any): Promise<any> => {
       });
 }
 
+export const PutApiCall = async (url: string): Promise<any> => {
+   return axios.put(url).then(function (response: any) {
+
+      return response.data;
+
+   }).catch((err) => {
+      console.log(err);
+   })
+}
+

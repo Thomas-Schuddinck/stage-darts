@@ -20,6 +20,7 @@ import { GameDetails } from '../../models/GameDetails';
 import { Status } from '../../models/Status'
 import AddThrow from '../../components/Game/AddThrow/AddThrow';
 import Snackbar from '@material-ui/core/Snackbar';
+import { DartThrow } from '../../models/DartThrow';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -125,6 +126,12 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
     margin-left: 50%;
   `;
 
+
+  let [selectedThrowToEdit, setSelectedThrowToEdit] = useState<DartThrow>();
+  const getSelectedThrowFromTurn = async (tr: DartThrow) => {
+    setSelectedThrowToEdit(tr);
+  }
+
     return (
         <Aux>
             {isLoading ? (
@@ -156,7 +163,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                                                     <Grid item xs={7} md={8} lg={8}>
                                                         <Paper>
                                                             <LastDartThrow score={pl.turns![pl.turns!.length - 1] && pl.turns![pl.turns!.length - 1].throws!.map(t => t.value!).reduce((a, b) => a + b, 0)} />
-                                                            <CurrentTurn className={classes.currentTurn} turnnumber="2" scores={pl.turns![pl.turns!.length - 1] && pl.turns![pl.turns!.length - 1].throws && pl.turns![pl.turns!.length - 1].throws!.map(t => t.value)} />
+                                                            <CurrentTurn sendThrowToBuilder={getSelectedThrowFromTurn} className={classes.currentTurn} turnnumber="2" scores={pl.turns![pl.turns!.length - 1] && pl.turns![pl.turns!.length - 1].throws && pl.turns![pl.turns!.length - 1].throws!.map(t => t)} />
                                                         </Paper>
                                                         <Legs legs={
                                                             gameDetails!.game!
@@ -176,20 +183,8 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                                     )
                             }
 
-                            <AddThrow />
+                            <AddThrow currentgame={gameDetails?.game.id} selectedThrow={selectedThrowToEdit} />
                         </Grid>
-                        {/* <Grid container spacing={3}>
-                            <Grid item xs={12} md={6} lg={6}>
-                                <Paper>
-                                    <TakePhoto />
-                                </Paper>
-                            </Grid>
-                            <Grid item xs={12} md={6} lg={6}>
-                                <Paper>
-                                    <TakePhoto />
-                                </Paper>
-                            </Grid>
-                        </Grid> */}
                     </Aux>
                 )}
         </Aux>

@@ -113,6 +113,7 @@ namespace BackendDarts.Controllers
             return new GameDTO(game);
         }
 
+        [HttpPut("throwedit/{id}/{idThrow}/{value}")]
         /// <summary>
         /// Edit a throw of a given game with given dartthrow
         /// </summary>
@@ -120,7 +121,6 @@ namespace BackendDarts.Controllers
         /// <param name="idThrow">ID of the dartthrow to update</param>
         /// <param name="value">the score of the throw</param>
         /// <returns>The updated game</returns>
-        [HttpPut("throwedit/{id}/{value}")]
         public ActionResult<StatusDTO> AddThrow(int id, int idThrow, int value)
         {
             Game game = _gameRepository.GetBy(id);
@@ -128,7 +128,7 @@ namespace BackendDarts.Controllers
 
             Game currentGame = _gameRepository.GetBy(Game.singletonGame.Id);
 
-            StatusDTO statusDTO = FillStatusDTO(currentGame, 4);
+            StatusDTO statusDTO = FillStatusDTO(currentGame, -1);
             _gameRepository.SaveChanges();
             _hubContext.Clients.All.UpdateGame(statusDTO);
 
@@ -188,9 +188,11 @@ namespace BackendDarts.Controllers
         {
             Game currentGame = _gameRepository.GetBy(Game.singletonGame.Id);
             int status = HandleThrow(currentGame, dartThrow);
-
-            StatusDTO statusDTO = FillStatusDTO(currentGame, status);
             _gameRepository.SaveChanges();
+
+            currentGame = _gameRepository.GetBy(Game.singletonGame.Id);
+            StatusDTO statusDTO = FillStatusDTO(currentGame, status);
+            
             _hubContext.Clients.All.UpdateGame(statusDTO);
 
             return statusDTO;
