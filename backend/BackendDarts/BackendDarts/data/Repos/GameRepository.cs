@@ -46,13 +46,16 @@ namespace BackendDarts.Repos
         public IEnumerable<Game> GetAllDetailed()
         {
             return _games.Include(p => p.LegGroups).ThenInclude(lg => lg.PlayerLegs).ThenInclude(pl => pl.Turns).ThenInclude(t => t.Throws)
-                .Include(p => p.PlayerGames).ThenInclude(pg => pg.Player).ToList();
+                .Include(p => p.PlayerGames).ThenInclude(pg => pg.Player)
+                .Include(p => p.CurrentLegGroup).ThenInclude(lg => lg.PlayerLegs).ThenInclude(pl => pl.Turns).ThenInclude(t => t.Throws)
+                .ToList();
         }
         public Game GetBy(int id)
         {
             return _games
                 .Include(p => p.LegGroups).ThenInclude(lg => lg.PlayerLegs).ThenInclude(pl => pl.Turns).ThenInclude(t => t.Throws)
                 .Include(p => p.PlayerGames).ThenInclude(pg => pg.Player)
+                .Include(p => p.CurrentLegGroup).ThenInclude(lg => lg.PlayerLegs).ThenInclude(pl => pl.Turns).ThenInclude(t => t.Throws)
                 .SingleOrDefault(a => a.Id == id);
         }
 

@@ -17,7 +17,8 @@ namespace BackendDarts.Models
         public int Winner { get; set; }
         public List<PlayerGame> PlayerGames { get; set; } = new List<PlayerGame>();
         //new for game verloop
-        public int currentPlayerIndex { get; set; }
+        public int CurrentPlayerIndex { get; set; } = -1;
+        public LegGroup CurrentLegGroup { get; set; }
         [NotMapped]
         public static Game singletonGame { get; set; }
 
@@ -37,8 +38,8 @@ namespace BackendDarts.Models
         public void SetupGame()
         {
             Winner = -1;
-            currentPlayerIndex = 0;
-            LegGroups.Add(new LegGroup());
+            ResetNextPlayer();
+            SetNextLegGroup();
         }
 
         #region GameOperations
@@ -68,9 +69,9 @@ namespace BackendDarts.Models
         /// This is called when someone throws a total of  and therefore the current player will be the winner
         /// </summary>
         /// <param name="legGroup"></param>
-        public void DetermineWinner(LegGroup legGroup)
+        public void DetermineWinner()
         {
-            legGroup.FinishLeg(GetCurrentPlayer().Id);
+            CurrentLegGroup.FinishLeg(GetCurrentPlayer().Id);
         }
 
         /// <summary>
@@ -100,8 +101,32 @@ namespace BackendDarts.Models
         /// </summary>
         public void SetNextPlayer()
         {
-            currentPlayerIndex = (currentPlayerIndex + 1) % PlayerGames.Count;
+            CurrentPlayerIndex = (CurrentPlayerIndex + 1) % PlayerGames.Count;
 
+        }
+
+        /// <summary>
+        /// reset the current player value
+        /// </summary>
+        public void ResetNextPlayer()
+        {
+            CurrentPlayerIndex = 0;
+
+        }
+
+        /// <summary>
+        /// Add a new LegGroup with a PlayerLeg for every player
+        /// </summary>
+        public void SetNextLegGroup()
+        {
+            //TODO checked als ze in volgorde zitten            
+            LegGroup legGroup = new LegGroup();
+            legGroup.Legnr = LegGroups.Count + 1;
+            foreach (PlayerGame pg in PlayerGames)
+            {
+                legGroup.PlayerLegs.Add(new PlayerLeg(pg.Player));
+            }
+            CurrentLegGroup = legGroup;
         }
 
         /// <summary>
@@ -119,33 +144,34 @@ namespace BackendDarts.Models
         /// </summary>
         public void EndLeg()
         {
-            int curIndex = LegGroups.Count - 1;
-            LegGroup prevLegGroup = LegGroups[curIndex];
-            DetermineWinner(prevLegGroup);
-            SortPlayers(prevLegGroup);
-            AddLeg();
-            currentPlayerIndex = 0;
+            DetermineWinner();
+            SortPlayers();
+            AddLegGroupToHistory();
+            SetNextLegGroup();
+            ResetNextPlayer();
         } 
         #endregion
 
         #region SortMethods
 
         /// <summary>
-        /// Sort the list of PlayerGames based on their score in the last Leg.
+        /// Sort the list of PlayerGames based on their score in the last Leg (at the moment of executio still the current).
         /// Players who threw less will be placed before players with a better score.
         /// This score only takes in account the last Leg(Group).
         /// </summary>
-        /// <param name="previousLegGroup">The last completed LegGroup</param>
-        public void SortPlayers(LegGroup previousLegGroup)
+        /// 
+        public void SortPlayers()
         {
             List<PlayerGame> playerCopy = new List<PlayerGame>(PlayerGames);
             PlayerGames.Clear();
             List<PlayerScoreSorter> sorteerlijst = new List<PlayerScoreSorter>();
-            foreach (PlayerLeg pl in previousLegGroup.PlayerLegs)
+            foreach (PlayerLeg pl in CurrentLegGroup.PlayerLegs)
             {
-                PlayerScoreSorter psr = new PlayerScoreSorter();
-                psr.Player = pl.Player;
-                psr.Score = CalculateScore(pl);
+                PlayerScoreSorter psr = new PlayerScoreSorter
+                {
+                    Player = pl.Player,
+                    Score = CalculateScore(pl)
+                };
                 sorteerlijst.Add(psr);
             }
             sorteerlijst.Sort((x, y) => (x.Score.CompareTo(y.Score)));
@@ -160,30 +186,13 @@ namespace BackendDarts.Models
         /// </summary>
         public void SortPlayerLegs()
         {
-            LegGroup legGroup = GetCurrenLegGroup();
-            legGroup.PlayerLegs = legGroup.PlayerLegs.OrderBy(p => PlayerGames.IndexOf(PlayerGames.Find(pg => pg.PlayerId == p.Player.Id))).ToList();
-
-
+            CurrentLegGroup.PlayerLegs = CurrentLegGroup.PlayerLegs.OrderBy(p => PlayerGames.IndexOf(PlayerGames.Find(pg => pg.PlayerId == p.Player.Id))).ToList();
         }
 
         #endregion
 
         #region AddMethods
 
-        /// <summary>
-        /// Add a new LegGroup with a PlayerLeg for every player
-        /// </summary>
-        public void AddLeg()
-        {
-            //TODO checked als ze in volgorde zitten            
-            LegGroup lg = new LegGroup();
-            lg.Legnr = LegGroups.Count + 1;
-            foreach (PlayerGame pg in PlayerGames)
-            {
-                lg.PlayerLegs.Add(new PlayerLeg(pg.Player));
-            }
-            LegGroups.Add(lg);
-        }
 
         /// <summary>
         /// Add a new Turn for a given Player
@@ -202,7 +211,7 @@ namespace BackendDarts.Models
         /// <param name="value">the value of what was thrown with a single dart</param>
         public void AddThrow(int value)
         {
-            Player p = PlayerGames[currentPlayerIndex].Player;
+            Player p = PlayerGames[CurrentPlayerIndex].Player;
             LegGroup currentLegGroup = LegGroups[LegGroups.Count - 1];
             PlayerLeg currentLegFromPlayer = currentLegGroup.PlayerLegs.Find(pl => pl.Player.Id == p.Id);
             currentLegFromPlayer.Turns[currentLegFromPlayer.Turns.Count - 1].AddThrow(value);
@@ -221,6 +230,15 @@ namespace BackendDarts.Models
             }
             );
         }
+
+
+        /// <summary>
+        /// Add a the currentLegGroup to the list of previous leggroups
+        /// </summary>
+        public void AddLegGroupToHistory()
+        {
+            LegGroups.Add(CurrentLegGroup);
+        }
         #endregion
 
         #region GetMethods
@@ -231,16 +249,7 @@ namespace BackendDarts.Models
         /// <returns>The current PlayerLeg for the current Player</returns>
         public PlayerLeg GetCurrenPlayerLeg()
         {
-            return GetCurrenLegGroup().PlayerLegs.Find(pl => pl.Player.Id == GetCurrentPlayer().Id);
-        }
-
-        /// <summary>
-        /// Get The current LegGroup
-        /// </summary>
-        /// <returns>The current LegGroup</returns>
-        public LegGroup GetCurrenLegGroup()
-        {
-            return LegGroups[LegGroups.Count - 1];
+            return CurrentLegGroup.PlayerLegs.Find(pl => pl.Player.Id == GetCurrentPlayer().Id);
         }
 
         /// <summary>
@@ -249,7 +258,17 @@ namespace BackendDarts.Models
         /// <returns>The current Player</returns>
         public Player GetCurrentPlayer()
         {
-            return PlayerGames[currentPlayerIndex].Player;
+            return PlayerGames[CurrentPlayerIndex].Player;
+        }
+
+        /// <summary>
+        /// Get the current turn for the current PlayerLeg for the current Player
+        /// </summary>
+        /// <returns>The current Turn</returns>
+        public Turn GetCurrentTurn()
+        {
+            int size = GetCurrenPlayerLeg().Turns.Count;
+            return size > 0 ? GetCurrenPlayerLeg().Turns[size-1] : new Turn();
         }
 
 

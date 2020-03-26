@@ -75,9 +75,7 @@ namespace BackendDarts.Controllers
             // set game as current game (singleton)
             Game.StartGame(game);
 
-            GameDetailsDTO gamedetails = new GameDetailsDTO(new GameDTO(game));
-            gamedetails.Game = new GameDTO(game);
-            gamedetails.CurrentPlayer = new PlayerDTO(game.PlayerGames[game.currentPlayerIndex].Player);
+            GameDetailsDTO gamedetails = new GameDetailsDTO(game);
 
             return gamedetails;
 
@@ -289,7 +287,6 @@ namespace BackendDarts.Controllers
         private int HandleThrow(Game game, DartThrowDTO dartThrow)
         {
             // variables
-            GameDTO gameDTO = new GameDTO(game);
             PlayerLeg currentPlayerLeg = game.GetCurrenPlayerLeg();
 
             // calculations
@@ -306,6 +303,7 @@ namespace BackendDarts.Controllers
 
 
         }
+
         /// <summary>
         /// Checks if a new Turn should be made.
         /// If the requirements are met, a new Turn will be added to the given PlayerLeg of a given Game
@@ -347,7 +345,6 @@ namespace BackendDarts.Controllers
                 //indien geen 3 legs maar wel uigespeeld eindig leg
                 else
                 {
-                    game.GetCurrenLegGroup().FinishLeg(currentPlayer.Id);
                     game.EndLeg();
                     return 1;
                 }
@@ -431,11 +428,7 @@ namespace BackendDarts.Controllers
 
             // fills
             statusDTO.Status = turnEndedForCurrentPlayer ? gameStatus / 2 : gameStatus;
-            statusDTO.gameDTO = new GameDetailsDTO(new GameDTO(game))
-            {
-                CurrentPlayer = new PlayerDTO(game.PlayerGames[game.currentPlayerIndex].Player),
-                NextPlayer = new PlayerDTO(game.PlayerGames[(game.currentPlayerIndex + 1) % game.PlayerGames.Count].Player)
-            };
+            statusDTO.gameDTO = new GameDetailsDTO(game);
             if (turnEndedForCurrentPlayer)
                 statusDTO.gameDTO.Game.LegGroups.Last().GoNextPlayerLeg();
 
