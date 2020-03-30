@@ -130,12 +130,11 @@ namespace BackendDarts.Models
         }
 
         /// <summary>
-        /// Create a new empty turn for a given PlayerLeg
+        /// Create a new empty turn for the current PlayerLeg
         /// </summary>
-        /// <param name="playerLeg">The given PlayerLeg</param>
-        public void CreateEmptyTurn(PlayerLeg playerLeg)
+        public void CreateEmptyTurn()
         {
-            playerLeg.AddTurn();
+            GetCurrenPlayerLeg().AddTurn();
         }
 
         /// <summary>
@@ -195,26 +194,26 @@ namespace BackendDarts.Models
 
 
         /// <summary>
-        /// Add a new Turn for a given Player
+        /// Add a new Turn for the current Player
         /// </summary>
-        /// <param name="player">The Player who's given a new Turn</param>
-        public void AddTurn(Player player)
+        public void AddTurn()
         {
-            LegGroup currentLegGroup = LegGroups[LegGroups.Count - 1];
-            PlayerLeg currentLegFromPlayer = currentLegGroup.PlayerLegs.Find(pl => pl.Player.Id == player.Id);
-            currentLegFromPlayer.AddTurn();
+            GetCurrenPlayerLeg().AddTurn();
+
         }
 
         /// <summary>
         /// Add a new Throw to the game
         /// </summary>
         /// <param name="value">the value of what was thrown with a single dart</param>
-        public void AddThrow(int value)
+        public Boolean AddThrow(int value)
         {
-            Player p = PlayerGames[CurrentPlayerIndex].Player;
-            LegGroup currentLegGroup = LegGroups[LegGroups.Count - 1];
-            PlayerLeg currentLegFromPlayer = currentLegGroup.PlayerLegs.Find(pl => pl.Player.Id == p.Id);
-            currentLegFromPlayer.Turns[currentLegFromPlayer.Turns.Count - 1].AddThrow(value);
+            if (GetCurrentTurn().AddThrow(value))
+            {
+                AddTurn();
+                return true;
+            }
+            return false;
         }
 
         /// <summary>
@@ -273,6 +272,8 @@ namespace BackendDarts.Models
 
 
         #endregion
+
+
 
 
     }

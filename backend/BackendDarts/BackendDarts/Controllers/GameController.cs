@@ -269,14 +269,9 @@ namespace BackendDarts.Controllers
         /// <param name="playerLeg"></param>
         /// <returns>True if all the darts are thrown</returns>
         [ApiExplorerSettings(IgnoreApi = true)]
-        private Boolean ValidateAllThrowsThrown(PlayerLeg playerLeg)
+        private Boolean ValidateAllThrowsThrown(Game game)
         {
-            if (playerLeg.Turns[playerLeg.Turns.Count - 1].Throws.Count >= 3)
-            {
-                //playerLeg.Turns[playerLeg.Turns.Count - 1].EndTurn();
-                return true;
-            }
-            return false;
+            return game.GetCurrentTurn().IsFinished;
         }
 
         /// <summary>
@@ -288,15 +283,12 @@ namespace BackendDarts.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         private int HandleThrow(Game game, DartThrowDTO dartThrow)
         {
-            // variables
-            PlayerLeg currentPlayerLeg = game.GetCurrenPlayerLeg();
 
             // calculations
-            CreateNewTurnIfRequired(currentPlayerLeg, game);
-            game.AddThrow(dartThrow.Value);
-            Boolean allDartsThrown = ValidateAllThrowsThrown(currentPlayerLeg);
+            CreateNewTurnIfRequired(game);
+            Boolean allDartsThrown = game.AddThrow(dartThrow.Value);
 
-            int gameStatus = CheckGameStatus(game, game.CalculateScore(currentPlayerLeg));
+            int gameStatus = CheckGameStatus(game, game.CalculateScore(game.GetCurrenPlayerLeg()));
 
             // if all darts are thrown, multiply status by 2 (see FillStatusDTO for use, used for ending turn)
             gameStatus = !allDartsThrown ? gameStatus : gameStatus * 2;
@@ -313,11 +305,11 @@ namespace BackendDarts.Controllers
         /// <param name="playerLeg">The given PlayerLeg</param>
         /// <param name="game">The gvien Game</param>
         [ApiExplorerSettings(IgnoreApi = true)]
-        private void CreateNewTurnIfRequired(PlayerLeg playerLeg, Game game)
+        private void CreateNewTurnIfRequired(Game game)
         {
             //laatste turn in beurt eindig turn
-            if (playerLeg.Turns.Count == 0 || playerLeg.Turns[playerLeg.Turns.Count - 1].IsFinished)
-                game.CreateEmptyTurn(playerLeg);
+            if (game.GetCurrenPlayerLeg().Turns.Count == 0 || game.GetCurrentTurn().IsFinished)
+                game.CreateEmptyTurn();
 
         }
 
@@ -342,13 +334,13 @@ namespace BackendDarts.Controllers
                 if (game.LegGroups.Count(lg => lg.Winner == currentPlayer.Id) == 3)
                 {
                     game.Winner = currentPlayer.Id;
-                    return 2;
+                    return 1;
                 }
                 //indien geen 3 legs maar wel uigespeeld eindig leg
                 else
                 {
                     game.EndLeg();
-                    return 1;
+                    return 0;
                 }
             }
             else
@@ -425,13 +417,12 @@ namespace BackendDarts.Controllers
         public StatusDTO FillStatusDTO(Game game, int gameStatus)
         {
             // variables
-            StatusDTO statusDTO = new StatusDTO();
-            Boolean turnEndedForCurrentPlayer = gameStatus > 2;
+            StatusDTO statusDTO = new StatusDTO();;
 
             // fills
-            statusDTO.Status = turnEndedForCurrentPlayer ? gameStatus / 2 : gameStatus;
+            statusDTO.Status = gameStatus % 2;
             statusDTO.gameDTO = new GameDetailsDTO(game);
-            if (turnEndedForCurrentPlayer)
+            if (gameStatus> 2)
                 statusDTO.gameDTO.Game.LegGroups.Last().GoNextPlayerLeg();
 
             // return
