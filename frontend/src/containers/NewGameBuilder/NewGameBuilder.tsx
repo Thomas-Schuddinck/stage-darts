@@ -104,6 +104,7 @@ const NewGameBuilderForm: React.FC = () => {
   let [isLoading, setLoading] = React.useState(true);
   let [openDialog, setOpenDialog] = React.useState(false);
   let [gameMode, setGameMode] = React.useState(-1);
+  let [gameId = 0, setGameId] = React.useState<number>();
 
   const FetchData = async () => {
 
@@ -163,6 +164,7 @@ const NewGameBuilderForm: React.FC = () => {
                   players: data.players,
                 };
                 const id = await PostApiCall('https://localhost:5000/Game/new-game', newGame)
+                setGameId(id);
                 setSubmitting(false);
                 setOpenDialog(true);
 
@@ -240,7 +242,7 @@ const NewGameBuilderForm: React.FC = () => {
               )}
             </Formik>
             {openDialog ? (
-              <AddGameDialog />
+              <AddGameDialog id={gameId}/>
             ) : (
                 <div></div>
               )}

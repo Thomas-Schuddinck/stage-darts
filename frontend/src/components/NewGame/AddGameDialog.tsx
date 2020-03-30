@@ -5,6 +5,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { NavLink } from 'react-router-dom';
 
 export  const AddGameDialog = (props: any) =>  {
   const [open, setOpen] = React.useState(true);
@@ -13,7 +14,7 @@ export  const AddGameDialog = (props: any) =>  {
     setOpen(false);
   };
   const handleStartGame = () => {
-    handleClose();
+    setOpen(false);
   };
   const handleGoToGame = () => {
     handleClose();
@@ -35,10 +36,10 @@ export  const AddGameDialog = (props: any) =>  {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleStartGame} color="primary">
-            START GAME 
+          <NavLink to={`/game/${props.id}`} >START GAME</NavLink>
           </Button>
           <Button onClick={handleGoToGame} color="primary" autoFocus>
-            GO TO GAMES
+          <NavLink to={`/gamelist`} >GO TO GAMES</NavLink>
           </Button>
         </DialogActions>
       </Dialog>
