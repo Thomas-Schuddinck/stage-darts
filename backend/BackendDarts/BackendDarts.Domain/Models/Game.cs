@@ -20,7 +20,7 @@ namespace BackendDarts.Models
         public int CurrentPlayerIndex { get; set; } = -1;
         public LegGroup CurrentLegGroup { get; set; }
         [NotMapped]
-        public static Game singletonGame { get; set; }
+        public static Game SingletonGame { get; set; }
 
         public Game()
         {
@@ -51,7 +51,7 @@ namespace BackendDarts.Models
         /// <param name="game">The game that has to start/resume</param>
         public static void StartGame(Game game)
         {
-            singletonGame = game;
+            SingletonGame = game;
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace BackendDarts.Models
         /// </summary>
         public void SetNextLegGroup()
         {
-            //TODO checked als ze in volgorde zitten            
+                     
             LegGroup legGroup = new LegGroup();
             legGroup.Legnr = LegGroups.Count + 1;
             foreach (PlayerGame pg in PlayerGames)
@@ -248,6 +248,8 @@ namespace BackendDarts.Models
         /// <returns>The current PlayerLeg for the current Player</returns>
         public PlayerLeg GetCurrenPlayerLeg()
         {
+            LegGroup tempcur = CurrentLegGroup;
+            List<PlayerLeg> tempcurlg = CurrentLegGroup.PlayerLegs;
             return CurrentLegGroup.PlayerLegs.Find(pl => pl.Player.Id == GetCurrentPlayer().Id);
         }
 
@@ -257,6 +259,8 @@ namespace BackendDarts.Models
         /// <returns>The current Player</returns>
         public Player GetCurrentPlayer()
         {
+            int temp1 = CurrentPlayerIndex;
+            List<PlayerGame> temp = PlayerGames;
             return PlayerGames[CurrentPlayerIndex].Player;
         }
 

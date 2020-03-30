@@ -126,7 +126,7 @@ namespace BackendDarts.Controllers
             Game game = _gameRepository.GetBy(id);
             game.GetCurrenPlayerLeg().Turns.Last().Throws.SingleOrDefault(t => t.Id == idThrow).Value = value;
 
-            Game currentGame = _gameRepository.GetBy(Game.singletonGame.Id);
+            Game currentGame = _gameRepository.GetBy(Game.SingletonGame.Id);
 
             StatusDTO statusDTO = FillStatusDTO(currentGame, -1);
             _gameRepository.SaveChanges();
@@ -186,11 +186,11 @@ namespace BackendDarts.Controllers
         [HttpPost("game/")]
         public ActionResult<StatusDTO> Post([FromBody]DartThrowDTO dartThrow)
         {
-            Game currentGame = _gameRepository.GetBy(Game.singletonGame.Id);
+            Game currentGame = _gameRepository.GetBy(Game.SingletonGame.Id);
             int status = HandleThrow(currentGame, dartThrow);
             _gameRepository.SaveChanges();
 
-            currentGame = _gameRepository.GetBy(Game.singletonGame.Id);
+            currentGame = _gameRepository.GetBy(Game.SingletonGame.Id);
             StatusDTO statusDTO = FillStatusDTO(currentGame, status);
             
             _hubContext.Clients.All.UpdateGame(statusDTO);
