@@ -124,7 +124,7 @@ namespace BackendDarts.Controllers
         public ActionResult<StatusDTO> AddThrow(int id, int idThrow, int value)
         {
             Game game = _gameRepository.GetBy(id);
-            game.GetCurrenPlayerLeg().Turns.Last().Throws.SingleOrDefault(t => t.Id == idThrow).Value = value;
+            game.GetCurrentTurn().Throws.SingleOrDefault(t => t.Id == idThrow).Value = value;
 
             Game currentGame = _gameRepository.GetBy(Game.singletonGame.Id);
 

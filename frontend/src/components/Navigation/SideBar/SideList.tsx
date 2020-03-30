@@ -34,13 +34,17 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export const SideList = () => {
+export const SideList = (props: any) => {
 
   const classes = useStyles();
 
+  const sendClick = async () => {
+    props.sendClickToToolbar();
+  }
+
   return (
     <div>
-      <NavLink to="/stats" activeClassName={classes.active}>
+      <NavLink to="/stats" activeClassName={classes.active} onClick={() => sendClick()}>
         <MenuItem className={classes.itemLi}       >
           <ListItemIcon>
             <PersonIcon className={classes.icon} />
@@ -49,7 +53,7 @@ export const SideList = () => {
         </MenuItem>
       </NavLink>
 
-      <NavLink activeClassName={classes.active} to="/game">
+      <NavLink activeClassName={classes.active} to="/game" onClick={() => sendClick()}>
         <MenuItem className={classes.itemLi}>
           <ListItemIcon className={classes.icon}>
             <GamesIcon />
@@ -58,7 +62,7 @@ export const SideList = () => {
         </MenuItem>
       </NavLink>
 
-      <NavLink activeClassName={classes.active} to="/new-game">
+      <NavLink activeClassName={classes.active} to="/new-game" onClick={() => sendClick()}>
         <MenuItem className={classes.itemLi}>
           <ListItemIcon className={classes.icon}>
             <AddCircleIcon/>
@@ -67,7 +71,7 @@ export const SideList = () => {
         </MenuItem>
       </NavLink>
 
-      <NavLink activeClassName={classes.active} to="/new-player">
+      <NavLink activeClassName={classes.active} to="/new-player" onClick={() => sendClick()}>
         <MenuItem className={classes.itemLi}>
           <ListItemIcon className={classes.icon}>
             <PersonAddIcon />
@@ -76,7 +80,7 @@ export const SideList = () => {
         </MenuItem>
       </NavLink>
 
-      <NavLink activeClassName={classes.active} to="/gamelist">
+      <NavLink activeClassName={classes.active} to="/gamelist" onClick={() => sendClick()}>
         <MenuItem className={classes.itemLi}>
           <ListItemIcon className={classes.icon}>
             <ListAltIcon />
@@ -85,7 +89,7 @@ export const SideList = () => {
         </MenuItem>
       </NavLink>
 
-      <NavLink activeClassName={classes.active} to="/leaderbord" >
+      <NavLink activeClassName={classes.active} to="/leaderbord" onClick={() => sendClick()}>
         <MenuItem className={classes.itemLi}>
           <ListItemIcon className={classes.icon}>
             <PeopleIcon />
@@ -94,7 +98,7 @@ export const SideList = () => {
         </MenuItem>
       </NavLink>
 
-      <NavLink activeClassName={classes.active} to='/tournament'>
+      <NavLink activeClassName={classes.active} to='/tournament' onClick={() => sendClick()}>
         <MenuItem className={classes.itemLi}>
           <ListItemIcon className={classes.icon}>
             <BarChartIcon />
@@ -103,7 +107,7 @@ export const SideList = () => {
         </MenuItem>
       </NavLink>
 
-      <NavLink activeClassName={classes.active} to='/quickstart'>
+      <NavLink activeClassName={classes.active} to='/quickstart' onClick={() => sendClick()}>
         <MenuItem className={classes.itemLi}>
           <ListItemIcon className={classes.icon}>
             <LayersIcon />
@@ -111,7 +115,7 @@ export const SideList = () => {
           <ListItemText primary="Quick start" />
         </MenuItem>
       </NavLink>
-      <NavLink activeClassName={classes.active} to="/about">
+      <NavLink activeClassName={classes.active} to="/about" onClick={() => sendClick()}>
         <MenuItem className={classes.itemLi}>
           <ListItemIcon className={classes.icon}>
             <InfoIcon />
