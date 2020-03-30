@@ -121,6 +121,13 @@ export default function MyToolbar(props: { children: React.ReactNode }) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const getClickFromSideList = async () => {
+    if(window.innerWidth <= 499)
+      handleDrawerClose();
+  }
+
+
   //const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
 
@@ -159,7 +166,7 @@ export default function MyToolbar(props: { children: React.ReactNode }) {
           </IconButton>
         </div>
         <Divider />
-        <List> <SideList /></List>
+        <List> <SideList sendClickToToolbar={getClickFromSideList} /></List>
 
 
       </Drawer>
