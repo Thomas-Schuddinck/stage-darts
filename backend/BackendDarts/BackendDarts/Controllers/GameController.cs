@@ -87,12 +87,13 @@ namespace BackendDarts.Controllers
         /// <param name="newGame">the given NewGameDTO containing game information</param>
         /// <returns>The newly made game</returns>
         [HttpPost("new-game/")]
-        public ActionResult<GameDTO> Post([FromBody]NewGameDTO newGame)
+        public ActionResult<GameDTO> AddNewGame([FromBody]NewGameDTO newGame)
         {
 
             Game game = new Game(newGame);
             foreach (int id in newGame.Players)
                 game.AddPlayer(_playerRepository.GetBy(id));
+            game.ConfigureGame();
             _gameRepository.Add(game);
             _gameRepository.SaveChanges();
             return CreatedAtAction(nameof(GetBy), new { id = game.Id }, game);
@@ -121,7 +122,7 @@ namespace BackendDarts.Controllers
         /// <param name="idThrow">ID of the dartthrow to update</param>
         /// <param name="value">the score of the throw</param>
         /// <returns>The updated game</returns>
-        public ActionResult<StatusDTO> AddThrow(int id, int idThrow, int value)
+        public ActionResult<StatusDTO> EditThrow(int id, int idThrow, int value)
         {
             Game game = _gameRepository.GetBy(id);
             game.GetCurrentTurn().Throws.SingleOrDefault(t => t.Id == idThrow).Value = value;
@@ -184,7 +185,7 @@ namespace BackendDarts.Controllers
         /// <param name="dartThrow">the new DartThrow</param>
         /// <returns>The current game</returns>
         [HttpPost("game/")]
-        public ActionResult<StatusDTO> Post([FromBody]DartThrowDTO dartThrow)
+        public ActionResult<StatusDTO> AddNewThrow([FromBody]DartThrowDTO dartThrow)
         {
             Game currentGame = _gameRepository.GetBy(Game.SingletonGame.Id);
             int status = HandleThrow(currentGame, dartThrow);
@@ -286,7 +287,10 @@ namespace BackendDarts.Controllers
 
             // calculations
             CreateNewTurnIfRequired(game);
-            Boolean allDartsThrown = game.AddThrow(dartThrow.Value);
+            game.AddThrow(dartThrow.Value);
+            Boolean allDartsThrown = ValidateAllThrowsThrown(game);
+            if (allDartsThrown)
+                game.SetNextPlayer();
 
             int gameStatus = CheckGameStatus(game, game.CalculateScore(game.GetCurrenPlayerLeg()));
 
