@@ -184,6 +184,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                             }
 
                             <AddThrow currentgame={gameDetails?.game.id} selectedThrow={selectedThrowToEdit} />
+                            
                         </Grid>
                     </Aux>
                 )}

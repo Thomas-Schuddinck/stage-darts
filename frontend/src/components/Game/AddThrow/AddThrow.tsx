@@ -4,8 +4,10 @@ import { indigo } from '@material-ui/core/colors';
 import Wrap from '../../../hoc/Wrap'
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import PostApiCall from '../../../services/ApiClientPost';
-
-import {PutApiCall} from '../../../services/ApiClient';
+import { PutApiCall } from '../../../services/ApiClient';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import TextField from '@material-ui/core/TextField';
+import GpsFixed from '@material-ui/icons/GpsFixed';
 
 const useStyles = makeStyles(theme => ({
     leg: {
@@ -55,6 +57,7 @@ const useStyles = makeStyles(theme => ({
 const AddThrow = (props: any) => {
     const classes = useStyles();
 
+    let [inputState = '', setInputState] = useState<string>();
     let [size = 0, setSize] = useState<number>();
     let [tripple = false, setTripple] = useState<boolean>();
     let [double = false, setDouble] = useState<boolean>();
@@ -72,27 +75,27 @@ const AddThrow = (props: any) => {
         let val = parseInt(value);
         console.log(props.selectedThrow);
 
-        
-            if (double)
-                val = val * 2;
-            if (tripple)
-                val = val * 3;
 
-            setDouble(false);
-            setTripple(false);
-            if (props.selectedThrow == null) {
-                return await PostApiCall('https://localhost:5000/Game/game', val.toString()).then(resp => {
+        if (double)
+            val = val * 2;
+        if (tripple)
+            val = val * 3;
+
+        setDouble(false);
+        setTripple(false);
+        if (props.selectedThrow == null) {
+            return await PostApiCall('https://localhost:5000/Game/game', val.toString()).then(resp => {
                 console.log(resp);
             });
-            } else {
-                return await PutApiCall('https://localhost:5000/Game/throwedit/'+ props.currentgame + '/' + props.selectedThrow.id + '/' + val).then(resp => {
+        } else {
+            return await PutApiCall('https://localhost:5000/Game/throwedit/' + props.currentgame + '/' + props.selectedThrow.id + '/' + val).then(resp => {
                 console.log("--------");
                 console.log(props.selectedThrow);
                 console.log(props.currentgame);
                 console.log(resp);
             });
-            }
-            
+        }
+
 
 
     }
@@ -157,7 +160,36 @@ const AddThrow = (props: any) => {
                     </Grid>
                 </Grid>
             ) : (
-                    null
+                    <Grid container>
+                        <Grid item xs={3} md={3} lg={3}>
+                            <Button className={classes.photo}><AddAPhotoIcon /></Button>
+                        </Grid>
+                        <Grid item xs={3} md={3} lg={3}>
+                            <Button className={classes.photo}><AddAPhotoIcon /></Button>
+                        </Grid>
+                        <Grid item xs={3} md={3} lg={3}>
+                            <TextField
+                                id="input-with-icon-textfield"
+                                onKeyPress={(ev) => {
+                                    console.log(`Pressed keyCode ${ev.key}`);
+                                    if (ev.key === 'Enter') {
+                                        PostThrowCall(inputState);
+                                        setInputState('');
+                                        ev.preventDefault();
+                                    }
+                                }}
+                                value={inputState}
+                                onChange={(e)=>{setInputState(e.target.value)}}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <GpsFixed />
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />
+                        </Grid>
+                    </Grid>
                 )}
 
         </Wrap>
