@@ -123,7 +123,7 @@ export default function MyToolbar(props: { children: React.ReactNode }) {
   };
 
   const getClickFromSideList = async () => {
-    if(window.innerWidth <= 499)
+    if(window.innerWidth <= 650)
       handleDrawerClose();
   }
 

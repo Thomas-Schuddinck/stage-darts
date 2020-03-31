@@ -52,6 +52,9 @@ const useStyles = makeStyles(theme => ({
         minWidth: '0',
         border: '0.1em solid black',
     },
+    controllers: {
+        padding: theme.spacing(1),
+    },
 }));
 
 const AddThrow = (props: any) => {
@@ -160,14 +163,9 @@ const AddThrow = (props: any) => {
                     </Grid>
                 </Grid>
             ) : (
-                    <Grid container>
-                        <Grid item xs={3} md={3} lg={3}>
-                            <Button className={classes.photo}><AddAPhotoIcon /></Button>
-                        </Grid>
-                        <Grid item xs={3} md={3} lg={3}>
-                            <Button className={classes.photo}><AddAPhotoIcon /></Button>
-                        </Grid>
-                        <Grid item xs={3} md={3} lg={3}>
+                    <Grid container className={classes.controllers} spacing={1}>
+                        
+                        <Grid item xs={6} md={6} lg={6}>
                             <TextField
                                 id="input-with-icon-textfield"
                                 onKeyPress={(ev) => {
@@ -188,6 +186,12 @@ const AddThrow = (props: any) => {
                                     ),
                                 }}
                             />
+                        </Grid>
+                        <Grid item xs={3} md={3} lg={3}>
+                            <Button className={classes.photo}><AddAPhotoIcon /></Button>
+                        </Grid>
+                        <Grid item xs={3} md={3} lg={3}>
+                            <Button className={classes.photo}><AddAPhotoIcon /></Button>
                         </Grid>
                     </Grid>
                 )}

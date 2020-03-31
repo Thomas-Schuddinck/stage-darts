@@ -5,12 +5,12 @@ import { indigo } from '@material-ui/core/colors';
 
 const useStyles = makeStyles(theme => ({
     leg: {
-        marginTop: '0.7em', 
         fontSize: '1.3em',
         color: indigo[700],
         [theme.breakpoints.up('sm')]: {
             fontSize: '2em',
           },
+          textAlign: 'center',
     },
 }));
 

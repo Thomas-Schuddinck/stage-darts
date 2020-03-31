@@ -10,6 +10,7 @@ const useStyles = makeStyles(theme => ({
         [theme.breakpoints.up('sm')]: {
             fontSize: '4em',
           },
+        textAlign: 'center',
     },
 }));
 

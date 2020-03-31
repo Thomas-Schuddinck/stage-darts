@@ -21,7 +21,6 @@ import { Status } from '../../models/Status'
 import AddThrow from '../../components/Game/AddThrow/AddThrow';
 import Snackbar from '@material-ui/core/Snackbar';
 import { DartThrow } from '../../models/DartThrow';
-import indigo from '@material-ui/core/colors/indigo';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -51,11 +50,11 @@ const useStyles = makeStyles(theme => ({
     fixedHeightPaper: {
         overflow: 'none',
     },
-    greenBack: {
-        backgroundColor: indigo[400]
+    margintop: {
+        marginTop: '1em'
     }
 }));
-var classNames = require('classnames');
+
 
 export const GameBuilder = (props: { match: { params: any; }; }) => {
 
@@ -156,18 +155,19 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                             {
                                 gameDetails!.currentLegGroup!
                                     .playerLegs!.map(function (pl: PlayerLeg, i: any) {
-                                        return <Grid item xs={12} md={6} lg={6} className={classNames({ 'greenBack': gameDetails?.currentPlayer.id === pl.player.id})}>
+                                        return <Grid item xs={12} md={6} lg={6}>
                                             <Paper className={fixedHeightPaper}>
-                                                <Grid container spacing={2} className={classNames({ 'greenBack': gameDetails?.currentPlayer.id === pl.player.id})}>
-                                                    <Grid item xs={5} md={4} lg={4} className={classNames({ 'greenBack': gameDetails?.currentPlayer.id === pl.player.id})}>
+                                                <Grid container spacing={2}>
+                                                    <Grid item xs={5} md={7} lg={7}>
                                                         <Person player={pl.player} currentplayer={gameDetails?.currentPlayer} />
-                                                        <CurrentScore score={pl.currentScore} />
-                                                    </Grid>
-                                                    <Grid item xs={7} md={8} lg={8}>
-                                                        <Paper>
+                                                        <Paper className={classes.margintop}>
                                                             <LastDartThrow score={pl.turns![pl.turns!.length - 1] && pl.turns![pl.turns!.length - 1].throws!.map(t => t.value!).reduce((a, b) => a + b, 0)} />
                                                             <CurrentTurn sendThrowToBuilder={getSelectedThrowFromTurn} className={classes.currentTurn} turnnumber="2" scores={pl.turns![pl.turns!.length - 1] && pl.turns![pl.turns!.length - 1].throws && pl.turns![pl.turns!.length - 1].throws!.map(t => t)} />
                                                         </Paper>
+                                                    </Grid>
+                                                    <Grid item xs={7} md={5} lg={5}>
+                                                    <CurrentScore score={pl.currentScore} />
+                                                        
                                                         <Legs legs={
                                                             gameDetails!.game!
                                                                 .players &&
