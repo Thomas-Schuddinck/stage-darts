@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,7 +12,8 @@ namespace BackendDarts.Models
         public Player Player { get; set; }
 
         public List<Turn> Turns { get; set; }
-
+        [NotMapped]
+        public int TotalScore => Turns.Sum(t => t.Throws.Sum(th => th.Value));
         public PlayerLeg()
         {
             Turns = new List<Turn>();

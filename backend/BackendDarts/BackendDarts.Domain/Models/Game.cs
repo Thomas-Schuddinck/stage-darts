@@ -17,7 +17,7 @@ namespace BackendDarts.Models
         public int Winner { get; set; }
         public List<PlayerGame> PlayerGames { get; set; } = new List<PlayerGame>();
         //new for game verloop
-        public int CurrentPlayerIndex { get; set; } = -1;
+        public int CurrentPlayerLegIndex { get; set; } = -1;
         public LegGroup CurrentLegGroup { get; set; }
         [NotMapped]
         public static Game SingletonGame { get; set; }
@@ -108,7 +108,7 @@ namespace BackendDarts.Models
         /// </summary>
         public void SetNextPlayer()
         {
-            CurrentPlayerIndex = (CurrentPlayerIndex + 1) % PlayerGames.Count;
+            CurrentPlayerLegIndex = (CurrentPlayerLegIndex + 1) % PlayerGames.Count;
 
         }
 
@@ -117,8 +117,7 @@ namespace BackendDarts.Models
         /// </summary>
         public void ResetNextPlayer()
         {
-            CurrentPlayerIndex = 0;
-
+            CurrentPlayerLegIndex = 0;
         }
 
         /// <summary>
@@ -126,9 +125,10 @@ namespace BackendDarts.Models
         /// </summary>
         public void SetNextLegGroup()
         {
-                     
-            LegGroup legGroup = new LegGroup();
-            legGroup.Legnr = LegGroups.Count + 1;
+            LegGroup legGroup = new LegGroup
+            {
+                Legnr = LegGroups.Count + 1
+            };
             foreach (PlayerGame pg in PlayerGames)
             {
                 legGroup.PlayerLegs.Add(new PlayerLeg(pg.Player));
@@ -154,6 +154,7 @@ namespace BackendDarts.Models
             SortPlayers();
             AddLegGroupToHistory();
             SetNextLegGroup();
+            SortPlayerLegs();
             ResetNextPlayer();
         } 
         #endregion
@@ -251,9 +252,7 @@ namespace BackendDarts.Models
         /// <returns>The current PlayerLeg for the current Player</returns>
         public PlayerLeg GetCurrenPlayerLeg()
         {
-            LegGroup tempcur = CurrentLegGroup;
-            List<PlayerLeg> tempcurlg = CurrentLegGroup.PlayerLegs;
-            return CurrentLegGroup.PlayerLegs.Find(pl => pl.Player.Id == GetCurrentPlayer().Id);
+            return CurrentLegGroup.PlayerLegs[CurrentPlayerLegIndex];
         }
 
         /// <summary>
@@ -262,9 +261,11 @@ namespace BackendDarts.Models
         /// <returns>The current Player</returns>
         public Player GetCurrentPlayer()
         {
-            int temp1 = CurrentPlayerIndex;
-            List<PlayerGame> temp = PlayerGames;
-            return PlayerGames[CurrentPlayerIndex].Player;
+            return GetCurrenPlayerLeg().Player;
+        }
+        public Player GetNextPlayer()
+        {
+            return CurrentLegGroup.PlayerLegs[(CurrentPlayerLegIndex + 1) % PlayerGames.Count].Player;
         }
 
         /// <summary>
