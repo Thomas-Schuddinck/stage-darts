@@ -49,6 +49,9 @@ const useStyles = makeStyles(theme => ({
     },
     fixedHeightPaper: {
         overflow: 'none',
+    },
+    margintop: {
+        marginTop: '1em'
     }
 }));
 
@@ -155,15 +158,16 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                                         return <Grid item xs={12} md={6} lg={6}>
                                             <Paper className={fixedHeightPaper}>
                                                 <Grid container spacing={2}>
-                                                    <Grid item xs={5} md={4} lg={4}>
+                                                    <Grid item xs={5} md={7} lg={7}>
                                                         <Person player={pl.player} currentplayer={gameDetails?.currentPlayer} />
-                                                        <CurrentScore score={pl.currentScore} />
-                                                    </Grid>
-                                                    <Grid item xs={7} md={8} lg={8}>
-                                                        <Paper>
+                                                        <Paper className={classes.margintop}>
                                                             <LastDartThrow score={pl.turns![pl.turns!.length - 1] && pl.turns![pl.turns!.length - 1].throws!.map(t => t.value!).reduce((a, b) => a + b, 0)} />
                                                             <CurrentTurn sendThrowToBuilder={getSelectedThrowFromTurn} className={classes.currentTurn} turnnumber="2" scores={pl.turns![pl.turns!.length - 1] && pl.turns![pl.turns!.length - 1].throws && pl.turns![pl.turns!.length - 1].throws!.map(t => t)} />
                                                         </Paper>
+                                                    </Grid>
+                                                    <Grid item xs={7} md={5} lg={5}>
+                                                    <CurrentScore score={pl.currentScore} />
+                                                        
                                                         <Legs legs={
                                                             gameDetails!.game!
                                                                 .players &&
