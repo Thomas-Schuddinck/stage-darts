@@ -213,14 +213,10 @@ namespace BackendDarts.Models
         /// Add a new Throw to the game
         /// </summary>
         /// <param name="value">the value of what was thrown with a single dart</param>
-        public Boolean AddThrow(int value)
+        public void AddThrow(int value)
         {
-            if (GetCurrentTurn().AddThrow(value))
-            {
-                AddTurn();
-                return true;
-            }
-            return false;
+            GetCurrentTurn().AddThrow(value);
+            
         }
 
         /// <summary>
