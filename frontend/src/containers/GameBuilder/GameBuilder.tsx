@@ -150,8 +150,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                         /> 
                         <Grid container spacing={3}>
                             {
-                                gameDetails!.game!.legGroups && gameDetails!.game!.legGroups![gameDetails!.game!.legGroups!.length - 1] && gameDetails!.game!
-                                    .legGroups![gameDetails!.game!.legGroups!.length - 1]
+                                gameDetails!.currentLegGroup!
                                     .playerLegs!.map(function (pl: PlayerLeg, i: any) {
                                         return <Grid item xs={12} md={6} lg={6}>
                                             <Paper className={fixedHeightPaper}>

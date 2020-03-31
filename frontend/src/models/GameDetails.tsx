@@ -10,6 +10,6 @@ export interface GameDetails {
     nextplayer?: Player;
     lastThrow?: number;
     currentLeg?: PlayerLeg;
-    CurrentLegGroup?: LegGroup;
+    currentLegGroup?: LegGroup;
 };
     
