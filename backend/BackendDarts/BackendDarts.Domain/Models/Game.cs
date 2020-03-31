@@ -35,10 +35,17 @@ namespace BackendDarts.Models
             
         }
 
+        /// <summary>
+        /// (re)set all simple values
+        /// </summary>
         public void SetupGame()
         {
             Winner = -1;
             ResetNextPlayer();
+        }
+
+        public void ConfigureGame()
+        {
             SetNextLegGroup();
         }
 

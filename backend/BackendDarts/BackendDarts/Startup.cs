@@ -38,7 +38,7 @@ namespace BackendDarts
             services.AddSignalR();
             var connection = @"Server=(localdb)\mssqllocaldb;Database=BackendDarts;Trusted_Connection=True;ConnectRetryCount=0";
             services.AddDbContext<ApplicationDbContext>
-                (options => options.UseSqlServer(connection));
+                (options => options.UseSqlServer(connection, b => b.MigrationsAssembly("BackendDarts")));
             services.AddScoped<DataInitializer>();
             services.AddScoped<IGameRepository, GameRepository>();
             services.AddScoped<IPlayerRepository, PlayerRepository>();

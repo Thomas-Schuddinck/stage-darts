@@ -93,6 +93,7 @@ namespace BackendDarts.Controllers
             Game game = new Game(newGame);
             foreach (int id in newGame.Players)
                 game.AddPlayer(_playerRepository.GetBy(id));
+            game.ConfigureGame();
             _gameRepository.Add(game);
             _gameRepository.SaveChanges();
             return CreatedAtAction(nameof(GetBy), new { id = game.Id }, game);
