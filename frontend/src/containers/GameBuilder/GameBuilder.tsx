@@ -19,10 +19,9 @@ import * as signalR from "@aspnet/signalr";
 import { GameDetails } from '../../models/GameDetails';
 import { Status } from '../../models/Status'
 import AddThrow from '../../components/Game/AddThrow/AddThrow';
-import Snackbar from '@material-ui/core/Snackbar';
 import { DartThrow } from '../../models/DartThrow';
-import { green } from '@material-ui/core/colors';
-import {Environment} from '../../environment'
+import { Environment } from '../../environment'
+import { GameFinishedialog } from '../../components/Game/GameFinishedDialog/GameFinishedDialog';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -59,7 +58,7 @@ const useStyles = makeStyles(theme => ({
         '& .MuiPaper-rounded': {
 
             backgroundColor: 'green',
-            '& *':{
+            '& *': {
                 color: "#FFFFFF"
             }
         }
@@ -72,18 +71,8 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
     const classes = useStyles();
     let [gameDetails, setGameDetails] = useState<GameDetails>();
     let [isLoading, setLoading] = React.useState(true);
-    const [state, setState] = React.useState({
-        open: false
-    })
-    const { open } = state;
-    const handleStatus = () => {
-        setState({ open: true });
-    };
-
-    const handleClose = () => {
-        setState({ open: false });
-    };
-
+    let [openDialog, setOpenDialog] = React.useState(true);
+    let [winner, setWinner] = React.useState("-1");
     const FetchData = async (id: number) => {
         setLoading(true);
         setGameDetails(await CallToApiGame(id));
@@ -107,7 +96,9 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
             console.log(payload);
             setGameDetails(payload.gameDTO);
             if (payload.status === 1) {
-                handleStatus();
+                setWinner(payload.winner);
+                setOpenDialog(true);
+                
             }
         });
 
@@ -155,12 +146,6 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                 />
             ) : (
                     <Aux>
-                        <Snackbar
-                            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-                            open={open}
-                            onClose={handleClose}
-                            message="Game ended"
-                        />
                         <Grid container spacing={3}>
                             {
                                 gameDetails!.currentLegGroup!
@@ -199,6 +184,11 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                             <AddThrow currentgame={gameDetails?.game.id} selectedThrow={selectedThrowToEdit} />
 
                         </Grid>
+                        {openDialog ? (
+                            <GameFinishedialog winner={winner} />
+                        ) : (
+                                <div></div>
+                            )}
                     </Aux>
                 )}
         </Aux>
