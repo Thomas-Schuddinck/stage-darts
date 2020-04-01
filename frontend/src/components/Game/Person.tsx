@@ -22,9 +22,7 @@ function Person(props: any) {
 
     return (
         <div>
-            <span className={classes.tekstHoofd}>
-                {props.player.id === props.currentplayer.id ? (<PlayArrow className={classes.tekstHoofd}/>): (null)}
-                
+            <span className={classes.tekstHoofd}>                
                 {props.player.name}
             </span>
         </div>

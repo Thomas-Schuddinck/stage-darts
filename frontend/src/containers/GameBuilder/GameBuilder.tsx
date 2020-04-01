@@ -55,11 +55,16 @@ const useStyles = makeStyles(theme => ({
         marginTop: '1em'
     },
     greenBack: {
-        backgroundColor: 'green'
+        '& .MuiPaper-rounded': {
+
+            backgroundColor: 'green',
+            '& *':{
+                color: "#FFFFFF"
+            }
+        }
     }
 }));
 
-var classNames = require('classnames');
 export const GameBuilder = (props: { match: { params: any; }; }) => {
 
 
@@ -72,11 +77,11 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
     const { open } = state;
     const handleStatus = () => {
         setState({ open: true });
-      };
-    
-      const handleClose = () => {
+    };
+
+    const handleClose = () => {
         setState({ open: false });
-      };
+    };
 
     const FetchData = async (id: number) => {
         setLoading(true);
@@ -134,10 +139,10 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
   `;
 
 
-  let [selectedThrowToEdit, setSelectedThrowToEdit] = useState<DartThrow>();
-  const getSelectedThrowFromTurn = async (tr: DartThrow) => {
-    setSelectedThrowToEdit(tr);
-  }
+    let [selectedThrowToEdit, setSelectedThrowToEdit] = useState<DartThrow>();
+    const getSelectedThrowFromTurn = async (tr: DartThrow) => {
+        setSelectedThrowToEdit(tr);
+    }
 
     return (
         <Aux>
@@ -150,16 +155,16 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
             ) : (
                     <Aux>
                         <Snackbar
-                            anchorOrigin={{ vertical: 'top', horizontal: 'center'}}
+                            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
                             open={open}
                             onClose={handleClose}
                             message="GAme ended"
-                        /> 
+                        />
                         <Grid container spacing={3}>
                             {
                                 gameDetails!.currentLegGroup!
                                     .playerLegs!.map(function (pl: PlayerLeg, i: any) {
-                                        return <Grid item xs={12} md={6} lg={6} className={classNames({ 'greenBack': gameDetails?.currentPlayer.id === pl.player.id})}>
+                                        return <Grid item xs={12} md={6} lg={6} className={gameDetails?.currentPlayer.id === pl.player.id ? classes.greenBack : ""}>
                                             <Paper className={fixedHeightPaper}>
                                                 <Grid container spacing={2}>
                                                     <Grid item xs={5} md={7} lg={7}>
@@ -170,8 +175,8 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                                                         </Paper>
                                                     </Grid>
                                                     <Grid item xs={7} md={5} lg={5}>
-                                                    <CurrentScore score={pl.currentScore} />
-                                                        
+                                                        <CurrentScore score={pl.currentScore} />
+
                                                         <Legs legs={
                                                             gameDetails!.game!
                                                                 .players &&
@@ -191,7 +196,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                             }
 
                             <AddThrow currentgame={gameDetails?.game.id} selectedThrow={selectedThrowToEdit} />
-                            
+
                         </Grid>
                     </Aux>
                 )}
