@@ -275,7 +275,7 @@ namespace BackendDarts.Controllers
         /// <param name="playerLeg"></param>
         /// <returns>True if all the darts are thrown</returns>
         [ApiExplorerSettings(IgnoreApi = true)]
-        private Boolean ValidateAllThrowsThrown(Game game)
+        private bool ValidateAllThrowsThrown(Game game)
         {
             return game.GetCurrentTurn().IsFinished;
         }
@@ -293,7 +293,7 @@ namespace BackendDarts.Controllers
             // calculations
             CreateNewTurnIfRequired(game);
             game.AddThrow(dartThrow.Value);
-            Boolean allDartsThrown = ValidateAllThrowsThrown(game);
+            bool allDartsThrown = ValidateAllThrowsThrown(game);
             if (allDartsThrown)
                 game.SetNextPlayer();
 
@@ -333,27 +333,14 @@ namespace BackendDarts.Controllers
         private int CheckGameStatus(Game game, int score)
         {
             // variables
-            Player currentPlayer = game.GetCurrentPlayer();
             PlayerLeg playerLeg = game.GetCurrenPlayerLeg();
 
             // calculations + returns
             if (score == 501)
             {
-                //indien 3de leg gewonnen eindig game
-                if (game.LegGroups.Count(lg => lg.Winner == currentPlayer.Id) == 3)
-                {
-                    game.Winner = currentPlayer.Id;
-                    return 1;
-                }
-                //indien geen 3 legs maar wel uigespeeld eindig leg
-                else
-                {
-                    game.EndLeg();
-                    return 0;
-                }
-            }
-            else
-            {
+                game.EndLeg();
+                return game.Winner == -1 ? 0 : 1;
+            } else{
                 if (score > 501)
                     playerLeg.Turns[playerLeg.Turns.Count - 1].IgnoreAndEndTurn(); ;
 
@@ -426,11 +413,13 @@ namespace BackendDarts.Controllers
         public StatusDTO FillStatusDTO(Game game, int gameStatus)
         {
             // variables
-            StatusDTO statusDTO = new StatusDTO();;
+            StatusDTO statusDTO = new StatusDTO
+            {
+                Status = gameStatus % 2,
+                Winner = game.Winner == -1 ? "" : game.PlayerGames.Find(pg => pg.PlayerId==game.Winner).Player.Name,
+                gameDTO = new GameDetailsDTO(game)
+            };
 
-            // fills
-            statusDTO.Status = gameStatus % 2;
-            statusDTO.gameDTO = new GameDetailsDTO(game);
             if (gameStatus> 2)
                 statusDTO.gameDTO.Game.LegGroups.Last().GoNextPlayerLeg();
 

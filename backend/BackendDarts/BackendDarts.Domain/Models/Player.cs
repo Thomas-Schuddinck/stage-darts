@@ -15,7 +15,7 @@ namespace BackendDarts.Models
         public string Email { get; set; }
         public List<Game> Games { get; set; } 
         [NotMapped]
-        public string Name => String.Format("{0} {1}", FirstName ,LastName);
+        public string Name => String.Format("{0} {1}.", FirstName ,LastName.Split(' ').Aggregate("", (current, word) => current + word.Substring(0, 1)));
         public Player(string firstName, string lastName, string email) : this()
         {
             FirstName = firstName;
