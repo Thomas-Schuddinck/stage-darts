@@ -117,5 +117,17 @@ namespace BackendDarts.Controllers
             playerDTO.Name = player.Name;
             return playerDTO;
         }
+
+        [HttpPut("{id}")]
+        public ActionResult UpdatePlayer(int id, [FromBody]NewPlayerDTO newPlayer)
+        {
+            Player player = _playerRepository.GetAll().SingleOrDefault(p => p.Id == id);
+            player.Email = newPlayer.Email;
+            player.FirstName = newPlayer.FirstName;
+            player.LastName = newPlayer.LastName;
+            _playerRepository.SaveChanges();
+
+            return NoContent();
+        }
     }
 }
