@@ -76,9 +76,11 @@ namespace BackendDarts.Models
         /// This is called when someone throws a total of  and therefore the current player will be the winner
         /// </summary>
         /// <param name="legGroup"></param>
-        public void DetermineWinner()
+        public void SetLegWinner()
         {
-            CurrentLegGroup.FinishLeg(GetCurrentPlayer().Id);
+            CurrentLegGroup.SetLegWinner(GetCurrentPlayer().Id);
+            if(LegGroups.Count(lg => lg.Winner == GetCurrentPlayer().Id)==2)
+                Winner = GetCurrentPlayer().Id;
         }
 
         /// <summary>
@@ -150,7 +152,7 @@ namespace BackendDarts.Models
         /// </summary>
         public void EndLeg()
         {
-            DetermineWinner();
+            SetLegWinner();
             SortPlayers();
             AddLegGroupToHistory();
             SetNextLegGroup();

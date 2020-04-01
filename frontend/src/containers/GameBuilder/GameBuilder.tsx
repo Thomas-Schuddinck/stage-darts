@@ -158,7 +158,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                             anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
                             open={open}
                             onClose={handleClose}
-                            message="GAme ended"
+                            message="Game ended"
                         />
                         <Grid container spacing={3}>
                             {
