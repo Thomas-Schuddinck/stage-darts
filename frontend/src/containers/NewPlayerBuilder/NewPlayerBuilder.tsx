@@ -17,6 +17,7 @@ import { GetApiCall } from '../../services/ApiClient';
 import PropagateLoader from "react-spinners/PropagateLoader";
 import { PlayerList } from "../../components/NewPlayer/PlayerList";
 import { Player } from "../../models/Player";
+import {Environment} from '../../environment';
 
 const useStyles = makeStyles(theme => ({
     formControl: {
@@ -115,7 +116,7 @@ const NewPlayerBuilderForm: React.FC = () => {
     }, []);
 
     const CallToApiPlayerListAll = async (): Promise<Player[]> => {
-        return await GetApiCall('https://localhost:5000/Player').then(pl => {
+        return await GetApiCall(Environment.apiurl + '/Player').then(pl => {
             return pl;
 
         });
@@ -150,7 +151,7 @@ const NewPlayerBuilderForm: React.FC = () => {
                         };
                         console.log(data);
                         console.log(newPlayer);
-                        await PostApiCall('https://localhost:5000/Player', newPlayer)
+                        await PostApiCall(Environment.apiurl + '/Player', newPlayer)
                         FetchData();
                         console.log("submit: ", data);
                         setSubmitting(false);

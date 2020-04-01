@@ -22,6 +22,7 @@ import Wrap from '../../hoc/Wrap';
 import { GetApiCall, PostApiCall } from '../../services/ApiClient';
 import { AddGameDialog } from "../../components/NewGame/AddGameDialog";
 import Alert from '@material-ui/lab/Alert';
+import {Environment} from '../../environment';
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -119,7 +120,7 @@ const NewGameBuilderForm: React.FC = () => {
   }, []);
 
   const CallToApiPlayerListAll = async (): Promise<Player[]> => {
-    return await GetApiCall('https://localhost:5000/Player').then(pl => {
+    return await GetApiCall(Environment.apiurl + '/Player').then(pl => {
       return pl;
 
     });
@@ -163,7 +164,7 @@ const NewGameBuilderForm: React.FC = () => {
                   type: data.gameType,
                   players: data.players,
                 };
-                const id = await PostApiCall('https://localhost:5000/Game/new-game', newGame)
+                const id = await PostApiCall(Environment.apiurl + '/Game/new-game', newGame)
                 setGameId(id);
                 setSubmitting(false);
                 setOpenDialog(true);
