@@ -14,6 +14,7 @@ import { css } from "@emotion/core";
 import { Game } from '../../models/Game';
 import GameListPlayerField from '../../components/GameList/GameListPlayerField/GameListPlayerField';
 import { NavLink, Redirect } from 'react-router-dom';
+import {Environment} from '../../environment'
 
 const StyledTableCell = withStyles(theme => ({
     head: {
@@ -71,7 +72,7 @@ export const GameListBuilder = () => {
     }, []);
 
     const CallToApiGameListAll = async (): Promise<Game[]> => {
-        return await GetApiCall('https://localhost:5000/gamelist/all').then(gameList => {
+        return await GetApiCall(Environment.apiurl + '/gamelist/all').then(gameList => {
             return gameList;
         });
     }

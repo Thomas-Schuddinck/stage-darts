@@ -13,7 +13,7 @@ import { Player } from '../../models/Player';
 import { Stats } from '../../models/Stats';
 import PropagateLoader from "react-spinners/PropagateLoader";
 import { css } from "@emotion/core";
-
+import {Environment} from '../../environment';
 const useStyles = makeStyles(theme => ({
   paper: {
     padding: theme.spacing(2),
@@ -68,13 +68,13 @@ const PersonalStatsBuilder = () => {
   }, []);
 
   const CallToApiPlayers = async (): Promise<Player[]> => {
-    return await GetApiCall('https://localhost:5000/Player').then(players => {
+    return await GetApiCall(Environment.apiurl + '/Player').then(players => {
       return players;
     });
   }
 
   const CallToApiStats = async (player: Player): Promise<Stats> => {
-    return await GetApiCall('https://localhost:5000/Player/stats/' + player.id).then(stats => {
+    return await GetApiCall(Environment.apiurl + '/Player/stats/' + player.id).then(stats => {
       return stats;
     });
   }

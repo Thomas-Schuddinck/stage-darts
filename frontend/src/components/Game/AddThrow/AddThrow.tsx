@@ -8,6 +8,7 @@ import { PutApiCall } from '../../../services/ApiClient';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import GpsFixed from '@material-ui/icons/GpsFixed';
+import {Environment} from '../../../environment'
 
 const useStyles = makeStyles(theme => ({
     leg: {
@@ -87,11 +88,11 @@ const AddThrow = (props: any) => {
         setDouble(false);
         setTripple(false);
         if (props.selectedThrow == null) {
-            return await PostApiCall('https://localhost:5000/Game/game', val.toString()).then(resp => {
+            return await PostApiCall(Environment.apiurl + '/Game/game', val.toString()).then(resp => {
                 console.log(resp);
             });
         } else {
-            return await PutApiCall('https://localhost:5000/Game/throwedit/' + props.currentgame + '/' + props.selectedThrow.id + '/' + val).then(resp => {
+            return await PutApiCall(Environment.apiurl + '/Game/throwedit/' + props.currentgame + '/' + props.selectedThrow.id + '/' + val).then(resp => {
                 console.log("--------");
                 console.log(props.selectedThrow);
                 console.log(props.currentgame);

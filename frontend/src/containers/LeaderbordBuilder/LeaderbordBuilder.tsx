@@ -12,6 +12,7 @@ import PropagateLoader from "react-spinners/PropagateLoader";
 import Wrap from '../../hoc/Wrap';
 import { css } from "@emotion/core";
 import { LeaderboardStats } from '../../models/LeaderboardStats';
+import {Environment} from '../../environment';
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -65,7 +66,7 @@ const Leaderbord = () => {
   }, []);
 
   const CallToApiLeaderboardStats = async (): Promise<LeaderboardStats[]> => {
-    return await GetApiCall('https://localhost:5000/leaderboard').then(playerswithstats => {
+    return await GetApiCall(Environment.apiurl + '/leaderboard').then(playerswithstats => {
       return playerswithstats;
     });
   }

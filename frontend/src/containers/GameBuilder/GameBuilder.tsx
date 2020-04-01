@@ -22,6 +22,7 @@ import AddThrow from '../../components/Game/AddThrow/AddThrow';
 import Snackbar from '@material-ui/core/Snackbar';
 import { DartThrow } from '../../models/DartThrow';
 import { green } from '@material-ui/core/colors';
+import {Environment} from '../../environment'
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -93,7 +94,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
 
         const connection = new signalR.HubConnectionBuilder()
             .configureLogging(signalR.LogLevel.Information)
-            .withUrl("https://localhost:5000/notify")
+            .withUrl(Environment.apiurl + "/notify")
             .build();
 
         connection.start().then(function () {
@@ -122,7 +123,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
     }, []);
 
     const CallToApiGame = async (id: number): Promise<GameDetails> => {
-        return await GetApiCall('https://localhost:5000/Game/' + id).then(gameDetails => {
+        return await GetApiCall(Environment.apiurl + '/Game/' + id).then(gameDetails => {
             console.log("dit is de game");
             console.log(gameDetails)
             return gameDetails;
