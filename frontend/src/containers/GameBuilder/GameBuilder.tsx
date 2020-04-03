@@ -14,7 +14,7 @@ import TakePhoto from '../../components/Game/TakePhoto/TakePhoto';
 import CurrentScore from '../../components/Game/CurrentScore/CurrentScore';
 import { PlayerLeg } from '../../models/PlayerLeg';
 import { PlayerDetail } from '../../models/PlayerDetail';
-import Legs from '../../components/Game/Legs/Legs';
+import NumberOfWonLegs from '../../components/Game/NumberOfWonLegs/NumberOfWonLegs';
 import * as signalR from "@aspnet/signalr";
 import { GameDetails } from '../../models/GameDetails';
 import { Status } from '../../models/Status'
@@ -22,6 +22,8 @@ import AddThrow from '../../components/Game/AddThrow/AddThrow';
 import { DartThrow } from '../../models/DartThrow';
 import { Environment } from '../../environment'
 import { GameFinishedialog } from '../../components/Game/GameFinishedDialog/GameFinishedDialog';
+import LegComponent from '../../components/Game/Leg/Leg';
+import { LegGroup } from '../../models/LegGroup';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -150,7 +152,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                             {
                                 gameDetails!.currentLegGroup!
                                     .playerLegs!.map(function (pl: PlayerLeg, i: any) {
-                                        return <Grid item xs={12} md={6} lg={6} className={gameDetails?.currentPlayer.id === pl.player.id ? classes.greenBack : ""}>
+                                        return <Grid item key={i} xs={12} md={6} lg={6} className={gameDetails?.currentPlayer.id === pl.player.id ? classes.greenBack : ""}>
                                             <Paper className={fixedHeightPaper}>
                                                 <Grid container spacing={2}>
                                                     <Grid item xs={5} md={7} lg={7}>
@@ -163,14 +165,14 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                                                     <Grid item xs={7} md={5} lg={5}>
                                                         <CurrentScore score={pl.currentScore} />
 
-                                                        <Legs legs={
+                                                        <NumberOfWonLegs legs={
                                                             gameDetails!.game!
                                                                 .players &&
                                                             gameDetails!.game!
                                                                 .players!
                                                                 .filter((p: PlayerDetail) =>
                                                                     p.playerDTO.id ===
-                                                                    pl.player.id)[0].legsWon}></Legs>
+                                                                    pl.player.id)[0].legsWon}></NumberOfWonLegs>
                                                     </Grid>
                                                 </Grid>
                                             </Paper>
@@ -183,6 +185,15 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
 
                             <AddThrow currentgame={gameDetails?.game.id} selectedThrow={selectedThrowToEdit} />
 
+                        </Grid>
+                        <hr/>
+                        <h3>History</h3>
+                        <Grid container spacing={3}>
+                            {
+                                 gameDetails!.game!.legGroups!.map(function(lg: LegGroup, i: any){
+                                     return <LegComponent key={i} leggroup={lg}></LegComponent>
+                                 })
+                            }
                         </Grid>
                         {openDialog ? (
                             <GameFinishedialog winner={winner} />

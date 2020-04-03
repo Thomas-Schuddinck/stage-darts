@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const Legs = (props: any) => {
+const NumberOfWonLegs = (props: any) => {
     const classes = useStyles();
     return (
             <Typography className={classes.leg}>legs: {props.legs}</Typography>
@@ -23,4 +23,4 @@ const Legs = (props: any) => {
 };
 
 
-export default Legs;
+export default NumberOfWonLegs;
