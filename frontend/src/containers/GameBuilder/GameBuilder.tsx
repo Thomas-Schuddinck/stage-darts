@@ -22,8 +22,7 @@ import AddThrow from '../../components/Game/AddThrow/AddThrow';
 import { DartThrow } from '../../models/DartThrow';
 import { Environment } from '../../environment'
 import { GameFinishedialog } from '../../components/Game/GameFinishedDialog/GameFinishedDialog';
-import LegComponent from '../../components/Game/Leg/Leg';
-import { LegGroup } from '../../models/LegGroup';
+import HistoryComponent from '../../components/Game/History/History';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -188,13 +187,8 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                         </Grid>
                         <hr />
                         <h3>History</h3>
-                        <Grid container spacing={3}>
-                            {
-                                gameDetails!.game!.legGroups!.map(function (lg: LegGroup, i: any) {
-                                    return <LegComponent key={i} leggroup={lg}></LegComponent>
-                                })
-                            }
-                        </Grid>
+                        <HistoryComponent game={gameDetails!.game!}/>
+                        
                         {openDialog ? (
                             <GameFinishedialog winner={winner} />
                         ) : (

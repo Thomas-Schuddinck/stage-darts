@@ -38,7 +38,7 @@ function TurnComponent(props: any) {
     const classes = useStyles();
 
     return (
-            <Grid className={classes.root} xs={12} md={6} lg={6} container spacing={2}>
+            <Grid className={classes.root} container spacing={2}>
                 <Grid item xs={12}>
                     <Paper className={classes.lijst}>
                         <h4 className={classes.tekstHoofd}>Beurt {props.beurt}</h4>
