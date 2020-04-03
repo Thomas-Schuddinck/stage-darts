@@ -126,23 +126,11 @@ namespace BackendDarts.Controllers
         {
             Game game = _gameRepository.GetBy(id);
 
-            //KIJKT ENKEL NAAR DE HUIDIGE LEG
-            //zou naar volledig game moeten kijken
-            //bug; game.legroups is leeg
             game.CurrentLegGroup.PlayerLegs.ForEach(pl => pl.Turns.ForEach(th => th.Throws.ForEach(thr =>
             {
                 if (thr.Id == idThrow)
                     thr.Value = value;
             })));
-            //game.LegGroups
-            //    .ForEach(legGroup => legGroup.PlayerLegs
-            //    .ForEach(playerLeg => playerLeg.Turns
-            //    .ForEach(turn => turn.Throws.ForEach(dartThrow => {
-            //        if (dartThrow.Id == idThrow)
-            //        {
-            //            dartThrow.Value = value;
-            //        }
-            //    }))));
 
             Game currentGame = _gameRepository.GetBy(Game.SingletonGame.Id);
 
