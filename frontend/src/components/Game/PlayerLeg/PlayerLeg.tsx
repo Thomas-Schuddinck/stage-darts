@@ -1,23 +1,17 @@
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import Aux from '../../../hoc/Wrap';
-import { Player } from "../../../models/Player";
-import { PlayerDetail } from '../../../models/PlayerDetail';
-import { PlayerLeg } from '../../../models/PlayerLeg';
 import TurnComponent from '../Turn/Turn';
 import { Turn } from '../../../models/Turn';
+import { Grid } from '@material-ui/core';
 
 
 const useStyles = makeStyles(theme => ({
     lijst: {
       display: 'flex',
-      overflow: 'auto',
-      flexDirection: 'column',
+      flexDirection: 'row',
       justifyContent: 'center'
     },
-    lijstchild: {
-        margin: '0.25em 0'
-      },
 
   
   }));
@@ -27,12 +21,13 @@ const useStyles = makeStyles(theme => ({
     const classes = useStyles();
     return (
       <Aux>
-        <div className={classes.lijst}>
+          
+        <Grid className={classes.lijst}>
           {props.playerleg.turns.map(function (s: Turn, i: any) {
-            return <TurnComponent key={i}  turn={s}></TurnComponent>
+            return <TurnComponent key={i} beurt={i+1} turn={s} ></TurnComponent>
           }
           )}
-        </div>
+        </Grid>
       </Aux>
     )
   };
