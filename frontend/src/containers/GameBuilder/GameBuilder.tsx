@@ -100,7 +100,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
             if (payload.status === 1) {
                 setWinner(payload.winner);
                 setOpenDialog(true);
-                
+
             }
         });
 
@@ -186,13 +186,13 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                             <AddThrow currentgame={gameDetails?.game.id} selectedThrow={selectedThrowToEdit} />
 
                         </Grid>
-                        <hr/>
+                        <hr />
                         <h3>History</h3>
                         <Grid container spacing={3}>
                             {
-                                 gameDetails!.game!.legGroups!.map(function(lg: LegGroup, i: any){
-                                     return <LegComponent key={i} leggroup={lg}></LegComponent>
-                                 })
+                                gameDetails!.game!.legGroups!.map(function (lg: LegGroup, i: any) {
+                                    return <LegComponent key={i} leggroup={lg}></LegComponent>
+                                })
                             }
                         </Grid>
                         {openDialog ? (

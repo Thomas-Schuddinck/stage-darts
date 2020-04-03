@@ -24,7 +24,8 @@ function TurnComponent(props: any) {
     return (
         <Paper className={classes.lijst}>
             <LastDartThrow score={props.turn.throws!.map((t: DartThrow) => t.value!).reduce((a: any, b: any) => a + b, 0)} />
-            {props.scores && props.turn.throws.map(function (t: DartThrow, i: any) {
+            
+            {props.turn.throws!.map(function (t: DartThrow, i: any) {
                 return <SimpleDartThrowComponent key={i} throw={t} />
             }
             )}

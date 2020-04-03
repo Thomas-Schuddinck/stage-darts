@@ -28,8 +28,8 @@ const useStyles = makeStyles(theme => ({
     return (
       <Aux>
         <div className={classes.lijst}>
-          {props.playerleg.map(function (s: Turn, i: any) {
-            return <TurnComponent turn={s}></TurnComponent>
+          {props.playerleg.turns.map(function (s: Turn, i: any) {
+            return <TurnComponent key={i}  turn={s}></TurnComponent>
           }
           )}
         </div>

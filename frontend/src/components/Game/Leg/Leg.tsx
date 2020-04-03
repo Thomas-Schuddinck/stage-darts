@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
       <Aux>
         <div className={classes.lijst}>
           {props.leggroup.playerLegs.map(function (s: PlayerLeg, i: any) {
-            return <PlayerLegComponent leggroup={s}></PlayerLegComponent>
+            return <PlayerLegComponent key={i} playerleg={s}></PlayerLegComponent>
           }
           )}
         </div>
