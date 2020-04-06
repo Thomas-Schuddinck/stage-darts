@@ -8,12 +8,20 @@ const useStyles = makeStyles(theme => ({
     lijst: {
         display: 'flex',
         overflow: 'auto',
-        flexDirection: 'column',
-        justifyContent: 'center'
+        flexDirection: 'row',
     },
     lijstchild: {
-        margin: '0.25em 0'
+        margin: '0.25em 0',
+        [theme.breakpoints.up('sm')]: {
+            width:'50%'
+        },
+        [theme.breakpoints.up('md')]: {
+            width:'33%'
+        }
+        
+
     },
+    
 
 
 }));
@@ -23,19 +31,25 @@ function LegListComponent(props: any) {
     const [current, setCurrent] = React.useState(-1);
     
     const getIdFromChild = async (id: number) => {
-        props.sendThrowToBuilder(id);
-        setCurrent(id)
+        
+        setCurrent(id);
+        await props.sendIdToBuilder(id);
+        console.log('hey dit werkt');
+        console.log(id);
 
       }
     return (
         <Aux>
+            <div className={classes.lijst} >
 
             {
                 props.leggroups.map(function (s: LegGroup, i: any) {
-                    return <LegButtonComponent legnr={i + 1} index={i} current={current} sendIdToParent={getIdFromChild}/>
+                    return <LegButtonComponent legnr={i + 1} id={i} current={current} sendIdToParent={getIdFromChild} className={classes.lijstchild} />
                 }
                 )}
             <hr />
+            </div>
+
         </Aux>
     )
 };
