@@ -10,7 +10,8 @@ import CurrentTurn from '../CurrentTurn/CurrentTurn';
 
 const useStyles = makeStyles(theme => ({
     root: {
-        padding: '1em'
+        padding: '1em',
+        width:'33%'
       },
     lijst: {
         display: 'flex',
