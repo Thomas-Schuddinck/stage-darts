@@ -39,7 +39,9 @@ function HistoryComponent(props: any) {
                                 <Typography>Leg {i+1}</Typography>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
+                            <Grid container spacing={3}>
                                 <LegComponent key={i} leggroup={lg}></LegComponent>
+                            </Grid>
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
                     )
