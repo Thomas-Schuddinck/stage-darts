@@ -1,12 +1,9 @@
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import Aux from '../../../hoc/Wrap';
-import { Player } from "../../../models/Player";
-import { PlayerDetail } from '../../../models/PlayerDetail';
 import { PlayerLeg } from '../../../models/PlayerLeg';
-import TurnComponent from '../Turn/Turn';
 import PlayerLegComponent from '../PlayerLeg/PlayerLeg';
-import { AppBar, Tabs, Tab, Grid } from '@material-ui/core';
+import { AppBar, Tabs, Tab } from '@material-ui/core';
 import TabComponent from '../TabComponent/TabComponent';
 
 const useStyles = makeStyles(theme => ({
