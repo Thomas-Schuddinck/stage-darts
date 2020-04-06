@@ -10,6 +10,7 @@ import { Environment } from '../../environment';
 import { Status } from '../../models/Status';
 import { css } from "@emotion/core";
 import PropagateLoader from "react-spinners/PropagateLoader";
+import LegComponent from '../../components/Game/Leg/Leg';
 /*
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(theme => ({
@@ -34,7 +35,7 @@ export const GameReviewBuilder = (props: { match: { params: any; }; }) => {
         setLoading(true);
         setGameDetails(await CallToApiGame(id));
         setLoading(false);
-        
+
 
     }
 
@@ -62,10 +63,10 @@ export const GameReviewBuilder = (props: { match: { params: any; }; }) => {
     margin-left: 50%;
   `;
 
-  let [selectedLegId, setSelectedLegId] = useState(-1);
-  const getSelectedIdFromList = async (id: number) => {
-      setSelectedLegId(id);
-  } 
+    let [selectedLegId, setSelectedLegId] = useState(-1);
+    const getSelectedIdFromList = async (id: number) => {
+        setSelectedLegId(id);
+    }
     return (
         <Aux>
 
@@ -78,11 +79,15 @@ export const GameReviewBuilder = (props: { match: { params: any; }; }) => {
             ) : (
                     <Grid container spacing={3}>
                         <Grid item lg={12} xs={12} md={12}>
-                            <LegListComponent leggroups={gameDetails!.game!.legGroups!} sendIdToBuilder={getSelectedIdFromList}/>
+                            <LegListComponent leggroups={gameDetails!.game!.legGroups!} sendIdToBuilder={getSelectedIdFromList} />
                         </Grid>
+
                         <Grid item xs={12} md={12} lg={12}>
-
-
+                            {selectedLegId >= 0 ? (
+                                    <LegComponent leggroup={gameDetails!.game!.legGroups![selectedLegId]} />
+                           ) : (
+                                    <div></div>
+                                )}
                         </Grid>
                     </Grid>
                 )}
