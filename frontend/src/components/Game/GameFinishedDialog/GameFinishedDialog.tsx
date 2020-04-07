@@ -6,10 +6,13 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { NavLink } from 'react-router-dom';
 import { GameFinishedialogContent } from './GameFinishedDialogContent';
+import { useTheme, useMediaQuery } from '@material-ui/core';
 
 export const GameFinishedDialog = (props: any) => {
     const [open, setOpen] = React.useState(true);
 
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const handleClose = () => {
         props.openReview();
         setOpen(false);
@@ -32,6 +35,7 @@ export const GameFinishedDialog = (props: any) => {
             onClose={handleClose}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
+            fullScreen={fullScreen} 
         >
             <DialogTitle id="alert-dialog-title">{"Game Finished"}</DialogTitle>
             <DialogContent>
