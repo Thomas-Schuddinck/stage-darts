@@ -194,7 +194,7 @@ namespace BackendDarts.Controllers
         /// <param name="dartThrow">the new DartThrow</param>
         /// <returns>The current game</returns>
         [HttpPost("game/")]
-        public ActionResult<StatusDTO> AddNewThrow([FromBody]DartThrowDTO dartThrow)
+        public ActionResult<StatusDTO> AddNewThrow([FromBody]NewThrowDTO dartThrow)
         {
             Game currentGame = _gameRepository.GetBy(Game.SingletonGame.Id);
             int status = HandleThrow(currentGame, dartThrow);
@@ -291,7 +291,7 @@ namespace BackendDarts.Controllers
         /// <param name="dartThrow">The given throw</param>
         /// <returns>The status of the game</returns>
         [ApiExplorerSettings(IgnoreApi = true)]
-        private int HandleThrow(Game game, DartThrowDTO dartThrow)
+        private int HandleThrow(Game game, NewThrowDTO dartThrow)
         {
 
             // calculations
