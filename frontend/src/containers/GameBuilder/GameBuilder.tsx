@@ -73,7 +73,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
     const classes = useStyles();
     let [gameDetails, setGameDetails] = useState<GameDetails>();
     let [isLoading, setLoading] = React.useState(true);
-    let [openDialogFinishGame, setOpenDialogFinishGame] = React.useState(true);
+    let [openDialogFinishGame, setOpenDialogFinishGame] = React.useState(false);
     let [openDialogReviewGame, setOpenDialogReviewGame] = React.useState(false);
     let [winner, setWinner] = React.useState("-1");
     const FetchData = async (id: number) => {
