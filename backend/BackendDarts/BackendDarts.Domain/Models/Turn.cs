@@ -28,11 +28,12 @@ namespace BackendDarts.Models
         /// <summary>
         /// Adds Throw to the list of throws
         /// </summary>
-        /// <param name="value">The throw value</param>
+        /// <param name="area">The area where the dart landed</param>
+        /// <param name="multiplier">the multiplier of the throw, by default 1</param>
         /// <returns>true if the turn is full and so has ended</returns>
-        public Boolean AddThrow(int value)
+        public Boolean AddThrow(int area, int multiplier)
         {
-            Throws.Add(new DartThrow(value));
+            Throws.Add(new DartThrow(area, multiplier));
             if(Throws.Count == 3)
             {
                 EndTurn();

@@ -161,45 +161,45 @@ namespace BackendDarts.data
                 game3.SetNextLegGroup();
                 */
                 //adding dartthrows
-                DartThrow dt1 = new DartThrow(13);
-                DartThrow dt2 = new DartThrow(19);
-                DartThrow dt3 = new DartThrow(60);
+                DartThrow dt1 = new DartThrow(13, 2);
+                DartThrow dt2 = new DartThrow(19, 3);
+                DartThrow dt3 = new DartThrow(20, 3);
 
-                DartThrow dt4 = new DartThrow(60);
-                DartThrow dt5 = new DartThrow(20);
-                DartThrow dt6 = new DartThrow(40);
+                DartThrow dt4 = new DartThrow(20, 1);
+                DartThrow dt5 = new DartThrow(20, 2);
+                DartThrow dt6 = new DartThrow(10, 1);
 
-                DartThrow dt7 = new DartThrow(14);
-                DartThrow dt8 = new DartThrow(1);
-                DartThrow dt9 = new DartThrow(9);
+                DartThrow dt7 = new DartThrow(14, 3);
+                DartThrow dt8 = new DartThrow(1, 2);
+                DartThrow dt9 = new DartThrow(9, 2);
 
-                DartThrow dt10 = new DartThrow(0);
-                DartThrow dt11 = new DartThrow(0);
-                DartThrow dt12 = new DartThrow(0);
+                DartThrow dt10 = new DartThrow(0, 1);
+                DartThrow dt11 = new DartThrow(10, 2);
+                DartThrow dt12 = new DartThrow(20, 3);
 
-                DartThrow dt13 = new DartThrow(4);
-                DartThrow dt14 = new DartThrow(54);
-                DartThrow dt15 = new DartThrow(5);
+                DartThrow dt13 = new DartThrow(4, 2);
+                DartThrow dt14 = new DartThrow(50, 1);
+                DartThrow dt15 = new DartThrow(25, 1);
                 
-                DartThrow dt16 = new DartThrow(30);
-                DartThrow dt17 = new DartThrow(64);
-                DartThrow dt18 = new DartThrow(28);
+                DartThrow dt16 = new DartThrow(10, 3);
+                DartThrow dt17 = new DartThrow(50, 1);
+                DartThrow dt18 = new DartThrow(20, 2);
 
-                DartThrow dt19 = new DartThrow(4);
-                DartThrow dt20 = new DartThrow(54);
-                DartThrow dt21 = new DartThrow(130);
+                DartThrow dt19 = new DartThrow(4, 3);
+                DartThrow dt20 = new DartThrow(14, 2);
+                DartThrow dt21 = new DartThrow(10, 3);
 
-                DartThrow dt22 = new DartThrow(60);
-                DartThrow dt23 = new DartThrow(60);
-                DartThrow dt24 = new DartThrow(60);
+                DartThrow dt22 = new DartThrow(10, 3);
+                DartThrow dt23 = new DartThrow(25, 1);
+                DartThrow dt24 = new DartThrow(25, 1);
 
-                DartThrow dt25 = new DartThrow(20);
-                DartThrow dt26 = new DartThrow(40);
-                DartThrow dt27 = new DartThrow(14);
+                DartThrow dt25 = new DartThrow(20, 1);
+                DartThrow dt26 = new DartThrow(20, 3);
+                DartThrow dt27 = new DartThrow(14, 3);
 
-                DartThrow dt28 = new DartThrow(3);
-                DartThrow dt29 = new DartThrow(94);
-                DartThrow dt30 = new DartThrow(55);
+                DartThrow dt28 = new DartThrow(3, 3);
+                DartThrow dt29 = new DartThrow(9, 2);
+                DartThrow dt30 = new DartThrow(50, 1);
 
                 _dbContext.DartThrows.Add(dt1);
                 _dbContext.DartThrows.Add(dt2);

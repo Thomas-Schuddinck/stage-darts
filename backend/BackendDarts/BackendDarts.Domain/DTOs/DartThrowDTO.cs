@@ -8,7 +8,10 @@ namespace BackendDarts.DTOs
         public DartThrowDTO(DartThrow dt) : this()
         {
             Id = dt.Id;
+            Area = dt.Area;
+            Multiplier = dt.Multiplier;
             Value = dt.Value;
+
         }
 
         public DartThrowDTO()
@@ -16,6 +19,8 @@ namespace BackendDarts.DTOs
         }
 
         public int Id { get; set; }
+        public int Area { get; set; }
+        public int Multiplier { get; set; }
         public int Value { get; set; }
     }
 }

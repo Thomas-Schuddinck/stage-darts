@@ -122,14 +122,18 @@ namespace BackendDarts.Controllers
         /// <param name="idThrow">ID of the dartthrow to update</param>
         /// <param name="value">the score of the throw</param>
         /// <returns>The updated game</returns>
-        public ActionResult<StatusDTO> EditThrow(int id, int idThrow, int value)
+        public ActionResult<StatusDTO> EditThrow(int id, int idThrow, int area, int multiplier)
         {
             Game game = _gameRepository.GetBy(id);
 
             game.CurrentLegGroup.PlayerLegs.ForEach(pl => pl.Turns.ForEach(th => th.Throws.ForEach(thr =>
             {
                 if (thr.Id == idThrow)
-                    thr.Value = value;
+                {
+                    thr.Area = area;
+                    thr.Multiplier = multiplier;
+                }
+                    
             })));
 
             Game currentGame = _gameRepository.GetBy(Game.SingletonGame.Id);
@@ -292,7 +296,7 @@ namespace BackendDarts.Controllers
 
             // calculations
             CreateNewTurnIfRequired(game);
-            game.AddThrow(dartThrow.Value);
+            game.AddThrow(dartThrow.Area, dartThrow.Multiplier);
             bool allDartsThrown = ValidateAllThrowsThrown(game);
             if (allDartsThrown)
                 game.SetNextPlayer();

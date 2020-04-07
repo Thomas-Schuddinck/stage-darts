@@ -215,10 +215,11 @@ namespace BackendDarts.Models
         /// <summary>
         /// Add a new Throw to the game
         /// </summary>
-        /// <param name="value">the value of what was thrown with a single dart</param>
-        public void AddThrow(int value)
+        /// <param name="area">the area where a single dart landed</param>
+        /// <param name="multiplier">the multiplier of a single dart throw</param>
+        public void AddThrow(int area, int multiplier)
         {
-            GetCurrentTurn().AddThrow(value);
+            GetCurrentTurn().AddThrow(area, multiplier);
             
         }
 
