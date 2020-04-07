@@ -21,8 +21,9 @@ import { Status } from '../../models/Status'
 import AddThrow from '../../components/Game/AddThrow/AddThrow';
 import { DartThrow } from '../../models/DartThrow';
 import { Environment } from '../../environment'
-import { GameFinishedialog } from '../../components/Game/GameFinishedDialog/GameFinishedDialog';
 import HistoryComponent from '../../components/Game/History/History';
+import { GameFinishedDialog } from '../../components/Game/GameFinishedDialog/GameFinishedDialog';
+import { GameReviewDialog } from '../../components/Game/GameReviewDialog/GameReviewDialog';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -72,7 +73,8 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
     const classes = useStyles();
     let [gameDetails, setGameDetails] = useState<GameDetails>();
     let [isLoading, setLoading] = React.useState(true);
-    let [openDialog, setOpenDialog] = React.useState(false);
+    let [openDialogFinishGame, setOpenDialogFinishGame] = React.useState(true);
+    let [openDialogReviewGame, setOpenDialogReviewGame] = React.useState(false);
     let [winner, setWinner] = React.useState("-1");
     const FetchData = async (id: number) => {
         setLoading(true);
@@ -98,11 +100,16 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
             setGameDetails(payload.gameDTO);
             if (payload.status === 1) {
                 setWinner(payload.winner);
-                setOpenDialog(true);
+                setOpenDialogFinishGame(true);
 
             }
         });
 
+    }
+    const openReviewDialog = () => {
+        console.log('ok ik raak hier')
+        console.log('openReviewDialog')
+        setOpenDialogReviewGame(true)
     }
 
     useEffect(() => {
@@ -187,10 +194,15 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                         </Grid>
                         <hr />
                         <h3>History</h3>
-                        <HistoryComponent game={gameDetails!.game!}/>
-                        
-                        {openDialog ? (
-                            <GameFinishedialog winner={winner} />
+                        <HistoryComponent game={gameDetails!.game!} />
+
+                        {openDialogFinishGame ? (
+                            <GameFinishedDialog winner={winner} openReview={openReviewDialog} />
+                        ) : (
+                                <div></div>
+                            )}
+                        {openDialogReviewGame ? (
+                            <GameReviewDialog />
                         ) : (
                                 <div></div>
                             )}

@@ -7,16 +7,21 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { NavLink } from 'react-router-dom';
 import { GameFinishedialogContent } from './GameFinishedDialogContent';
 
-export const GameFinishedialog = (props: any) => {
+export const GameFinishedDialog = (props: any) => {
     const [open, setOpen] = React.useState(true);
 
     const handleClose = () => {
+        props.openReview();
         setOpen(false);
     };
-    const handleStartGame = () => {
-        setOpen(false);
+    const handleReviewGame = () => {
+        handleClose();
     };
-    const handleGoToGame = () => {
+    const handleOverviewGame = () => {
+        
+        handleClose();
+    };
+    const handleGoToGames = () => {
         handleClose();
     };
 
@@ -33,13 +38,13 @@ export const GameFinishedialog = (props: any) => {
                 <GameFinishedialogContent id="alert-dialog-description" winner={props.winner} />
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleStartGame} color="primary">
+                <Button onClick={handleReviewGame} color="primary">
                 REVIEW GAME
                 </Button>
-                <Button onClick={handleStartGame} color="primary">
+                <Button onClick={handleOverviewGame} color="primary">
                     <NavLink to={`/game/${props.id}`}>GAME OVERVIEW</NavLink>
                 </Button>
-                <Button onClick={handleGoToGame} color="primary" autoFocus>
+                <Button onClick={handleGoToGames} color="primary">
                     <NavLink to={`/gamelist`} >GO TO GAMES</NavLink>
                 </Button>
             </DialogActions>
