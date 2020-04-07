@@ -4,7 +4,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { DialogContentText, TextField, makeStyles, Grid } from '@material-ui/core';
+import { DialogContentText, TextField, makeStyles, Grid, useTheme, useMediaQuery } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
 
@@ -27,6 +27,15 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         alignContent: 'space-between',
         margin: '0 auto'
+    },
+    overflowtje: {
+        overflow: ''
+    },
+    ovFlex: {
+        
+        [theme.breakpoints.down('sm')]: {
+            flexGrow: 0,
+        },
     }
 
 
@@ -34,7 +43,8 @@ const useStyles = makeStyles(theme => ({
 export const GameReviewDialog = (props: any) => {
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
-
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const handleClose = () => {
         setOpen(false);
     };
@@ -46,14 +56,14 @@ export const GameReviewDialog = (props: any) => {
     };
 
     return (
-        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" fullScreen={fullScreen} >
             <DialogTitle id="form-dialog-title">Review Game</DialogTitle>
-            <DialogContent>
+            <DialogContent className={classes.ovFlex}>
                 <DialogContentText>
                     Change the last throw and keep playing after applying new score
-            <h4>Or</h4>
-            finish the game and go to overview
-          </DialogContentText>
+                    <h4>Or</h4>
+                    finish the game and go to overview
+                </DialogContentText>
                 <Grid container>
                     <Grid item xs={12} md={5}>
                         <TextField
@@ -76,20 +86,19 @@ export const GameReviewDialog = (props: any) => {
                         />
                     </Grid>
                 </Grid>
-
             </DialogContent>
             <DialogActions className={classes.buttons}>
                 <Button onClick={handleClose} color="primary">
                     <div className={classes.flexie}>
-                        <h2>Re-evaluate</h2>
-                        <h5>and keep playing</h5>
+                        <h3>Re-evaluate</h3>
+                        <h6>and keep playing</h6>
                     </div>
                 </Button>
                 <Button onClick={handleClose} color="primary" className={classes.buttonstyle}>
                     <div className={classes.flexie}>
 
-                        <h2>Ignore</h2>
-                        <h5>and finish game</h5>
+                        <h3>Ignore</h3>
+                        <h6>and finish game</h6>
                     </div>
                 </Button>
             </DialogActions>
