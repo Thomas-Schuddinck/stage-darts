@@ -25,18 +25,18 @@ const useStyles = makeStyles(theme => ({
     paddingRight: 24, // keep right padding when drawer closed
   },
   toolbarIcon: {
-    
+
     ...theme.mixins.toolbar,
     display: 'flex',
     alignItems: 'center',
     padding: theme.spacing(1),
-    
+
     justifyContent: 'flex-start',
     [theme.breakpoints.up('sm')]: {
 
       justifyContent: 'flex-end',
     },
-    
+
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -110,6 +110,9 @@ const useStyles = makeStyles(theme => ({
     overflow: 'auto',
     flexDirection: 'column',
   },
+  test: {
+    overflow: 'hidden'
+  }
 }));
 
 export default function MyToolbar(props: { children: React.ReactNode }) {
@@ -123,7 +126,7 @@ export default function MyToolbar(props: { children: React.ReactNode }) {
   };
 
   const getClickFromSideList = async () => {
-    if(window.innerWidth <= 650)
+    if (window.innerWidth <= 650)
       handleDrawerClose();
   }
 
@@ -132,9 +135,9 @@ export default function MyToolbar(props: { children: React.ReactNode }) {
 
 
   return (
-    <div className={classes.root}>
+    <div className={clsx(classes.root, classes.test)}>
       <CssBaseline />
-      <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+      <AppBar  className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
           <IconButton
             edge="start"
@@ -148,15 +151,13 @@ export default function MyToolbar(props: { children: React.ReactNode }) {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             DaRts
           </Typography>
-          <IconButton color="inherit">
-            register
-          </IconButton>
         </Toolbar>
       </AppBar>
       <Drawer
+
         variant="permanent"
         classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+          paper: clsx(classes.drawerPaper, classes.test, !open && classes.drawerPaperClose),
         }}
         open={open}
       >
@@ -166,7 +167,9 @@ export default function MyToolbar(props: { children: React.ReactNode }) {
           </IconButton>
         </div>
         <Divider />
-        <List> <SideList sendClickToToolbar={getClickFromSideList} /></List>
+        <List>
+          <SideList sendClickToToolbar={getClickFromSideList} />
+        </List>
 
 
       </Drawer>

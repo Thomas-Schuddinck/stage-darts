@@ -12,7 +12,8 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'column',
         padding: '0px',
-        margin: '0 auto'
+        margin: '0 auto', 
+        alignSelf: 'center'
     },
     flexie: {
 
