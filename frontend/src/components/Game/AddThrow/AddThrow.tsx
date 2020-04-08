@@ -3,7 +3,7 @@ import { Typography, makeStyles, Grid, Button, Select, MenuItem } from '@materia
 import { indigo } from '@material-ui/core/colors';
 import Wrap from '../../../hoc/Wrap'
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
-import PostApiCall from '../../../services/ApiClientPost';
+import { PostApiCall } from '../../../services/ApiClient';
 import { PutApiCall } from '../../../services/ApiClient';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
@@ -105,9 +105,7 @@ const AddThrow = (props: any) => {
         setDouble(false);
         setTripple(false);
         if (props.selectedThrow == null) {
-            return await PostApiCall(Environment.apiurl + '/Game/game', newThrow.toString()).then(resp => {
-                console.log(resp);
-            });
+            return await PostApiCall(Environment.apiurl + '/Game/game', newThrow);
         } else {
             /*
             return await PutApiCall(Environment.apiurl + '/Game/throwedit/' + props.currentgame + '/' + props.selectedThrow.id + '/' + val).then(resp => {
