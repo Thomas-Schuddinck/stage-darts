@@ -75,7 +75,10 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'row',
         alignItems: "center"
-    }
+    },
+    bringForeground: {
+        zIndex: 50,
+    },
 }));
 
 const AddThrow = (props: any) => {
@@ -172,7 +175,7 @@ const AddThrow = (props: any) => {
         <Wrap>
 
             {size < 499 ? (
-                <Grid className={classes.wrap} container>
+                <Grid container className={clsx(classes.wrap, classes.bringForeground)}>
                     {createButtons()}
                     <Grid item xs={2} md={2} lg={2}>
                         <Button onClick={() => setArea(25)} className={classes.button}>25</Button>
