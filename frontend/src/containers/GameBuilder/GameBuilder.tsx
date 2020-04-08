@@ -3,7 +3,7 @@ import Person from '../../components/Game/Person'
 import Aux from '../../hoc/Wrap';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import PropagateLoader from "react-spinners/PropagateLoader";
 import { GetApiCall } from '../../services/ApiClient';
@@ -24,6 +24,7 @@ import { Environment } from '../../environment'
 import HistoryComponent from '../../components/Game/History/History';
 import { GameFinishedDialog } from '../../components/Game/GameFinishedDialog/GameFinishedDialog';
 import { GameReviewDialog } from '../../components/Game/GameReviewDialog/GameReviewDialog';
+import { useMediaQuery } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -64,6 +65,18 @@ const useStyles = makeStyles(theme => ({
                 color: "#FFFFFF"
             }
         }
+    },
+    flexie: {
+
+        display: 'flex',
+        flexDirection: 'column'
+
+
+    }, 
+    test:{
+        overflowY: 'auto',
+        top: '0px',
+        bottom: '0px'
     }
 }));
 
@@ -71,6 +84,9 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
 
 
     const classes = useStyles();
+
+    const theme = useTheme();
+    const smallScreen = useMediaQuery(theme.breakpoints.down('sm'));
     let [gameDetails, setGameDetails] = useState<GameDetails>();
     let [isLoading, setLoading] = React.useState(true);
     let [openDialogFinishGame, setOpenDialogFinishGame] = React.useState(false);
@@ -153,59 +169,65 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                     color={"#123abc"}
                 />
             ) : (
-                    <Aux>
-                        <Grid container spacing={3}>
-                            {
-                                gameDetails!.currentLegGroup!
-                                    .playerLegs!.map(function (pl: PlayerLeg, i: any) {
-                                        return <Grid item key={i} xs={12} md={6} lg={6} className={gameDetails?.currentPlayer.id === pl.player.id ? classes.greenBack : ""}>
-                                            <Paper className={fixedHeightPaper}>
-                                                <Grid container spacing={2}>
-                                                    <Grid item xs={5} md={7} lg={7}>
-                                                        <Person player={pl.player} currentplayer={gameDetails?.currentPlayer} />
-                                                        <Paper className={classes.margintop}>
-                                                            <LastDartThrow score={pl.turns![pl.turns!.length - 1] && pl.turns![pl.turns!.length - 1].throws!.map(t => t.value!).reduce((a, b) => a + b, 0)} />
-                                                            <CurrentTurn sendThrowToBuilder={getSelectedThrowFromTurn} className={classes.currentTurn} turnnumber="2" scores={pl.turns![pl.turns!.length - 1] && pl.turns![pl.turns!.length - 1].throws && pl.turns![pl.turns!.length - 1].throws!.map(t => t)} />
-                                                        </Paper>
+                    <Aux >
+                        <div className={smallScreen ? classes.flexie : ""}>
+                            <Grid container spacing={3}>
+                                {
+                                    gameDetails!.currentLegGroup!
+                                        .playerLegs!.map(function (pl: PlayerLeg, i: any) {
+                                            return <Grid item key={i} xs={12} md={6} lg={6} className={gameDetails?.currentPlayer.id === pl.player.id ? classes.greenBack : ""}>
+                                                <Paper className={fixedHeightPaper}>
+                                                    <Grid container spacing={2}>
+                                                        <Grid item xs={5} md={7} lg={7}>
+                                                            <Person player={pl.player} currentplayer={gameDetails?.currentPlayer} />
+                                                            <Paper className={classes.margintop}>
+                                                                <LastDartThrow score={pl.turns![pl.turns!.length - 1] && pl.turns![pl.turns!.length - 1].throws!.map(t => t.value!).reduce((a, b) => a + b, 0)} />
+                                                                <CurrentTurn sendThrowToBuilder={getSelectedThrowFromTurn} className={classes.currentTurn} turnnumber="2" scores={pl.turns![pl.turns!.length - 1] && pl.turns![pl.turns!.length - 1].throws && pl.turns![pl.turns!.length - 1].throws!.map(t => t)} />
+                                                            </Paper>
+                                                        </Grid>
+                                                        <Grid item xs={7} md={5} lg={5}>
+                                                            <CurrentScore score={pl.currentScore} />
+
+                                                            <NumberOfWonLegs legs={
+                                                                gameDetails!.game!
+                                                                    .players &&
+                                                                gameDetails!.game!
+                                                                    .players!
+                                                                    .filter((p: PlayerDetail) =>
+                                                                        p.playerDTO.id ===
+                                                                        pl.player.id)[0].legsWon}></NumberOfWonLegs>
+                                                        </Grid>
                                                     </Grid>
-                                                    <Grid item xs={7} md={5} lg={5}>
-                                                        <CurrentScore score={pl.currentScore} />
-
-                                                        <NumberOfWonLegs legs={
-                                                            gameDetails!.game!
-                                                                .players &&
-                                                            gameDetails!.game!
-                                                                .players!
-                                                                .filter((p: PlayerDetail) =>
-                                                                    p.playerDTO.id ===
-                                                                    pl.player.id)[0].legsWon}></NumberOfWonLegs>
-                                                    </Grid>
-                                                </Grid>
-                                            </Paper>
-                                        </Grid>
-                                    }
+                                                </Paper>
+                                            </Grid>
+                                        }
 
 
-                                    )
-                            }
+                                        )
+                                }
 
-                            <AddThrow currentgame={gameDetails?.game.id} selectedThrow={selectedThrowToEdit} />
+                                {smallScreen ? (<div></div>) : (<AddThrow currentgame={gameDetails?.game.id} selectedThrow={selectedThrowToEdit} />)}
 
-                        </Grid>
-                        <hr />
-                        <h3>History</h3>
-                        <HistoryComponent game={gameDetails!.game!} />
 
-                        {openDialogFinishGame ? (
-                            <GameFinishedDialog winner={winner} openReview={openReviewDialog} />
-                        ) : (
-                                <div></div>
-                            )}
-                        {openDialogReviewGame ? (
-                            <GameReviewDialog />
-                        ) : (
-                                <div></div>
-                            )}
+
+                            </Grid>
+                            <hr />
+                            <h3>History</h3>
+                            <HistoryComponent game={gameDetails!.game!} />
+
+                            
+                            {smallScreen ? (<AddThrow currentgame={gameDetails?.game.id} selectedThrow={selectedThrowToEdit} className={classes.test}  />) : (<div></div>)}
+                            {openDialogFinishGame ? (
+                                <GameFinishedDialog winner={winner} openReview={openReviewDialog} />
+                            ) : (
+                                    <div></div>
+                                )}
+                            {openDialogReviewGame ? (
+                                <GameReviewDialog />
+                            ) : (
+                                    <div></div>
+                                )}
+                        </div>
                     </Aux>
                 )}
         </Aux>
