@@ -74,11 +74,17 @@ const useStyles = makeStyles(theme => ({
     flexie: {
         display: 'flex',
         flexDirection: 'row',
-        alignItems: "center"
+        justifyContent: 'center'
     },
     bringForeground: {
         zIndex: 1101,
     },
+    lijn: {
+        backgroundColor:'green'
+    },
+    paddy:  {
+        marginRight: '0.6em'
+    }
 }));
 
 const AddThrow = (props: any) => {
@@ -147,7 +153,7 @@ const AddThrow = (props: any) => {
         let buttons = [];
         for (let i = 1; i <= 20; i++) {
             buttons.push(
-                <Grid item xs={2} md={2} lg={2}>
+                <Grid item xs={3} md={3} lg={3}>
                     <Button
                         className={classes.button}
                         key={i}
@@ -202,21 +208,22 @@ const AddThrow = (props: any) => {
             {size < 499 ? (
                 <Grid container className={clsx(classes.wrap, classes.bringForeground)}>
                     {createButtons()}
-                    <Grid item xs={2} md={2} lg={2}>
+                    <Grid item xs={12} md={12} lg={12} className={classes.lijn}>
+                        <hr/>
+                    </Grid>
+                    <Grid item xs={3} md={3} lg={3}>
                         <Button onClick={() => handleButtonClick(25)} className={classes.button}>25</Button>
                     </Grid>
-                    <Grid item xs={2} md={2} lg={2}>
+                    <Grid item xs={3} md={3} lg={3}>
                         <Button onClick={() => handleButtonClick(50)} className={classes.button}>50</Button>
                     </Grid>
-                    <Grid item xs={2} md={2} lg={2}>
+                    <Grid item xs={3} md={3} lg={3}>
                         <Button onClick={() => toggleDouble()} className={double ? classes.buttonSelected : classes.button}>D</Button>
                     </Grid>
-                    <Grid item xs={2} md={2} lg={2}>
+                    <Grid item xs={3} md={3} lg={3}>
                         <Button onClick={() => toggleTripple()} className={tripple ? classes.buttonSelected : classes.button}>T</Button>
                     </Grid>
-                    <Grid item xs={12} md={12} lg={12}>
-                        <Button className={classes.photo}><AddAPhotoIcon /></Button>
-                    </Grid>
+                    
                 </Grid>
             ) : (
                     <Grid container className={clsx(classes.controllers, classes.flexie)} spacing={1}>
@@ -262,11 +269,7 @@ const AddThrow = (props: any) => {
                                 <MenuItem value={2}>Double</MenuItem>
                                 <MenuItem value={3}>Triple</MenuItem>
                             </Select>
-                            <Button className={clsx(classes.send, classes.formControl)} onClick={() => setDoPost(true)}><SendIcon /></Button>
-                        </Grid>
-
-                        <Grid item xs={3} md={3} lg={3}>
-                            <Button className={classes.photo}><AddAPhotoIcon /></Button>
+                            <Button className={clsx(classes.send, classes.formControl)} onClick={() => setDoPost(true)}><SendIcon className={classes.paddy} />Add Throw</Button>
                         </Grid>
                     </Grid>
                 )}
