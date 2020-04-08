@@ -214,7 +214,7 @@ const AddThrow = (props: any) => {
                     <Grid item xs={2} md={2} lg={2}>
                         <Button onClick={() => toggleTripple()} className={tripple ? classes.buttonSelected : classes.button}>T</Button>
                     </Grid>
-                    <Grid item xs={2} md={2} lg={2}>
+                    <Grid item xs={12} md={12} lg={12}>
                         <Button className={classes.photo}><AddAPhotoIcon /></Button>
                     </Grid>
                 </Grid>
