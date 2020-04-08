@@ -11,12 +11,6 @@ import CurrentTurn from '../CurrentTurn/CurrentTurn';
 const useStyles = makeStyles(theme => ({
     root: {
         padding: '1em',
-        [theme.breakpoints.up('sm')]: {
-            width:'50%'
-        },
-        [theme.breakpoints.up('md')]: {
-            width:'33%'
-        }
       },
     lijst: {
         display: 'flex',

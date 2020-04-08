@@ -21,13 +21,17 @@ const useStyles = makeStyles(theme => ({
     const classes = useStyles();
     return (
       <Aux>
-          
-        <Grid className={classes.lijst}>
+        <Grid container className={classes.lijst}>
+        
           {props.playerleg.turns.map(function (s: Turn, i: any) {
-            return <TurnComponent key={i} beurt={i+1} turn={s} ></TurnComponent>
+            return <Grid item xs={6} md={2} lg={2}><TurnComponent key={i} beurt={i+1} turn={s} /></Grid>
           }
           )}
+        
+
         </Grid>
+          
+        
       </Aux>
     )
   };
