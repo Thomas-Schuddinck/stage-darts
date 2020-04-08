@@ -77,7 +77,7 @@ const useStyles = makeStyles(theme => ({
         alignItems: "center"
     },
     bringForeground: {
-        zIndex: 50,
+        zIndex: 1101,
     },
 }));
 
