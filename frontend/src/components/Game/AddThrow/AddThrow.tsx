@@ -89,40 +89,58 @@ const AddThrow = (props: any) => {
     let [tripple = false, setTripple] = useState<boolean>();
     let [double = false, setDouble] = useState<boolean>();
     let [multiplier = 1, setMultiplier] = useState<number>();
+    let [doPost = false, setDoPost] = useState<boolean>();
 
     useEffect(() => {
         window.addEventListener('resize', updateWindowDimensions);
         setSize(window.innerWidth);
     }, []);
 
+    
+
     const updateWindowDimensions = () => {
         setSize(window.innerWidth);
     }
 
-    const PostThrowCall = async () => {
-        const newThrow = {
-            area: area,
-            multiplier: multiplier
-        };
-
-        setDouble(false);
-        setTripple(false);
-        if (props.selectedThrow == null) {
-            return await PostApiCall(Environment.apiurl + '/Game/game', newThrow);
-        } else {
-            /*
-            return await PutApiCall(Environment.apiurl + '/Game/throwedit/' + props.currentgame + '/' + props.selectedThrow.id + '/' + val).then(resp => {
-                console.log("--------");
-                console.log(props.selectedThrow);
-                console.log(props.currentgame);
-                console.log(resp);
-            });
-            */
+    useEffect(() =>{
+        if(isNaN(area)){
+            setArea(0);
         }
+    }, [area])
+
+    useEffect(() => {
+        async function PostThrowCall() {
+            const newThrow = {
+                area: area,
+                multiplier: multiplier
+            };
+
+            setDouble(false);
+            setTripple(false);
+            if (props.selectedThrow == null) {
+                return await PostApiCall(Environment.apiurl + '/Game/game', newThrow).then(() => {
+                    setDoPost(false);
+                    setArea(0);
+                });
+            } else {
+                /*
+                return await PutApiCall(Environment.apiurl + '/Game/throwedit/' + props.currentgame + '/' + props.selectedThrow.id + '/' + val).then(resp => {
+                    console.log("--------");
+                    console.log(props.selectedThrow);
+                    console.log(props.currentgame);
+                    console.log(resp);
+                });
+                */
+            }
+        }
+        if(doPost){
+            PostThrowCall();
+        }
+    }, [doPost]);
 
 
 
-    }
+
 
     const createButtons = () => {
         let container = [];
@@ -133,7 +151,7 @@ const AddThrow = (props: any) => {
                     <Button
                         className={classes.button}
                         key={i}
-                        onClick={() => PostThrowCall()}
+                        onClick={() => handleButtonClick(i)}
                     >{i}</Button>
                 </Grid>
             )
@@ -160,6 +178,13 @@ const AddThrow = (props: any) => {
         setMultiplier(i);
     };
 
+    const handleButtonClick = (i: number) => {
+
+        setArea(i);
+        setDoPost(true);
+    };
+
+
     const toggleTripple = () => {
         if (tripple) {
             setTripple(false);
@@ -178,10 +203,10 @@ const AddThrow = (props: any) => {
                 <Grid container className={clsx(classes.wrap, classes.bringForeground)}>
                     {createButtons()}
                     <Grid item xs={2} md={2} lg={2}>
-                        <Button onClick={() => setArea(25)} className={classes.button}>25</Button>
+                        <Button onClick={() => handleButtonClick(25)} className={classes.button}>25</Button>
                     </Grid>
                     <Grid item xs={2} md={2} lg={2}>
-                        <Button onClick={() => setArea(50)} className={classes.button}>50</Button>
+                        <Button onClick={() => handleButtonClick(50)} className={classes.button}>50</Button>
                     </Grid>
                     <Grid item xs={2} md={2} lg={2}>
                         <Button onClick={() => toggleDouble()} className={double ? classes.buttonSelected : classes.button}>D</Button>
@@ -205,8 +230,8 @@ const AddThrow = (props: any) => {
                                     console.log(`Pressed keyCode ${ev.key}`);
                                     if (ev.key === 'Enter') {
 
-                                        setArea(0);
-                                        PostThrowCall();
+                                        
+                                        setDoPost(true);
                                         ev.preventDefault();
                                     }
                                 }}
@@ -237,7 +262,7 @@ const AddThrow = (props: any) => {
                                 <MenuItem value={2}>Double</MenuItem>
                                 <MenuItem value={3}>Triple</MenuItem>
                             </Select>
-                            <Button className={clsx(classes.send, classes.formControl)} onClick={() => PostThrowCall()}><SendIcon /></Button>
+                            <Button className={clsx(classes.send, classes.formControl)} onClick={() => setDoPost(true)}><SendIcon /></Button>
                         </Grid>
 
                         <Grid item xs={3} md={3} lg={3}>
