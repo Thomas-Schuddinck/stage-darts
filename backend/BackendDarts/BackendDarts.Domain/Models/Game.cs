@@ -217,9 +217,10 @@ namespace BackendDarts.Models
         /// </summary>
         /// <param name="area">the area where a single dart landed</param>
         /// <param name="multiplier">the multiplier of a single dart throw</param>
-        public void AddThrow(int area, int multiplier)
+        /// <returns>true if the turn is full and so has ended</returns>
+        public bool AddThrow(int area, int multiplier)
         {
-            GetCurrentTurn().AddThrow(area, multiplier);
+            return GetCurrentTurn().AddThrow(area, multiplier);
             
         }
 
@@ -257,6 +258,14 @@ namespace BackendDarts.Models
         {
             return CurrentLegGroup.PlayerLegs[CurrentPlayerLegIndex];
         }
+        /// <summary>
+        /// Get the previous PlayerLeg for the current Player
+        /// </summary>
+        /// <returns>The previous PlayerLeg for the current Player</returns>
+        public PlayerLeg GetPreviousPlayerLeg()
+        {
+            return CurrentLegGroup.PlayerLegs[(CurrentPlayerLegIndex-1)% CurrentLegGroup.PlayerLegs.Count];
+        }
 
         /// <summary>
         /// Get the current Player
@@ -281,6 +290,15 @@ namespace BackendDarts.Models
             return size > 0 ? GetCurrenPlayerLeg().Turns[size-1] : new Turn();
         }
 
+        /// <summary>
+        /// Get the previous turn for the current PlayerLeg for the current Player
+        /// </summary>
+        /// <returns>The previous Turn</returns>
+        public Turn GetPreviousTurn()
+        {
+            int size = GetCurrenPlayerLeg().Turns.Count;
+            return size > 0 ? GetCurrenPlayerLeg().Turns[size - 2] : new Turn();
+        }
 
         #endregion
 

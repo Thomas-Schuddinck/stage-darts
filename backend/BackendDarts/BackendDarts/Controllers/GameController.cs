@@ -296,13 +296,13 @@ namespace BackendDarts.Controllers
 
             // calculations
             CreateNewTurnIfRequired(game);
-            game.AddThrow(dartThrow.Area, dartThrow.Multiplier);
-            bool allDartsThrown = ValidateAllThrowsThrown(game);
-            if (allDartsThrown)
+            
+            bool allDartsThrown = game.AddThrow(dartThrow.Area, dartThrow.Multiplier);
+            
+
+            int gameStatus = CheckGameStatus(game,  game.CalculateScore(game.GetCurrenPlayerLeg()));
+            if (allDartsThrown && gameStatus == -1)
                 game.SetNextPlayer();
-
-            int gameStatus = CheckGameStatus(game, game.CalculateScore(game.GetCurrenPlayerLeg()));
-
             // if all darts are thrown, multiply status by 2 (see FillStatusDTO for use, used for ending turn)
             gameStatus = !allDartsThrown ? gameStatus : gameStatus * 2;
 
