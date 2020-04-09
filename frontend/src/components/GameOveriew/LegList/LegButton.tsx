@@ -43,32 +43,15 @@ const useStyles = makeStyles(theme => ({
 }));
 export const LegButtonComponent = (props: any) => {
     const classes = useStyles();
-    
-    let [selected, setSelected] = useState<boolean>(props.current === props.id);
-    const toggleSelected = async() => {
-        console.log("current voor is: " + props.current);
-        await props.sendIdToParent(props.id);
-        
-        console.log("current na is: " + props.current);
-        if(props.current !== props.id) {
-            setSelected(false);
-        }
-        else {
-            setSelected(true);
-            
-        }
-        
-        console.log("de knop id die geselecteerd is: " + props.id);
-        console.log("current na na is: " + props.current);
-            
-        
+    const toggleSelected = () => {
+        props.sendIdToParent(props.id);
     }
 
     return (
 
 
         <ListItem  >
-            <Paper className={selected ? classes.buttonselected : classes.buttonstyle} elevation={3}>
+            <Paper className={props.current === props.id? classes.buttonselected : classes.buttonstyle} elevation={3}>
                 <Button  onClick={() => toggleSelected()}>{tekst}{props.legnr}</Button>
             </Paper>
 
