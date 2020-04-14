@@ -17,10 +17,10 @@ namespace BackendDarts.Models
         public int Winner { get; set; }
         public List<PlayerGame> PlayerGames { get; set; } = new List<PlayerGame>();
         //new for game verloop
-        public int CurrentPlayerIndex { get; set; } = -1;
+        public int CurrentPlayerLegIndex { get; set; } = -1;
         public LegGroup CurrentLegGroup { get; set; }
         [NotMapped]
-        public static Game singletonGame { get; set; }
+        public static Game SingletonGame { get; set; }
 
         public Game()
         {
@@ -35,10 +35,17 @@ namespace BackendDarts.Models
             
         }
 
+        /// <summary>
+        /// (re)set all simple values
+        /// </summary>
         public void SetupGame()
         {
             Winner = -1;
             ResetNextPlayer();
+        }
+
+        public void ConfigureGame()
+        {
             SetNextLegGroup();
         }
 
@@ -51,7 +58,7 @@ namespace BackendDarts.Models
         /// <param name="game">The game that has to start/resume</param>
         public static void StartGame(Game game)
         {
-            singletonGame = game;
+            SingletonGame = game;
         }
 
         /// <summary>
@@ -69,9 +76,11 @@ namespace BackendDarts.Models
         /// This is called when someone throws a total of  and therefore the current player will be the winner
         /// </summary>
         /// <param name="legGroup"></param>
-        public void DetermineWinner()
+        public void SetLegWinner()
         {
-            CurrentLegGroup.FinishLeg(GetCurrentPlayer().Id);
+            CurrentLegGroup.SetLegWinner(GetCurrentPlayer().Id);
+            if(LegGroups.Count(lg => lg.Winner == GetCurrentPlayer().Id)==2)
+                Winner = GetCurrentPlayer().Id;
         }
 
         /// <summary>
@@ -101,7 +110,7 @@ namespace BackendDarts.Models
         /// </summary>
         public void SetNextPlayer()
         {
-            CurrentPlayerIndex = (CurrentPlayerIndex + 1) % PlayerGames.Count;
+            CurrentPlayerLegIndex = (CurrentPlayerLegIndex + 1) % PlayerGames.Count;
 
         }
 
@@ -110,8 +119,7 @@ namespace BackendDarts.Models
         /// </summary>
         public void ResetNextPlayer()
         {
-            CurrentPlayerIndex = 0;
-
+            CurrentPlayerLegIndex = 0;
         }
 
         /// <summary>
@@ -119,9 +127,10 @@ namespace BackendDarts.Models
         /// </summary>
         public void SetNextLegGroup()
         {
-            //TODO checked als ze in volgorde zitten            
-            LegGroup legGroup = new LegGroup();
-            legGroup.Legnr = LegGroups.Count + 1;
+            LegGroup legGroup = new LegGroup
+            {
+                Legnr = LegGroups.Count + 1
+            };
             foreach (PlayerGame pg in PlayerGames)
             {
                 legGroup.PlayerLegs.Add(new PlayerLeg(pg.Player));
@@ -130,12 +139,11 @@ namespace BackendDarts.Models
         }
 
         /// <summary>
-        /// Create a new empty turn for a given PlayerLeg
+        /// Create a new empty turn for the current PlayerLeg
         /// </summary>
-        /// <param name="playerLeg">The given PlayerLeg</param>
-        public void CreateEmptyTurn(PlayerLeg playerLeg)
+        public void CreateEmptyTurn()
         {
-            playerLeg.AddTurn();
+            GetCurrenPlayerLeg().AddTurn();
         }
 
         /// <summary>
@@ -144,10 +152,11 @@ namespace BackendDarts.Models
         /// </summary>
         public void EndLeg()
         {
-            DetermineWinner();
+            SetLegWinner();
             SortPlayers();
             AddLegGroupToHistory();
             SetNextLegGroup();
+            SortPlayerLegs();
             ResetNextPlayer();
         } 
         #endregion
@@ -195,26 +204,24 @@ namespace BackendDarts.Models
 
 
         /// <summary>
-        /// Add a new Turn for a given Player
+        /// Add a new Turn for the current Player
         /// </summary>
-        /// <param name="player">The Player who's given a new Turn</param>
-        public void AddTurn(Player player)
+        public void AddTurn()
         {
-            LegGroup currentLegGroup = LegGroups[LegGroups.Count - 1];
-            PlayerLeg currentLegFromPlayer = currentLegGroup.PlayerLegs.Find(pl => pl.Player.Id == player.Id);
-            currentLegFromPlayer.AddTurn();
+            GetCurrenPlayerLeg().AddTurn();
+
         }
 
         /// <summary>
         /// Add a new Throw to the game
         /// </summary>
-        /// <param name="value">the value of what was thrown with a single dart</param>
-        public void AddThrow(int value)
+        /// <param name="area">the area where a single dart landed</param>
+        /// <param name="multiplier">the multiplier of a single dart throw</param>
+        /// <returns>true if the turn is full and so has ended</returns>
+        public bool AddThrow(int area, int multiplier)
         {
-            Player p = PlayerGames[CurrentPlayerIndex].Player;
-            LegGroup currentLegGroup = LegGroups[LegGroups.Count - 1];
-            PlayerLeg currentLegFromPlayer = currentLegGroup.PlayerLegs.Find(pl => pl.Player.Id == p.Id);
-            currentLegFromPlayer.Turns[currentLegFromPlayer.Turns.Count - 1].AddThrow(value);
+            return GetCurrentTurn().AddThrow(area, multiplier);
+            
         }
 
         /// <summary>
@@ -249,7 +256,15 @@ namespace BackendDarts.Models
         /// <returns>The current PlayerLeg for the current Player</returns>
         public PlayerLeg GetCurrenPlayerLeg()
         {
-            return CurrentLegGroup.PlayerLegs.Find(pl => pl.Player.Id == GetCurrentPlayer().Id);
+            return CurrentLegGroup.PlayerLegs[CurrentPlayerLegIndex];
+        }
+        /// <summary>
+        /// Get the previous PlayerLeg for the current Player
+        /// </summary>
+        /// <returns>The previous PlayerLeg for the current Player</returns>
+        public PlayerLeg GetPreviousPlayerLeg()
+        {
+            return CurrentLegGroup.PlayerLegs[(CurrentPlayerLegIndex-1)% CurrentLegGroup.PlayerLegs.Count];
         }
 
         /// <summary>
@@ -258,7 +273,11 @@ namespace BackendDarts.Models
         /// <returns>The current Player</returns>
         public Player GetCurrentPlayer()
         {
-            return PlayerGames[CurrentPlayerIndex].Player;
+            return GetCurrenPlayerLeg().Player;
+        }
+        public Player GetNextPlayer()
+        {
+            return CurrentLegGroup.PlayerLegs[(CurrentPlayerLegIndex + 1) % PlayerGames.Count].Player;
         }
 
         /// <summary>
@@ -271,8 +290,19 @@ namespace BackendDarts.Models
             return size > 0 ? GetCurrenPlayerLeg().Turns[size-1] : new Turn();
         }
 
+        /// <summary>
+        /// Get the previous turn for the current PlayerLeg for the current Player
+        /// </summary>
+        /// <returns>The previous Turn</returns>
+        public Turn GetPreviousTurn()
+        {
+            int size = GetCurrenPlayerLeg().Turns.Count;
+            return size > 0 ? GetCurrenPlayerLeg().Turns[size - 2] : new Turn();
+        }
 
         #endregion
+
+
 
 
     }

@@ -16,8 +16,8 @@ namespace BackendDarts.DTOs
         public GameDetailsDTO(Game game)
         {
             Game = new GameDTO(game);
-            CurrentPlayer = new PlayerDTO(game.PlayerGames[game.CurrentPlayerIndex].Player);
-            NextPlayer = new PlayerDTO(game.PlayerGames[(game.CurrentPlayerIndex + 1) % game.PlayerGames.Count].Player);
+            CurrentPlayer = new PlayerDTO(game.GetCurrentPlayer());
+            NextPlayer = new PlayerDTO(game.GetNextPlayer());
             CurrentLegGroup = new LegGroupDTO(game.CurrentLegGroup);
             CurrentTurn = new TurnDTO(game.GetCurrentTurn());
 

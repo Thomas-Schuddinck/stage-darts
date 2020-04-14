@@ -3,7 +3,7 @@ import Person from '../../components/Game/Person'
 import Aux from '../../hoc/Wrap';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import PropagateLoader from "react-spinners/PropagateLoader";
 import { GetApiCall } from '../../services/ApiClient';
@@ -14,13 +14,17 @@ import TakePhoto from '../../components/Game/TakePhoto/TakePhoto';
 import CurrentScore from '../../components/Game/CurrentScore/CurrentScore';
 import { PlayerLeg } from '../../models/PlayerLeg';
 import { PlayerDetail } from '../../models/PlayerDetail';
-import Legs from '../../components/Game/Legs/Legs';
+import NumberOfWonLegs from '../../components/Game/NumberOfWonLegs/NumberOfWonLegs';
 import * as signalR from "@aspnet/signalr";
 import { GameDetails } from '../../models/GameDetails';
 import { Status } from '../../models/Status'
 import AddThrow from '../../components/Game/AddThrow/AddThrow';
-import Snackbar from '@material-ui/core/Snackbar';
 import { DartThrow } from '../../models/DartThrow';
+import { Environment } from '../../environment'
+import HistoryComponent from '../../components/Game/History/History';
+import { GameFinishedDialog } from '../../components/Game/GameFinishedDialog/GameFinishedDialog';
+import { GameReviewDialog } from '../../components/Game/GameReviewDialog/GameReviewDialog';
+import { useMediaQuery } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -49,28 +53,45 @@ const useStyles = makeStyles(theme => ({
     },
     fixedHeightPaper: {
         overflow: 'none',
+    },
+    margintop: {
+        marginTop: '1em'
+    },
+    greenBack: {
+        '& .MuiPaper-rounded': {
+
+            backgroundColor: 'green',
+            '& *': {
+                color: "#FFFFFF"
+            }
+        }
+    },
+    flexie: {
+
+        display: 'flex',
+        flexDirection: 'column'
+
+
+    }, 
+    test:{
+        overflowY: 'auto',
+        top: '0px',
+        bottom: '0px'
     }
 }));
-
 
 export const GameBuilder = (props: { match: { params: any; }; }) => {
 
 
     const classes = useStyles();
+
+    const theme = useTheme();
+    const smallScreen = useMediaQuery(theme.breakpoints.down('sm'));
     let [gameDetails, setGameDetails] = useState<GameDetails>();
     let [isLoading, setLoading] = React.useState(true);
-    const [state, setState] = React.useState({
-        open: false
-    })
-    const { open } = state;
-    const handleStatus = () => {
-        setState({ open: true });
-      };
-    
-      const handleClose = () => {
-        setState({ open: false });
-      };
-
+    let [openDialogFinishGame, setOpenDialogFinishGame] = React.useState(false);
+    let [openDialogReviewGame, setOpenDialogReviewGame] = React.useState(false);
+    let [winner, setWinner] = React.useState("-1");
     const FetchData = async (id: number) => {
         setLoading(true);
         setGameDetails(await CallToApiGame(id));
@@ -81,7 +102,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
 
         const connection = new signalR.HubConnectionBuilder()
             .configureLogging(signalR.LogLevel.Information)
-            .withUrl("https://localhost:5000/notify")
+            .withUrl(Environment.apiurl + "/notify")
             .build();
 
         connection.start().then(function () {
@@ -94,10 +115,17 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
             console.log(payload);
             setGameDetails(payload.gameDTO);
             if (payload.status === 1) {
-                handleStatus();
+                setWinner(payload.winner);
+                setOpenDialogFinishGame(true);
+
             }
         });
 
+    }
+    const openReviewDialog = () => {
+        console.log('ok ik raak hier')
+        console.log('openReviewDialog')
+        setOpenDialogReviewGame(true)
     }
 
     useEffect(() => {
@@ -110,7 +138,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
     }, []);
 
     const CallToApiGame = async (id: number): Promise<GameDetails> => {
-        return await GetApiCall('https://localhost:5000/Game/' + id).then(gameDetails => {
+        return await GetApiCall(Environment.apiurl + '/Game/' + id).then(gameDetails => {
             console.log("dit is de game");
             console.log(gameDetails)
             return gameDetails;
@@ -127,10 +155,10 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
   `;
 
 
-  let [selectedThrowToEdit, setSelectedThrowToEdit] = useState<DartThrow>();
-  const getSelectedThrowFromTurn = async (tr: DartThrow) => {
-    setSelectedThrowToEdit(tr);
-  }
+    let [selectedThrowToEdit, setSelectedThrowToEdit] = useState<DartThrow>();
+    const getSelectedThrowFromTurn = async (tr: DartThrow) => {
+        setSelectedThrowToEdit(tr);
+    }
 
     return (
         <Aux>
@@ -141,50 +169,65 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                     color={"#123abc"}
                 />
             ) : (
-                    <Aux>
-                        <Snackbar
-                            anchorOrigin={{ vertical: 'top', horizontal: 'center'}}
-                            open={open}
-                            onClose={handleClose}
-                            message="GAme ended"
-                        /> 
-                        <Grid container spacing={3}>
-                            {
-                                gameDetails!.game!.legGroups && gameDetails!.game!.legGroups![gameDetails!.game!.legGroups!.length - 1] && gameDetails!.game!
-                                    .legGroups![gameDetails!.game!.legGroups!.length - 1]
-                                    .playerLegs!.map(function (pl: PlayerLeg, i: any) {
-                                        return <Grid item xs={12} md={6} lg={6}>
-                                            <Paper className={fixedHeightPaper}>
-                                                <Grid container spacing={2}>
-                                                    <Grid item xs={5} md={4} lg={4}>
-                                                        <Person player={pl.player} currentplayer={gameDetails?.currentPlayer} />
-                                                        <CurrentScore score={pl.currentScore} />
+                    <Aux >
+                        <div className={smallScreen ? classes.flexie : ""}>
+                            <Grid container spacing={3}>
+                                {
+                                    gameDetails!.currentLegGroup!
+                                        .playerLegs!.map(function (pl: PlayerLeg, i: any) {
+                                            return <Grid item key={i} xs={12} md={6} lg={6} className={gameDetails?.currentPlayer.id === pl.player.id ? classes.greenBack : ""}>
+                                                <Paper className={fixedHeightPaper}>
+                                                    <Grid container spacing={2}>
+                                                        <Grid item xs={5} md={7} lg={7}>
+                                                            <Person player={pl.player} currentplayer={gameDetails?.currentPlayer} />
+                                                            <Paper className={classes.margintop}>
+                                                                <LastDartThrow score={pl.turns![pl.turns!.length - 1] && pl.turns![pl.turns!.length - 1].throws!.map(t => t.value!).reduce((a, b) => a + b, 0)} />
+                                                                <CurrentTurn sendThrowToBuilder={getSelectedThrowFromTurn} className={classes.currentTurn} turnnumber="2" scores={pl.turns![pl.turns!.length - 1] && pl.turns![pl.turns!.length - 1].throws && pl.turns![pl.turns!.length - 1].throws!.map(t => t)} />
+                                                            </Paper>
+                                                        </Grid>
+                                                        <Grid item xs={7} md={5} lg={5}>
+                                                            <CurrentScore score={pl.currentScore} />
+
+                                                            <NumberOfWonLegs legs={
+                                                                gameDetails!.game!
+                                                                    .players &&
+                                                                gameDetails!.game!
+                                                                    .players!
+                                                                    .filter((p: PlayerDetail) =>
+                                                                        p.playerDTO.id ===
+                                                                        pl.player.id)[0].legsWon}></NumberOfWonLegs>
+                                                        </Grid>
                                                     </Grid>
-                                                    <Grid item xs={7} md={8} lg={8}>
-                                                        <Paper>
-                                                            <LastDartThrow score={pl.turns![pl.turns!.length - 1] && pl.turns![pl.turns!.length - 1].throws!.map(t => t.value!).reduce((a, b) => a + b, 0)} />
-                                                            <CurrentTurn sendThrowToBuilder={getSelectedThrowFromTurn} className={classes.currentTurn} turnnumber="2" scores={pl.turns![pl.turns!.length - 1] && pl.turns![pl.turns!.length - 1].throws && pl.turns![pl.turns!.length - 1].throws!.map(t => t)} />
-                                                        </Paper>
-                                                        <Legs legs={
-                                                            gameDetails!.game!
-                                                                .players &&
-                                                            gameDetails!.game!
-                                                                .players!
-                                                                .filter((p: PlayerDetail) =>
-                                                                    p.playerDTO.id ===
-                                                                    pl.player.id)[0].legsWon}></Legs>
-                                                    </Grid>
-                                                </Grid>
-                                            </Paper>
-                                        </Grid>
-                                    }
+                                                </Paper>
+                                            </Grid>
+                                        }
 
 
-                                    )
-                            }
+                                        )
+                                }
 
-                            <AddThrow currentgame={gameDetails?.game.id} selectedThrow={selectedThrowToEdit} />
-                        </Grid>
+                                {smallScreen ? (<div></div>) : (<AddThrow currentgame={gameDetails?.game.id} selectedThrow={selectedThrowToEdit} />)}
+
+
+
+                            </Grid>
+                            <hr />
+                            <h3>History</h3>
+                            <HistoryComponent game={gameDetails!.game!} />
+
+                            
+                            {smallScreen ? (<AddThrow currentgame={gameDetails?.game.id} selectedThrow={selectedThrowToEdit} className={classes.test}  />) : (<div></div>)}
+                            {openDialogFinishGame ? (
+                                <GameFinishedDialog winner={winner} openReview={openReviewDialog} />
+                            ) : (
+                                    <div></div>
+                                )}
+                            {openDialogReviewGame ? (
+                                <GameReviewDialog />
+                            ) : (
+                                    <div></div>
+                                )}
+                        </div>
                     </Aux>
                 )}
         </Aux>

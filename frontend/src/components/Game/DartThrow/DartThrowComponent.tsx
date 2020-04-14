@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
         padding: '0',
         minWidth: '30px',
         backgroundColor: indigo[600],
-        color: 'white',
+        color: '#FFFFFF',
     }
 }));
 

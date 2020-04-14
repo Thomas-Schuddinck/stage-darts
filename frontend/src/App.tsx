@@ -9,6 +9,7 @@ import Layout from './hoc/Layout';
 import GameListBuilder from './containers/GameListBuilder/GameListBuilder';
 import NewGameBuilderForm from './containers/NewGameBuilder/NewGameBuilder';
 import NewPlayerBuilderForm from './containers/NewPlayerBuilder/NewPlayerBuilder';
+import { GameReviewBuilder } from './containers/GameOverview/GameReview';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           <NewPlayerBuilderForm />
         </Route>
         <Route path="/game/:id" component={GameBuilder} />
+        <Route path="/review/:id" component={GameReviewBuilder} />
         <Route path="/gamelist">
           <GameListBuilder />
         </Route>

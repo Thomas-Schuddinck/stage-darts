@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, makeStyles, Grid, Button } from '@material-ui/core';
+import { Typography, makeStyles, Grid, Button, Select, MenuItem } from '@material-ui/core';
 import { indigo } from '@material-ui/core/colors';
 import Wrap from '../../../hoc/Wrap'
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
-import PostApiCall from '../../../services/ApiClientPost';
+import { PostApiCall } from '../../../services/ApiClient';
+import { PutApiCall } from '../../../services/ApiClient';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import TextField from '@material-ui/core/TextField';
+import GpsFixed from '@material-ui/icons/GpsFixed';
+import ScoreIcon from '@material-ui/icons/Score';
+import SendIcon from '@material-ui/icons/Send';
+import { Environment } from '../../../environment'
+import clsx from 'clsx';
 
-import {PutApiCall} from '../../../services/ApiClient';
 
 const useStyles = makeStyles(theme => ({
     leg: {
@@ -43,6 +50,11 @@ const useStyles = makeStyles(theme => ({
         minWidth: '0',
         border: '0.1em solid black',
     },
+    send: {
+        color: "#FFFFFF",
+        backgroundColor: 'green',
+        border: '0.1em solid black',
+    },
     buttonSelected: {
         color: 'black',
         backgroundColor: indigo[200],
@@ -50,63 +62,102 @@ const useStyles = makeStyles(theme => ({
         minWidth: '0',
         border: '0.1em solid black',
     },
+    controllers: {
+        padding: theme.spacing(1),
+    },
+    formControl: {
+        margin: theme.spacing(1),
+        width: '30%',
+        minWidth: '0',
+        verticalAlign: 'bottom'
+    },
+    flexie: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center'
+    },
+    bringForeground: {
+        zIndex: 1101,
+    },
+    lijn: {
+        backgroundColor:'green'
+    },
+    paddy:  {
+        marginRight: '0.6em'
+    }
 }));
 
 const AddThrow = (props: any) => {
     const classes = useStyles();
 
+    let [area = 0, setArea] = useState<number>();
     let [size = 0, setSize] = useState<number>();
     let [tripple = false, setTripple] = useState<boolean>();
     let [double = false, setDouble] = useState<boolean>();
+    let [multiplier = 1, setMultiplier] = useState<number>();
+    let [doPost = false, setDoPost] = useState<boolean>();
 
     useEffect(() => {
         window.addEventListener('resize', updateWindowDimensions);
         setSize(window.innerWidth);
     }, []);
 
+    
+
     const updateWindowDimensions = () => {
         setSize(window.innerWidth);
     }
 
-    const PostThrowCall = async (value: string) => {
-        let val = parseInt(value);
-        console.log(props.selectedThrow);
+    useEffect(() =>{
+        if(isNaN(area)){
+            setArea(0);
+        }
+    }, [area])
 
-        
-            if (double)
-                val = val * 2;
-            if (tripple)
-                val = val * 3;
+    useEffect(() => {
+        async function PostThrowCall() {
+            const newThrow = {
+                area: area,
+                multiplier: multiplier
+            };
 
             setDouble(false);
             setTripple(false);
             if (props.selectedThrow == null) {
-                return await PostApiCall('https://localhost:5000/Game/game', val.toString()).then(resp => {
-                console.log(resp);
-            });
+                return await PostApiCall(Environment.apiurl + '/Game/game', newThrow).then(() => {
+                    setDoPost(false);
+                    setArea(0);
+                });
             } else {
-                return await PutApiCall('https://localhost:5000/Game/throwedit/'+ props.currentgame + '/' + props.selectedThrow.id + '/' + val).then(resp => {
-                console.log("--------");
-                console.log(props.selectedThrow);
-                console.log(props.currentgame);
-                console.log(resp);
-            });
+                /*
+                return await PutApiCall(Environment.apiurl + '/Game/throwedit/' + props.currentgame + '/' + props.selectedThrow.id + '/' + val).then(resp => {
+                    console.log("--------");
+                    console.log(props.selectedThrow);
+                    console.log(props.currentgame);
+                    console.log(resp);
+                });
+                */
             }
-            
+        }
+        if(doPost){
+            PostThrowCall();
+        }
+    }, [doPost]);
 
 
-    }
+
+
 
     const createButtons = () => {
         let container = [];
         let buttons = [];
         for (let i = 1; i <= 20; i++) {
             buttons.push(
-                <Grid item xs={2} md={2} lg={2}>
+                <Grid item xs={3} md={3} lg={3}>
                     <Button
                         className={classes.button}
                         key={i}
-                        onClick={() => PostThrowCall(i.toString())}
+                        onClick={() => handleButtonClick(i)}
                     >{i}</Button>
                 </Grid>
             )
@@ -120,20 +171,34 @@ const AddThrow = (props: any) => {
     }
 
     const toggleDouble = () => {
-        if (double)
+        if (double) {
             setDouble(false);
-        else {
+            handleMultiChange(1);
+        } else {
             setTripple(false);
             setDouble(true);
+            handleMultiChange(2);
         }
     }
+    const handleMultiChange = (i: number) => {
+        setMultiplier(i);
+    };
+
+    const handleButtonClick = (i: number) => {
+
+        setArea(i);
+        setDoPost(true);
+    };
+
 
     const toggleTripple = () => {
-        if (tripple)
+        if (tripple) {
             setTripple(false);
-        else {
+            handleMultiChange(1);
+        } else {
             setDouble(false);
             setTripple(true);
+            handleMultiChange(3);
         }
     }
 
@@ -141,23 +206,72 @@ const AddThrow = (props: any) => {
         <Wrap>
 
             {size < 499 ? (
-                <Grid className={classes.wrap} container>
+                <Grid container className={clsx(classes.wrap, classes.bringForeground)}>
                     {createButtons()}
-                    <Grid item xs={2} md={2} lg={2}>
-                        <Button onClick={() => PostThrowCall('25')} className={classes.button}>25</Button>
+                    <Grid item xs={12} md={12} lg={12} className={classes.lijn}>
+                        <hr/>
                     </Grid>
-                    <Grid item xs={2} md={2} lg={2}>
+                    <Grid item xs={3} md={3} lg={3}>
+                        <Button onClick={() => handleButtonClick(25)} className={classes.button}>25</Button>
+                    </Grid>
+                    <Grid item xs={3} md={3} lg={3}>
+                        <Button onClick={() => handleButtonClick(50)} className={classes.button}>50</Button>
+                    </Grid>
+                    <Grid item xs={3} md={3} lg={3}>
                         <Button onClick={() => toggleDouble()} className={double ? classes.buttonSelected : classes.button}>D</Button>
                     </Grid>
-                    <Grid item xs={2} md={2} lg={2}>
+                    <Grid item xs={3} md={3} lg={3}>
                         <Button onClick={() => toggleTripple()} className={tripple ? classes.buttonSelected : classes.button}>T</Button>
                     </Grid>
-                    <Grid item xs={2} md={2} lg={2}>
-                        <Button className={classes.photo}><AddAPhotoIcon /></Button>
-                    </Grid>
+                    
                 </Grid>
             ) : (
-                    null
+                    <Grid container className={clsx(classes.controllers, classes.flexie)} spacing={1}>
+
+                        <Grid item xs={6} md={6} lg={6}>
+                            <TextField
+                                className={classes.formControl}
+                                id="input-with-icon-textfield"
+                                label="Area"
+                                onKeyPress={(ev) => {
+                                    console.log(`Pressed keyCode ${ev.key}`);
+                                    if (ev.key === 'Enter') {
+
+                                        
+                                        setDoPost(true);
+                                        ev.preventDefault();
+                                    }
+                                }}
+                                value={area}
+                                onChange={(e) => { setArea(parseInt(e.target.value)) }}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <GpsFixed />
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />
+                            <Select
+                                className={classes.formControl}
+                                id="multiplier-select"
+                                label="Multiplier"
+                                value={multiplier}
+                                onChange={(e) => { handleMultiChange(parseInt(e.target.value as string)) }}
+                                startAdornment={
+                                    <InputAdornment position="start">
+                                        <ScoreIcon />
+                                    </InputAdornment>
+                                }
+
+                            >
+                                <MenuItem value={1} selected>Single</MenuItem>
+                                <MenuItem value={2}>Double</MenuItem>
+                                <MenuItem value={3}>Triple</MenuItem>
+                            </Select>
+                            <Button className={clsx(classes.send, classes.formControl)} onClick={() => setDoPost(true)}><SendIcon className={classes.paddy} />Add Throw</Button>
+                        </Grid>
+                    </Grid>
                 )}
 
         </Wrap>

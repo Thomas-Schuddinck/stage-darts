@@ -14,7 +14,7 @@ namespace BackendDarts.Models
             Winner = -1;
             PlayerLegs = new List<PlayerLeg>();
         }
-        public void FinishLeg(int id)
+        public void SetLegWinner(int id)
         {
             Winner = id;
         }

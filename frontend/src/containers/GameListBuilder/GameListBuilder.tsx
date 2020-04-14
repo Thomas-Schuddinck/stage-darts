@@ -14,15 +14,31 @@ import { css } from "@emotion/core";
 import { Game } from '../../models/Game';
 import GameListPlayerField from '../../components/GameList/GameListPlayerField/GameListPlayerField';
 import { NavLink, Redirect } from 'react-router-dom';
+import {Environment} from '../../environment'
 
 const StyledTableCell = withStyles(theme => ({
     head: {
         backgroundColor: theme.palette.common.white,
         color: theme.palette.common.black,
+        [theme.breakpoints.up('sm')]: {
+            padding: '16px',
+          },
+        padding: '0px',
     },
     body: {
-        fontSize: 14,
+        [theme.breakpoints.up('sm')]: {
+            fontSize: 14,
+            padding: 16,
+          },
+        padding: 0,
+        fontSize: 12,
     },
+    table: {
+        minWidth: 0,
+        [theme.breakpoints.up('sm')]: {
+        minWidth: 450,
+        },
+      },  
 }))(TableCell);
 
 const StyledTableRow = withStyles(theme => ({
@@ -34,9 +50,6 @@ const StyledTableRow = withStyles(theme => ({
 }))(TableRow);
 
 const useStyles = makeStyles({
-    table: {
-        minWidth: 700,
-    },
 });
 
 export const GameListBuilder = () => {
@@ -59,7 +72,7 @@ export const GameListBuilder = () => {
     }, []);
 
     const CallToApiGameListAll = async (): Promise<Game[]> => {
-        return await GetApiCall('https://localhost:5000/gamelist/all').then(gameList => {
+        return await GetApiCall(Environment.apiurl + '/gamelist/all').then(gameList => {
             return gameList;
         });
     }
@@ -85,7 +98,7 @@ export const GameListBuilder = () => {
 
                 <StyledTableRow>
 
-                    <StyledTableCell align="center">{game!.legGroups!.length}</StyledTableCell>
+                    {/* <StyledTableCell align="center">{game!.legGroups!.length}</StyledTableCell> */}
                     <StyledTableCell align="center">{forDate(game.beginDate)}</StyledTableCell>
                     <StyledTableCell align="center"><GameListPlayerField players={game.players} ></GameListPlayerField></StyledTableCell>
                     <StyledTableCell align="center"><NavLink to={`/game/${game.id}`} >Details</NavLink></StyledTableCell>
@@ -114,10 +127,10 @@ export const GameListBuilder = () => {
                 />
             ) : (
                     <TableContainer component={Paper}>
-                        <Table className={classes.table} aria-label="customized table">
+                        <Table aria-label="customized table">
                             <TableHead>
                                 <TableRow>
-                                    <StyledTableCell align="center">Current Leg</StyledTableCell>
+                                    {/* <StyledTableCell align="center">Current Leg</StyledTableCell> */}
                                     <StyledTableCell align="center">Startdate</StyledTableCell>
                                     <StyledTableCell align="center">Players</StyledTableCell>
                                     <StyledTableCell align="center"></StyledTableCell>

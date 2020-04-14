@@ -87,12 +87,13 @@ namespace BackendDarts.Controllers
         /// <param name="newGame">the given NewGameDTO containing game information</param>
         /// <returns>The newly made game</returns>
         [HttpPost("new-game/")]
-        public ActionResult<GameDTO> Post([FromBody]NewGameDTO newGame)
+        public ActionResult<GameDTO> AddNewGame([FromBody]NewGameDTO newGame)
         {
 
             Game game = new Game(newGame);
             foreach (int id in newGame.Players)
                 game.AddPlayer(_playerRepository.GetBy(id));
+            game.ConfigureGame();
             _gameRepository.Add(game);
             _gameRepository.SaveChanges();
             return CreatedAtAction(nameof(GetBy), new { id = game.Id }, game);
@@ -121,12 +122,21 @@ namespace BackendDarts.Controllers
         /// <param name="idThrow">ID of the dartthrow to update</param>
         /// <param name="value">the score of the throw</param>
         /// <returns>The updated game</returns>
-        public ActionResult<StatusDTO> AddThrow(int id, int idThrow, int value)
+        public ActionResult<StatusDTO> EditThrow(int id, int idThrow, int area, int multiplier)
         {
             Game game = _gameRepository.GetBy(id);
-            game.GetCurrenPlayerLeg().Turns.Last().Throws.SingleOrDefault(t => t.Id == idThrow).Value = value;
 
-            Game currentGame = _gameRepository.GetBy(Game.singletonGame.Id);
+            game.CurrentLegGroup.PlayerLegs.ForEach(pl => pl.Turns.ForEach(th => th.Throws.ForEach(thr =>
+            {
+                if (thr.Id == idThrow)
+                {
+                    thr.Area = area;
+                    thr.Multiplier = multiplier;
+                }
+                    
+            })));
+
+            Game currentGame = _gameRepository.GetBy(Game.SingletonGame.Id);
 
             StatusDTO statusDTO = FillStatusDTO(currentGame, -1);
             _gameRepository.SaveChanges();
@@ -184,13 +194,13 @@ namespace BackendDarts.Controllers
         /// <param name="dartThrow">the new DartThrow</param>
         /// <returns>The current game</returns>
         [HttpPost("game/")]
-        public ActionResult<StatusDTO> Post([FromBody]DartThrowDTO dartThrow)
+        public ActionResult<StatusDTO> AddNewThrow([FromBody]NewThrowDTO dartThrow)
         {
-            Game currentGame = _gameRepository.GetBy(Game.singletonGame.Id);
+            Game currentGame = _gameRepository.GetBy(Game.SingletonGame.Id);
             int status = HandleThrow(currentGame, dartThrow);
             _gameRepository.SaveChanges();
 
-            currentGame = _gameRepository.GetBy(Game.singletonGame.Id);
+            currentGame = _gameRepository.GetBy(Game.SingletonGame.Id);
             StatusDTO statusDTO = FillStatusDTO(currentGame, status);
             
             _hubContext.Clients.All.UpdateGame(statusDTO);
@@ -269,14 +279,9 @@ namespace BackendDarts.Controllers
         /// <param name="playerLeg"></param>
         /// <returns>True if all the darts are thrown</returns>
         [ApiExplorerSettings(IgnoreApi = true)]
-        private Boolean ValidateAllThrowsThrown(PlayerLeg playerLeg)
+        private bool ValidateAllThrowsThrown(Game game)
         {
-            if (playerLeg.Turns[playerLeg.Turns.Count - 1].Throws.Count >= 3)
-            {
-                //playerLeg.Turns[playerLeg.Turns.Count - 1].EndTurn();
-                return true;
-            }
-            return false;
+            return game.GetCurrentTurn().IsFinished;
         }
 
         /// <summary>
@@ -286,18 +291,18 @@ namespace BackendDarts.Controllers
         /// <param name="dartThrow">The given throw</param>
         /// <returns>The status of the game</returns>
         [ApiExplorerSettings(IgnoreApi = true)]
-        private int HandleThrow(Game game, DartThrowDTO dartThrow)
+        private int HandleThrow(Game game, NewThrowDTO dartThrow)
         {
-            // variables
-            PlayerLeg currentPlayerLeg = game.GetCurrenPlayerLeg();
 
             // calculations
-            CreateNewTurnIfRequired(currentPlayerLeg, game);
-            game.AddThrow(dartThrow.Value);
-            Boolean allDartsThrown = ValidateAllThrowsThrown(currentPlayerLeg);
+            CreateNewTurnIfRequired(game);
+            
+            bool allDartsThrown = game.AddThrow(dartThrow.Area, dartThrow.Multiplier);
+            
 
-            int gameStatus = CheckGameStatus(game, game.CalculateScore(currentPlayerLeg));
-
+            int gameStatus = CheckGameStatus(game,  game.CalculateScore(game.GetCurrenPlayerLeg()));
+            if (allDartsThrown && gameStatus == -1)
+                game.SetNextPlayer();
             // if all darts are thrown, multiply status by 2 (see FillStatusDTO for use, used for ending turn)
             gameStatus = !allDartsThrown ? gameStatus : gameStatus * 2;
 
@@ -313,11 +318,11 @@ namespace BackendDarts.Controllers
         /// <param name="playerLeg">The given PlayerLeg</param>
         /// <param name="game">The gvien Game</param>
         [ApiExplorerSettings(IgnoreApi = true)]
-        private void CreateNewTurnIfRequired(PlayerLeg playerLeg, Game game)
+        private void CreateNewTurnIfRequired(Game game)
         {
             //laatste turn in beurt eindig turn
-            if (playerLeg.Turns.Count == 0 || playerLeg.Turns[playerLeg.Turns.Count - 1].IsFinished)
-                game.CreateEmptyTurn(playerLeg);
+            if (game.GetCurrenPlayerLeg().Turns.Count == 0 || game.GetCurrentTurn().IsFinished)
+                game.CreateEmptyTurn();
 
         }
 
@@ -332,27 +337,14 @@ namespace BackendDarts.Controllers
         private int CheckGameStatus(Game game, int score)
         {
             // variables
-            Player currentPlayer = game.GetCurrentPlayer();
             PlayerLeg playerLeg = game.GetCurrenPlayerLeg();
 
             // calculations + returns
             if (score == 501)
             {
-                //indien 3de leg gewonnen eindig game
-                if (game.LegGroups.Count(lg => lg.Winner == currentPlayer.Id) == 3)
-                {
-                    game.Winner = currentPlayer.Id;
-                    return 2;
-                }
-                //indien geen 3 legs maar wel uigespeeld eindig leg
-                else
-                {
-                    game.EndLeg();
-                    return 1;
-                }
-            }
-            else
-            {
+                game.EndLeg();
+                return game.Winner == -1 ? 0 : 1;
+            } else{
                 if (score > 501)
                     playerLeg.Turns[playerLeg.Turns.Count - 1].IgnoreAndEndTurn(); ;
 
@@ -425,13 +417,14 @@ namespace BackendDarts.Controllers
         public StatusDTO FillStatusDTO(Game game, int gameStatus)
         {
             // variables
-            StatusDTO statusDTO = new StatusDTO();
-            Boolean turnEndedForCurrentPlayer = gameStatus > 2;
+            StatusDTO statusDTO = new StatusDTO
+            {
+                Status = gameStatus % 2,
+                Winner = game.Winner == -1 ? "" : game.PlayerGames.Find(pg => pg.PlayerId==game.Winner).Player.Name,
+                gameDTO = new GameDetailsDTO(game)
+            };
 
-            // fills
-            statusDTO.Status = turnEndedForCurrentPlayer ? gameStatus / 2 : gameStatus;
-            statusDTO.gameDTO = new GameDetailsDTO(game);
-            if (turnEndedForCurrentPlayer)
+            if (gameStatus> 2)
                 statusDTO.gameDTO.Game.LegGroups.Last().GoNextPlayerLeg();
 
             // return
