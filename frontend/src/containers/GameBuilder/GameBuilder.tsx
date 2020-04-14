@@ -86,12 +86,24 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
     const classes = useStyles();
 
     const theme = useTheme();
-    const smallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+    let [size = 0, setSize] = useState<number>();
     let [gameDetails, setGameDetails] = useState<GameDetails>();
     let [isLoading, setLoading] = React.useState(true);
     let [openDialogFinishGame, setOpenDialogFinishGame] = React.useState(false);
     let [openDialogReviewGame, setOpenDialogReviewGame] = React.useState(false);
     let [winner, setWinner] = React.useState("-1");
+
+    useEffect(() => {
+        window.addEventListener('resize', updateWindowDimensions);
+        setSize(window.innerWidth);
+    }, []);
+
+
+
+    const updateWindowDimensions = () => {
+        setSize(window.innerWidth);
+    }
+
     const FetchData = async (id: number) => {
         setLoading(true);
         setGameDetails(await CallToApiGame(id));
@@ -170,7 +182,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                 />
             ) : (
                     <Aux >
-                        <div className={smallScreen ? classes.flexie : ""}>
+                        <div className={size < 499 ? classes.flexie : ""}>
                             <Grid container spacing={3}>
                                 {
                                     gameDetails!.currentLegGroup!
@@ -206,7 +218,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                                         )
                                 }
 
-                                {smallScreen ? (<div></div>) : (<AddThrow currentgame={gameDetails?.game.id} selectedThrow={selectedThrowToEdit} />)}
+                                {size < 499 ? (<div></div>) : (<AddThrow currentgame={gameDetails?.game.id} selectedThrow={selectedThrowToEdit} />)}
 
 
 
@@ -216,7 +228,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                             <HistoryComponent game={gameDetails!.game!} />
 
                             
-                            {smallScreen ? (<AddThrow currentgame={gameDetails?.game.id} selectedThrow={selectedThrowToEdit} className={classes.test}  />) : (<div></div>)}
+                            {size < 499 ? (<AddThrow currentgame={gameDetails?.game.id} selectedThrow={selectedThrowToEdit} className={classes.test}  />) : (<div></div>)}
                             {openDialogFinishGame ? (
                                 <GameFinishedDialog winner={winner} openReview={openReviewDialog} />
                             ) : (
