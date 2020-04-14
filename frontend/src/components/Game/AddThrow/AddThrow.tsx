@@ -59,6 +59,7 @@ const useStyles = makeStyles(theme => ({
     undo: {
         color: "#FFFFFF",
         backgroundColor: 'red',
+        width: '100%',
         border: '0.1em solid black',
     },
     buttonSelected: {
@@ -247,7 +248,9 @@ const AddThrow = (props: any) => {
                     <Grid item xs={3} md={3} lg={3}>
                         <Button onClick={() => toggleTripple()} className={tripple ? classes.buttonSelected : classes.button}>T</Button>
                     </Grid>
-
+                    <Grid item xs={12} md={12} lg={12}>
+                        <Button className={clsx(classes.undo)} onClick={() => PutCallToApi()}><HistoryIcon className={classes.paddy} />Undo Last Throw</Button>
+                    </Grid>
                 </Grid>
             ) : (
                     <Grid container className={clsx(classes.controllers, classes.flexie)} spacing={1}>
