@@ -170,12 +170,11 @@ namespace BackendDarts.Controllers
         /// <summary>
         /// Go back one step in time
         /// </summary>
-        /// <param name="id">The ID of the game</param>
         /// <returns>The game with one step back in time</returns>
-        [HttpPut("letsGoBackInTimeBaby/{id}")]
-        public ActionResult<GameDTO> GoBack(int id)
+        [HttpPut("letsGoBackInTimeBaby")]
+        public ActionResult<GameDTO> GoBack()
         {
-            Game game = _gameRepository.GetBy(id);
+            Game game = _gameRepository.GetBy(Game.SingletonGame.Id);
             game.GoBack();
             _gameRepository.SaveChanges();
             StatusDTO statusDTO = FillStatusDTO(game, -1);
