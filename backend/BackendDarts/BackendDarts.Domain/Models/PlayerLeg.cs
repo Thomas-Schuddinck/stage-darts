@@ -28,5 +28,15 @@ namespace BackendDarts.Models
         {
             Turns.Add(new Turn(Turns.Count + 1));
         }
+
+        public bool GoBack()
+        {
+            if(Turns[Turns.Count - 1].GoBack())
+            {
+                Turns.RemoveAt(Turns.Count - 1);
+                return true;
+            }
+            return false;
+        }
     }
 }

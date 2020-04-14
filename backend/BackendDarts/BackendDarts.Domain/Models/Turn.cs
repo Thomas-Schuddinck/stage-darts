@@ -56,5 +56,11 @@ namespace BackendDarts.Models
         {
             IsFinished = true;
         }
+
+        public bool GoBack()
+        {
+            Throws.RemoveAt(Throws.Count - 1);
+            return Throws.Count == 0;
+        }
     }
 }

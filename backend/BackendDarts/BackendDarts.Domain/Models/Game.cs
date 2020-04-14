@@ -246,6 +246,29 @@ namespace BackendDarts.Models
         {
             LegGroups.Add(CurrentLegGroup);
         }
+
+        public void GoBack()
+        {
+            if (HasThrows())
+            {
+                if (GetCurrenPlayerLeg().GoBack())
+                {
+                    if (HasThrows())
+                    {
+                        CurrentPlayerLegIndex = (CurrentPlayerLegIndex - 1 + PlayerGames.Count) % PlayerGames.Count;
+                    }
+                }
+            }
+        }
+        public bool HasThrows()
+        {
+            foreach(PlayerLeg playerLeg in CurrentLegGroup.PlayerLegs)
+            {
+                if (playerLeg.Turns.Count > 0 && playerLeg.Turns[0].Throws.Count > 0)
+                    return true;
+            }
+            return false;
+        }
         #endregion
 
         #region GetMethods

@@ -145,7 +145,7 @@ namespace BackendDarts.Controllers
             return statusDTO;
         }
         /// <summary>
-        /// LEt a given player join a game with given ID
+        /// Let a given player join a game with given ID
         /// </summary>
         /// <param name="id">The ID of the game the player requst to join</param>
         /// <param name="idPlayer">The player to add to game's players</param>
@@ -164,6 +164,23 @@ namespace BackendDarts.Controllers
             Player player = _playerRepository.GetBy(idPlayer);
             game.AddPlayer(player);
             _gameRepository.SaveChanges();
+            return new GameDTO(game);
+        }
+
+        /// <summary>
+        /// Go back one step in time
+        /// </summary>
+        /// <param name="id">The ID of the game</param>
+        /// <returns>The game with one step back in time</returns>
+        [HttpPut("letsGoBackInTimeBaby/{id}")]
+        public ActionResult<GameDTO> GoBack(int id)
+        {
+            Game game = _gameRepository.GetBy(id);
+            game.GoBack();
+            _gameRepository.SaveChanges();
+            StatusDTO statusDTO = FillStatusDTO(game, -1);
+            _gameRepository.SaveChanges();
+            _hubContext.Clients.All.UpdateGame(statusDTO);
             return new GameDTO(game);
         }
 
