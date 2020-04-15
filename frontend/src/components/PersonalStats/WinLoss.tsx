@@ -1,6 +1,7 @@
 import { Card, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
-
+import CardHeader from "../../styledcomponents/CardHeader";
+import CardBody from "../../styledcomponents/CardBody";
 
 const useStyles = makeStyles(theme => ({
     centerText: {
@@ -17,7 +18,7 @@ const useStyles = makeStyles(theme => ({
        fontSize: '1.4em'
     },
     height: {
-        height: 88
+
     }
 
 }));
@@ -27,7 +28,9 @@ const WinLoss = (props: any) => {
 
     return (
         <Card className={classes.height}>
-            
+            <CardHeader color="success">
+                <h4>Wins/losses</h4>
+            </CardHeader>
                 <table className={classes.table}>
                     <tbody>
                         <tr>

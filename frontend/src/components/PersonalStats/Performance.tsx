@@ -1,6 +1,8 @@
-import { Card, CardContent, CardHeader, makeStyles } from '@material-ui/core';
+import { Card, CardContent, makeStyles, Table } from '@material-ui/core';
 import clsx from 'clsx';
 import React from 'react';
+import CardHeader from "../../styledcomponents/CardHeader";
+import CardBody from "../../styledcomponents/CardBody";
 
 const useStyles = makeStyles(theme => ({
     fixedHeight: {
@@ -13,7 +15,13 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'column',
       },
       table: {
-        width: '100%'
+        width: '100%',
+      },
+      td: {
+
+      },
+      tr: {
+        borderBottom: 'solid orange 0.2em'
       }
 
 }));
@@ -27,32 +35,36 @@ const Performance = (props: any) => {
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
     return (
-        <Card className={fixedHeightPaper}>
-          <CardHeader title={"Performance"}></CardHeader>
-          <CardContent>
+        <Card>
+            <CardHeader color="warning">
+              <h4>Performance</h4>
+            </CardHeader>
+            <CardBody>
             <table className={classes.table}>
-              <tbody>
-                <tr>
-                  <td>Win rate:</td>
-                  <td>{props.percentageWins}%</td>
-                  <td>tripple 20:</td>
-                  <td>{Number((props.numberOfSixties / props.totalNumberDartsThrown * 100).toFixed(1))}%</td>
-                </tr>
-                <tr>
-                  <td>Average score of throw:</td>
-                  <td>{Number((props.averageScoreThrown).toFixed(1))}</td>
-                  <td>Total: </td>
-                  <td>{props.totalScoreThrown}</td>
-                </tr>
-                <tr>
-                  <td>Board hits: </td>
-                  <td>{props.percentageBoardHits}</td>
-                  <td>Misses: </td>
-                  <td>{props.numberOfMisses}</td>
-                </tr>
-              </tbody>
-            </table>
-          </CardContent>
+               <tbody>
+                 <tr className={classes.tr}>
+                   <td className={classes.td}>Win rate:</td>
+                   <td>{props.percentageWins}%</td>
+                   <td className={classes.td}>tripple 20:</td>
+                   <td>{Number((props.numberOfSixties / props.totalNumberDartsThrown * 100).toFixed(1))}%</td>
+                 </tr>
+                 <tr className={classes.tr}> 
+                   <td className={classes.td}>Average score of throw:</td>
+                   <td>{Number((props.averageScoreThrown).toFixed(1))}</td>
+                   <td className={classes.td}>Total: </td>
+                   <td>{props.totalScoreThrown}</td>
+                 </tr>
+                 <tr className={classes.tr}>
+                   <td className={classes.td}>Board hits: </td>
+                   <td>{Number((props.percentageBoardHits).toFixed(1))}%</td>
+                   <td className={classes.td}>Misses: </td>
+                   <td>{props.numberOfMisses}</td>
+                 </tr>
+               </tbody>
+             </table>
+            </CardBody>
+            
+            
           </Card>
     );
 

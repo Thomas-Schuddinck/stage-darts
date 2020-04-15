@@ -1,7 +1,9 @@
-import { Card, CardHeader, makeStyles } from '@material-ui/core';
+import { Card, makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
 import React from 'react';
 import DartsBoardLogo from '../About/DartBoardLogo/DartBoardLogo';
+import CardHeader from "../../styledcomponents/CardHeader";
+import CardBody from "../../styledcomponents/CardBody";
 
 const useStyles = makeStyles(theme => ({
     fixedHeight: {
@@ -27,12 +29,12 @@ const Heatmap = (props: any) => {
 
     return (
         <Card className={fixedHeightPaper}>
-            <CardHeader title={"Heatmap"}></CardHeader>
             
+            <CardBody>
                 <div className={classes.logo}>
                     <DartsBoardLogo/>
                 </div>
-            
+            </CardBody>
         </Card>
     );
 
