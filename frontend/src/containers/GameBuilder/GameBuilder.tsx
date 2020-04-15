@@ -206,7 +206,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                                         )
                                 }
 
-                                {smallScreen ? (<div></div>) : (<AddThrow currentgame={gameDetails?.game.id} selectedThrow={selectedThrowToEdit} />)}
+                                {window.innerWidth < 499 ? (<div></div>) : (<AddThrow currentgame={gameDetails?.game.id} selectedThrow={selectedThrowToEdit} />)}
 
 
 
@@ -216,7 +216,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                             <HistoryComponent game={gameDetails!.game!} />
 
                             
-                            {smallScreen ? (<AddThrow currentgame={gameDetails?.game.id} selectedThrow={selectedThrowToEdit} className={classes.test}  />) : (<div></div>)}
+                            {window.innerWidth < 499 ? (<AddThrow currentgame={gameDetails?.game.id} selectedThrow={selectedThrowToEdit} className={classes.test}  />) : (<div></div>)}
                             {openDialogFinishGame ? (
                                 <GameFinishedDialog winner={winner} openReview={openReviewDialog} />
                             ) : (

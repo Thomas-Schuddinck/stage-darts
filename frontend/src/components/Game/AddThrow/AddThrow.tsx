@@ -74,7 +74,7 @@ const useStyles = makeStyles(theme => ({
     flexie: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     bringForeground: {
         zIndex: 1101,
@@ -228,7 +228,7 @@ const AddThrow = (props: any) => {
             ) : (
                     <Grid container className={clsx(classes.controllers, classes.flexie)} spacing={1}>
 
-                        <Grid item xs={6} md={6} lg={6}>
+                        
                             <TextField
                                 className={classes.formControl}
                                 id="input-with-icon-textfield"
@@ -270,7 +270,7 @@ const AddThrow = (props: any) => {
                                 <MenuItem value={3}>Triple</MenuItem>
                             </Select>
                             <Button className={clsx(classes.send, classes.formControl)} onClick={() => setDoPost(true)}><SendIcon className={classes.paddy} />Add Throw</Button>
-                        </Grid>
+                        
                     </Grid>
                 )}
 
