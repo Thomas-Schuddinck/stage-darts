@@ -109,18 +109,17 @@ namespace BackendDarts.Models
         {
             if (HasThrows())
             {
+                Winner = -1;
+                CurrentLegGroup.Winner = -1;
                 if (GetCurrenPlayerLeg().GoBack())
                 {
-                    Winner = -1;
-                    CurrentLegGroup.Winner = -1;
-                    
-                    if (HasThrows())
-                    {
-                        CurrentPlayerLegIndex = (CurrentPlayerLegIndex - 1 + PlayerGames.Count) % PlayerGames.Count;
-                    }
+                    CurrentPlayerLegIndex = (CurrentPlayerLegIndex - 1 + PlayerGames.Count) % PlayerGames.Count;
+                    GetCurrentTurn().ReopenTurn();
+                    GetCurrenPlayerLeg().GoBack();
                 }
             }
         }
+
         public bool HasThrows()
         {
             foreach (PlayerLeg playerLeg in CurrentLegGroup.PlayerLegs)
