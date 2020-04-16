@@ -1,6 +1,9 @@
-import { Card, CardContent, CardHeader, ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, makeStyles, Typography } from '@material-ui/core';
+import { CardContent, ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, makeStyles, Typography } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import React from 'react';
+import CardHeader from "../../../styledcomponents/CardHeader";
+import CardBody from "../../../styledcomponents/CardBody";
+import Card from "../../../styledcomponents/Card";
 
 const useStyles = makeStyles(theme => ({
       paper: {
@@ -29,7 +32,11 @@ const History = (props: any) => {
 
     return (
         <Card className={classes.paper}>
-            <CardHeader title={"History"}></CardHeader>
+            <CardHeader color="primary">
+              <h4>
+                History
+              </h4>
+            </CardHeader>
             <CardContent>
               <ExpansionPanel className={classes.back}>
                 <ExpansionPanelSummary
