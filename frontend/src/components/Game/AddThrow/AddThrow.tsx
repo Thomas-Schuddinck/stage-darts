@@ -167,9 +167,7 @@ const AddThrow = (props: any) => {
         }
     }, [doPost]);
 
-    const PutCallToApi = async () => {
-        await PutApiCall(Environment.apiurl + '/Game/letsGoBackInTimeBaby')
-    }
+    
 
 
 
@@ -209,12 +207,16 @@ const AddThrow = (props: any) => {
         setMultiplier(i);
     };
 
+
     const handleButtonClick = (i: number) => {
 
         setArea(i);
         setDoPost(true);
     };
 
+    const handleGoBack = () => {
+        props.undoLastThrow();
+    };
 
     const toggleTripple = () => {
         if (tripple) {
@@ -249,7 +251,7 @@ const AddThrow = (props: any) => {
                         <Button onClick={() => toggleTripple()} className={tripple ? classes.buttonSelected : classes.button}>T</Button>
                     </Grid>
                     <Grid item xs={12} md={12} lg={12}>
-                        <Button className={clsx(classes.undo)} onClick={() => PutCallToApi()}><HistoryIcon className={classes.paddy} />Undo Last Throw</Button>
+                        <Button className={clsx(classes.undo)} onClick={() => handleGoBack()}><HistoryIcon className={classes.paddy} />Undo Last Throw</Button>
                     </Grid>
                 </Grid>
             ) : (
@@ -298,7 +300,7 @@ const AddThrow = (props: any) => {
                             </Select>
                             <Button className={clsx(classes.send, classes.formControl)} onClick={() => setDoPost(true)}><SendIcon className={classes.paddy} />Add Throw</Button>
 
-                            <Button className={clsx(classes.undo, classes.formControl2)} onClick={() => PutCallToApi()}><HistoryIcon className={classes.paddy} />Undo Last Throw</Button>
+                            <Button className={clsx(classes.undo, classes.formControl2)} onClick={() => handleGoBack()}><HistoryIcon className={classes.paddy} />Undo Last Throw</Button>
 
                         </Grid>
                     </Grid>

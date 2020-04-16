@@ -6,7 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import PropagateLoader from "react-spinners/PropagateLoader";
-import { GetApiCall } from '../../services/ApiClient';
+import { GetApiCall, PutApiCall } from '../../services/ApiClient';
 import LastDartThrow from '../../components/Game/LastDartThrow/LastDartThrow';
 import CurrentTurn from '../../components/Game/CurrentTurn/CurrentTurn';
 import { css } from "@emotion/core";
@@ -98,6 +98,9 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
         setSize(window.innerWidth);
     }, []);
 
+    const goBack = async () => {
+        await PutApiCall(Environment.apiurl + '/Game/letsGoBackInTimeBaby')
+    }
 
 
     const updateWindowDimensions = () => {
@@ -133,11 +136,6 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
             }
         });
 
-    }
-    const openReviewDialog = () => {
-        console.log('ok ik raak hier')
-        console.log('openReviewDialog')
-        setOpenDialogReviewGame(true)
     }
 
     useEffect(() => {
@@ -218,7 +216,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                                         )
                                 }
 
-                                {size < 499 ? (<div></div>) : (<AddThrow currentgame={gameDetails?.game.id} selectedThrow={selectedThrowToEdit} />)}
+                                {size < 499 ? (<div></div>) : (<AddThrow currentgame={gameDetails?.game.id} undoLastThrow={goBack} selectedThrow={selectedThrowToEdit} />)}
 
 
 
@@ -228,17 +226,13 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                             <HistoryComponent game={gameDetails!.game!} />
 
                             
-                            {size < 499 ? (<AddThrow currentgame={gameDetails?.game.id} selectedThrow={selectedThrowToEdit} className={classes.test}  />) : (<div></div>)}
+                            {size < 499 ? (<AddThrow currentgame={gameDetails?.game.id} undoLastThrow={goBack} selectedThrow={selectedThrowToEdit} className={classes.test}  />) : (<div></div>)}
                             {openDialogFinishGame ? (
-                                <GameFinishedDialog winner={winner} openReview={openReviewDialog} />
+                                <GameFinishedDialog winner={winner} undoLastThrow={goBack} />
                             ) : (
                                     <div></div>
                                 )}
-                            {openDialogReviewGame ? (
-                                <GameReviewDialog />
-                            ) : (
-                                    <div></div>
-                                )}
+                            
                         </div>
                     </Aux>
                 )}
