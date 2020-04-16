@@ -118,7 +118,6 @@ const NewPlayerBuilderForm: React.FC = () => {
     const CallToApiPlayerListAll = async (): Promise<Player[]> => {
         return await GetApiCall(Environment.apiurl + '/Player').then(pl => {
             return pl;
-
         });
     }
 

@@ -15,6 +15,7 @@ import { Game } from '../../models/Game';
 import GameListPlayerField from '../../components/GameList/GameListPlayerField/GameListPlayerField';
 import { NavLink, Redirect } from 'react-router-dom';
 import {Environment} from '../../environment'
+import { useHistory } from "react-router-dom";
 
 const StyledTableCell = withStyles(theme => ({
     head: {
@@ -88,6 +89,12 @@ export const GameListBuilder = () => {
         }
     }
 
+    let history = useHistory();
+    const navigateToGame = (id: number) => {
+        console.log(id);
+        history.push(`/game/${id}`);
+    }
+
 
     const createTable = () => {
         let table: JSX.Element[] = [];
@@ -96,12 +103,12 @@ export const GameListBuilder = () => {
             table.push(
                 //onClick = {() => renderRedirect(game)} key={i} 
 
-                <StyledTableRow>
+                <StyledTableRow onClick={() => navigateToGame(game.id)}>
 
                     {/* <StyledTableCell align="center">{game!.legGroups!.length}</StyledTableCell> */}
                     <StyledTableCell align="center">{forDate(game.beginDate)}</StyledTableCell>
                     <StyledTableCell align="center"><GameListPlayerField players={game.players} ></GameListPlayerField></StyledTableCell>
-                    <StyledTableCell align="center"><NavLink to={`/game/${game.id}`} >Details</NavLink></StyledTableCell>
+                    <StyledTableCell align="center"><NavLink to={`/game/${game.id}`} >Go to game</NavLink></StyledTableCell>
                 </StyledTableRow>
 
 
