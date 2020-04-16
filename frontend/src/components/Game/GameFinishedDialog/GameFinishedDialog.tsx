@@ -14,10 +14,11 @@ export const GameFinishedDialog = (props: any) => {
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const handleClose = () => {
-        props.openReview();
+       
         setOpen(false);
     };
-    const handleReviewGame = () => {
+    const handleUndoLastThrow = () => {
+        props.undoLastThrow();
         handleClose();
     };
     const handleOverviewGame = () => {
@@ -42,8 +43,8 @@ export const GameFinishedDialog = (props: any) => {
                 <GameFinishedialogContent id="alert-dialog-description" winner={props.winner} />
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleReviewGame} color="primary">
-                REVIEW GAME
+                <Button onClick={handleUndoLastThrow} color="primary">
+                UNDO LAST THROW
                 </Button>
                 <Button onClick={handleOverviewGame} color="primary">
                     <NavLink to={`/game/${props.id}`}>GAME OVERVIEW</NavLink>

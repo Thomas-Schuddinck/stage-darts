@@ -9,6 +9,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import GpsFixed from '@material-ui/icons/GpsFixed';
 import ScoreIcon from '@material-ui/icons/Score';
+import HistoryIcon from '@material-ui/icons/History';
 import SendIcon from '@material-ui/icons/Send';
 import { Environment } from '../../../environment'
 import clsx from 'clsx';
@@ -55,6 +56,12 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: 'green',
         border: '0.1em solid black',
     },
+    undo: {
+        color: "#FFFFFF",
+        backgroundColor: 'red',
+        width: '100%',
+        border: '0.1em solid black',
+    },
     buttonSelected: {
         color: 'black',
         backgroundColor: indigo[200],
@@ -67,23 +74,39 @@ const useStyles = makeStyles(theme => ({
     },
     formControl: {
         margin: theme.spacing(1),
-        width: '30%',
+        width: '22%',
         minWidth: '0',
-        verticalAlign: 'bottom'
+        verticalAlign: 'bottom',
+        [theme.breakpoints.down('sm')]: {
+            width: '100%',
+        },
+    },
+    formControl2: {
+        margin: theme.spacing(1),
+        width: '22%',
+        minWidth: '0',
+        verticalAlign: 'bottom',
+        [theme.breakpoints.down('sm')]: {
+            width: '100%',
+        },
     },
     flexie: {
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',
+        alignItems: 'center'
     },
     bringForeground: {
         zIndex: 1101,
     },
     lijn: {
-        backgroundColor:'green'
+        backgroundColor: 'green'
     },
-    paddy:  {
+    paddy: {
         marginRight: '0.6em'
+    },
+    ll: {
+        borderLeft: '0.1em solid black'
     }
 }));
 
@@ -102,14 +125,14 @@ const AddThrow = (props: any) => {
         setSize(window.innerWidth);
     }, []);
 
-    
+
 
     const updateWindowDimensions = () => {
         setSize(window.innerWidth);
     }
 
-    useEffect(() =>{
-        if(isNaN(area)){
+    useEffect(() => {
+        if (isNaN(area)) {
             setArea(0);
         }
     }, [area])
@@ -139,12 +162,12 @@ const AddThrow = (props: any) => {
                 */
             }
         }
-        if(doPost){
+        if (doPost) {
             PostThrowCall();
         }
     }, [doPost]);
 
-
+    
 
 
 
@@ -184,12 +207,16 @@ const AddThrow = (props: any) => {
         setMultiplier(i);
     };
 
+
     const handleButtonClick = (i: number) => {
 
         setArea(i);
         setDoPost(true);
     };
 
+    const handleGoBack = () => {
+        props.undoLastThrow();
+    };
 
     const toggleTripple = () => {
         if (tripple) {
@@ -209,7 +236,7 @@ const AddThrow = (props: any) => {
                 <Grid container className={clsx(classes.wrap, classes.bringForeground)}>
                     {createButtons()}
                     <Grid item xs={12} md={12} lg={12} className={classes.lijn}>
-                        <hr/>
+                        <hr />
                     </Grid>
                     <Grid item xs={3} md={3} lg={3}>
                         <Button onClick={() => handleButtonClick(25)} className={classes.button}>25</Button>
@@ -223,12 +250,14 @@ const AddThrow = (props: any) => {
                     <Grid item xs={3} md={3} lg={3}>
                         <Button onClick={() => toggleTripple()} className={tripple ? classes.buttonSelected : classes.button}>T</Button>
                     </Grid>
-                    
+                    <Grid item xs={12} md={12} lg={12}>
+                        <Button className={clsx(classes.undo)} onClick={() => handleGoBack()}><HistoryIcon className={classes.paddy} />Undo Last Throw</Button>
+                    </Grid>
                 </Grid>
             ) : (
                     <Grid container className={clsx(classes.controllers, classes.flexie)} spacing={1}>
 
-                        
+                        <Grid item xs={12} md={11} lg={10}>
                             <TextField
                                 className={classes.formControl}
                                 id="input-with-icon-textfield"
@@ -237,7 +266,7 @@ const AddThrow = (props: any) => {
                                     console.log(`Pressed keyCode ${ev.key}`);
                                     if (ev.key === 'Enter') {
 
-                                        
+
                                         setDoPost(true);
                                         ev.preventDefault();
                                     }
@@ -270,7 +299,10 @@ const AddThrow = (props: any) => {
                                 <MenuItem value={3}>Triple</MenuItem>
                             </Select>
                             <Button className={clsx(classes.send, classes.formControl)} onClick={() => setDoPost(true)}><SendIcon className={classes.paddy} />Add Throw</Button>
-                        
+
+                            <Button className={clsx(classes.undo, classes.formControl2)} onClick={() => handleGoBack()}><HistoryIcon className={classes.paddy} />Undo Last Throw</Button>
+
+                        </Grid>
                     </Grid>
                 )}
 

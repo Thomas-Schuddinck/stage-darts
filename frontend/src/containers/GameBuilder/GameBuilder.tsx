@@ -6,7 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import PropagateLoader from "react-spinners/PropagateLoader";
-import { GetApiCall } from '../../services/ApiClient';
+import { GetApiCall, PutApiCall } from '../../services/ApiClient';
 import LastDartThrow from '../../components/Game/LastDartThrow/LastDartThrow';
 import CurrentTurn from '../../components/Game/CurrentTurn/CurrentTurn';
 import { css } from "@emotion/core";
@@ -86,12 +86,27 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
     const classes = useStyles();
 
     const theme = useTheme();
-    const smallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+    let [size = 0, setSize] = useState<number>();
     let [gameDetails, setGameDetails] = useState<GameDetails>();
     let [isLoading, setLoading] = React.useState(true);
     let [openDialogFinishGame, setOpenDialogFinishGame] = React.useState(false);
     let [openDialogReviewGame, setOpenDialogReviewGame] = React.useState(false);
     let [winner, setWinner] = React.useState("-1");
+
+    useEffect(() => {
+        window.addEventListener('resize', updateWindowDimensions);
+        setSize(window.innerWidth);
+    }, []);
+
+    const goBack = async () => {
+        await PutApiCall(Environment.apiurl + '/Game/letsGoBackInTimeBaby')
+    }
+
+
+    const updateWindowDimensions = () => {
+        setSize(window.innerWidth);
+    }
+
     const FetchData = async (id: number) => {
         setLoading(true);
         setGameDetails(await CallToApiGame(id));
@@ -121,11 +136,6 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
             }
         });
 
-    }
-    const openReviewDialog = () => {
-        console.log('ok ik raak hier')
-        console.log('openReviewDialog')
-        setOpenDialogReviewGame(true)
     }
 
     useEffect(() => {
@@ -170,7 +180,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                 />
             ) : (
                     <Aux >
-                        <div className={smallScreen ? classes.flexie : ""}>
+                        <div className={size < 499 ? classes.flexie : ""}>
                             <Grid container spacing={3}>
                                 {
                                     gameDetails!.currentLegGroup!
@@ -206,7 +216,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                                         )
                                 }
 
-                                {window.innerWidth < 499 ? (<div></div>) : (<AddThrow currentgame={gameDetails?.game.id} selectedThrow={selectedThrowToEdit} />)}
+                                {size < 499 ? (<div></div>) : (<AddThrow currentgame={gameDetails?.game.id} undoLastThrow={goBack} selectedThrow={selectedThrowToEdit} />)}
 
 
 
@@ -216,17 +226,13 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                             <HistoryComponent game={gameDetails!.game!} />
 
                             
-                            {window.innerWidth < 499 ? (<AddThrow currentgame={gameDetails?.game.id} selectedThrow={selectedThrowToEdit} className={classes.test}  />) : (<div></div>)}
+                            {size < 499 ? (<AddThrow currentgame={gameDetails?.game.id} undoLastThrow={goBack} selectedThrow={selectedThrowToEdit} className={classes.test}  />) : (<div></div>)}
                             {openDialogFinishGame ? (
-                                <GameFinishedDialog winner={winner} openReview={openReviewDialog} />
+                                <GameFinishedDialog winner={winner} undoLastThrow={goBack} />
                             ) : (
                                     <div></div>
                                 )}
-                            {openDialogReviewGame ? (
-                                <GameReviewDialog />
-                            ) : (
-                                    <div></div>
-                                )}
+                            
                         </div>
                     </Aux>
                 )}

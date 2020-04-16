@@ -45,6 +45,13 @@ namespace BackendDarts.Controllers
             return _gameRepository.GetAllWithPlayers().Select(game => new GameDTO(game)).ToList();
         }
 
+        [HttpGet]
+        [Route("/gamelist/unfinishedNT")]
+        public IEnumerable<GameDTO> GetAllUnfinishedNonTournamentGameList()
+        {
+            return _gameRepository.GetAllWithPlayers().Where(g => (g.Winner == -1 && g.Type != 3)).Select(game => new GameDTO(game)).ToList();
+        }
+
         /// <summary>
         /// Get a leaderboard overview
         /// </summary>
@@ -145,7 +152,7 @@ namespace BackendDarts.Controllers
             return statusDTO;
         }
         /// <summary>
-        /// LEt a given player join a game with given ID
+        /// Let a given player join a game with given ID
         /// </summary>
         /// <param name="id">The ID of the game the player requst to join</param>
         /// <param name="idPlayer">The player to add to game's players</param>
@@ -164,6 +171,22 @@ namespace BackendDarts.Controllers
             Player player = _playerRepository.GetBy(idPlayer);
             game.AddPlayer(player);
             _gameRepository.SaveChanges();
+            return new GameDTO(game);
+        }
+
+        /// <summary>
+        /// Go back one step in time
+        /// </summary>
+        /// <returns>The game with one step back in time</returns>
+        [HttpPut("letsGoBackInTimeBaby")]
+        public ActionResult<GameDTO> GoBack()
+        {
+            Game game = _gameRepository.GetBy(Game.SingletonGame.Id);
+            game.GoBack();
+            _gameRepository.SaveChanges();
+            StatusDTO statusDTO = FillStatusDTO(game, -1);
+            _gameRepository.SaveChanges();
+            _hubContext.Clients.All.UpdateGame(statusDTO);
             return new GameDTO(game);
         }
 

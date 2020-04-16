@@ -28,5 +28,26 @@ namespace BackendDarts.Models
         {
             Turns.Add(new Turn(Turns.Count + 1));
         }
+        /// <summary>
+        /// go back 1 step
+        /// </summary>
+        /// <returns>returns true if the turn ended and the turn will return to the previous player</returns>
+        public bool GoBack()
+        {
+            if(Turns.Count == 0 || Turns[Turns.Count - 1].IsFinished)
+                return true;
+            if(Turns[Turns.Count - 1].Throws.Count == 0 )
+            {
+                Turns.RemoveAt(Turns.Count - 1);
+                return true;
+            }
+            else
+            {
+                Turns[Turns.Count - 1].GoBack();
+                return false;
+            }
+
+            
+        }
     }
 }

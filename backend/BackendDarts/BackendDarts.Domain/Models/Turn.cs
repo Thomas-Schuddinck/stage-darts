@@ -56,5 +56,18 @@ namespace BackendDarts.Models
         {
             IsFinished = true;
         }
+
+        /// <summary>
+        /// Reopen this turn
+        /// </summary>
+        public void ReopenTurn()
+        {
+            IsFinished = false;
+        }
+
+        public void GoBack()
+        {
+            Throws.RemoveAt(Throws.Count - 1);
+        }
     }
 }
