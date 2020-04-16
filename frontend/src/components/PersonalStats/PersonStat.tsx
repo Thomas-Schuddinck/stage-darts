@@ -1,10 +1,14 @@
 import React, { } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
 import { CardContent, TextField } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { Player } from '../../models/Player';
+import Card from "../../styledcomponents/Card";
+import CardAvatar from "../../styledcomponents/CardAvatar";
+import PersonIcon from '@material-ui/icons/Person';
+
+import avatar from '../../img/avatar.png';
 
 const useStyles = makeStyles(theme => ({
     tekstHoofd: {
@@ -32,7 +36,10 @@ const PersonStat = (props: any) => {
     }
 
     return (
-        <Card className={classes.height}>
+        <Card profile className={classes.height}>
+            <CardAvatar profile>
+                <img src={avatar} alt="..." />
+            </CardAvatar>
             <CardContent>
                 <Autocomplete
                         className={classes.wide}

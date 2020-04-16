@@ -1,11 +1,12 @@
-import { Card, makeStyles, Typography } from '@material-ui/core';
+import { makeStyles, Typography, Table, TableRow, TableCell, TableBody} from '@material-ui/core';
 import React from 'react';
 import CardHeader from "../../styledcomponents/CardHeader";
 import CardBody from "../../styledcomponents/CardBody";
+import Card from "../../styledcomponents/Card";
 
 const useStyles = makeStyles(theme => ({
     centerText: {
-        textAlign: 'right'
+        textAlign: 'center'
     },
     table: {
         width: '100%',
@@ -31,20 +32,18 @@ const WinLoss = (props: any) => {
             <CardHeader color="success">
                 <h4>Wins/losses</h4>
             </CardHeader>
-                <table className={classes.table}>
-                    <tbody>
-                        <tr>
-                            
-                            <td><Typography className={classes.big}>Wins</Typography></td>
-                            <td><Typography className={classes.big}>Losses</Typography></td>
-                            
-                        </tr>
-                        <tr>
-                            <td><Typography className={classes.content}>{props.wins}</Typography></td>
-                            <td><Typography className={classes.content}>{props.losses}</Typography></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <Table className={classes.table}>
+                    <TableBody>
+                        <TableRow>
+                            <TableCell className={classes.centerText}><Typography className={classes.big}>Wins</Typography></TableCell>
+                            <TableCell className={classes.centerText}><Typography className={classes.big}>Losses</Typography></TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell className={classes.centerText}><Typography className={classes.content}>{props.wins}</Typography></TableCell>
+                            <TableCell className={classes.centerText}><Typography className={classes.content}>{props.losses}</Typography></TableCell>
+                        </TableRow>
+                    </TableBody>
+                </Table>
             
 
         </Card>
