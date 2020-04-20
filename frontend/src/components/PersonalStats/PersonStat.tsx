@@ -6,7 +6,6 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { Player } from '../../models/Player';
 import Card from "../../styledcomponents/Card";
 import CardAvatar from "../../styledcomponents/CardAvatar";
-import PersonIcon from '@material-ui/icons/Person';
 
 import avatar from '../../img/avatar.png';
 

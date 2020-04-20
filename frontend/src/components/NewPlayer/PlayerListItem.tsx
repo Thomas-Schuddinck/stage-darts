@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         overflow: 'auto',
         //backgroundColor: '#004BFF',
-        backgroundColor: indigo[500],
+        backgroundColor: indigo[300],
         alignItems: 'center', 
         justifyContent: 'space-evenly', 
         border: 0,
@@ -40,9 +40,12 @@ export const PlayerListItem = (props: any) =>  {
 
     return (
         
-        <Grid item lg={3} xs={12} md={5} className={classes.paper}>
+        <Grid item lg={3} xs={12} md={4} >
+            <div className={classes.paper}>
+
+            
             <GroupIcon className={classes.icoon}/>
-            <span className={classes.tekst}>{props.player.name}</span>
+            <span className={classes.tekst}>{props.player.name}</span></div>
         </Grid>
     );
 

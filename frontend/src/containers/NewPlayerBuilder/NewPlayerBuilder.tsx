@@ -4,7 +4,7 @@ import {
     Form
 } from "formik";
 import {
-    Button
+    Button, Grid, CardContent
 } from "@material-ui/core";
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import * as yup from "yup";
@@ -17,8 +17,12 @@ import { GetApiCall } from '../../services/ApiClient';
 import PropagateLoader from "react-spinners/PropagateLoader";
 import { PlayerList } from "../../components/NewPlayer/PlayerList";
 import { Player } from "../../models/Player";
-import {Environment} from '../../environment';
+import { Environment } from '../../environment';
 import { indigo } from '@material-ui/core/colors';
+import Card from "../../styledcomponents/Card";
+import CardAvatar from "../../styledcomponents/CardAvatar";
+
+import avatar from '../../img/avatar.png';
 const useStyles = makeStyles(theme => ({
     formControl: {
         margin: theme.spacing(1),
@@ -38,18 +42,20 @@ const useStyles = makeStyles(theme => ({
     label: {
         alignSelf: 'center',
         //color: "#004BFF",
-        color: indigo[500],
+        //color: indigo[500],
+        color: "#2e5871",
         fontSize: '1.2em',
     },
     but: {
         //backgroundColor: '#004BFF',
-        backgroundColor: indigo[500],
+        //backgroundColor: indigo[500],
+        backgroundColor: "#2e5871",
         color: "#FFFFFF",
         padding: '1.2em 2em',
-        margin: '0 auto',
+        margin: '1em',
         '&:hover': {
             backgroundColor: indigo[200],
-         },
+        },
     },
     form: {
         padding: theme.spacing(1),
@@ -72,8 +78,8 @@ const useStyles = makeStyles(theme => ({
     },
     center: {
         display: 'flex',
-        alignItems: 'center', 
-        justifyContent: 'space-evenly', 
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
     }
 
 }));
@@ -135,7 +141,11 @@ const NewPlayerBuilderForm: React.FC = () => {
     return (
 
         <Wrap>
-            <div>
+            <Card profile>
+            <CardAvatar profile>
+                <img src={avatar} alt="..." />
+            </CardAvatar>
+            <CardContent>
                 <Formik
                     validateOnChange={true}
                     initialValues={{
@@ -162,34 +172,42 @@ const NewPlayerBuilderForm: React.FC = () => {
                 >
                     {({ values, errors, isSubmitting }) => (
                         <Form className={classes.center} >
-                            <div className={classes.form}>
-                                <div className={classes.input}>
-                                    <h5 className={classes.label}>Set Firstname</h5>
-                                    <TextInput placeholder="your firstname" name="firstName" />
-                                </div>
-                                <div className={classes.input}>
-                                    <h5 className={classes.label}>Set Lastname</h5>
-                                    <TextInput placeholder="your lastname" name="lastName" />
-                                </div>
-                                <div className={classes.input}>
-                                    <h5 className={classes.label}>Set Email</h5>
-                                    <TextInput placeholder="your email" name="email" />
-                                </div>
-                            </div>
-
-
-                            <div className={classes.center} >
-                                <Button disabled={isSubmitting} className={classes.but} type="submit">
-                                    submit
+                            <Grid container>
+                                <Grid item xs={12} md={3} lg={3} className={classes.center}>
+                                    <div className={classes.input}>
+                                        <h5 className={classes.label}>Firstname</h5>
+                                        <TextInput placeholder="your firstname" name="firstName" />
+                                    </div>
+                                    </Grid>
+                                    <Grid item xs={12} md={3} lg={3} className={classes.center}>
+                                    <div className={classes.input}>
+                                        <h5 className={classes.label}>Lastname</h5>
+                                        <TextInput placeholder="your lastname" name="lastName" />
+                                    </div>
+                                    </Grid>
+                                    <Grid item xs={12} md={3} lg={3} className={classes.center}>
+                                    <div className={classes.input}>
+                                        <h5 className={classes.label}>Email</h5>
+                                        <TextInput placeholder="your email" name="email" />
+                                    </div>
+                                    </Grid>
+                                    <Grid item xs={12} md={3} lg={3} className={classes.center}>
+                                <div className={classes.center} >
+                                    <Button disabled={isSubmitting} className={classes.but} type="submit">
+                                        Add
                                 </Button>
-                            </div>
+                                </div>
+                                </Grid>
+                            </Grid>
+
                             {/*<pre>{JSON.stringify(values, null, 2)}</pre>
                             <pre>{JSON.stringify(errors, null, 2)}</pre>*/}
                         </Form>
                     )}
                 </Formik>
-            </div>
-            <hr className={classes.hr}/>
+                </CardContent>
+            </Card>
+            <hr className={classes.hr} />
             {isLoading ? (
                 <PropagateLoader
                     css={spinner}

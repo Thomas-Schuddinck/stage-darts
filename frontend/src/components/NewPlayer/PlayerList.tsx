@@ -2,24 +2,12 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { PlayerListItem } from './PlayerListItem';
 import { Player } from '../../models/Player';
+import { Grid } from '@material-ui/core';
 
 
 
 const useStyles = makeStyles(theme => ({
-    paper: {
-        padding: theme.spacing(1),
-        display: 'flex',
-    
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        alignItems: 'stretch',
-        '& *':{
-            margin: '20px'
 
-        }
-        
-
-    },
 
 }));
 
@@ -30,12 +18,17 @@ export const PlayerList = (props: any) => {
 
 
     return (
-        <div className={classes.paper}>
+        
+            <Grid container spacing={1}>
+
             {props.players && props.players.map(function (p: Player, i: any) {
                 return <PlayerListItem key={i} player={p}  />
             }
             )}
-        </div>
+
+            </Grid>
+
+        
 
     );
 }
