@@ -48,7 +48,7 @@ const useStyles = makeStyles(theme => ({
         padding: '1.2em 2em',
         margin: '0 auto',
         '&:hover': {
-            backgroundColor: 'darkgreen',
+            backgroundColor: indigo[200],
          },
     },
     form: {
