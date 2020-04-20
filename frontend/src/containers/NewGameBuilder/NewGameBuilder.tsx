@@ -61,7 +61,7 @@ const MenuProps = {
 const PowerOf2 = [2, 4, 8, 16, 32, 64, 128, 256]
 
 
-function getStyles(id: number, playerList: any, theme: any) {
+function getStyles(id: number, playerList: number[], theme: any) {
   return {
     fontWeight:
       playerList.indexOf(id) === -1
@@ -94,13 +94,7 @@ const NewGameBuilderForm: React.FC = () => {
   const classes = useStyles();
   const theme = useTheme();
 
-  const handleChange = (event: any) => {
-    console.log('i changed');
-    console.log(event.target.value);
-    setPlayers(event.target.value);
-  };
-
-  let [playersInput, setPlayers] = React.useState([]);
+  let [playersInput, setPlayers] = React.useState<number[]>([]);
   let [playerList, setPlayerList] = React.useState<Player[]>();
   let [isLoading, setLoading] = React.useState(true);
   let [openDialog, setOpenDialog] = React.useState(false);
@@ -126,10 +120,21 @@ const NewGameBuilderForm: React.FC = () => {
     });
   }
 
+
+  const handleChange = (event: any) => {
+    setLoading(true);
+    setPlayers(event.target.value);
+  };
+
   const onRadioChange = (e: any) => {
     setGameMode(+e.target.value);
 
   }
+
+  useEffect(() => {
+    setLoading(false);
+    
+}, [playersInput])
 
   const spinner = css`
   display: block;
@@ -155,15 +160,16 @@ const NewGameBuilderForm: React.FC = () => {
                 gameType: "",
                 players: playersInput
               }}
-              enableReinitialize={true}
+              enableReinitialize={false}
               validationSchema={validationSchema}
               onSubmit={async (data, { setSubmitting }) => {
-                setSubmitting(true);
+               
                 const newGame = {
                   name: data.gameName,
                   type: data.gameType,
-                  players: data.players,
+                  players: playersInput,
                 };
+                setSubmitting(true);
                 const id = await PostApiCall(Environment.apiurl + '/Game/new-game', newGame)
                 setGameId(id);
                 setSubmitting(false);
@@ -224,7 +230,7 @@ const NewGameBuilderForm: React.FC = () => {
                       MenuProps={MenuProps}
                     >
                       {playerList?.map(player => (
-                        <MenuItem key={player.id} value={player.id} style={getStyles(player.id, playersInput, theme)}>
+                        <MenuItem key={player.id} value={player.id} style={getStyles(player.id, playersInput!, theme)}>
                           {player.name}
                         </MenuItem>
                       ))}
@@ -239,6 +245,7 @@ const NewGameBuilderForm: React.FC = () => {
                   </div>
                   <pre>{JSON.stringify(values, null, 2)}</pre>
                   <pre>{JSON.stringify(errors, null, 2)}</pre>
+                  
                 </Form>
               )}
             </Formik>
