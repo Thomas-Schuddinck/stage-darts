@@ -18,7 +18,7 @@ import PropagateLoader from "react-spinners/PropagateLoader";
 import { PlayerList } from "../../components/NewPlayer/PlayerList";
 import { Player } from "../../models/Player";
 import {Environment} from '../../environment';
-
+import { indigo } from '@material-ui/core/colors';
 const useStyles = makeStyles(theme => ({
     formControl: {
         margin: theme.spacing(1),
@@ -37,11 +37,13 @@ const useStyles = makeStyles(theme => ({
     },
     label: {
         alignSelf: 'center',
-        color: "#004BFF",
+        //color: "#004BFF",
+        color: indigo[500],
         fontSize: '1.2em',
     },
     but: {
-        backgroundColor: '#004BFF',
+        //backgroundColor: '#004BFF',
+        backgroundColor: indigo[500],
         color: "#FFFFFF",
         padding: '1.2em 2em',
         margin: '0 auto',
@@ -60,8 +62,10 @@ const useStyles = makeStyles(theme => ({
         margin: '20px'
     },
     hr: {
-        color: '#004BFF',
-        borderColor: '#004BFF',
+        //color: '#004BFF',
+        //borderColor: '#004BFF',
+        borderColor: indigo[300],
+        color: indigo[500],
         borderWidth: '2px',
         margin: '1.5em 0',
         borderStyle: 'solid'

@@ -3,13 +3,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import GroupIcon from '@material-ui/icons/Group';
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-
+import { indigo } from '@material-ui/core/colors';
 const useStyles = makeStyles(theme => ({
     paper: {
         padding: theme.spacing(1),
         display: 'flex',
         overflow: 'auto',
-        backgroundColor: '#004BFF',
+        //backgroundColor: '#004BFF',
+        backgroundColor: indigo[500],
         alignItems: 'center', 
         justifyContent: 'space-evenly', 
         border: 0,
