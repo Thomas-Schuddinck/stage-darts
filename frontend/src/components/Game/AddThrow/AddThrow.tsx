@@ -40,9 +40,6 @@ const useStyles = makeStyles(theme => ({
         left: '0',
         right: '0',
         backgroundColor: 'black',
-        // paddingLeft: '2em',
-        // paddingRight: '2em',
-        // backgroundClip: 'content-box'
     },
     photo: {
         color: "#FFFFFF",
@@ -96,6 +93,7 @@ const useStyles = makeStyles(theme => ({
         justifyContent: 'center',
         alignItems: 'center'
     },
+    
     bringForeground: {
         zIndex: 1101,
     },
