@@ -3,7 +3,6 @@ import {
   Button, RadioGroup, Grid, TextField, FormControl, FormLabel, FormControlLabel, Radio
 } from "@material-ui/core";
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Input from '@material-ui/core/Input';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
@@ -60,6 +59,9 @@ const useStyles = makeStyles(theme => ({
   paddy: {
     marginRight: '0.6em'
   },
+  fullwidth: {
+    width: "100%"
+  }
 }));
 
 const ITEM_HEIGHT = 48;
@@ -180,29 +182,10 @@ const NewGameBuilderForm: React.FC = () => {
           size={20}
           color={"#123abc"}
         />
-      ) : (<div>
-        <Grid container className={clsx(classes.controllers, classes.flexie)} spacing={1}>
-
-          <Grid item xs={12} md={11} lg={10}>
-            <TextField
-              className={classes.formControl}
-              id="input-with-icon-textfield"
-              label="game name"
-              value={name}
-              onChange={(e) => { setName(e.target.value) }}
-
-            />
-
-            <div>
-              <FormControl component="fieldset">
-                <FormLabel component="legend">Select Game Type</FormLabel>
-                <RadioGroup aria-label="gameType" name="gameType" value={gameMode} onChange={onRadioChange}>
-                  <FormControlLabel value="1" control={<Radio />} label="Casual" />
-                  <FormControlLabel value="2" control={<Radio />} label="Competitive" />
-                  <FormControlLabel value="3" control={<Radio />} label="Tournament" />
-                </RadioGroup>
-              </FormControl>
-              {gameMode === "1" &&
+      ) : (
+          <Grid container className={clsx(classes.controllers, classes.flexie)} spacing={1}>
+            <Grid item xs={12} md={12} lg={12}>
+            {gameMode === "1" &&
                 <Alert severity="info">Play a casual game: this will not affect your statistics</Alert>
               }
               {gameMode === "2" &&
@@ -211,51 +194,73 @@ const NewGameBuilderForm: React.FC = () => {
               {gameMode === "3" &&
                 <Alert severity="warning">Create a tournament consisting of multiple elimination rounds: this will affect player's statistics but not their rank</Alert>
               }
+            </Grid>
+            <Grid item xs={12} md={4} lg={3}>
+              <FormControl component="fieldset" className={classes.fullwidth}>
+                <FormLabel component="legend" className={classes.label}>Select Game Type</FormLabel>
+                <RadioGroup aria-label="gameType" name="gameType" value={gameMode} onChange={onRadioChange}>
+                  <FormControlLabel value="1" control={<Radio />} label="Casual" />
+                  <FormControlLabel value="2" control={<Radio />} label="Competitive" />
+                  <FormControlLabel value="3" control={<Radio />} label="Tournament" />
+                </RadioGroup>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} md={4} lg={3} >
+              <FormControl component="fieldset" className={classes.fullwidth}>
+                <FormLabel component="legend" className={classes.label}>Set Game Name</FormLabel>
+                <TextField
+                  className={classes.formControl}
+                  id="input-with-icon-textfield"
+                  label="name"
+                  value={name}
+                  onChange={(e) => { setName(e.target.value) }}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} md={4} lg={3} >
+              <FormControl component="fieldset" className={classes.fullwidth}>
+                <FormLabel component="legend" className={classes.label}>Select Players</FormLabel>
+                <Select
+                  name="players"
+                  multiple
+                  value={players}
+                  onChange={handleChange}
 
-            </div>
-            <div>
-              <h5 className={classes.label}>Select Players</h5>
-              <Select
-                name="players"
-                multiple
-                value={players}
-                onChange={handleChange}
+                  renderValue={(selected: any) => (
+                    <div className={classes.chips}>
+                      {selected.map((value: any) => (
 
-                renderValue={(selected: any) => (
-                  <div className={classes.chips}>
-                    {selected.map((value: any) => (
+                        <Chip key={value} label={playerList!.find(p => {
+                          return p!.id === value
+                        })!.name} className={classes.chip} />
+                      ))}
+                    </div>
+                  )}
+                  className={classes.formControl}
+                  MenuProps={MenuProps}
+                >
+                  {playerList?.map(player => (
+                    <MenuItem key={player.id} value={player.id} style={getStyles(player.id, players!, theme)}>
+                      {player.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} md={4} lg={3}>
+              <Button className={clsx(classes.send, classes.formControl)} onClick={() => setDoPost(true)}><SendIcon className={classes.paddy} />Add Game</Button>
+            </Grid>
 
-                      <Chip key={value} label={playerList!.find(p => {
-                        return p!.id === value
-                      })!.name} className={classes.chip} />
-                    ))}
-                  </div>
-                )}
-                className={classes.formControl}
-                MenuProps={MenuProps}
-              >
-                {playerList?.map(player => (
-                  <MenuItem key={player.id} value={player.id} style={getStyles(player.id, players!, theme)}>
-                    {player.name}
-                  </MenuItem>
-                ))}
-              </Select>
-
-            </div>
-
-            <Button className={clsx(classes.send, classes.formControl)} onClick={() => setDoPost(true)}><SendIcon className={classes.paddy} />Add Game</Button>
-
+            {openDialog ? (
+              <AddGameDialog id={gameId} />
+            ) : (
+                <div></div>
+              )}
           </Grid>
-        </Grid>
-        {openDialog ? (
-          <AddGameDialog id={gameId} />
-        ) : (
-            <div></div>
-          )}
 
-      </div>
-        )}
-    </Wrap>
+        )
+      }
+    </Wrap >
   );
 };
 
