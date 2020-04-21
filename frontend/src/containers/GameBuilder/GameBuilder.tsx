@@ -35,7 +35,8 @@ const useStyles = makeStyles(theme => ({
     fixedHeight: {
         height: 240,
     },
-
+    absolute: {
+    },
     alignFlex: {
         display: "flex",
         flexDirection: 'row',
@@ -67,21 +68,17 @@ const useStyles = makeStyles(theme => ({
         }
     },
     flexie: {
-
         display: 'flex',
-        flexDirection: 'column'
-
-
+        flexDirection: 'column',
     }, 
     test:{
         overflowY: 'auto',
         top: '0px',
-        bottom: '0px'
+        bottom: '0px',
     }
 }));
 
 export const GameBuilder = (props: { match: { params: any; }; }) => {
-
 
     const classes = useStyles();
 
@@ -139,7 +136,6 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
     }
 
     useEffect(() => {
-
         if (props.match.params.id) {
             FetchData(props.match.params.id);
         } else {
@@ -170,6 +166,10 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
         setSelectedThrowToEdit(tr);
     }
 
+    const keyboardToggle = (boo : boolean) => {
+        console.log(boo);
+    }
+
     return (
         <Aux>
             {isLoading ? (
@@ -181,7 +181,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
             ) : (
                     <Aux >
                         <div className={size < 499 ? classes.flexie : ""}>
-                            <Grid container spacing={3}>
+                            <Grid container spacing={3} className={classes.absolute}>
                                 {
                                     gameDetails!.currentLegGroup!
                                         .playerLegs!.map(function (pl: PlayerLeg, i: any) {
