@@ -32,6 +32,11 @@ namespace BackendDarts.Domain
                 x.GameId,
                 x.PlayerId
             });
+            builder.Entity<PlayerTournament>().HasKey(x => new
+            {
+                x.TournamentId,
+                x.PlayerId
+            });
             //builder.ApplyConfiguration(new GameConfiguration());
             //builder.ApplyConfiguration(new GameConfiguration());
             //builder.ApplyConfiguration(new PlayerConfiguration());

@@ -10,7 +10,7 @@ namespace BackendDarts.Domain.Models
     {
         public int Id { get; set; }
         public String Name { get; set; }
-        public List<TournamentGame> Games { get; set; }
+        public List<Game> Games { get; set; }
         public List<PlayerTournament> PlayerTournaments { get; set; } = new List<PlayerTournament>();
         public int Winner { get; private set; }
 
@@ -32,7 +32,7 @@ namespace BackendDarts.Domain.Models
                 Player player2 = players[i];
                 AddPlayer(player1);
                 AddPlayer(player2);
-                AddGame(new TournamentGame(i, Name, player1, player2));
+                AddGame(new Game(i, Name, player1, player2));
             }
         }
         private void AddPlayer(Player player)
@@ -45,7 +45,7 @@ namespace BackendDarts.Domain.Models
             );
         }
 
-        private void AddGame(TournamentGame game)
+        private void AddGame(Game game)
         {
             Games.Add(game);
         }

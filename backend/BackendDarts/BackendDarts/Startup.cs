@@ -43,6 +43,7 @@ namespace BackendDarts
             services.AddScoped<IGameRepository, GameRepository>();
             services.AddScoped<IPlayerRepository, PlayerRepository>();
             services.AddScoped<IPlayerLegRepository, PlayerLegRepository>();
+            services.AddScoped<ITournamentRepository, TournamentRepository>();
 
 
             services.AddControllers().AddNewtonsoftJson(options =>
