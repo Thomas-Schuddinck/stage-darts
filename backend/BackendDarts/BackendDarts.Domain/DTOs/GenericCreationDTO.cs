@@ -13,8 +13,5 @@ namespace BackendDarts.Domain.DTOs
             this.Id = id;
             this.Body = body;
         }
-        {
-
-        }
     }
 }
