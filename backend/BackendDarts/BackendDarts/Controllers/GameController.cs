@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using BackendDarts.data.Repos.IRepos;
+using BackendDarts.Data.Repos.IRepos;
 using BackendDarts.Domain.DTOs;
+using BackendDarts.Domain.Models;
 using BackendDarts.DTOs;
 using BackendDarts.DTOs.Status;
 using BackendDarts.Models;
@@ -18,12 +20,14 @@ namespace BackendDarts.Controllers
     {
         private IGameRepository _gameRepository;
         private IPlayerRepository _playerRepository;
+        private ITournamentRepository _tournamentRepository;
         private IHubContext<NotifyHub, ITypedHubClient> _hubContext;
 
-        public GameController(IGameRepository gameRepository, IPlayerRepository playerRepository, IHubContext<NotifyHub, ITypedHubClient> hubContext)
+        public GameController(IGameRepository gameRepository, IPlayerRepository playerRepository, ITournamentRepository tournamentRepository, IHubContext<NotifyHub, ITypedHubClient> hubContext)
         {
             _gameRepository = gameRepository;
             _playerRepository = playerRepository;
+            _tournamentRepository = tournamentRepository;
             _hubContext = hubContext;
         }
 
@@ -94,18 +98,19 @@ namespace BackendDarts.Controllers
         /// <param name="newGame">the given NewGameDTO containing game information</param>
         /// <returns>The newly made game</returns>
         [HttpPost("new-game/")]
-        public ActionResult<GameDTO> AddNewGame([FromBody]NewGameDTO newGame)
+        public ActionResult<GenericCreationDTO> AddNewGame([FromBody]NewGameDTO newGame)
         {
-
-            Game game = new Game(newGame);
-            foreach (int id in newGame.Players)
-                game.AddPlayer(_playerRepository.GetBy(id));
-            game.ConfigureGame();
-            _gameRepository.Add(game);
-            _gameRepository.SaveChanges();
-            return CreatedAtAction(nameof(GetBy), new { id = game.Id }, game);
+            bool isTournament = newGame.Type == 3;
+            object o;
+            if (isTournament)
+                o = CreateTournament(newGame);
+            else
+                o = CreateGame(newGame);
+            
+            return CreatedAtAction(nameof(GetBy), new GenericCreationDTO(isTournament ? ((Tournament)o).Id : ((Game)o).Id, o));
 
         }
+        
 
         /// <summary>
         /// Delete a game where the ID of the game matches the given ID
@@ -452,7 +457,61 @@ namespace BackendDarts.Controllers
 
             // return
             return statusDTO;
-        } 
+        }
+
+        /// <summary>
+        /// Create a new Game
+        /// </summary>
+        /// <param name="newGameDTO">The data containing the data for a new Game</param>
+        /// <returns>The new Game</returns>
+        public Game CreateGame(NewGameDTO newGameDTO)
+        {
+            Game game = new Game(newGameDTO);
+            SetupGame(game, newGameDTO);
+            _gameRepository.Add(game);
+            _gameRepository.SaveChanges();
+            return game;
+        }
+
+        /// <summary>
+        /// Setting up the new given Game
+        /// </summary>
+        /// <param name="game">the new Game</param>
+        /// <param name="newGame">The data containing the data for a new Game</param>
+        public void SetupGame(Game game, NewGameDTO newGame)
+        {
+            foreach (int id in newGame.Players)
+                game.AddPlayer(_playerRepository.GetBy(id));
+            game.ConfigureGame();
+        }
+
+        /// <summary>
+        /// Create a new Tournament
+        /// </summary>
+        /// <param name="newGameDTO">The data containing the data for a new Tournament</param>
+        /// <returns>The new Tournament</returns>
+        public Tournament CreateTournament(NewGameDTO newGame)
+        {
+            Tournament tournament = new Tournament(newGame);
+            SetupTournament(tournament, newGame);
+            _tournamentRepository.Add(tournament);
+            _tournamentRepository.SaveChanges();
+            return tournament;
+        }
+
+        /// <summary>Tournament
+        /// Setting up the new given Game
+        /// </summary>
+        /// <param name="tournament">the new Tournament</param>
+        /// <param name="newGame">The data containing the data for a new Tournament</param>
+        public void SetupTournament(Tournament tournament, NewGameDTO newGame)
+        {
+            List<Player> tempPlayerList = new List<Player>();
+            foreach (int id in newGame.Players)
+                tempPlayerList.Add(_playerRepository.GetBy(id));
+            tempPlayerList.Shuffle();
+            tournament.SetupTournament(tempPlayerList);
+        }
         #endregion
 
     }
