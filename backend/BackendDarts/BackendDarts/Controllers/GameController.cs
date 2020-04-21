@@ -464,6 +464,7 @@ namespace BackendDarts.Controllers
         /// </summary>
         /// <param name="newGameDTO">The data containing the data for a new Game</param>
         /// <returns>The new Game</returns>
+        [ApiExplorerSettings(IgnoreApi = true)]
         public Game CreateGame(NewGameDTO newGameDTO)
         {
             Game game = new Game(newGameDTO);
@@ -478,6 +479,7 @@ namespace BackendDarts.Controllers
         /// </summary>
         /// <param name="game">the new Game</param>
         /// <param name="newGame">The data containing the data for a new Game</param>
+        [ApiExplorerSettings(IgnoreApi = true)]
         public void SetupGame(Game game, NewGameDTO newGame)
         {
             foreach (int id in newGame.Players)
@@ -490,6 +492,7 @@ namespace BackendDarts.Controllers
         /// </summary>
         /// <param name="newGameDTO">The data containing the data for a new Tournament</param>
         /// <returns>The new Tournament</returns>
+        [ApiExplorerSettings(IgnoreApi = true)]
         public Tournament CreateTournament(NewGameDTO newGame)
         {
             Tournament tournament = new Tournament(newGame);
@@ -504,6 +507,7 @@ namespace BackendDarts.Controllers
         /// </summary>
         /// <param name="tournament">the new Tournament</param>
         /// <param name="newGame">The data containing the data for a new Tournament</param>
+        [ApiExplorerSettings(IgnoreApi = true)]
         public void SetupTournament(Tournament tournament, NewGameDTO newGame)
         {
             List<Player> tempPlayerList = new List<Player>();
