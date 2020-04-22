@@ -10,7 +10,7 @@ namespace BackendDarts.Domain.Models
     {
         public int Id { get; set; }
         public String Name { get; set; }
-        public List<Game> Games { get; set; }
+        public List<Game> Games { get; set; } = new List<Game>();
         public List<PlayerTournament> PlayerTournaments { get; set; } = new List<PlayerTournament>();
         public int Winner { get; private set; }
 

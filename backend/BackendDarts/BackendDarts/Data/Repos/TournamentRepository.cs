@@ -36,7 +36,10 @@ namespace BackendDarts.Data.Repos
 
         public Tournament GetBy(int id)
         {
-            throw new NotImplementedException();
+            return _tournaments
+                .Include(t => t.Games)
+                .Include(t => t.PlayerTournaments).ThenInclude(pt => pt.Player)
+                .SingleOrDefault(t => t.Id == id);
         }
 
         public void SaveChanges()
