@@ -49,9 +49,9 @@ namespace BackendDarts.Controllers
             {
                 foreach (LegGroup legGroup in game.LegGroups)
                 {
-                    foreach (PlayerLeg playerLeg in legGroup.PlayerLegs)
+                    if (legGroup.PlayerLegs.SingleOrDefault(pl => pl.Player != null && pl.Player.Id == id) != null)
                     {
-
+                        PlayerLeg playerLeg = legGroup.PlayerLegs.SingleOrDefault(pl => pl.Player != null && pl.Player.Id == id);
                         playergames.Add(playerLeg);
                         foreach (Turn turn in playerLeg.Turns)
                         {
@@ -77,7 +77,7 @@ namespace BackendDarts.Controllers
                 }
             }
 
-            double percentageSixty = totalThrows == 0 ? 0 : numOfSixty/ totalThrows;
+            double percentageSixty = totalThrows == 0 ? 0 : numOfSixty/ totalThrows * 100;
             double averageThrow = totalThrows == 0 ? 0 : totalScore / totalThrows;
             double percentageWins = games.Count() == 0 ? 0 : (numOfWins / games.Count()) * 100;
             double percentageBoardHits = totalThrows == 0 ? 0 : 100 - ((numOfMisses / totalThrows) * 100);

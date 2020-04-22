@@ -359,7 +359,7 @@ namespace BackendDarts.Controllers
             leaderboardRowDTO.NumberOfWins = playerDataDTO.NumberOfWins;
             leaderboardRowDTO.PercentageWins = numberofgames == 0 ? 0 : (playerDataDTO.NumberOfWins / numberofgames) * 100;
             leaderboardRowDTO.TotalScoreThrown = playerDataDTO.TotalScoreThrown;
-            leaderboardRowDTO.PercentageSixties = playerDataDTO.TotalNumberDartsThrown == 0 ? 0 : playerDataDTO.NumberOfSixties / playerDataDTO.TotalNumberDartsThrown;
+            leaderboardRowDTO.PercentageSixties = playerDataDTO.TotalNumberDartsThrown == 0 ? 0 : playerDataDTO.NumberOfSixties / playerDataDTO.TotalNumberDartsThrown * 100;
 
             // return
             return leaderboardRowDTO;

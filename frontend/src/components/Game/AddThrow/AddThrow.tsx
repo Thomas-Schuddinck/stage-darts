@@ -372,7 +372,7 @@ const AddThrow = (props: any) => {
                             </Select>
                             <Button className={clsx(classes.send, classes.formControl)} onClick={() => setDoPost(true)}><SendIcon className={classes.paddy} />Add Throw</Button>
 
-                            <Button className={clsx(classes.undo, classes.formControl2)} onClick={() => handleGoBack()}><HistoryIcon className={classes.paddy} />Undo Last Throw</Button>
+                            <Button className={clsx(classes.undo, classes.formControl2)} onClick={() => handleGoBack()}><HistoryIcon className={classes.paddy} />Undo</Button>
 
                         </Grid>
                     </Grid>
