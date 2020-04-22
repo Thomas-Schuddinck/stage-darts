@@ -38,9 +38,21 @@ namespace BackendDarts.data
                 Player player1 = new Player("Thomas", "Schuddinck", "thomas.schuddinck@realdolmen.com");
                 Player player2 = new Player("Wouter", "Opsommer", "wouter.opsommer@realdolmen.com");
                 Player player3 = new Player("Johan", "Van Schoor", "johan.vanschoor@hogent.be");
+                Player player4 = new Player("Glenn", "Van Looveren", "glenn.vl@realdolmen.com");
+                Player player5 = new Player("Obi-Wan", "Kenobi", "Obi-jedi@realdolmen.com");
+                Player player6 = new Player("Darth", "Vader", "sithboi@hogent.be");
+                Player player7 = new Player("Jar-Jar", "Bings", "meesa.jarjar@realdolmen.com");
+                Player player8 = new Player("Death", "Star", "ds@realdolmen.com");
+                Player player9 = new Player("Ahsoka", "Tano", "padawan@hogent.be");
                 _dbContext.Players.Add(player1);
                 _dbContext.Players.Add(player2);
                 _dbContext.Players.Add(player3);
+                _dbContext.Players.Add(player4);
+                _dbContext.Players.Add(player5);
+                _dbContext.Players.Add(player6);
+                _dbContext.Players.Add(player7);
+                _dbContext.Players.Add(player8);
+                _dbContext.Players.Add(player9);
 
                 //adding leggroups
                 LegGroup lg1 = new LegGroup();
