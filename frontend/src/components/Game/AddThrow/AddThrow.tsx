@@ -4,7 +4,7 @@ import { indigo } from '@material-ui/core/colors';
 import Wrap from '../../../hoc/Wrap'
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import { PostApiCall } from '../../../services/ApiClient';
-import { PutApiCall } from '../../../services/ApiClient';
+import { PutApiCall, GetApiCall } from '../../../services/ApiClient';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import GpsFixed from '@material-ui/icons/GpsFixed';
@@ -14,7 +14,9 @@ import SendIcon from '@material-ui/icons/Send';
 import { Environment } from '../../../environment'
 import clsx from 'clsx';
 import EjectIcon from '@material-ui/icons/Eject';
-import ArrowDropDown from '@material-ui/icons/ArrowDropDown'
+import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
+import LiveTvIcon from '@material-ui/icons/LiveTv';
+
 const useStyles = makeStyles(theme => ({
     leg: {
         fontSize: '1.5em',
@@ -72,6 +74,13 @@ const useStyles = makeStyles(theme => ({
         width: '100%',
         border: '0.1em solid black',
     },
+    startstop: {
+        color: "#FFFFFF",
+        width: '100%',
+        border: '0.1em solid black',
+        backgroundColor: 'gray',
+
+    },
     buttonSelected: {
         color: 'black',
         backgroundColor: indigo[200],
@@ -107,7 +116,7 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'center'
     },
     lijnZwart: {
-        backgroundColor: '#171717'
+        backgroundColor: 'black'
     },
     lijn: {
         textAlign: 'center',
@@ -132,7 +141,8 @@ const useStyles = makeStyles(theme => ({
         }
     },
     bigIcon: {
-        fontSize: '3em'
+        fontSize: '3em',
+        cursor: 'pointer',
     }
 }));
 
@@ -146,6 +156,8 @@ const AddThrow = (props: any) => {
     let [multiplier = 1, setMultiplier] = useState<number>();
     let [doPost = false, setDoPost] = useState<boolean>();
     let [keyboardOpen = true, setKeyboardOpen] = useState<boolean>();
+    let [raspberry = false, setRaspberry] = useState<boolean>();
+    let [startstopButtonText = "start", setStartstopButtonText] = useState<string>();
     useEffect(() => {
         window.addEventListener('resize', updateWindowDimensions);
         setSize(window.innerWidth);
@@ -259,6 +271,26 @@ const AddThrow = (props: any) => {
     const keyboardClicked = () => {
         setKeyboardOpen(!keyboardOpen);
     }
+    
+    const startstop = async () => {
+        if(raspberry) {
+            setStartstopButtonText("start");
+            setRaspberry(false);
+            return await GetApiCall("https://92832de0.ngrok.io/stop").then(resp => {
+                return resp;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }else {
+            setStartstopButtonText("stop");
+            setRaspberry(true);
+            return await GetApiCall("https://92832de0.ngrok.io/start").then(resp => {
+                return resp;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
+    }
 
     return (
         <Wrap>
@@ -288,7 +320,10 @@ const AddThrow = (props: any) => {
                     <Grid item xs={12} md={12} lg={12} className={classes.lijn}>
                         <div className={classes.lineheight}></div>
                     </Grid>
-                    <Grid item xs={12} md={12} lg={12}>
+                    <Grid item xs={6} md={6} lg={6}>
+            <Button className={clsx(classes.startstop)} onClick={() => startstop()}><LiveTvIcon className={classes.paddy} />{startstopButtonText}</Button>
+                    </Grid>
+                    <Grid item xs={6} md={6} lg={6}>
                         <Button className={clsx(classes.undo)} onClick={() => handleGoBack()}><HistoryIcon className={classes.paddy} />Undo Last Throw</Button>
                     </Grid>
                 </Grid>
