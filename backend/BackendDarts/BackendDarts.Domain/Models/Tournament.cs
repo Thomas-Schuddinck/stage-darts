@@ -60,6 +60,16 @@ namespace BackendDarts.Domain.Models
             Games.Add(game);
         }
 
+        public void RemoveLoserFromBracket(Game gameRemove, Player player)
+        {
+
+            foreach(Game game in Games)
+            {
+                if (game.BracketStageNumber > gameRemove.BracketStageNumber)
+                    game.RemovePlayer(player);
+            }
+        }
+
         private void SetWinner(int idWinner)
         {
             Winner = idWinner;
