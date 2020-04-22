@@ -22,6 +22,8 @@ namespace BackendDarts.Models
         [NotMapped]
         public static Game SingletonGame { get; set; }
 
+        public int BracketSectorNumber { get; private set; }
+        
         public Game()
         {
             BeginDate = DateTime.Now.Date;
@@ -33,6 +35,24 @@ namespace BackendDarts.Models
             Name = newGameDTO.Name;
             Type = newGameDTO.Type;
             
+        }
+
+        /// <summary>
+        /// for tournament games
+        /// </summary>
+        /// <param name="bracketSectorNr"></param>
+        /// <param name="name"></param>
+        /// <param name="player1"></param>
+        /// <param name="player2"></param>
+        public Game(int bracketSectorNr, string name, Player player1, Player player2)
+        {
+            BracketSectorNumber = bracketSectorNr;
+            Name = name + " Tournament - " + player1.Name + " VS " + player2.Name;
+            Type = 3;
+            AddPlayer(player1);
+            AddPlayer(player2);
+            BeginDate = DateTime.Now.Date;
+            SetupGame();
         }
 
         /// <summary>

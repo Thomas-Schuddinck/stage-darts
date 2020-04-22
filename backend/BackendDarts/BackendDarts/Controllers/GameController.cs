@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using BackendDarts.data.Repos.IRepos;
+using BackendDarts.Data.Repos.IRepos;
 using BackendDarts.Domain.DTOs;
+using BackendDarts.Domain.Models;
 using BackendDarts.DTOs;
 using BackendDarts.DTOs.Status;
 using BackendDarts.Models;
@@ -18,13 +20,18 @@ namespace BackendDarts.Controllers
     {
         private IGameRepository _gameRepository;
         private IPlayerRepository _playerRepository;
+        private ITournamentRepository _tournamentRepository;
         private IHubContext<NotifyHub, ITypedHubClient> _hubContext;
+        private GameControllerHelpers Helper;
 
-        public GameController(IGameRepository gameRepository, IPlayerRepository playerRepository, IHubContext<NotifyHub, ITypedHubClient> hubContext)
+        public GameController(IGameRepository gameRepository, IPlayerRepository playerRepository, ITournamentRepository tournamentRepository, IHubContext<NotifyHub, ITypedHubClient> hubContext)
         {
             _gameRepository = gameRepository;
             _playerRepository = playerRepository;
+            _tournamentRepository = tournamentRepository;
             _hubContext = hubContext;
+            Helper = new GameControllerHelpers();
+            
         }
 
         #region Call Methods
@@ -62,9 +69,7 @@ namespace BackendDarts.Controllers
         {
             return CreateLeaderBoardDTO(MapPlayerStatisticsData());
         }
-
-
-
+               
         /// <summary>
         /// Get a game with given ID, detailed version
         /// </summary>
@@ -94,18 +99,28 @@ namespace BackendDarts.Controllers
         /// <param name="newGame">the given NewGameDTO containing game information</param>
         /// <returns>The newly made game</returns>
         [HttpPost("new-game/")]
-        public ActionResult<GameDTO> AddNewGame([FromBody]NewGameDTO newGame)
+        public ActionResult<NewGameDTO> AddNewGame([FromBody]NewGameDTO newGame)
         {
-
-            Game game = new Game(newGame);
-            foreach (int id in newGame.Players)
-                game.AddPlayer(_playerRepository.GetBy(id));
-            game.ConfigureGame();
-            _gameRepository.Add(game);
-            _gameRepository.SaveChanges();
+            
+            Game game = CreateGame(newGame);
             return CreatedAtAction(nameof(GetBy), new { id = game.Id }, game);
 
         }
+
+        /// <summary>
+        /// dit zal nog niet werken
+        /// </summary>
+        /// <param name="newGame"></param>
+        /// <returns></returns>
+        [HttpPost("new-tournament/")]
+        public ActionResult<NewGameDTO> AddNewTournament([FromBody]NewGameDTO newGame)
+        {
+            
+            Tournament tournament = CreateTournament(newGame);
+            return CreatedAtAction(nameof(GetBy), new { id = tournament.Id }, tournament);
+
+        }
+
 
         /// <summary>
         /// Delete a game where the ID of the game matches the given ID
@@ -145,7 +160,7 @@ namespace BackendDarts.Controllers
 
             Game currentGame = _gameRepository.GetBy(Game.SingletonGame.Id);
 
-            StatusDTO statusDTO = FillStatusDTO(currentGame, -1);
+            StatusDTO statusDTO = Helper.FillStatusDTO(currentGame, -1);
             _gameRepository.SaveChanges();
             _hubContext.Clients.All.UpdateGame(statusDTO);
 
@@ -184,7 +199,7 @@ namespace BackendDarts.Controllers
             Game game = _gameRepository.GetBy(Game.SingletonGame.Id);
             game.GoBack();
             _gameRepository.SaveChanges();
-            StatusDTO statusDTO = FillStatusDTO(game, -1);
+            StatusDTO statusDTO = Helper.FillStatusDTO(game, -1);
             _gameRepository.SaveChanges();
             _hubContext.Clients.All.UpdateGame(statusDTO);
             return new GameDTO(game);
@@ -220,19 +235,38 @@ namespace BackendDarts.Controllers
         public ActionResult<StatusDTO> AddNewThrow([FromBody]NewThrowDTO dartThrow)
         {
             Game currentGame = _gameRepository.GetBy(Game.SingletonGame.Id);
-            int status = HandleThrow(currentGame, dartThrow);
+            int status = Helper.HandleThrow(currentGame, dartThrow);
             _gameRepository.SaveChanges();
 
             currentGame = _gameRepository.GetBy(Game.SingletonGame.Id);
-            StatusDTO statusDTO = FillStatusDTO(currentGame, status);
+            StatusDTO statusDTO = Helper.FillStatusDTO(currentGame, status);
             
             _hubContext.Clients.All.UpdateGame(statusDTO);
 
             return statusDTO;
-        } 
+        }
         #endregion
 
-        #region Support Methods
+
+
+        #region Assist Methods
+
+
+        /// <summary>
+        /// Create a DTO which contains the data for creating a leaderboard
+        /// </summary>
+        /// <param name="temporaryPlayerDictionary">A dictionary containing playerstatistics per player</param>
+        /// <returns>A list of leaderboard rows (DTO-format)</returns>
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public List<LeaderboardRowDTO> CreateLeaderBoardDTO(Dictionary<int, LeaderboardPlayerDataDTO> temporaryPlayerDictionary)
+        {
+            List<LeaderboardRowDTO> leaderboard = new List<LeaderboardRowDTO>();
+            foreach (KeyValuePair<int, LeaderboardPlayerDataDTO> playerdata in temporaryPlayerDictionary)
+            {
+                leaderboard.Add(FillLeaderboardRowDTO(playerdata.Key, playerdata.Value));
+            }
+            return leaderboard;
+        }
 
         /// <summary>
         /// Map the statistics for all players to a dictionary
@@ -280,105 +314,6 @@ namespace BackendDarts.Controllers
             return playerStatisticsDictionary;
         }
 
-        /// <summary>
-        /// Create a DTO which contains the data for creating a leaderboard
-        /// </summary>
-        /// <param name="temporaryPlayerDictionary">A dictionary containing playerstatistics per player</param>
-        /// <returns>A list of leaderboard rows (DTO-format)</returns>
-        [ApiExplorerSettings(IgnoreApi = true)]
-        public List<LeaderboardRowDTO> CreateLeaderBoardDTO(Dictionary<int, LeaderboardPlayerDataDTO> temporaryPlayerDictionary)
-        {
-            List<LeaderboardRowDTO> leaderboard = new List<LeaderboardRowDTO>();
-            foreach (KeyValuePair<int, LeaderboardPlayerDataDTO> playerdata in temporaryPlayerDictionary)
-            {
-                leaderboard.Add(FillLeaderboardRowDTO(playerdata.Key, playerdata.Value));
-            }
-            return leaderboard;
-        }
-
-        /// <summary>
-        /// Check if all darts are thrown for the current player's last turn
-        /// </summary>
-        /// <param name="playerLeg"></param>
-        /// <returns>True if all the darts are thrown</returns>
-        [ApiExplorerSettings(IgnoreApi = true)]
-        private bool ValidateAllThrowsThrown(Game game)
-        {
-            return game.GetCurrentTurn().IsFinished;
-        }
-
-        /// <summary>
-        /// Handle a new given dartthrow for given game
-        /// </summary>
-        /// <param name="game">The given game</param>
-        /// <param name="dartThrow">The given throw</param>
-        /// <returns>The status of the game</returns>
-        [ApiExplorerSettings(IgnoreApi = true)]
-        private int HandleThrow(Game game, NewThrowDTO dartThrow)
-        {
-
-            // calculations
-            CreateNewTurnIfRequired(game);
-            
-            bool allDartsThrown = game.AddThrow(dartThrow.Area, dartThrow.Multiplier);
-            
-
-            int gameStatus = CheckGameStatus(game,  game.CalculateScore(game.GetCurrenPlayerLeg()));
-            if (allDartsThrown && gameStatus == -1)
-                game.SetNextPlayer();
-            // if all darts are thrown, multiply status by 2 (see FillStatusDTO for use, used for ending turn)
-            gameStatus = !allDartsThrown ? gameStatus : gameStatus * 2;
-
-            return gameStatus;
-
-
-        }
-
-        /// <summary>
-        /// Checks if a new Turn should be made.
-        /// If the requirements are met, a new Turn will be added to the given PlayerLeg of a given Game
-        /// </summary>
-        /// <param name="playerLeg">The given PlayerLeg</param>
-        /// <param name="game">The gvien Game</param>
-        [ApiExplorerSettings(IgnoreApi = true)]
-        private void CreateNewTurnIfRequired(Game game)
-        {
-            //laatste turn in beurt eindig turn
-            if (game.GetCurrenPlayerLeg().Turns.Count == 0 || game.GetCurrentTurn().IsFinished)
-                game.CreateEmptyTurn();
-
-        }
-
-        /// <summary>
-        /// Returns a status depending on the current game situation.
-        /// 
-        /// </summary>
-        /// <param name="game">The current Game</param>
-        /// <param name="score">The score of the current PlayerLeg</param>
-        /// <returns>Returns "1" if the current Leg is finished (when a player reaches score 501), returns "2" if the game has ended, returns "-1" by default</returns>
-        [ApiExplorerSettings(IgnoreApi = true)]
-        private int CheckGameStatus(Game game, int score)
-        {
-            // variables
-            PlayerLeg playerLeg = game.GetCurrenPlayerLeg();
-
-            // calculations + returns
-            if (score == 501)
-            {
-                game.EndLeg();
-                return game.Winner == -1 ? 0 : 1;
-            } else{
-                if (score > 501)
-                    playerLeg.Turns[playerLeg.Turns.Count - 1].IgnoreAndEndTurn(); ;
-
-                return -1;
-            }
-
-        }
-        #endregion
-
-
-        #region Fill Methods
 
         /// <summary>
         /// Fill a new dictionary for player statistics with 0's with playerId's as kays
@@ -431,29 +366,61 @@ namespace BackendDarts.Controllers
         }
 
         /// <summary>
-        /// Fill a new game status DTO
+        /// Create a new Game
         /// </summary>
-        /// <param name="game">The given game</param>
-        /// <param name="gameStatus">the given game status</param>
-        /// <returns>The game status (DTO format)</returns>
+        /// <param name="newGameDTO">The data containing the data for a new Game</param>
+        /// <returns>The new Game</returns>
         [ApiExplorerSettings(IgnoreApi = true)]
-        public StatusDTO FillStatusDTO(Game game, int gameStatus)
+        public Game CreateGame(NewGameDTO newGameDTO)
         {
-            // variables
-            StatusDTO statusDTO = new StatusDTO
-            {
-                Status = gameStatus % 2,
-                Winner = game.Winner == -1 ? "" : game.PlayerGames.Find(pg => pg.PlayerId==game.Winner).Player.Name,
-                gameDTO = new GameDetailsDTO(game)
-            };
+            Game game = new Game(newGameDTO);
+            SetupGame(new GenericAssistDTO { Body = game, Players = newGameDTO.Players });
+            _gameRepository.Add(game);
+            _gameRepository.SaveChanges();
+            return game;
+        }
 
-            if (gameStatus> 2)
-                statusDTO.gameDTO.Game.LegGroups.Last().GoNextPlayerLeg();
+        /// <summary>
+        /// Setting up the new given Game
+        /// </summary>
+        /// <param name="game">the new Game</param>
+        /// <param name="newGame">The data containing the data for a new Game</param>
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public void SetupGame(GenericAssistDTO dto)
+        {
+            Game game = ((Game)dto.Body);
+            foreach (int id in dto.Players)
+                game.AddPlayer(_playerRepository.GetBy(id));
+            game.ConfigureGame();
+        }
 
-            // return
-            return statusDTO;
-        } 
+        /// <summary>
+        /// Create a new Tournament
+        /// </summary>
+        /// <param name="newGameDTO">The data containing the data for a new Tournament</param>
+        /// <returns>The new Tournament</returns>
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public Tournament CreateTournament(NewGameDTO newGameDTO)
+        {
+            Tournament tournament = new Tournament(newGameDTO);
+            SetupTournament(new GenericAssistDTO { Body = tournament, Players= newGameDTO.Players});
+            _tournamentRepository.Add(tournament);
+            _tournamentRepository.SaveChanges();
+            return tournament;
+        }
+        /// <summary>Tournament
+        /// Setting up the new given Game
+        /// </summary>
+        /// <param name="dto">the new Tournament</param>
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public void SetupTournament(GenericAssistDTO dto)
+        {
+            List<Player> tempPlayerList = new List<Player>();
+            foreach (int id in dto.Players)
+                tempPlayerList.Add(_playerRepository.GetBy(id));
+            tempPlayerList.Shuffle();
+            ((Tournament)dto.Body).SetupTournament(tempPlayerList);
+        }
         #endregion
-
     }
 } 
