@@ -1,4 +1,5 @@
-﻿using BackendDarts.DTOs;
+﻿using BackendDarts.Domain.Models;
+using BackendDarts.DTOs;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -22,8 +23,11 @@ namespace BackendDarts.Models
         [NotMapped]
         public static Game SingletonGame { get; set; }
 
+        //For Tournaments
         public int BracketSectorNumber { get; private set; }
-        
+        public int BracketStageNumber { get; private set; }
+        public bool CanStart => PlayerGames.Count == 2;
+
         public Game()
         {
             BeginDate = DateTime.Now.Date;
@@ -44,15 +48,25 @@ namespace BackendDarts.Models
         /// <param name="name"></param>
         /// <param name="player1"></param>
         /// <param name="player2"></param>
-        public Game(int bracketSectorNr, string name, Player player1, Player player2)
+        public Game(int bracketSectorNr, int bracketStageNr, string name, List<Player> players)
         {
             BracketSectorNumber = bracketSectorNr;
-            Name = name + " Tournament - " + player1.Name + " VS " + player2.Name;
+            BracketStageNumber = bracketStageNr;
+            Name = name;
             Type = 3;
-            AddPlayer(player1);
-            AddPlayer(player2);
+            foreach(Player player in players)
+                AddPlayer(player);
             BeginDate = DateTime.Now.Date;
             SetupGame();
+        }
+
+
+
+        public void CheckNameTournamentGame()
+        {
+            if(CanStart)
+
+                Name = Name + " Tournament - " + PlayerGames[0].Player.Name + " VS " + PlayerGames[1].Player.Name;
         }
 
         /// <summary>

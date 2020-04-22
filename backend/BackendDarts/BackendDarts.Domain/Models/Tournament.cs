@@ -2,6 +2,7 @@
 using BackendDarts.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace BackendDarts.Domain.Models
@@ -26,14 +27,19 @@ namespace BackendDarts.Domain.Models
 
         public void SetupTournament(List<Player> players)
         {
-            for(int i = 1; i < players.Count; i+=2)
+            int aantalStages = (int)Math.Log2(players.Count);
+            AddPlayers(players);
+            //finale
+            AddGame(new Game(1, aantalStages, Name, players));
+            //other games
+            for (int j = 1; j < aantalStages; j++)
             {
-                Player player1 = players[i - 1];
-                Player player2 = players[i];
-                AddPlayer(player1);
-                AddPlayer(player2);
-                AddGame(new Game((i+1)/2, Name, player1, player2));
+                for (int i = 0; i < players.Count- (int)Math.Pow(2, j)+1; i += (int)Math.Pow(2, j))
+                {
+                    AddGame(new Game((i + (int)Math.Pow(2, j)) / 2, j, Name, players.GetRange(i,(int)Math.Pow(2, j))));
+                }
             }
+            
         }
         private void AddPlayer(Player player)
         {
@@ -44,7 +50,11 @@ namespace BackendDarts.Domain.Models
             }
             );
         }
-
+        private void AddPlayers(List<Player> players)
+        {
+            foreach (Player player in players)
+                AddPlayer(player);
+        }
         private void AddGame(Game game)
         {
             Games.Add(game);
@@ -54,5 +64,6 @@ namespace BackendDarts.Domain.Models
         {
             Winner = idWinner;
         }
+
     }
 }
