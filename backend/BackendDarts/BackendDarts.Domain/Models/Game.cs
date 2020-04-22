@@ -62,12 +62,7 @@ namespace BackendDarts.Models
 
 
 
-        public void CheckNameTournamentGame()
-        {
-            if(CanStart)
-
-                Name = Name + " Tournament - " + PlayerGames[0].Player.Name + " VS " + PlayerGames[1].Player.Name;
-        }
+       
 
         /// <summary>
         /// (re)set all simple values
@@ -362,7 +357,20 @@ namespace BackendDarts.Models
 
         #endregion
 
+        #region Tournament Operations
 
+        public void CheckNameTournamentGame()
+        {
+            if (CanStart)
+
+                Name = Name + " Tournament - " + PlayerGames[0].Player.Name + " VS " + PlayerGames[1].Player.Name;
+        } 
+
+        public void RemovePlayer(Player player)
+        {
+            PlayerGames.Remove(PlayerGames.Find(pg => pg.PlayerId == player.Id));
+        }
+        #endregion
 
 
     }
