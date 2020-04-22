@@ -16,6 +16,7 @@ import GameListPlayerField from '../../components/GameList/GameListPlayerField/G
 import { NavLink, Redirect } from 'react-router-dom';
 import {Environment} from '../../environment'
 import { useHistory } from "react-router-dom";
+import { indigo } from '@material-ui/core/colors';
 
 const StyledTableCell = withStyles(theme => ({
     head: {
@@ -51,6 +52,12 @@ const StyledTableRow = withStyles(theme => ({
 }))(TableRow);
 
 const useStyles = makeStyles({
+    onhover: {
+        cursor: 'pointer',
+        '&:hover': {
+            backgroundColor: indigo[50],
+         },
+    },
 });
 
 export const GameListBuilder = () => {
@@ -103,7 +110,7 @@ export const GameListBuilder = () => {
             table.push(
                 //onClick = {() => renderRedirect(game)} key={i} 
 
-                <StyledTableRow onClick={() => navigateToGame(game.id)}>
+                <StyledTableRow className={classes.onhover} onClick={() => navigateToGame(game.id)}>
 
                     {/* <StyledTableCell align="center">{game!.legGroups!.length}</StyledTableCell> */}
                     <StyledTableCell align="center">{forDate(game.beginDate)}</StyledTableCell>

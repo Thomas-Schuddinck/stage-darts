@@ -3,13 +3,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import GroupIcon from '@material-ui/icons/Group';
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-
+import { indigo } from '@material-ui/core/colors';
 const useStyles = makeStyles(theme => ({
     paper: {
         padding: theme.spacing(1),
         display: 'flex',
         overflow: 'auto',
-        backgroundColor: '#004BFF',
+        //backgroundColor: '#004BFF',
+        backgroundColor: indigo[300],
         alignItems: 'center', 
         justifyContent: 'space-evenly', 
         border: 0,
@@ -39,9 +40,12 @@ export const PlayerListItem = (props: any) =>  {
 
     return (
         
-        <Grid item lg={3} xs={12} md={5} className={classes.paper}>
+        <Grid item lg={3} xs={12} md={4} >
+            <div className={classes.paper}>
+
+            
             <GroupIcon className={classes.icoon}/>
-            <span className={classes.tekst}>{props.player.name}</span>
+            <span className={classes.tekst}>{props.player.name}</span></div>
         </Grid>
     );
 
