@@ -34,7 +34,13 @@ namespace BackendDarts.Controllers
             
         }
 
-        #region Call Methods
+
+        ///////////////////////////////////API METHODS/////////////////////////////////////////
+
+        ///////////////////////////////////GET/////////////////////////////////////////////////
+
+        #region GET API Methods
+
         /// <summary>
         /// Get a list of all games, containing simplified games
         /// </summary>
@@ -93,6 +99,11 @@ namespace BackendDarts.Controllers
 
         }
 
+        #endregion
+
+        ///////////////////////////////////POST////////////////////////////////////////////////
+
+        #region POST API Methods
         /// <summary>
         /// Add a new game from given NewGameDTO
         /// </summary>
@@ -101,7 +112,7 @@ namespace BackendDarts.Controllers
         [HttpPost("new-game/")]
         public ActionResult<NewGameDTO> AddNewGame([FromBody]NewGameDTO newGame)
         {
-            
+
             Game game = CreateGame(newGame);
             return CreatedAtAction(nameof(GetBy), new { id = game.Id }, game);
 
@@ -115,26 +126,57 @@ namespace BackendDarts.Controllers
         [HttpPost("new-tournament/")]
         public ActionResult<NewGameDTO> AddNewTournament([FromBody]NewGameDTO newGame)
         {
-            
+
             Tournament tournament = CreateTournament(newGame);
             return CreatedAtAction(nameof(GetBy), new { id = tournament.Id }, tournament);
 
         }
 
+        /// <summary>
+        /// Hub connection check method
+        /// </summary>
+        /// <param name="msg">A message to test the connection</param>
+        /// <returns>Return "succes" if connection works</returns>
+        [HttpPost]
+        public string Post([FromBody]Message msg)
+        {
+            string retMessage;
+            try
+            {
+                _hubContext.Clients.All.BroadcastMessage(msg.Type, msg.Payload);
+                retMessage = "Success";
+            }
+            catch (Exception e)
+            {
+                retMessage = e.ToString();
+            }
+            return retMessage;
+        }
 
         /// <summary>
-        /// Delete a game where the ID of the game matches the given ID
+        /// Add a new dartthrow to the current game
         /// </summary>
-        /// <param name="id">The given ID</param>
-        /// <returns>The removed Game</returns>
-        [HttpDelete("{id}")]
-        public ActionResult<GameDTO> Delete(int id)
+        /// <param name="dartThrow">the new DartThrow</param>
+        /// <returns>The current game</returns>
+        [HttpPost("game/")]
+        public ActionResult<StatusDTO> AddNewThrow([FromBody]NewThrowDTO dartThrow)
         {
-            Game game = _gameRepository.GetBy(id);
-            _gameRepository.Delete(game);
+            Game currentGame = _gameRepository.GetBy(Game.SingletonGame.Id);
+            int status = Helper.HandleThrow(currentGame, dartThrow);
             _gameRepository.SaveChanges();
-            return new GameDTO(game);
+
+            currentGame = _gameRepository.GetBy(Game.SingletonGame.Id);
+            StatusDTO statusDTO = Helper.FillStatusDTO(currentGame, status);
+
+            _hubContext.Clients.All.UpdateGame(statusDTO);
+
+            return statusDTO;
         }
+        #endregion
+
+        ///////////////////////////////////PUT/////////////////////////////////////////////////
+
+        #region PUT API Methods
 
         [HttpPut("throwedit/{id}/{idThrow}/{value}")]
         /// <summary>
@@ -155,7 +197,7 @@ namespace BackendDarts.Controllers
                     thr.Area = area;
                     thr.Multiplier = multiplier;
                 }
-                    
+
             })));
 
             Game currentGame = _gameRepository.GetBy(Game.SingletonGame.Id);
@@ -204,52 +246,33 @@ namespace BackendDarts.Controllers
             _hubContext.Clients.All.UpdateGame(statusDTO);
             return new GameDTO(game);
         }
+        #endregion
 
-        /// <summary>
-        /// Hub connection check method
-        /// </summary>
-        /// <param name="msg">A message to test the connection</param>
-        /// <returns>Return "succes" if connection works</returns>
-        [HttpPost]
-        public string Post([FromBody]Message msg)
-        {
-            string retMessage;
-            try
-            {
-                _hubContext.Clients.All.BroadcastMessage(msg.Type, msg.Payload);
-                retMessage = "Success";
-            }
-            catch (Exception e)
-            {
-                retMessage = e.ToString();
-            }
-            return retMessage;
-        }
+        ///////////////////////////////////DELETE//////////////////////////////////////////////
 
+        #region DELETE API Methods
         /// <summary>
-        /// Add a new dartthrow to the current game
+        /// Delete a game where the ID of the game matches the given ID
         /// </summary>
-        /// <param name="dartThrow">the new DartThrow</param>
-        /// <returns>The current game</returns>
-        [HttpPost("game/")]
-        public ActionResult<StatusDTO> AddNewThrow([FromBody]NewThrowDTO dartThrow)
+        /// <param name="id">The given ID</param>
+        /// <returns>The removed Game</returns>
+        [HttpDelete("{id}")]
+        public ActionResult<GameDTO> Delete(int id)
         {
-            Game currentGame = _gameRepository.GetBy(Game.SingletonGame.Id);
-            int status = Helper.HandleThrow(currentGame, dartThrow);
+            Game game = _gameRepository.GetBy(id);
+            _gameRepository.Delete(game);
             _gameRepository.SaveChanges();
-
-            currentGame = _gameRepository.GetBy(Game.SingletonGame.Id);
-            StatusDTO statusDTO = Helper.FillStatusDTO(currentGame, status);
-            
-            _hubContext.Clients.All.UpdateGame(statusDTO);
-
-            return statusDTO;
+            return new GameDTO(game);
         }
         #endregion
 
 
 
-        #region Assist Methods
+        ///////////////////////////////////SUPPORT METHODS/////////////////////////////////////
+
+        ///////////////////////////////////LEADERBOARD SUPPORT/////////////////////////////////
+
+        #region Leaderboard Support Methods
 
 
         /// <summary>
@@ -365,6 +388,12 @@ namespace BackendDarts.Controllers
             return leaderboardRowDTO;
         }
 
+
+        #endregion
+
+        ///////////////////////////////////CREATION SUPPORT////////////////////////////////////
+
+        #region Creation Support Methods
         /// <summary>
         /// Create a new Game
         /// </summary>
@@ -403,7 +432,7 @@ namespace BackendDarts.Controllers
         public Tournament CreateTournament(NewGameDTO newGameDTO)
         {
             Tournament tournament = new Tournament(newGameDTO);
-            SetupTournament(new GenericAssistDTO { Body = tournament, Players= newGameDTO.Players});
+            SetupTournament(new GenericAssistDTO { Body = tournament, Players = newGameDTO.Players });
             _tournamentRepository.Add(tournament);
             _tournamentRepository.SaveChanges();
             return tournament;

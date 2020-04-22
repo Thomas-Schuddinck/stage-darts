@@ -20,16 +20,6 @@ namespace BackendDarts.Controllers
         }
 
         /// <summary>
-        /// Check if all darts are thrown for the current player's last turn
-        /// </summary>
-        /// <param name="playerLeg"></param>
-        /// <returns>True if all the darts are thrown</returns>
-        private bool ValidateAllThrowsThrown(Game game)
-        {
-            return game.GetCurrentTurn().IsFinished;
-        }
-
-        /// <summary>
         /// Handle a new given dartthrow for given game
         /// </summary>
         /// <param name="game">The given game</param>
