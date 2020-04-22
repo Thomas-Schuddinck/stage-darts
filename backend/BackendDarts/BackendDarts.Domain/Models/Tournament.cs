@@ -32,7 +32,7 @@ namespace BackendDarts.Domain.Models
                 Player player2 = players[i];
                 AddPlayer(player1);
                 AddPlayer(player2);
-                AddGame(new Game(i, Name, player1, player2));
+                AddGame(new Game((i+1)/2, Name, player1, player2));
             }
         }
         private void AddPlayer(Player player)
