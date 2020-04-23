@@ -289,14 +289,15 @@ namespace BackendDarts.Controllers
             // database doorlopen en gegevens per speler opvullen
             foreach (Game game in _gameRepository.GetAllDetailed())
             {
+                // if there's no winner
+                if (game.Winner != -1)
+                {
+                    playerStatisticsDictionary[game.Winner].NumberOfWins = playerStatisticsDictionary[game.Winner].NumberOfWins + 1;
+                }
 
                 foreach (LegGroup lg in game.LegGroups)
                 {
-                    // if there's no winner
-                    if (lg.Winner != -1)
-                    {
-                        playerStatisticsDictionary[lg.Winner].NumberOfWins = playerStatisticsDictionary[lg.Winner].NumberOfWins + 1;
-                    }
+                    
 
                     foreach (PlayerLeg pg in lg.PlayerLegs)
                     {
@@ -305,7 +306,7 @@ namespace BackendDarts.Controllers
                             foreach (DartThrow dt in turn.Throws)
                             {
                                 // keep count of the number of throws for a player
-                                playerStatisticsDictionary[pg.Player.Id].TotalNumberDartsThrown = +1;
+                                playerStatisticsDictionary[pg.Player.Id].TotalNumberDartsThrown += 1;
 
                                 // calculate the total score a player has thrown
                                 playerStatisticsDictionary[pg.Player.Id].TotalScoreThrown += dt.Value;
@@ -366,9 +367,9 @@ namespace BackendDarts.Controllers
             // fills
             leaderboardRowDTO.player = playerDTO;
             leaderboardRowDTO.NumberOfWins = playerDataDTO.NumberOfWins;
-            leaderboardRowDTO.PercentageWins = numberofgames == 0 ? 0 : (playerDataDTO.NumberOfWins / numberofgames) * 100;
+            leaderboardRowDTO.PercentageWins = numberofgames == 0 ? 0 : playerDataDTO.NumberOfWins * 100 / numberofgames;
             leaderboardRowDTO.TotalScoreThrown = playerDataDTO.TotalScoreThrown;
-            leaderboardRowDTO.PercentageSixties = playerDataDTO.TotalNumberDartsThrown == 0 ? 0 : playerDataDTO.NumberOfSixties / playerDataDTO.TotalNumberDartsThrown;
+            leaderboardRowDTO.PercentageSixties = playerDataDTO.TotalNumberDartsThrown == 0 ? 0 : playerDataDTO.NumberOfSixties / playerDataDTO.TotalNumberDartsThrown * 100;
 
             // return
             return leaderboardRowDTO;

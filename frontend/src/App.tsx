@@ -11,7 +11,7 @@ import NewGameBuilderForm from './containers/NewGameBuilder/NewGameBuilder';
 import NewPlayerBuilderForm from './containers/NewPlayerBuilder/NewPlayerBuilder';
 import { GameReviewBuilder } from './containers/GameOverview/GameReview';
 import { TournamentListBuilder } from './containers/TournamentListBuilder/TournamentListBuilder';
-
+import TournamentBuilder from './containers/TournamentBuilder/TournamentBuilder';
 
 function App() {
   return (
@@ -42,7 +42,9 @@ function App() {
         <Route path="/about">
           <AboutBuilder />
         </Route>
-
+        <Route path="/tournament/:id">
+          <TournamentBuilder />
+        </Route>
       </Layout>
     </Router>
   );

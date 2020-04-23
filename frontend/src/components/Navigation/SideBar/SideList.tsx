@@ -107,14 +107,6 @@ export const SideList = (props: any) => {
         </MenuItem>
       </NavLink>
 
-      <NavLink activeClassName={classes.active} to='/quickstart' onClick={() => sendClick()}>
-        <MenuItem className={classes.itemLi}>
-          <ListItemIcon className={classes.icon}>
-            <LayersIcon />
-          </ListItemIcon>
-          <ListItemText primary="Quick start" />
-        </MenuItem>
-      </NavLink>
       <NavLink activeClassName={classes.active} to="/about" onClick={() => sendClick()}>
         <MenuItem className={classes.itemLi}>
           <ListItemIcon className={classes.icon}>
