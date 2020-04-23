@@ -1,4 +1,5 @@
-﻿using BackendDarts.DTOs;
+﻿using BackendDarts.Domain.Models;
+using BackendDarts.DTOs;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,21 +17,27 @@ namespace BackendDarts.Models
         public List<LegGroup> LegGroups { get; set; } = new List<LegGroup>();
         public int Winner { get; set; }
         public List<PlayerGame> PlayerGames { get; set; } = new List<PlayerGame>();
+
         //new for game verloop
         public int CurrentPlayerLegIndex { get; set; } = -1;
         public LegGroup CurrentLegGroup { get; set; }
+
         [NotMapped]
         public static Game SingletonGame { get; set; }
 
+        //For Tournaments
         public int BracketSectorNumber { get; private set; }
-        
+        public int BracketStageNumber { get; private set; }
+        public bool CanStart => PlayerGames.Count == 2;
+        public Tournament Tournament { get; private set; }
+
         public Game()
         {
             BeginDate = DateTime.Now.Date;
             SetupGame();
         }
 
-        public Game(NewGameDTO newGameDTO) : this()
+        public Game(GenericCreationDTO newGameDTO) : this()
         {
             Name = newGameDTO.Name;
             Type = newGameDTO.Type;
@@ -38,23 +45,26 @@ namespace BackendDarts.Models
         }
 
         /// <summary>
-        /// for tournament games
+        /// For tournament games only
         /// </summary>
         /// <param name="bracketSectorNr"></param>
+        /// <param name="bracketStageNr"></param>
         /// <param name="name"></param>
-        /// <param name="player1"></param>
-        /// <param name="player2"></param>
-        public Game(int bracketSectorNr, string name, Player player1, Player player2)
+        /// <param name="players"></param>
+        /// <param name="tournament"></param>
+        public Game(int bracketSectorNr, int bracketStageNr, string name, List<Player> players, Tournament tournament)
         {
             BracketSectorNumber = bracketSectorNr;
-            Name = name + " Tournament - " + player1.Name + " VS " + player2.Name;
+            BracketStageNumber = bracketStageNr;
+            Name = name;
             Type = 3;
-            AddPlayer(player1);
-            AddPlayer(player2);
+            Tournament = tournament;
+            foreach(Player player in players)
+                AddPlayer(player);
             BeginDate = DateTime.Now.Date;
             SetupGame();
         }
-
+        
         /// <summary>
         /// (re)set all simple values
         /// </summary>
@@ -89,6 +99,8 @@ namespace BackendDarts.Models
         {
             Winner = winnerId;
             EndDate = DateTime.Now.Date;
+            if (Type == 3)
+                EvaluateGameResult();
         }
 
         /// <summary>
@@ -348,7 +360,25 @@ namespace BackendDarts.Models
 
         #endregion
 
+        #region Tournament Operations
 
+        public void CheckNameTournamentGame()
+        {
+            if (CanStart)
+
+                Name = Name + " Tournament - " + PlayerGames[0].Player.Name + " VS " + PlayerGames[1].Player.Name;
+        } 
+
+        public void RemovePlayer(Player player)
+        {
+            PlayerGames.Remove(PlayerGames.Find(pg => pg.PlayerId == player.Id));
+        }
+        private void EvaluateGameResult()
+        {
+            if (CanStart && Winner != -1)
+                Tournament.EvaluatTournament(this, PlayerGames[0].PlayerId == Winner ? PlayerGames[0].Player : PlayerGames[1].Player);
+        }
+        #endregion
 
 
     }
