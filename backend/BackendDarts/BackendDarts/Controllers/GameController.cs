@@ -296,7 +296,7 @@ namespace BackendDarts.Controllers
                             foreach (DartThrow dt in turn.Throws)
                             {
                                 // keep count of the number of throws for a player
-                                playerStatisticsDictionary[pg.Player.Id].TotalNumberDartsThrown = +1;
+                                playerStatisticsDictionary[pg.Player.Id].TotalNumberDartsThrown += 1;
 
                                 // calculate the total score a player has thrown
                                 playerStatisticsDictionary[pg.Player.Id].TotalScoreThrown += dt.Value;
