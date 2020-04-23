@@ -19,7 +19,7 @@ namespace BackendDarts.Domain.Models
         {
             Winner = -1;
         }
-        public Tournament(NewGameDTO newGameDTO) : this()
+        public Tournament(GenericCreationDTO newGameDTO) : this()
         {
             Name = newGameDTO.Name;
 

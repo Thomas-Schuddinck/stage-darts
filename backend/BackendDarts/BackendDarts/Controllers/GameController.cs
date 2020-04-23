@@ -110,28 +110,14 @@ namespace BackendDarts.Controllers
         /// <param name="newGame">the given NewGameDTO containing game information</param>
         /// <returns>The newly made game</returns>
         [HttpPost("new-game/")]
-        public ActionResult<NewGameDTO> AddNewGame([FromBody]NewGameDTO newGame)
+        public ActionResult<GenericCreationDTO> AddNewGame([FromBody]GenericCreationDTO newGame)
         {
 
             Game game = CreateGame(newGame);
             return CreatedAtAction(nameof(GetBy), new { id = game.Id }, game);
 
         }
-
-        /// <summary>
-        /// dit zal nog niet werken
-        /// </summary>
-        /// <param name="newGame"></param>
-        /// <returns></returns>
-        [HttpPost("new-tournament/")]
-        public ActionResult<NewGameDTO> AddNewTournament([FromBody]NewGameDTO newGame)
-        {
-
-            Tournament tournament = CreateTournament(newGame);
-            return CreatedAtAction(nameof(GetBy), new { id = tournament.Id }, tournament);
-
-        }
-
+        
         /// <summary>
         /// Hub connection check method
         /// </summary>
@@ -400,7 +386,7 @@ namespace BackendDarts.Controllers
         /// <param name="newGameDTO">The data containing the data for a new Game</param>
         /// <returns>The new Game</returns>
         [ApiExplorerSettings(IgnoreApi = true)]
-        public Game CreateGame(NewGameDTO newGameDTO)
+        public Game CreateGame(GenericCreationDTO newGameDTO)
         {
             Game game = new Game(newGameDTO);
             SetupGame(new GenericAssistDTO { Body = game, Players = newGameDTO.Players });
@@ -423,33 +409,7 @@ namespace BackendDarts.Controllers
             game.ConfigureGame();
         }
 
-        /// <summary>
-        /// Create a new Tournament
-        /// </summary>
-        /// <param name="newGameDTO">The data containing the data for a new Tournament</param>
-        /// <returns>The new Tournament</returns>
-        [ApiExplorerSettings(IgnoreApi = true)]
-        public Tournament CreateTournament(NewGameDTO newGameDTO)
-        {
-            Tournament tournament = new Tournament(newGameDTO);
-            SetupTournament(new GenericAssistDTO { Body = tournament, Players = newGameDTO.Players });
-            _tournamentRepository.Add(tournament);
-            _tournamentRepository.SaveChanges();
-            return tournament;
-        }
-        /// <summary>Tournament
-        /// Setting up the new given Game
-        /// </summary>
-        /// <param name="dto">the new Tournament</param>
-        [ApiExplorerSettings(IgnoreApi = true)]
-        public void SetupTournament(GenericAssistDTO dto)
-        {
-            List<Player> tempPlayerList = new List<Player>();
-            foreach (int id in dto.Players)
-                tempPlayerList.Add(_playerRepository.GetBy(id));
-            tempPlayerList.Shuffle();
-            ((Tournament)dto.Body).SetupTournament(tempPlayerList);
-        }
+       
         #endregion
     }
 } 

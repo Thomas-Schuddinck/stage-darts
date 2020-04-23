@@ -37,7 +37,7 @@ namespace BackendDarts.Models
             SetupGame();
         }
 
-        public Game(NewGameDTO newGameDTO) : this()
+        public Game(GenericCreationDTO newGameDTO) : this()
         {
             Name = newGameDTO.Name;
             Type = newGameDTO.Type;
@@ -45,12 +45,13 @@ namespace BackendDarts.Models
         }
 
         /// <summary>
-        /// for tournament games
+        /// For tournament games only
         /// </summary>
         /// <param name="bracketSectorNr"></param>
+        /// <param name="bracketStageNr"></param>
         /// <param name="name"></param>
-        /// <param name="player1"></param>
-        /// <param name="player2"></param>
+        /// <param name="players"></param>
+        /// <param name="tournament"></param>
         public Game(int bracketSectorNr, int bracketStageNr, string name, List<Player> players, Tournament tournament)
         {
             BracketSectorNumber = bracketSectorNr;
@@ -63,11 +64,7 @@ namespace BackendDarts.Models
             BeginDate = DateTime.Now.Date;
             SetupGame();
         }
-
-
-
-       
-
+        
         /// <summary>
         /// (re)set all simple values
         /// </summary>
