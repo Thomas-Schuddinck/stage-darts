@@ -80,7 +80,7 @@ export const GameListBuilder = () => {
     }, []);
 
     const CallToApiGameListAll = async (): Promise<Game[]> => {
-        return await GetApiCall(Environment.apiurl + '/gamelist/all').then(gameList => {
+        return await GetApiCall(Environment.apiurl + '/gamelist/unfinishedNT').then(gameList => {
             return gameList;
         });
     }
