@@ -62,7 +62,7 @@ namespace BackendDarts.data.Repos
         public IEnumerable<Game> GetAllGamesFromPlayer(int id)
         {
             return _games
-                .Where(g => g.PlayerGames.Any(pg => pg.PlayerId == id))
+                .Where(g => g.PlayerGames.Any(pg => pg.PlayerId == id)).Include(g => g.PlayerGames).ThenInclude(pg => pg.Player)
                 .Include(g => g.LegGroups).ThenInclude(lg => lg.PlayerLegs).ThenInclude(pg => pg.Turns).ThenInclude(l => l.Throws)
                 .ToList();
         }

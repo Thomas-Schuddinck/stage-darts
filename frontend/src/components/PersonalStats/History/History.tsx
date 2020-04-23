@@ -4,74 +4,95 @@ import React from 'react';
 import CardHeader from "../../../styledcomponents/CardHeader";
 import CardBody from "../../../styledcomponents/CardBody";
 import Card from "../../../styledcomponents/Card";
+import { Game } from '../../../models/Game';
 
 const useStyles = makeStyles(theme => ({
-      paper: {
-        padding: theme.spacing(2),
-        display: 'flex',
-        overflow: 'auto',
-        flexDirection: 'column',
-      },heading: {
-        fontSize: theme.typography.pxToRem(15),
-        fontWeight: theme.typography.fontWeightRegular,
-      },
-      win: {
-        color: 'green',
-      },
-      lose: {
-        color: 'red',
-      },
-      back: {
-    
-      }
+  paper: {
+    padding: theme.spacing(2),
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'column',
+  }, heading: {
+    fontSize: theme.typography.pxToRem(15),
+    fontWeight: theme.typography.fontWeightRegular,
+  },
+  win: {
+    color: 'green',
+  },
+  lose: {
+    color: 'red',
+  },
+  back: {
+
+  }
 
 }));
 
 const History = (props: any) => {
-    const classes = useStyles();
+  const classes = useStyles();
 
-    return (
-        <Card className={classes.paper}>
-            <CardHeader color="primary">
-              <h4>
-                History
-              </h4>
-            </CardHeader>
-            <CardContent>
-              <ExpansionPanel className={classes.back}>
-                <ExpansionPanelSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls="panel1a-content"
-                  id="panel1a-header"
-                >
-                  <Typography className={classes.heading + ' ' + classes.win}>vs Thomas</Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
-                  <Typography>
-                    gegevens over deze specifieke match? Bv sets: 3 - 1, of is sets het enige en zetten we dit naast de naam?
-          </Typography>
-                </ExpansionPanelDetails>
-              </ExpansionPanel>
+  const createHistory = () => {
+    let table: JSX.Element[] = [];
+    props.history!.forEach((game: Game) => {
+      table.push(
+        <ExpansionPanel className={classes.back}>
+          <ExpansionPanelSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            {createTitle(game)}
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            {createDetail(game)}
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+      )
+    });
+    return table;
+  }
 
-              <ExpansionPanel className={classes.back}>
-                <ExpansionPanelSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls="panel1a-content"
-                  id="panel1a-header"
-                >
-                  <Typography className={classes.heading + ' ' + classes.lose}>vs Rik</Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
-                  <Typography>
+  const createTitle = (game: Game) => {
+    let typgraf: JSX.Element[] = [];
+    let title = "vs ";
+    let teller = 0;
+    game.players.forEach(pl => {
+      if (!(pl.playerDTO.name === props.player.name)) {
+        teller++;
+        if (teller <= 1)
+          title += pl.playerDTO.name + " ";
+        else
+          title += "and " + pl.playerDTO.name + " ";
+      }
+    });
+    typgraf.push(<Typography className={classes.heading + ' ' + classes.win}>{title}</Typography>);
+    return typgraf;
+  }
 
-                  </Typography>
-                </ExpansionPanelDetails>
-              </ExpansionPanel>
-
-
-            </CardContent>
-          </Card>
+  const createDetail = (game: Game) => {
+    let detail: JSX.Element[] = [];
+    detail.push(
+      <Typography>aa</Typography>
     );
+    return detail;
+  }
+
+  return (
+    <Card className={classes.paper}>
+      <CardHeader color="primary">
+        <h4>
+          History
+              </h4>
+      </CardHeader>
+      <CardContent>
+
+        {createHistory()}
+
+
+
+      </CardContent>
+    </Card>
+  );
 
 };
 

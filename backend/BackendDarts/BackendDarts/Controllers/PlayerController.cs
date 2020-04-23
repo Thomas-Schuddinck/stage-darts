@@ -81,7 +81,7 @@ namespace BackendDarts.Controllers
             double averageThrow = totalThrows == 0 ? 0 : totalScore / totalThrows;
             double percentageWins = games.Count() == 0 ? 0 : (numOfWins / games.Count()) * 100;
             double percentageBoardHits = totalThrows == 0 ? 0 : 100 - ((numOfMisses / totalThrows) * 100);
-
+            
             PlayerStatsDTO playerStatsDTO = new PlayerStatsDTO();
             playerStatsDTO.NumberOfWins = (int)numOfWins;
             playerStatsDTO.NumberOfMisses = (int)numOfMisses;
@@ -92,6 +92,7 @@ namespace BackendDarts.Controllers
             playerStatsDTO.AverageScoreThrown = averageThrow;
             playerStatsDTO.PercentageWins = percentageWins;
             playerStatsDTO.PercentageBoardHits = percentageBoardHits;
+            playerStatsDTO.History = games.Where(g => (g.Winner != -1 && g.Type != 3)).Select(game => new GameDTO(game)).ToList();
             return playerStatsDTO;
         }
 

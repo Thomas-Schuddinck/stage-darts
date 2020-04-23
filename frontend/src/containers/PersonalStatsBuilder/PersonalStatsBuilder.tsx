@@ -141,7 +141,7 @@ const PersonalStatsBuilder = () => {
         {/* history */}
         <Grid item xs={12}>
         {stats === undefined ? (<p></p>): (
-          <History></History>
+          <History history={stats.history} player={childPlayer}></History>
           )}
         </Grid>
 
