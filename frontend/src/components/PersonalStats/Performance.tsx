@@ -44,7 +44,7 @@ const Performance = (props: any) => {
                <TableBody>
                  <TableRow className={classes.tr}>
                    <TableCell className={classes.td}>Win rate:</TableCell>
-                   <TableCell className={classes.td}>{props.percentageWins}%</TableCell>
+                   <TableCell className={classes.td}>{Number(props.percentageWins.toFixed(1))}%</TableCell>
                    <TableCell className={classes.td}>tripple 20:</TableCell>
                    <TableCell className={classes.td}>{Number(props.percentageSixties.toFixed(1))}%</TableCell>
                  </TableRow>

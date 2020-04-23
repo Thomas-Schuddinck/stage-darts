@@ -79,7 +79,7 @@ const Leaderbord = () => {
           <StyledTableCell component="th" scope="row">
             {lb.player.name}
           </StyledTableCell>
-          <StyledTableCell align="center">{Number(lb.numberOfWins.toFixed(1))}%</StyledTableCell>
+          <StyledTableCell align="center">{Number(lb.numberOfWins.toFixed(1))}</StyledTableCell>
           <StyledTableCell align="center">{Number(lb.percentageWins.toFixed(1))}%</StyledTableCell>
           <StyledTableCell align="center">{Number(lb.percentageSixties.toFixed(1))}%</StyledTableCell>
           <StyledTableCell align="center">{lb.totalScoreThrown}</StyledTableCell>

@@ -70,10 +70,10 @@ namespace BackendDarts.Controllers
                             }
                         }
                     }
-                    if (game.Winner == id)
-                    {
-                        numOfWins += 1;
-                    }
+                }
+                if (game.Winner == id)
+                {
+                    numOfWins += 1;
                 }
             }
 
