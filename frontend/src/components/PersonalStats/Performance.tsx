@@ -46,7 +46,7 @@ const Performance = (props: any) => {
                    <TableCell className={classes.td}>Win rate:</TableCell>
                    <TableCell className={classes.td}>{props.percentageWins}%</TableCell>
                    <TableCell className={classes.td}>tripple 20:</TableCell>
-                   <TableCell className={classes.td}>{Number((props.numberOfSixties / props.totalNumberDartsThrown * 100).toFixed(1))}%</TableCell>
+                   <TableCell className={classes.td}>{Number(props.percentageSixties.toFixed(1))}%</TableCell>
                  </TableRow>
                  <TableRow className={classes.tr}> 
                    <TableCell className={classes.td}>Average score of throw:</TableCell>

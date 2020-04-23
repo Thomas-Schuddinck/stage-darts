@@ -133,6 +133,7 @@ const PersonalStatsBuilder = () => {
           averageScoreThrown={stats.averageScoreThrown}
           percentageWins={stats.percentageWins}
           percentageBoardHits={stats.percentageBoardHits}
+          percentageSixties={stats.percentageSixties}
           ></Performance>
           )}
         </Grid>
