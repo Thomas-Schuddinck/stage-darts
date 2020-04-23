@@ -130,7 +130,14 @@ const NewGameBuilderForm: React.FC = () => {
         players: players,
       };
       setSubmitting(true);
-      const id = await PostApiCall(Environment.apiurl + '/Game/new-game', newGame)
+      let id;
+      if(gameMode !== "3"){
+        id = await PostApiCall(Environment.apiurl + '/Game/new-game', newGame)
+      }else{
+        id = await PostApiCall(Environment.apiurl + '/Tournament/new-tournament', newGame)
+      }
+        
+        
       setGameId(id);
       setSubmitting(false);
       setOpenDialog(true);

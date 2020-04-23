@@ -31,7 +31,9 @@ namespace BackendDarts.Data.Repos
 
         public IEnumerable<Tournament> GetAll()
         {
-            return _tournaments.ToList();
+            return _tournaments
+                .Include(t => t.PlayerTournaments).ThenInclude(pt => pt.Player)
+                .ToList();
         }
 
         public Tournament GetBy(int id)

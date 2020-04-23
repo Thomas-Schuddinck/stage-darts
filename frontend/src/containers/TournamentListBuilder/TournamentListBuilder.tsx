@@ -17,6 +17,7 @@ import { Environment } from '../../environment'
 import { useHistory } from "react-router-dom";
 import { indigo } from '@material-ui/core/colors';
 import { Tournament } from '../../models/SimpleTournament';
+import TournamentListPlayerField from '../../components/Tournament/GameListPlayerField';
 
 const StyledTableCell = withStyles(theme => ({
     head: {
@@ -114,7 +115,7 @@ export const TournamentListBuilder = () => {
 
                     {/* <StyledTableCell align="center">{game!.legGroups!.length}</StyledTableCell> */}
                     <StyledTableCell align="center">{tournament.name} Tournament</StyledTableCell>
-                    <StyledTableCell align="center"><GameListPlayerField players={tournament.players} ></GameListPlayerField></StyledTableCell>
+                    <StyledTableCell align="center"><TournamentListPlayerField players={tournament.players} ></TournamentListPlayerField></StyledTableCell>
                     <StyledTableCell align="center"><NavLink to={`/Tournament/${tournament.id}`} >Go to Tournament</NavLink></StyledTableCell>
                 </StyledTableRow>
 
@@ -161,4 +162,4 @@ export const TournamentListBuilder = () => {
     );
 }
 
-export default GameListBuilder;
+export default TournamentListBuilder;
