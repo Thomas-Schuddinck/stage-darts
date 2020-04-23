@@ -10,6 +10,7 @@ import GameListBuilder from './containers/GameListBuilder/GameListBuilder';
 import NewGameBuilderForm from './containers/NewGameBuilder/NewGameBuilder';
 import NewPlayerBuilderForm from './containers/NewPlayerBuilder/NewPlayerBuilder';
 import { GameReviewBuilder } from './containers/GameOverview/GameReview';
+import TournamentBuilder from './containers/TournamentBuilder/TournamentBuilder';
 
 
 function App() {
@@ -38,7 +39,9 @@ function App() {
         <Route path="/about">
           <AboutBuilder />
         </Route>
-
+        <Route path="/tournament">
+          <TournamentBuilder />
+        </Route>
       </Layout>
     </Router>
   );
