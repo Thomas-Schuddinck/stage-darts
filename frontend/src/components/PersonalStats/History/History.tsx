@@ -1,10 +1,17 @@
-import { CardContent, ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, makeStyles, Typography } from '@material-ui/core';
+import { CardContent, ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, Typography } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import React from 'react';
 import CardHeader from "../../../styledcomponents/CardHeader";
 import CardBody from "../../../styledcomponents/CardBody";
 import Card from "../../../styledcomponents/Card";
 import { Game } from '../../../models/Game';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableRow from '@material-ui/core/TableRow';
+
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -18,15 +25,53 @@ const useStyles = makeStyles(theme => ({
   },
   win: {
     color: 'green',
+    fontSize: theme.typography.pxToRem(15),
+    fontWeight: theme.typography.fontWeightRegular,
   },
   lose: {
     color: 'red',
+    fontSize: theme.typography.pxToRem(15),
+    fontWeight: theme.typography.fontWeightRegular,
   },
   back: {
-
+  },
+  tr: {
+    borderBottom: 'solid purple 0.2em'
   }
 
 }));
+
+const StyledTableCell = withStyles(theme => ({
+  head: {
+    backgroundColor: theme.palette.common.white,
+    color: theme.palette.common.black,
+    [theme.breakpoints.up('sm')]: {
+      padding: 16,
+    },
+    padding: 2,
+  },
+  body: {
+    padding: 2,
+    [theme.breakpoints.up('sm')]: {
+      fontSize: 14,
+      padding: 16,
+    },
+  },
+  table: {
+    minWidth: 0,
+    [theme.breakpoints.up('sm')]: {
+      minWidth: 450,
+    },
+  },
+}))(TableCell);
+
+const StyledTableRow = withStyles(theme => ({
+  root: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.background.default,
+    },
+  },
+}))(TableRow);
 
 const History = (props: any) => {
   const classes = useStyles();
@@ -44,7 +89,11 @@ const History = (props: any) => {
             {createTitle(game)}
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
+          <Table aria-label="customized table">
+          <TableBody>
             {createDetail(game)}
+            </TableBody>
+            </Table>
           </ExpansionPanelDetails>
         </ExpansionPanel>
       )
@@ -56,6 +105,18 @@ const History = (props: any) => {
     let typgraf: JSX.Element[] = [];
     let title = "vs ";
     let teller = 0;
+    let won = false;
+    let winner = "";
+    let mostlegs = 0;
+
+    game.players!.forEach(pl => {
+      if(!(pl === undefined)) {
+        if(pl.legsWon > mostlegs)
+          winner = pl.playerDTO.name;
+      }
+        
+    });
+
     game.players.forEach(pl => {
       if (!(pl.playerDTO.name === props.player.name)) {
         teller++;
@@ -65,15 +126,24 @@ const History = (props: any) => {
           title += "and " + pl.playerDTO.name + " ";
       }
     });
-    typgraf.push(<Typography className={classes.heading + ' ' + classes.win}>{title}</Typography>);
+    typgraf.push(<Typography className={winner === props.player.name ? classes.win: classes.lose}>{title}</Typography>);
     return typgraf;
   }
 
   const createDetail = (game: Game) => {
     let detail: JSX.Element[] = [];
-    detail.push(
-      <Typography>aa</Typography>
-    );
+    game.players.forEach(pl => {
+      detail.push(
+        <StyledTableRow className={classes.tr}>
+          <StyledTableCell component="th" scope="row">
+            {pl.playerDTO.name}
+          </StyledTableCell>
+          <StyledTableCell component="th" scope="row">
+            {pl.legsWon}
+          </StyledTableCell>
+        </StyledTableRow>
+      )
+    })
     return detail;
   }
 
@@ -86,8 +156,10 @@ const History = (props: any) => {
       </CardHeader>
       <CardContent>
 
-        {createHistory()}
 
+        
+            {createHistory()}
+          
 
 
       </CardContent>
