@@ -17,9 +17,11 @@ namespace BackendDarts.Models
         public List<LegGroup> LegGroups { get; set; } = new List<LegGroup>();
         public int Winner { get; set; }
         public List<PlayerGame> PlayerGames { get; set; } = new List<PlayerGame>();
+
         //new for game verloop
         public int CurrentPlayerLegIndex { get; set; } = -1;
         public LegGroup CurrentLegGroup { get; set; }
+
         [NotMapped]
         public static Game SingletonGame { get; set; }
 
@@ -27,6 +29,7 @@ namespace BackendDarts.Models
         public int BracketSectorNumber { get; private set; }
         public int BracketStageNumber { get; private set; }
         public bool CanStart => PlayerGames.Count == 2;
+        public Tournament Tournament { get; private set; }
 
         public Game()
         {
@@ -48,12 +51,13 @@ namespace BackendDarts.Models
         /// <param name="name"></param>
         /// <param name="player1"></param>
         /// <param name="player2"></param>
-        public Game(int bracketSectorNr, int bracketStageNr, string name, List<Player> players)
+        public Game(int bracketSectorNr, int bracketStageNr, string name, List<Player> players, Tournament tournament)
         {
             BracketSectorNumber = bracketSectorNr;
             BracketStageNumber = bracketStageNr;
             Name = name;
             Type = 3;
+            Tournament = tournament;
             foreach(Player player in players)
                 AddPlayer(player);
             BeginDate = DateTime.Now.Date;
@@ -98,6 +102,8 @@ namespace BackendDarts.Models
         {
             Winner = winnerId;
             EndDate = DateTime.Now.Date;
+            if (Type == 3)
+                EvaluateGameResult();
         }
 
         /// <summary>
@@ -369,6 +375,11 @@ namespace BackendDarts.Models
         public void RemovePlayer(Player player)
         {
             PlayerGames.Remove(PlayerGames.Find(pg => pg.PlayerId == player.Id));
+        }
+        private void EvaluateGameResult()
+        {
+            if (CanStart && Winner != -1)
+                Tournament.EvaluatTournament(this, PlayerGames[0].PlayerId == Winner ? PlayerGames[0].Player : PlayerGames[1].Player);
         }
         #endregion
 

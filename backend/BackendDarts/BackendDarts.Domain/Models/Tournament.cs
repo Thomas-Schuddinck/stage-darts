@@ -30,13 +30,13 @@ namespace BackendDarts.Domain.Models
             int aantalStages = (int)Math.Log2(players.Count);
             AddPlayers(players);
             //finale
-            AddGame(new Game(1, aantalStages, Name, players));
+            AddGame(new Game(1, aantalStages, Name, players, this));
             //other games
             for (int j = 1; j < aantalStages; j++)
             {
                 for (int i = 0; i < players.Count- (int)Math.Pow(2, j)+1; i += (int)Math.Pow(2, j))
                 {
-                    AddGame(new Game((i + (int)Math.Pow(2, j)) / 2, j, Name, players.GetRange(i,(int)Math.Pow(2, j))));
+                    AddGame(new Game((i + (int)Math.Pow(2, j)) / 2, j, Name, players.GetRange(i,(int)Math.Pow(2, j)), this));
                 }
             }
             
@@ -60,12 +60,12 @@ namespace BackendDarts.Domain.Models
             Games.Add(game);
         }
 
-        public void RemoveLoserFromBracket(Game gameRemove, Player player)
+        public void RemoveLoserFromBracket(int bracketStageNumber, Player player)
         {
 
             foreach(Game game in Games)
             {
-                if (game.BracketStageNumber > gameRemove.BracketStageNumber)
+                if (game.BracketStageNumber > bracketStageNumber)
                     game.RemovePlayer(player);
             }
         }
@@ -75,5 +75,13 @@ namespace BackendDarts.Domain.Models
             Winner = idWinner;
         }
 
+
+        public void EvaluatTournament(Game game, Player player)
+        {
+            if (game.BracketStageNumber == Math.Log2(PlayerTournaments.Count))
+                SetWinner(game.Winner);
+            else
+                RemoveLoserFromBracket(game.BracketStageNumber, player);
+        }
     }
 }
