@@ -266,7 +266,7 @@ const NewGameBuilderForm: React.FC = () => {
                   <TextField
                     className={classes.formControl}
                     id="input-with-icon-textfield"
-                    label="name"
+                    label="minstens 6 karakters"
                     value={name}
                     onChange={(e) => { setName(e.target.value) }}
                   />
