@@ -17,12 +17,12 @@ import { Environment } from '../../environment';
 import SendIcon from '@material-ui/icons/Send';
 
 import clsx from 'clsx';
-import RadioInput from "../../components/NewGame/RadioInput";
-
+import { useForm } from 'react-hook-form';
 import Card from "../../styledcomponents/Card";
 import CardAvatar from "../../styledcomponents/CardAvatar";
 
 import avatar from '../../img/play7.png';
+import { string, boolean } from "yup";
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -81,9 +81,6 @@ const MenuProps = {
   },
 };
 
-const PowerOf2 = [2, 4, 8, 16, 32, 64, 128, 256]
-
-
 function getStyles(id: number, playerList: number[], theme: any) {
   return {
     fontWeight:
@@ -97,16 +94,25 @@ const NewGameBuilderForm: React.FC = () => {
   const classes = useStyles();
   const theme = useTheme();
 
+
+
   let [players, setPlayers] = React.useState<number[]>([]);
   let [playerList, setPlayerList] = React.useState<Player[]>();
   let [isLoading, setLoading] = React.useState(true);
   let [isSubmitting, setSubmitting] = React.useState(false);
+  let [isValidating, setValidating] = React.useState(false);
   let [openDialog, setOpenDialog] = React.useState(false);
   let [gameMode, setGameMode] = React.useState<string>();
   let [gameId = 0, setGameId] = React.useState<number>();
   let [isLoadingData, setIsLoadingData] = React.useState(false);
   let [name, setName] = React.useState<string>();
   let [doPost = false, setDoPost] = useState<boolean>();
+
+  let [isPlayersError, setPlayersError] = React.useState(false);
+  let [playerErrors, setPlayerErrors] = React.useState<string>("");
+
+  const PowerOf2 = [2, 4, 8, 16, 32, 64, 128, 256];
+
 
 
   const FetchData = async () => {
@@ -137,13 +143,11 @@ const NewGameBuilderForm: React.FC = () => {
       };
       setSubmitting(true);
       let id;
-      if(gameMode !== "3"){
+      if (gameMode !== "3") {
         id = await PostApiCall(Environment.apiurl + '/Game/new-game', newGame)
-      }else{
+      } else {
         id = await PostApiCall(Environment.apiurl + '/Tournament/new-tournament', newGame)
       }
-        
-        
       setGameId(id);
       setSubmitting(false);
       setOpenDialog(true);
@@ -173,10 +177,33 @@ const NewGameBuilderForm: React.FC = () => {
     setName(e.target.value);
 
   }
+  useEffect(() => {
+    if (isValidating) {
+      if (players.length !== 0) {
+        let temp = true;
+        if (players.length < 2) {
+          setPlayerErrors("Minstens 2 spelers nodig");
+          setPlayersError(true);
+          temp = false;
+          if (gameMode && (+gameMode === 3 && !PowerOf2.includes(players.length))) {
+            setPlayerErrors("Aantal spelers voor een tournament moet een macht van 2 zijn (2, 4, 8, 16,...)");
+          }
+        }
+        if (temp) {
+          setPlayersError(false);
+        }
+      } else {
+        setPlayersError(false);
+      }
+      setIsLoadingData(false);
+      console.log(players);
+      setValidating(false);
+    }
+
+  }, [isValidating])
 
   useEffect(() => {
-    setIsLoadingData(false);
-    console.log(players);
+    setValidating(true);
 
   }, [players, gameMode, name])
 
@@ -196,6 +223,7 @@ const NewGameBuilderForm: React.FC = () => {
           color={"#123abc"}
         />
       ) : (
+
           <Card profile>
             <CardAvatar profile>
               <img src={avatar} alt="..." />
@@ -242,7 +270,6 @@ const NewGameBuilderForm: React.FC = () => {
                     multiple
                     value={players}
                     onChange={handleChange}
-
                     renderValue={(selected: any) => (
                       <div className={classes.chips}>
                         {selected.map((value: any) => (
@@ -266,6 +293,11 @@ const NewGameBuilderForm: React.FC = () => {
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
                 <Button className={clsx(classes.send, classes.formControl)} onClick={() => setDoPost(true)}><SendIcon className={classes.paddy} />Add Game</Button>
+              </Grid>
+              <Grid item xs={12} md={12} lg={12}>
+                {isPlayersError &&
+                  <Alert severity="error">{playerErrors}</Alert>
+                }
               </Grid>
 
               {openDialog ? (
