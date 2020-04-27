@@ -111,6 +111,7 @@ const NewGameBuilderForm: React.FC = () => {
   let [isPlayersError, setPlayersError] = React.useState(false);
   let [playerErrors, setPlayerErrors] = React.useState<string>("");
 
+  let [hasErrors, setHasErrors] = React.useState(true);
   const PowerOf2 = [2, 4, 8, 16, 32, 64, 128, 256];
 
 
@@ -178,6 +179,13 @@ const NewGameBuilderForm: React.FC = () => {
 
   }
   useEffect(() => {
+    if (!isLoadingData) {
+      setHasErrors(name === undefined || gameMode === "" || players === undefined || name!.length < 6 || +gameMode! === 0 || isPlayersError);
+    }
+
+  }, [isLoadingData]);
+
+  useEffect(() => {
     if (isValidating) {
       if (players.length !== 0) {
         let temp = true;
@@ -185,9 +193,11 @@ const NewGameBuilderForm: React.FC = () => {
           setPlayerErrors("Minstens 2 spelers nodig");
           setPlayersError(true);
           temp = false;
-          if (gameMode && (+gameMode === 3 && !PowerOf2.includes(players.length))) {
-            setPlayerErrors("Aantal spelers voor een tournament moet een macht van 2 zijn (2, 4, 8, 16,...)");
-          }
+        }
+        if (gameMode && (+gameMode === 3 && !PowerOf2.includes(players.length))) {
+          setPlayerErrors("Aantal spelers voor een tournament moet een macht van 2 zijn (2, 4, 8, 16,...)");
+          setPlayersError(true);
+          temp = false;
         }
         if (temp) {
           setPlayersError(false);
@@ -292,7 +302,7 @@ const NewGameBuilderForm: React.FC = () => {
                 </FormControl>
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
-                <Button className={clsx(classes.send, classes.formControl)} onClick={() => setDoPost(true)}><SendIcon className={classes.paddy} />Add Game</Button>
+                <Button className={clsx(classes.send, classes.formControl)} disabled={hasErrors} onClick={() => setDoPost(true)}><SendIcon className={classes.paddy} />Add Game</Button>
               </Grid>
               <Grid item xs={12} md={12} lg={12}>
                 {isPlayersError &&
