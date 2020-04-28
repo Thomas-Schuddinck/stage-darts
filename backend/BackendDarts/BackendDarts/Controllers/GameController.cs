@@ -99,6 +99,25 @@ namespace BackendDarts.Controllers
 
         }
 
+        [HttpGet("{overview/id}")]
+        public ActionResult<GameOverviewDTO> GetGameOverview(int id)
+        {
+            Game game = _gameRepository.GetBy(id);
+            if (game == null) return NoContent();
+
+            GameOverviewDTO gameoverview = new GameOverviewDTO(game);
+            Dictionary<string, int> dict = Helper.CalculateLegWinners(game);
+            foreach(string i in dict.Keys)
+            {
+                gameoverview.LegWinners.Add(new LegWinnersDTO(i, dict[i]));
+            }
+            gameoverview.Winner = game.FindPlayerById(game.Winner).Name;
+
+            return gameoverview;
+
+        }
+
+        
         #endregion
 
         ///////////////////////////////////POST////////////////////////////////////////////////

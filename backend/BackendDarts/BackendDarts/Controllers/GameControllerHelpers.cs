@@ -111,5 +111,32 @@ namespace BackendDarts.Controllers
         }
 
 
+        public Dictionary<string, int> CalculateLegWinners(Game game)
+        {
+            Dictionary<string, int> dictionary = new Dictionary<string, int>();
+            Player temp;
+            foreach (LegGroup lg in game.LegGroups)
+            {
+                temp = game.FindPlayerById(lg.Winner);
+                if (dictionary.ContainsKey(temp.Name))
+                {
+                    dictionary[temp.Name]++;
+
+                }
+                else
+                {
+                    dictionary.Add(temp.Name, 1);
+                }
+            }
+            foreach (PlayerGame pg in game.PlayerGames)
+            {
+                if (!dictionary.ContainsKey(pg.Player.Name))
+                {
+                    dictionary.Add(pg.Player.Name, 0);
+                }
+            }
+            return dictionary;
+        }
+
     }
 }
