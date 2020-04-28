@@ -39,7 +39,7 @@ namespace BackendDarts.Data.Repos
         public Tournament GetBy(int id)
         {
             return _tournaments
-                .Include(t => t.Games)
+                .Include(t => t.Games).ThenInclude(g => g.PlayerGames)
                 .Include(t => t.PlayerTournaments).ThenInclude(pt => pt.Player)
                 .SingleOrDefault(t => t.Id == id);
         }

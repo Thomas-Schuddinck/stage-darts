@@ -31,6 +31,8 @@ const TournamentBuilder = (props: { match: { params: any; }; }) => {
     const CallToApiGame = async (id: number): Promise<Tournament> => {
         return await GetApiCall(Environment.apiurl + '/Tournament/' + id).then(tournament => {
             setPlayers(tournament.players);
+            console.log(tournament.games);
+
             return tournament;
         });
     }
