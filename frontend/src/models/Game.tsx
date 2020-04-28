@@ -8,4 +8,7 @@ export interface Game {
     endDate: string
     players: PlayerDetail[];
     legGroups?: LegGroup[];
+    bracketSectorNumber: number;
+    bracketStageNumber: number;
+    canStart: boolean;
 }

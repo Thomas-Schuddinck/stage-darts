@@ -7,6 +7,7 @@ import Wrap from '../../hoc/Wrap';
 import CardHeader from "../../styledcomponents/CardHeader";
 import CardBody from "../../styledcomponents/CardBody";
 import Card from "../../styledcomponents/Card";
+import { Game } from '../../models/Game';
 
 const useStyles = makeStyles(theme => ({
     cardje: {
@@ -27,11 +28,30 @@ const TournamentBuilder = (props: { match: { params: any; }; }) => {
     let [isLoading, setLoading] = React.useState(true);
     let [tournament, setTournament] = useState<Tournament>();
     let [players, setPlayers] = useState<string[]>();
+    let [games, setGames] = useState<Record<number, Game[]>>({});
 
     const CallToApiGame = async (id: number): Promise<Tournament> => {
         return await GetApiCall(Environment.apiurl + '/Tournament/' + id).then(tournament => {
             setPlayers(tournament.players);
-            console.log(tournament.games);
+
+
+            tournament.games.forEach((g: Game) => {
+                if(!games![g.bracketStageNumber]) {
+                    games![g.bracketStageNumber] = [];
+                }
+                console.log(games);
+                games![g.bracketStageNumber].push(g);
+            });
+
+            for(let key in games) {
+                games[key].sort((game1: Game, game2: Game) => {
+                    return game1.bracketSectorNumber < game2.bracketSectorNumber ? -1 : 1;
+                });
+            }
+
+            console.log(games);
+
+
 
             return tournament;
         });
@@ -40,6 +60,7 @@ const TournamentBuilder = (props: { match: { params: any; }; }) => {
     const FetchData = async (id: number) => {
         setLoading(true);
         setTournament(await CallToApiGame(id));
+
         setLoading(false);
 
     }
