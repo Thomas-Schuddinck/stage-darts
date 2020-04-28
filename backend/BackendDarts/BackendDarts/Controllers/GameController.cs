@@ -99,7 +99,7 @@ namespace BackendDarts.Controllers
 
         }
 
-        [HttpGet("{overview/id}")]
+        [HttpGet("overview/{id}")]
         public ActionResult<GameOverviewDTO> GetGameOverview(int id)
         {
             Game game = _gameRepository.GetBy(id);
