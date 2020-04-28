@@ -9,7 +9,7 @@ import Layout from './hoc/Layout';
 import GameListBuilder from './containers/GameListBuilder/GameListBuilder';
 import NewGameBuilderForm from './containers/NewGameBuilder/NewGameBuilder';
 import NewPlayerBuilderForm from './containers/NewPlayerBuilder/NewPlayerBuilder';
-import { GameReviewBuilder } from './containers/GameOverview/GameReview';
+import { GameOverviewBuilder } from './containers/GameOverview/GameOverview';
 import { TournamentListBuilder } from './containers/TournamentListBuilder/TournamentListBuilder';
 import TournamentBuilder from './containers/TournamentBuilder/TournamentBuilder';
 
@@ -26,7 +26,7 @@ function App() {
           <NewPlayerBuilderForm />
         </Route>
         <Route path="/game/:id" component={GameBuilder} />
-        <Route path="/review/:id" component={GameReviewBuilder} />
+        <Route path="/overview/:id" component={GameOverviewBuilder} />
         <Route path="/gamelist">
           <GameListBuilder />
         </Route>
