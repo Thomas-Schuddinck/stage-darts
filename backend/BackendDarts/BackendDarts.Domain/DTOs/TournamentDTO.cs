@@ -11,7 +11,7 @@ namespace BackendDarts.Domain.DTOs
     public class TournamentDTO : TournamentBasicDTO
     {
 
-        public List<GameDTO> games;
+        public List<GameDTO> games = new List<GameDTO>();
         public TournamentDTO(Tournament tournament) : base(tournament)
         {
             foreach(Game game in tournament.Games)

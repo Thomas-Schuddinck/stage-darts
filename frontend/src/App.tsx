@@ -26,6 +26,7 @@ function App() {
           <NewPlayerBuilderForm />
         </Route>
         <Route path="/game/:id" component={GameBuilder} />
+        <Route path="/tournament/:id" component={TournamentBuilder} />
         <Route path="/review/:id" component={GameReviewBuilder} />
         <Route path="/gamelist">
           <GameListBuilder />
@@ -42,9 +43,7 @@ function App() {
         <Route path="/about">
           <AboutBuilder />
         </Route>
-        <Route path="/tournament/:id">
-          <TournamentBuilder />
-        </Route>
+        
       </Layout>
     </Router>
   );

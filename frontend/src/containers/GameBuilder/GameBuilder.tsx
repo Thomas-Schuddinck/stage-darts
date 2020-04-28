@@ -129,7 +129,6 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
             if (payload.status === 1) {
                 setWinner(payload.winner);
                 setOpenDialogFinishGame(true);
-
             }
         });
 
