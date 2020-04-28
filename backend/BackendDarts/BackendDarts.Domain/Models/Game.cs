@@ -358,6 +358,11 @@ namespace BackendDarts.Models
             return size > 0 ? GetCurrenPlayerLeg().Turns[size - 2] : new Turn();
         }
 
+        public Player FindPlayerById(int id)
+        {
+            return PlayerGames.FirstOrDefault(pg => pg.PlayerId == id).Player;
+        }
+
         #endregion
 
         #region Tournament Operations

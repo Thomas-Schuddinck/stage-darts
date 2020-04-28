@@ -87,7 +87,6 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
     let [gameDetails, setGameDetails] = useState<GameDetails>();
     let [isLoading, setLoading] = React.useState(true);
     let [openDialogFinishGame, setOpenDialogFinishGame] = React.useState(false);
-    let [openDialogReviewGame, setOpenDialogReviewGame] = React.useState(false);
     let [winner, setWinner] = React.useState("-1");
 
     useEffect(() => {

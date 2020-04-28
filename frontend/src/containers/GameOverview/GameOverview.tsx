@@ -11,6 +11,7 @@ import { Status } from '../../models/Status';
 import { css } from "@emotion/core";
 import PropagateLoader from "react-spinners/PropagateLoader";
 import LegComponent from '../../components/Game/Leg/Leg';
+import Winner from '../../components/GameOveriew/Winner/Winner';
 /*
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(theme => ({
@@ -25,7 +26,7 @@ const useStyles = makeStyles(theme => ({
 
 
 
-export const GameReviewBuilder = (props: { match: { params: any; }; }) => {
+export const GameOverviewBuilder = (props: { match: { params: any; }; }) => {
 
     console.log("test eens dit");
     console.log(props.match.params.id);
@@ -79,15 +80,34 @@ export const GameReviewBuilder = (props: { match: { params: any; }; }) => {
             ) : (
                     <Grid container spacing={3}>
                         <Grid item lg={12} xs={12} md={12}>
+                            <Winner />
+                        </Grid>
+                        <Grid item lg={12} xs={12} md={12}>
                             <LegListComponent leggroups={gameDetails!.game!.legGroups!} sendIdToBuilder={getSelectedIdFromList} />
                         </Grid>
 
                         <Grid item xs={12} md={12} lg={12}>
                             {selectedLegId >= 0 ? (
-                                    <LegComponent leggroup={gameDetails!.game!.legGroups![selectedLegId]} />
-                           ) : (
+                                <LegComponent leggroup={gameDetails!.game!.legGroups![selectedLegId]} />
+                            ) : (
                                     <div></div>
                                 )}
+                        </Grid>
+                        {/* Performance */}
+                        <Grid item xs={12} md={7} lg={7}>
+                            {/* === undefined ? (<p></p>) : (
+                                <LegOverview
+                                    numberOfMisses={stats.numberOfMisses}
+                                    numberOfSixties={stats.numberOfSixties}
+                                    totalScoreThrown={stats.totalScoreThrown}
+                                    totalNumberDartsThrown={stats.totalNumberDartsThrown}
+                                    averageScoreThrown={stats.averageScoreThrown}
+                                    percentageWins={stats.percentageWins}
+                                    percentageBoardHits={stats.percentageBoardHits}
+                                    percentageSixties={stats.percentageSixties}
+                                ></Performance>
+                            )
+                            */}
                         </Grid>
                     </Grid>
                 )}

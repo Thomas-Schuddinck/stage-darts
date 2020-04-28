@@ -36,7 +36,7 @@ namespace BackendDarts.Domain.Models
             {
                 for (int i = 0; i < players.Count- (int)Math.Pow(2, j)+1; i += (int)Math.Pow(2, j))
                 {
-                    AddGame(new Game((i + (int)Math.Pow(2, j)) / 2, j, Name, players.GetRange(i,(int)Math.Pow(2, j)), this));
+                    AddGame(new Game((i + (int)Math.Pow(2, j)) / (2* (int)Math.Pow(2, j)), j, Name, players.GetRange(i,(int)Math.Pow(2, j)), this));
                 }
             }
             
