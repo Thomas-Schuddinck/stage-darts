@@ -111,7 +111,7 @@ namespace BackendDarts.Controllers
             {
                 gameoverview.LegWinners.Add(new LegWinnersDTO(i, dict[i]));
             }
-            gameoverview.Winner = game.FindPlayerById(game.Winner).Name;
+            gameoverview.Winner = game.Winner == -1 ? "No winner yet": game.FindPlayerById(game.Winner).Name;
 
             return gameoverview;
 
