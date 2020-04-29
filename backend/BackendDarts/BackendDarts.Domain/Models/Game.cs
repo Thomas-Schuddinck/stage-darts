@@ -63,7 +63,7 @@ namespace BackendDarts.Models
                 AddPlayer(player);
             BeginDate = DateTime.Now.Date;
             SetupGame();
-            ConfigureGame()
+            ConfigureGame();
         }
         
         /// <summary>
