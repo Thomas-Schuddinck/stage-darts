@@ -9,6 +9,9 @@ import CardBody from "../../styledcomponents/CardBody";
 import Card from "../../styledcomponents/Card";
 import { Game } from '../../models/Game';
 import { useHistory } from "react-router-dom";
+import TournamentGame from './tournamentComponents/tournamentGame';
+import PropagateLoader from "react-spinners/PropagateLoader";
+import { css } from "@emotion/core";
 
 const useStyles = makeStyles(theme => ({
     cardje: {
@@ -25,6 +28,13 @@ const useStyles = makeStyles(theme => ({
 const TournamentBuilder = (props: { match: { params: any; }; }) => {
 
     const classes = useStyles();
+
+    const spinner = css`
+    display: block;
+    margin: 0 auto;
+    border-color: red;
+    margin-left: 50%;
+  `;
 
     let [isLoading, setLoading] = React.useState(true);
     let [tournament, setTournament] = useState<Tournament>();
@@ -85,8 +95,8 @@ const TournamentBuilder = (props: { match: { params: any; }; }) => {
     const playTourneyGame = (game: Game) => {
         console.log("bracket: " + game.bracketSectorNumber);
         console.log("stage: " + game.bracketStageNumber);
-
-        history.push(`/game/${game.id}`);
+        console.log(game);
+        //history.push(`/game/${game.id}`);
     }
 
     const createColumns = (rij: number) => {
@@ -95,11 +105,12 @@ const TournamentBuilder = (props: { match: { params: any; }; }) => {
             if ((rij - Math.pow(2, column - 1)) % Math.pow(2, column) == 0) {
                 var game = games[column][stageTeller[column]];
                 columns.push(
-                    <Card className={classes.cardje} >
-                        <div onClick={() => playTourneyGame(game)}>
-                            <CardBody>{games[column][stageTeller[column]].canStart ? "start": "to be determined"}</CardBody>
-                        </div>
-                    </Card>
+                    // <Card className={classes.cardje} >
+                    //     <div onClick={() => playTourneyGame(game)}>
+                    //         <CardBody>{games[column][stageTeller[column]].canStart ? "start": "to be determined"}</CardBody>
+                    //     </div>
+                    // </Card>
+                    <TournamentGame propsgame={game} />
                 );
                 stageTeller[column] = stageTeller[column] + 1;
                 console.log(stageTeller);
@@ -116,7 +127,11 @@ const TournamentBuilder = (props: { match: { params: any; }; }) => {
     return (
         <Wrap>
             {isLoading ? (
-                <p>loading</p>
+                <PropagateLoader
+                css={spinner}
+                size={20}
+                color={"#123abc"}
+            />
             ) : (
                     <Wrap>
                         <h1>tournament</h1>
