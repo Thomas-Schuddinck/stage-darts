@@ -35,7 +35,7 @@ namespace BackendDarts.Controllers
 
 
             int gameStatus = CheckGameStatus(game, game.CalculateScore(game.GetCurrenPlayerLeg()));
-            if (allDartsThrown && gameStatus == -1)
+            if ((allDartsThrown && gameStatus == -1) || gameStatus == -2)
                 game.SetNextPlayer();
             // if all darts are thrown, multiply status by 2 (see FillStatusDTO for use, used for ending turn)
             gameStatus = !allDartsThrown ? gameStatus : gameStatus * 2;
@@ -79,9 +79,10 @@ namespace BackendDarts.Controllers
             }
             else
             {
-                if (score > 501)
+                if (score > 501) { 
                     playerLeg.Turns[playerLeg.Turns.Count - 1].IgnoreAndEndTurn(); ;
-
+                    return -2;
+                }
                 return -1;
             }
 
@@ -99,7 +100,7 @@ namespace BackendDarts.Controllers
             StatusDTO statusDTO = new StatusDTO
             {
                 Status = gameStatus % 2,
-                Winner = game.Winner == -1 ? "" : game.PlayerGames.Find(pg => pg.PlayerId == game.Winner).Player.Name,
+                Winner = game.Winner < 0 ?  "" : game.PlayerGames.Find(pg => pg.PlayerId == game.Winner).Player.Name,
                 gameDTO = new GameDetailsDTO(game)
             };
 
