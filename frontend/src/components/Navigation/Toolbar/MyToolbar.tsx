@@ -111,8 +111,9 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
   },
   test: {
-    overflow: 'hidden'
-  }
+    overflow: 'hidden',
+  },
+  
 }));
 
 export default function MyToolbar(props: { children: React.ReactNode }) {
@@ -161,7 +162,7 @@ export default function MyToolbar(props: { children: React.ReactNode }) {
         }}
         open={open}
       >
-        <div className={classes.toolbarIcon}>
+        <div className={clsx(classes.toolbarIcon)}>
           <IconButton onClick={handleDrawerClose}>
             <ChevronLeftIcon />
           </IconButton>

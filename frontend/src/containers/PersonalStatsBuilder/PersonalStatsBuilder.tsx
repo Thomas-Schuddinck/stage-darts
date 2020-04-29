@@ -111,7 +111,7 @@ const PersonalStatsBuilder = () => {
         </Grid>
         <Grid item lg={7} xs={12} md={7}>
         {stats === undefined ? (<p></p>): (
-          <WinLoss wins={stats.numberOfWins} losses={stats.numberOfMisses}></WinLoss>
+          <WinLoss wins={stats.numberOfWins} losses={stats.numberOfLosses}></WinLoss>
           )}
         </Grid>
 
