@@ -11,4 +11,5 @@ export interface Stats {
     percentageWins: number;
     percentageBoardHits: number;
     history: Game[];
+    numberOfLosses: number;
 }
