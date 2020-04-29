@@ -1,9 +1,9 @@
 import { makeStyles, Table, TableRow, TableCell, TableBody } from '@material-ui/core';
 import clsx from 'clsx';
 import React from 'react';
-import CardHeader from "../../styledcomponents/CardHeader";
-import CardBody from "../../styledcomponents/CardBody";
-import Card from "../../styledcomponents/Card";
+import CardHeader from "../../../styledcomponents/CardHeader";
+import CardBody from "../../../styledcomponents/CardBody";
+import Card from "../../../styledcomponents/Card";
 const useStyles = makeStyles(theme => ({
     fixedHeight: {
       height: '100%'
@@ -44,8 +44,8 @@ const Performance = (props: any) => {
                <TableBody>
                  <TableRow className={classes.tr}>
 
-                   <TableCell className={classes.td}>{legstat.player}</TableCell>
-                   <TableCell className={classes.td}>{legstat.totalwins}</TableCell>
+                   {/* <TableCell className={classes.td}>{legstat.player}</TableCell> */}
+                   {/* <TableCell className={classes.td}>{legstat.totalwins}</TableCell> */}
                  </TableRow>
                </TableBody>
              </Table>

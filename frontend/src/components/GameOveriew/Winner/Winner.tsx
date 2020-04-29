@@ -6,7 +6,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import Card from "../../../styledcomponents/Card";
 import CardAvatar from "../../../styledcomponents/CardAvatar";
 
-import avatar from '../../img/avatar.png';
+import avatar from '../../../img/avatar.png';
 
 const useStyles = makeStyles(theme => ({
     tekstHoofd: {
