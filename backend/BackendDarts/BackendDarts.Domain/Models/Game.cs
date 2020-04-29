@@ -113,7 +113,7 @@ namespace BackendDarts.Models
         {
             CurrentLegGroup.SetLegWinner(GetCurrentPlayer().Id);
             if(LegGroups.Count(lg => lg.Winner == GetCurrentPlayer().Id)==2)
-                Winner = GetCurrentPlayer().Id;
+                FinishGame(GetCurrentPlayer().Id);
         }
 
         /// <summary>

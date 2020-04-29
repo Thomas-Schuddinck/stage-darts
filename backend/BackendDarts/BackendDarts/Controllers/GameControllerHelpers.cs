@@ -100,7 +100,7 @@ namespace BackendDarts.Controllers
             StatusDTO statusDTO = new StatusDTO
             {
                 Status = gameStatus % 2,
-                Winner = game.Winner == -1 ? "" : game.PlayerGames.Find(pg => pg.PlayerId == game.Winner).Player.Name,
+                Winner = game.Winner < 0 ?  "" : game.PlayerGames.Find(pg => pg.PlayerId == game.Winner).Player.Name,
                 gameDTO = new GameDetailsDTO(game)
             };
 
