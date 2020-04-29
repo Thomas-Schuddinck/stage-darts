@@ -84,6 +84,7 @@ namespace BackendDarts.Controllers
             
             PlayerStatsDTO playerStatsDTO = new PlayerStatsDTO();
             playerStatsDTO.NumberOfWins = (int)numOfWins;
+            playerStatsDTO.NumberOfLosses = (games.Count() - (int)numOfWins);
             playerStatsDTO.NumberOfMisses = (int)numOfMisses;
             playerStatsDTO.NumberOfSixties = (int)numOfSixty;
             playerStatsDTO.TotalScoreThrown = (int)totalScore;
