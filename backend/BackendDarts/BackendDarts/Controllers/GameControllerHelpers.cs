@@ -117,16 +117,20 @@ namespace BackendDarts.Controllers
             Player temp;
             foreach (LegGroup lg in game.LegGroups)
             {
-                temp = game.FindPlayerById(lg.Winner);
-                if (dictionary.ContainsKey(temp.Name))
+                if(lg.Winner != -1)
                 {
-                    dictionary[temp.Name]++;
+                    temp = game.FindPlayerById(lg.Winner);
+                    if (dictionary.ContainsKey(temp.Name))
+                    {
+                        dictionary[temp.Name]++;
 
+                    }
+                    else
+                    {
+                        dictionary.Add(temp.Name, 1);
+                    }
                 }
-                else
-                {
-                    dictionary.Add(temp.Name, 1);
-                }
+                
             }
             foreach (PlayerGame pg in game.PlayerGames)
             {
