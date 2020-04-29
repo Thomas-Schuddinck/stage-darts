@@ -81,8 +81,12 @@ export const GameOverviewBuilder = (props: { match: { params: any; }; }) => {
                 />
             ) : (
                     <Grid container spacing={3}>
-                        <Grid item lg={12} xs={12} md={12}>
+                        <Grid item lg={6} xs={12} md={6}>
                             <Winner player={overview!.winner}/>
+                        </Grid>
+                        {/* Performance */}
+                        <Grid item xs={12} md={6} lg={6}>
+                            <LegOverview legwinners={overview!.legWinners} />
                         </Grid>
                         <Grid item lg={12} xs={12} md={12}>
                             <LegListComponent leggroups={overview!.game!.legGroups!} sendIdToBuilder={getSelectedIdFromList} />
@@ -95,10 +99,7 @@ export const GameOverviewBuilder = (props: { match: { params: any; }; }) => {
                                     <div></div>
                                 )}
                         </Grid>
-                        {/* Performance */}
-                        <Grid item xs={12} md={7} lg={7}>
-                            <LegOverview legwinners={overview!.legWinners} />
-                        </Grid>
+                        
                     </Grid>
                 )}
 

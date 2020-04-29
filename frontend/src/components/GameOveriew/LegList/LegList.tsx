@@ -3,12 +3,14 @@ import React from 'react';
 import Aux from '../../../hoc/Wrap';
 import { LegGroup } from '../../../models/LegGroup';
 import { LegButtonComponent } from './LegButton';
+import clsx from 'clsx';
 
 const useStyles = makeStyles(theme => ({
     lijst: {
         display: 'flex',
         overflow: 'auto',
         flexDirection: 'row',
+
     },
     lijstchild: {
         margin: '0.25em 0',
@@ -40,14 +42,13 @@ function LegListComponent(props: any) {
       }
     return (
         <Aux>
-            <div className={classes.lijst} >
+            <div className={clsx(classes.lijst, "flex-row", "justify-content-start")} >
 
             {
                 props.leggroups.map(function (s: LegGroup, i: any) {
                     return <LegButtonComponent legnr={i + 1} id={i} current={current} sendIdToParent={getIdFromChild} className={classes.lijstchild} />
                 }
                 )}
-            <hr />
             </div>
 
         </Aux>

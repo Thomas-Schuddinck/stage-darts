@@ -6,8 +6,8 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import Card from "../../../styledcomponents/Card";
 import CardAvatar from "../../../styledcomponents/CardAvatar";
 
-import avatar from '../../../img/avatar.png';
-
+import avatar from '../../../img/cup.jpg';
+import Image from '../../../img/star_bg.jpg';
 const useStyles = makeStyles(theme => ({
     tekstHoofd: {
         alignSelf: 'center',
@@ -21,7 +21,12 @@ const useStyles = makeStyles(theme => ({
         width: '100%'
     },
     height: {
- 
+        backgroundImage: `url(${Image})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center center"
+    },
+    wit:{
+        color: 'white'
     }
 
 }));
@@ -34,8 +39,8 @@ const Winner = (props: any) => {
             <CardAvatar profile>
                 <img src={avatar} alt="..." />
             </CardAvatar>
-            <CardContent>
-                <h2>{props.player}</h2>
+            <CardContent >
+                <h1 className={classes.wit}>{props.player}</h1>
             </CardContent>
                         
                 
