@@ -4,6 +4,6 @@ import { LegWinner } from './LegWinner';
 
 export interface GameOverview {
     winner: string;
-    legwinners: LegWinner[];
-    games: Game;
+    legWinners: LegWinner[];
+    game: Game;
 }

@@ -12,6 +12,8 @@ import { css } from "@emotion/core";
 import PropagateLoader from "react-spinners/PropagateLoader";
 import LegComponent from '../../components/Game/Leg/Leg';
 import Winner from '../../components/GameOveriew/Winner/Winner';
+import { GameOverview } from '../../models/GameOverview';
+import LegOverview from '../../components/GameOveriew/LegOverview/LegOverview';
 /*
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(theme => ({
@@ -30,11 +32,11 @@ export const GameOverviewBuilder = (props: { match: { params: any; }; }) => {
 
     console.log("test eens dit");
     console.log(props.match.params.id);
-    let [gameDetails, setGameDetails] = useState<GameDetails>();
+    let [overview, setOverview] = useState<GameOverview>();
     let [isLoading, setLoading] = React.useState(true);
     const FetchData = async (id: number) => {
         setLoading(true);
-        setGameDetails(await CallToApiGame(id));
+        setOverview(await CallToApiGame(id));
         setLoading(false);
 
 
@@ -49,8 +51,8 @@ export const GameOverviewBuilder = (props: { match: { params: any; }; }) => {
         }
     }, []);
 
-    const CallToApiGame = async (id: number): Promise<GameDetails> => {
-        return await GetApiCall(Environment.apiurl + '/Game/' + id).then(gameDetails => {
+    const CallToApiGame = async (id: number): Promise<GameOverview> => {
+        return await GetApiCall(Environment.apiurl + '/Game/overview/' + id).then(gameDetails => {
             console.log("dit is de game");
             console.log(gameDetails)
             return gameDetails;
@@ -80,34 +82,22 @@ export const GameOverviewBuilder = (props: { match: { params: any; }; }) => {
             ) : (
                     <Grid container spacing={3}>
                         <Grid item lg={12} xs={12} md={12}>
-                            <Winner />
+                            <Winner player={overview!.winner}/>
                         </Grid>
                         <Grid item lg={12} xs={12} md={12}>
-                            <LegListComponent leggroups={gameDetails!.game!.legGroups!} sendIdToBuilder={getSelectedIdFromList} />
+                            <LegListComponent leggroups={overview!.game!.legGroups!} sendIdToBuilder={getSelectedIdFromList} />
                         </Grid>
 
                         <Grid item xs={12} md={12} lg={12}>
                             {selectedLegId >= 0 ? (
-                                <LegComponent leggroup={gameDetails!.game!.legGroups![selectedLegId]} />
+                                <LegComponent leggroup={overview!.game!.legGroups![selectedLegId]} />
                             ) : (
                                     <div></div>
                                 )}
                         </Grid>
                         {/* Performance */}
                         <Grid item xs={12} md={7} lg={7}>
-                            {/* === undefined ? (<p></p>) : (
-                                <LegOverview
-                                    numberOfMisses={stats.numberOfMisses}
-                                    numberOfSixties={stats.numberOfSixties}
-                                    totalScoreThrown={stats.totalScoreThrown}
-                                    totalNumberDartsThrown={stats.totalNumberDartsThrown}
-                                    averageScoreThrown={stats.averageScoreThrown}
-                                    percentageWins={stats.percentageWins}
-                                    percentageBoardHits={stats.percentageBoardHits}
-                                    percentageSixties={stats.percentageSixties}
-                                ></Performance>
-                            )
-                            */}
+                            <LegOverview legwinners={overview!.legWinners} />
                         </Grid>
                     </Grid>
                 )}
