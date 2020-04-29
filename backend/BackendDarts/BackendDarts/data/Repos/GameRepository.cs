@@ -57,7 +57,7 @@ namespace BackendDarts.Repos
                 .Include(p => p.PlayerGames).ThenInclude(pg => pg.Player)
                 .Include(p => p.CurrentLegGroup).ThenInclude(lg => lg.PlayerLegs).ThenInclude(pl => pl.Turns).ThenInclude(t => t.Throws)
                 .Include(p => p.Tournament).ThenInclude(t => t.PlayerTournaments)
-                .Include(p => p.Tournament).ThenInclude(t=> t.Games).ThenInclude(g => g.PlayerGames)
+                .Include(p => p.Tournament).ThenInclude(t=> t.Games).ThenInclude(g => g.PlayerGames).ThenInclude(pg => pg.Player)
                 .SingleOrDefault(a => a.Id == id);
         }
 
