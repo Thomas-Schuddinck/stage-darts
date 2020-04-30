@@ -29,7 +29,7 @@ const TournamentGame = (props: any) => {
         console.log("bracket: " + game.bracketSectorNumber);
         console.log("stage: " + game.bracketStageNumber);
         console.log(game);
-        //history.push(`/game/${game.id}`);
+        history.push(`/game/${game.id}`);
     }
     return (
         <Wrap>
