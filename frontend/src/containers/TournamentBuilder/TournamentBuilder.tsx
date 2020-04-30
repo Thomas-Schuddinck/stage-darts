@@ -15,8 +15,8 @@ import { css } from "@emotion/core";
 
 const useStyles = makeStyles(theme => ({
     tabel: {
-        width: '100%'
-    }
+        width: '100%',
+    },
 }));
 
 const TournamentBuilder = (props: { match: { params: any; }; }) => {

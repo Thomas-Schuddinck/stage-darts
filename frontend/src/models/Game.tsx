@@ -11,4 +11,5 @@ export interface Game {
     bracketSectorNumber: number;
     bracketStageNumber: number;
     Status: number;
+    status: number;
 }

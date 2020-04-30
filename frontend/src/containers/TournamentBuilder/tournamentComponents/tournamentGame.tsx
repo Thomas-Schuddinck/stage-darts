@@ -5,9 +5,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import Wrap from '../../../hoc/Wrap';
 import CardBody from "../../../styledcomponents/CardBody";
 import Card from "../../../styledcomponents/Card";
-import PregnantWomanIcon from '@material-ui/icons/PregnantWoman';
 import { Typography } from '@material-ui/core';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import Snackbar from '@material-ui/core/Snackbar';
+import vs from '../../../img/vs.png';
+import { indigo } from '@material-ui/core/colors';
+
+function Alert(props: AlertProps) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const useStyles = makeStyles(theme => ({
     cardje: {
@@ -24,12 +30,38 @@ const useStyles = makeStyles(theme => ({
         textAlign: 'center',
     },
     hover: {
-        height: '100%',
-        width: '100%',
-
         "&:hover": {
             cursor: "pointer",
-            color: 'white',
+        }
+    },
+    win: {
+        color: 'green',
+        fontWeight: 'bold',
+    },
+    lose: {
+        color: 'red',
+    },
+    vs: {
+        height: '65px',
+    },
+    status1: {
+        padding: '1em',
+        backgroundColor: 'grey',
+        "&:hover": {
+            cursor: "default",
+        }
+    },
+    status2: {
+        padding: '1em',
+        "&:hover": {
+            cursor: "pointer",
+        }
+    },
+    status3: {
+        padding: '1em',
+        backgroundColor: indigo[50],
+        "&:hover": {
+            cursor: "default",
         }
     }
 }));
@@ -40,19 +72,43 @@ const TournamentGame = (props: any) => {
 
     const classes = useStyles();
     let history = useHistory();
+    let [open, setOpen] = React.useState(false);
 
     const playTourneyGame = (game: Game) => {
-        history.push(`/game/${game.id}`);
+        if(game.status === 1 || game.status === 3) {
+            setOpen(true);
+        } else {
+            console.log(game.status);
+            history.push(`/game/${game.id}`);
+        }
     }
-    const createName = () => {
+    const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+        setOpen(false);
+      };
+    const createName = (game: Game) => {
         let name: JSX.Element[] = [];
-        name.push(
-            <div className={classes.hover}>
-                <Typography>{props.propsgame.players[0].playerDTO.name}</Typography>
-                <Typography className={classes.float}> <PregnantWomanIcon/> vs</Typography>
-                <Typography>{props.propsgame.players[1].playerDTO.name}</Typography>
-            </div>
-        );
+        if(game.status == 2) {
+            name.push(
+                <CardBody className={classes.status2}>
+                <div className={classes.hover}>
+                    <Typography>{props.propsgame.players[0].playerDTO.name}</Typography>
+                    <Typography className={classes.float}><img className={classes.vs} src={vs} /></Typography>
+                    <Typography>{props.propsgame.players[1].playerDTO.name}</Typography>
+                </div>
+                </CardBody>
+            );
+        } else {
+            name.push(
+                <CardBody className={classes.status3}>
+                <div className={classes.hover}>
+                    <Typography className={game.players[0].legsWon < game.players[1].legsWon ? classes.win: classes.lose}>{props.propsgame.players[0].playerDTO.name}</Typography>
+                    <Typography className={classes.float}><img className={classes.vs} src={vs} /></Typography>
+                    <Typography className={game.players[0].legsWon < game.players[1].legsWon ? classes.lose: classes.win}>{props.propsgame.players[1].playerDTO.name}</Typography>
+                </div>
+                </CardBody>
+            );
+        }
+        
 
         return name;
 
@@ -61,16 +117,21 @@ const TournamentGame = (props: any) => {
         <Wrap>
             <Card className={classes.cardje} >
                 <div onClick={() => playTourneyGame(props.propsgame)}>
-                    <CardBody className={classes.padding}>{props.propsgame.status == 2 ?
+                    
+                        {props.propsgame.status != 1 ?
                         (
-                            createName()
+                            createName(props.propsgame)
                         ) : (
+                            <CardBody className={classes.status1}>
                             <Typography className={classes.tbd}>To be determined</Typography>
+                            </CardBody>
                         )
-                    }</CardBody>
+                    }
                 </div>
             </Card>
-            {/* <Alert severity="error">This is an error message!</Alert> */}
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="error">This game has already been played or still needs to be determined</Alert>
+            </Snackbar>
         </Wrap>
     );
 
