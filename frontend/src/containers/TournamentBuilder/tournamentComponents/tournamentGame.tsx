@@ -29,13 +29,13 @@ const TournamentGame = (props: any) => {
         console.log("bracket: " + game.bracketSectorNumber);
         console.log("stage: " + game.bracketStageNumber);
         console.log(game);
-        //history.push(`/game/${game.id}`);
+        history.push(`/game/${game.id}`);
     }
     return (
         <Wrap>
             <Card className={classes.cardje} >
                 <div onClick={() => playTourneyGame(props.propsgame)}>
-                    
+
                     <CardBody>{props.propsgame.canStart ? "start" : "to be determined"}</CardBody>
                 </div>
             </Card>
