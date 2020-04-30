@@ -5,10 +5,10 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { NavLink } from 'react-router-dom';
-import { GameFinishedialogContent } from './GameFinishedDialogContent';
 import { useTheme, useMediaQuery } from '@material-ui/core';
+import { TournamentFinisheDialogContent } from './TournamentFinishedDialogContent';
 
-export const GameFinishedDialog = (props: any) => {
+export const TournamentFinishedDialog = (props: any) => {
     const [open, setOpen] = React.useState(true);
 
     const theme = useTheme();
@@ -40,17 +40,17 @@ export const GameFinishedDialog = (props: any) => {
         >
             <DialogTitle id="alert-dialog-title">{"Game Finished"}</DialogTitle>
             <DialogContent>
-                <GameFinishedialogContent id="alert-dialog-description" winner={props.winner} />
+                <TournamentFinisheDialogContent id="alert-dialog-description" winner={props.winner} />
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleUndoLastThrow} color="primary">
                 UNDO THROW
                 </Button>
                 <Button onClick={handleOverviewGame} color="primary">
-                    <NavLink to={`/game/${props.id}`}>GAME OVERVIEW</NavLink>
+                    <NavLink to={`/tournament/${props.id}`}>TOURNAMENT OVERVIEW</NavLink>
                 </Button>
                 <Button onClick={handleGoToGames} color="primary">
-                    <NavLink to={`/gamelist`} >GO TO GAMES</NavLink>
+                    <NavLink to={`/tournamentlist`} >GO TO TOURNAMENTS</NavLink>
                 </Button>
             </DialogActions>
         </Dialog>

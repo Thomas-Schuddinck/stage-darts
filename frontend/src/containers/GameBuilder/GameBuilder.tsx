@@ -25,6 +25,7 @@ import HistoryComponent from '../../components/Game/History/History';
 import { GameFinishedDialog } from '../../components/Game/GameFinishedDialog/GameFinishedDialog';
 import { GameReviewDialog } from '../../components/Game/GameReviewDialog/GameReviewDialog';
 import { useMediaQuery } from '@material-ui/core';
+import { TournamentFinishedDialog } from '../../components/Game/GameFinishedDialog/TournamentFinishedDialog';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -87,6 +88,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
     let [gameDetails, setGameDetails] = useState<GameDetails>();
     let [isLoading, setLoading] = React.useState(true);
     let [openDialogFinishGame, setOpenDialogFinishGame] = React.useState(false);
+    let [openDialogFinishTournament, setOpenDialogFinishTournament] = React.useState(false);
     let [winner, setWinner] = React.useState("-1");
 
     useEffect(() => {
@@ -127,7 +129,12 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
             setGameDetails(payload.gameDTO);
             if (payload.status === 1) {
                 setWinner(payload.winner);
-                setOpenDialogFinishGame(true);
+                if(payload.gameDTO.game.Status === 3){
+                    setOpenDialogFinishTournament(true);
+                } else{
+                    setOpenDialogFinishGame(true);
+                }
+                
             }
         });
 
@@ -231,7 +238,11 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                             ) : (
                                     <div></div>
                                 )}
-                            
+                            {openDialogFinishTournament ? (
+                                <TournamentFinishedDialog winner={winner} undoLastThrow={goBack} />
+                            ) : (
+                                    <div></div>
+                                )}
                         </div>
                     </Aux>
                 )}

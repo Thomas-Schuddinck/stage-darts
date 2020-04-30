@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export const GameFinishedialogContent = (props: any) => {
+export const TournamentFinisheDialogContent = (props: any) => {
     const classes = useStyles();
 
     return (
@@ -44,7 +44,7 @@ export const GameFinishedialogContent = (props: any) => {
                 <span className={classes.tekst}>{props.winner} won!</span>
             </Grid>
             <Grid item xs={12} md={12} lg={12}>
-            <Alert severity="error">If there was a throw incorrect and the game was finished incorrect, click <strong>UNDO THROW</strong> to undo the last throw and continue the game.</Alert>
+                <Alert severity="error">If there was a throw incorrect and the game was finished incorrect, click <strong>UNDO THROW</strong> to undo the last throw and continue the game.</Alert>
             </Grid>
         </Grid>
     );

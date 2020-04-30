@@ -10,6 +10,5 @@ export interface Game {
     legGroups?: LegGroup[];
     bracketSectorNumber: number;
     bracketStageNumber: number;
-    canStart: boolean;
-    status: number;
+    Status: number;
 }
