@@ -28,7 +28,7 @@ namespace BackendDarts.Models
         //For Tournaments
         public int BracketSectorNumber { get; private set; }
         public int BracketStageNumber { get; private set; }
-        public bool CanStart => PlayerGames.Count == 2;
+        public int Status => PlayerGames.Count == 2 ? Winner != -1 ? 3 : 2 : 1;
         public Tournament Tournament { get; private set; }
 
         public Game()
@@ -370,7 +370,7 @@ namespace BackendDarts.Models
 
         public void CheckNameTournamentGame()
         {
-            if (CanStart)
+            if (Status > 1)
 
                 Name = Name + " Tournament - " + PlayerGames[0].Player.Name + " VS " + PlayerGames[1].Player.Name;
         } 
@@ -382,7 +382,7 @@ namespace BackendDarts.Models
         }
         private void EvaluateGameResult()
         {
-            if (CanStart && Winner != -1)
+            if (Status == 3)
                 Tournament.EvaluatTournament(this, PlayerGames[0].PlayerId == Winner ? PlayerGames[1].Player : PlayerGames[0].Player);
         }
         #endregion
