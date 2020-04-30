@@ -86,7 +86,6 @@ namespace BackendDarts.Controllers
         {
             Game game = _gameRepository.GetBy(id);
             if (game == null) return NoContent();
-            
 
             // set game as current game (singleton)
             Game.StartGame(game);
