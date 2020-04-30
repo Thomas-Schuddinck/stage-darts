@@ -48,9 +48,9 @@ const TournamentGame = (props: any) => {
         let stringname = props.propsgame.players[0].playerDTO.name + " vs " + props.propsgame.players[1].playerDTO.name;
         name.push(
             <Wrap>
-                <Typography>Wouter</Typography>
+                <Typography>{props.propsgame.players[0].playerDTO.name}</Typography>
                 <Typography className={classes.float}> <PregnantWomanIcon/> vs</Typography>
-                <Typography>Thomas</Typography>
+                <Typography>{props.propsgame.players[1].playerDTO.name}</Typography>
             </Wrap>
         );
 
