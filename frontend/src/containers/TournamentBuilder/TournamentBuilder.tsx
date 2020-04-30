@@ -14,15 +14,9 @@ import PropagateLoader from "react-spinners/PropagateLoader";
 import { css } from "@emotion/core";
 
 const useStyles = makeStyles(theme => ({
-    cardje: {
-        padding: "0",
-        margin: "0",
-        "&:hover": {
-            cursor: "pointer",
-            backgroundColor: 'black',
-            color: 'white',
-        }
-    },
+    tabel: {
+        width: '100%'
+    }
 }));
 
 const TournamentBuilder = (props: { match: { params: any; }; }) => {
@@ -105,11 +99,6 @@ const TournamentBuilder = (props: { match: { params: any; }; }) => {
             if ((rij - Math.pow(2, column - 1)) % Math.pow(2, column) == 0) {
                 var game = games[column][stageTeller[column]];
                 columns.push(
-                    // <Card className={classes.cardje} >
-                    //     <div onClick={() => playTourneyGame(game)}>
-                    //         <CardBody>{games[column][stageTeller[column]].canStart ? "start": "to be determined"}</CardBody>
-                    //     </div>
-                    // </Card>
                     <TournamentGame propsgame={game} />
                 );
                 stageTeller[column] = stageTeller[column] + 1;
@@ -134,8 +123,8 @@ const TournamentBuilder = (props: { match: { params: any; }; }) => {
             />
             ) : (
                     <Wrap>
-                        <h1>tournament</h1>
-                        <table aria-label="customized table">
+                        <h1>{tournament!.name.toUpperCase()}</h1>
+                        <table aria-label="customized table" className={classes.tabel}>
                             {createRows()}
                         </table></Wrap>
                 )}
