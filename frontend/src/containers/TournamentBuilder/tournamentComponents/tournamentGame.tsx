@@ -35,7 +35,7 @@ const TournamentGame = (props: any) => {
         <Wrap>
             <Card className={classes.cardje} >
                 <div onClick={() => playTourneyGame(props.propsgame)}>
-                    
+
                     <CardBody>{props.propsgame.canStart ? "start" : "to be determined"}</CardBody>
                 </div>
             </Card>

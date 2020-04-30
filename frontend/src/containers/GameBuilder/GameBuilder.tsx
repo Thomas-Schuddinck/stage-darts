@@ -195,15 +195,16 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                                                         </Grid>
                                                         <Grid item xs={7} md={5} lg={5}>
                                                             <CurrentScore score={pl.currentScore} />
-
                                                             <NumberOfWonLegs legs={
                                                                 gameDetails!.game!
                                                                     .players &&
                                                                 gameDetails!.game!
                                                                     .players!
-                                                                    .filter((p: PlayerDetail) =>
+                                                                    .filter(
+                                                                        (p: PlayerDetail) =>
                                                                         p.playerDTO.id ===
-                                                                        pl.player.id)[0].legsWon}></NumberOfWonLegs>
+                                                                        pl.player.id
+                                                                        )[0].legsWon}></NumberOfWonLegs>
                                                         </Grid>
                                                     </Grid>
                                                 </Paper>
