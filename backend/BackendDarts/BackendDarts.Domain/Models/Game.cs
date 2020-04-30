@@ -378,6 +378,7 @@ namespace BackendDarts.Models
         public void RemovePlayer(Player player)
         {
             PlayerGames.Remove(PlayerGames.Find(pg => pg.PlayerId == player.Id));
+            CurrentLegGroup.PlayerLegs.Remove(CurrentLegGroup.PlayerLegs.Find(i => i.Player.Id == player.Id));
         }
         private void EvaluateGameResult()
         {
