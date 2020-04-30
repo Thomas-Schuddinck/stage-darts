@@ -140,15 +140,26 @@ namespace BackendDarts.Models
 
         public void GoBack()
         {
+            
             if (HasThrows())
             {
                 Winner = -1;
                 CurrentLegGroup.Winner = -1;
+                
                 if (GetCurrenPlayerLeg().GoBack())
                 {
                     CurrentPlayerLegIndex = (CurrentPlayerLegIndex - 1 + PlayerGames.Count) % PlayerGames.Count;
                     GetCurrentTurn().ReopenTurn();
                     GetCurrenPlayerLeg().GoBack();
+                }
+            }
+            else
+            {
+                if(LegGroups.Count != 0)
+                {
+                    CurrentLegGroup = LegGroups[LegGroups.Count - 1];
+                    LegGroups.RemoveAt(LegGroups.Count - 1);
+                    GoBack();
                 }
             }
         }
