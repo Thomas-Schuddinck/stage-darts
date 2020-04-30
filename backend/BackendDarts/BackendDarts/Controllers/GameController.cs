@@ -86,9 +86,6 @@ namespace BackendDarts.Controllers
         {
             Game game = _gameRepository.GetBy(id);
             if (game == null) return NoContent();
-            
-            // sort playerlegs by players
-            game.SortPlayerLegs();
 
             // set game as current game (singleton)
             Game.StartGame(game);

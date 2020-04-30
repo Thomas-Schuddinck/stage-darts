@@ -383,7 +383,7 @@ namespace BackendDarts.Models
         private void EvaluateGameResult()
         {
             if (CanStart && Winner != -1)
-                Tournament.EvaluatTournament(this, PlayerGames[0].PlayerId == Winner ? PlayerGames[0].Player : PlayerGames[1].Player);
+                Tournament.EvaluatTournament(this, PlayerGames[0].PlayerId == Winner ? PlayerGames[1].Player : PlayerGames[0].Player);
         }
         #endregion
 

@@ -96,7 +96,7 @@ const TournamentBuilder = (props: { match: { params: any; }; }) => {
     const createColumns = (rij: number) => {
         let columns: JSX.Element[] = [];
         for (let column = 1; column < Math.log2(players!.length) + 1; column++) {
-            if ((rij - Math.pow(2, column - 1)) % Math.pow(2, column) == 0) {
+            if ((rij - Math.pow(2, column - 1)) % Math.pow(2, column) === 0) {
                 var game = games[column][stageTeller[column]];
                 columns.push(
                     <TournamentGame propsgame={game} />
