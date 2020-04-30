@@ -23,6 +23,7 @@ import CardAvatar from "../../styledcomponents/CardAvatar";
 
 import avatar from '../../img/play7.png';
 import { string, boolean } from "yup";
+import { AddTournamentDialog } from "../../components/NewGame/AddTournamentDialog";
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -101,9 +102,10 @@ const NewGameBuilderForm: React.FC = () => {
   let [isLoading, setLoading] = React.useState(true);
   let [isSubmitting, setSubmitting] = React.useState(false);
   let [isValidating, setValidating] = React.useState(false);
-  let [openDialog, setOpenDialog] = React.useState(false);
+  let [openGameDialog, setOpenGameDialog] = React.useState(false);
+  let [openTournamentDialog, setOpenTournamentDialog] = React.useState(false);
   let [gameMode, setGameMode] = React.useState<string>();
-  let [gameId = 0, setGameId] = React.useState<number>();
+  let [newItemId = 0, setGameId] = React.useState<number>();
   let [isLoadingData, setIsLoadingData] = React.useState(false);
   let [name, setName] = React.useState<string>();
   let [doPost = false, setDoPost] = useState<boolean>();
@@ -151,7 +153,13 @@ const NewGameBuilderForm: React.FC = () => {
       }
       setGameId(id);
       setSubmitting(false);
-      setOpenDialog(true);
+      if (gameMode !== "3") {
+        setOpenGameDialog(true);
+      } else {
+        setOpenTournamentDialog(true);
+      }
+      
+      
 
     }
     if (doPost) {
@@ -310,8 +318,13 @@ const NewGameBuilderForm: React.FC = () => {
                 }
               </Grid>
 
-              {openDialog ? (
-                <AddGameDialog id={gameId} />
+              {openGameDialog ? (
+                <AddGameDialog id={newItemId} />
+              ) : (
+                  <div></div>
+                )}
+                {openTournamentDialog ? (
+                <AddTournamentDialog id={newItemId} />
               ) : (
                   <div></div>
                 )}
