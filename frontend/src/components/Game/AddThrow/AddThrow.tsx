@@ -76,10 +76,24 @@ const useStyles = makeStyles(theme => ({
     },
     startstop: {
         color: "#FFFFFF",
-        width: '100%',
         border: '0.1em solid black',
         backgroundColor: 'gray',
-
+        
+        margin: theme.spacing(1),
+        width: '15%',
+        minWidth: '0',
+        verticalAlign: 'bottom',
+        [theme.breakpoints.down('sm')]: {
+            width: '100%',
+        },
+    },
+    startstopNoPadding: {
+        color: "#FFFFFF",
+        border: '0.1em solid black',
+        backgroundColor: 'gray',
+        width: '100%',
+        minWidth: '0',
+        verticalAlign: 'bottom',
     },
     buttonSelected: {
         color: 'black',
@@ -93,7 +107,7 @@ const useStyles = makeStyles(theme => ({
     },
     formControl: {
         margin: theme.spacing(1),
-        width: '22%',
+        width: '14%',
         minWidth: '0',
         verticalAlign: 'bottom',
         [theme.breakpoints.down('sm')]: {
@@ -102,7 +116,7 @@ const useStyles = makeStyles(theme => ({
     },
     formControl2: {
         margin: theme.spacing(1),
-        width: '22%',
+        width: '15%',
         minWidth: '0',
         verticalAlign: 'bottom',
         [theme.breakpoints.down('sm')]: {
@@ -271,21 +285,30 @@ const AddThrow = (props: any) => {
     const keyboardClicked = () => {
         setKeyboardOpen(!keyboardOpen);
     }
+
+    const doCall = (link: string) => {
+        GetApiCall('http://' + link + '/stop').then(resp => {
+        })
+    }
     
     const startstop = async () => {
         if(raspberry) {
             setStartstopButtonText("start");
             setRaspberry(false);
-            return await GetApiCall("https://92832de0.ngrok.io/stop").then(resp => {
-                return resp;
+            return await GetApiCall(Environment.apiurl + '/PiLink/').then(link => {
+                console.log(link);
+                doCall(link);
+                return link;
             }).catch(function (error) {
                 console.log(error);
             });
         }else {
             setStartstopButtonText("stop");
             setRaspberry(true);
-            return await GetApiCall("https://92832de0.ngrok.io/start").then(resp => {
-                return resp;
+            return await GetApiCall(Environment.apiurl + '/PiLink/').then(link => {
+                GetApiCall('http://' + link + '/start').then(resp => {
+                })
+                return link;
             }).catch(function (error) {
                 console.log(error);
             });
@@ -321,10 +344,10 @@ const AddThrow = (props: any) => {
                         <div className={classes.lineheight}></div>
                     </Grid>
                     <Grid item xs={6} md={6} lg={6}>
-            <Button className={clsx(classes.startstop)} onClick={() => startstop()}><LiveTvIcon className={classes.paddy} />{startstopButtonText}</Button>
+            <Button className={clsx(classes.startstopNoPadding)} onClick={() => startstop()}><LiveTvIcon className={classes.paddy} />{startstopButtonText}</Button>
                     </Grid>
                     <Grid item xs={6} md={6} lg={6}>
-                        <Button className={clsx(classes.undo)} onClick={() => handleGoBack()}><HistoryIcon className={classes.paddy} />Undo Last Throw</Button>
+                        <Button className={clsx(classes.undo)} onClick={() => handleGoBack()}><HistoryIcon className={classes.paddy} />Undo</Button>
                     </Grid>
                 </Grid>
                 </Wrap>
@@ -370,10 +393,10 @@ const AddThrow = (props: any) => {
                                 <MenuItem value={2}>Double</MenuItem>
                                 <MenuItem value={3}>Triple</MenuItem>
                             </Select>
-                            <Button className={clsx(classes.send, classes.formControl)} onClick={() => setDoPost(true)}><SendIcon className={classes.paddy} />Add Throw</Button>
+                            <Button className={clsx(classes.send, classes.formControl)} onClick={() => setDoPost(true)}><SendIcon className={classes.paddy} />Add</Button>
 
                             <Button className={clsx(classes.undo, classes.formControl2)} onClick={() => handleGoBack()}><HistoryIcon className={classes.paddy} />Undo</Button>
-
+                            <Button className={classes.startstop} onClick={() => startstop()}><LiveTvIcon className={classes.paddy} />{startstopButtonText}</Button>
                         </Grid>
                     </Grid>
                 )}
