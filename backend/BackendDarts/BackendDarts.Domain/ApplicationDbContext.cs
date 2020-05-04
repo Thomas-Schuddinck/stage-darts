@@ -14,6 +14,7 @@ namespace BackendDarts.Domain
         public DbSet<Player> Players { get; set; }
         public DbSet<DartThrow> DartThrows { get; set; }
         public DbSet<Tournament> Tournaments { get; set; }
+        public DbSet<PiLink> PiLinks { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions options)
