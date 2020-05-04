@@ -11,13 +11,12 @@ import { GetApiCall } from '../../services/ApiClient';
 import PropagateLoader from "react-spinners/PropagateLoader";
 import Wrap from '../../hoc/Wrap';
 import { css } from "@emotion/core";
-import GameListPlayerField from '../../components/GameList/GameListPlayerField/GameListPlayerField';
 import { NavLink, Redirect } from 'react-router-dom';
 import { Environment } from '../../environment'
 import { useHistory } from "react-router-dom";
 import { indigo } from '@material-ui/core/colors';
 import { Tournament } from '../../models/SimpleTournament';
-import TournamentListPlayerField from '../../components/Tournament/GameListPlayerField';
+import GameListPlayerField from '../../components/Lists/GameListPlayerField';
 
 const StyledTableCell = withStyles(theme => ({
     head: {
@@ -26,14 +25,14 @@ const StyledTableCell = withStyles(theme => ({
         [theme.breakpoints.up('sm')]: {
             padding: '16px',
         },
-        padding: '0px',
+        padding: '15px',
     },
     body: {
         [theme.breakpoints.up('sm')]: {
             fontSize: 14,
             padding: 16,
         },
-        padding: 0,
+        padding: 15,
         fontSize: 12,
     },
     table: {
@@ -115,7 +114,7 @@ export const TournamentListBuilder = () => {
 
                     {/* <StyledTableCell align="center">{game!.legGroups!.length}</StyledTableCell> */}
                     <StyledTableCell align="center">{tournament.name} Tournament</StyledTableCell>
-                    <StyledTableCell align="center"><TournamentListPlayerField players={tournament.players} ></TournamentListPlayerField></StyledTableCell>
+                    <StyledTableCell align="center"><GameListPlayerField players={tournament.players} ></GameListPlayerField></StyledTableCell>
                 </StyledTableRow>
 
 
