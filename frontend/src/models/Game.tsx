@@ -10,5 +10,7 @@ export interface Game {
     legGroups?: LegGroup[];
     bracketSectorNumber: number;
     bracketStageNumber: number;
-    status: number;
+    tournamentPlayable: boolean;
+    isFinished: boolean;
+    tournamentId: number;
 }

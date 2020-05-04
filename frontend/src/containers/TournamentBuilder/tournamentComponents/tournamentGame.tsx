@@ -75,10 +75,9 @@ const TournamentGame = (props: any) => {
     let [open, setOpen] = React.useState(false);
 
     const playTourneyGame = (game: Game) => {
-        if(game.status === 1 || game.status === 3) {
+        if(!game.tournamentPlayable || game.isFinished) {
             setOpen(true);
         } else {
-            console.log(game.status);
             history.push(`/game/${game.id}`);
         }
     }
@@ -87,7 +86,7 @@ const TournamentGame = (props: any) => {
       };
     const createName = (game: Game) => {
         let name: JSX.Element[] = [];
-        if(game.status == 2) {
+        if(!game.isFinished) {
             name.push(
                 <CardBody className={classes.status2}>
                 <div className={classes.hover}>
@@ -114,11 +113,11 @@ const TournamentGame = (props: any) => {
 
     }
     return (
-        <Wrap>
+        <Wrap> 
             <Card className={classes.cardje} >
                 <div onClick={() => playTourneyGame(props.propsgame)}>
                     
-                        {props.propsgame.status != 1 ?
+                        {props.propsgame.tournamentPlayable?
                         (
                             createName(props.propsgame)
                         ) : (
