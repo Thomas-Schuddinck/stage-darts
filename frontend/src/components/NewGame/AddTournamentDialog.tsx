@@ -27,6 +27,9 @@ export  const AddTournamentDialog = (props: any) =>  {
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
+        
+        disableBackdropClick={true}
+        disableEscapeKeyDown={true}
       >
         <DialogTitle id="alert-dialog-title">{"Tournament Created"}</DialogTitle>
         <DialogContent>

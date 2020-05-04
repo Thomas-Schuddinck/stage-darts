@@ -37,6 +37,8 @@ export const TournamentFinishedDialog = (props: any) => {
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
             fullScreen={fullScreen} 
+            disableBackdropClick={true}
+            disableEscapeKeyDown={true}
         >
             <DialogTitle id="alert-dialog-title">{"Game Finished"}</DialogTitle>
             <DialogContent>
