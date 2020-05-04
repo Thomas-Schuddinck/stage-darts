@@ -116,7 +116,6 @@ export const TournamentListBuilder = () => {
                     {/* <StyledTableCell align="center">{game!.legGroups!.length}</StyledTableCell> */}
                     <StyledTableCell align="center">{tournament.name} Tournament</StyledTableCell>
                     <StyledTableCell align="center"><TournamentListPlayerField players={tournament.players} ></TournamentListPlayerField></StyledTableCell>
-                    <StyledTableCell align="center"><NavLink to={`/Tournament/${tournament.id}`} >Go to Tournament</NavLink></StyledTableCell>
                 </StyledTableRow>
 
 
@@ -148,7 +147,6 @@ export const TournamentListBuilder = () => {
                                     {/* <StyledTableCell align="center">Current Leg</StyledTableCell> */}
                                     <StyledTableCell align="center">Name</StyledTableCell>
                                     <StyledTableCell align="center">Players</StyledTableCell>
-                                    <StyledTableCell align="center"></StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>

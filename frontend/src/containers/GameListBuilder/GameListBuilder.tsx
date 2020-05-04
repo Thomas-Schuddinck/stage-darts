@@ -115,7 +115,6 @@ export const GameListBuilder = () => {
                     {/* <StyledTableCell align="center">{game!.legGroups!.length}</StyledTableCell> */}
                     <StyledTableCell align="center">{forDate(game.beginDate)}</StyledTableCell>
                     <StyledTableCell align="center"><GameListPlayerField players={game.players} ></GameListPlayerField></StyledTableCell>
-                    <StyledTableCell align="center"><NavLink to={`/game/${game.id}`} >Go to game</NavLink></StyledTableCell>
                 </StyledTableRow>
 
 
@@ -147,7 +146,6 @@ export const GameListBuilder = () => {
                                     {/* <StyledTableCell align="center">Current Leg</StyledTableCell> */}
                                     <StyledTableCell align="center">Startdate</StyledTableCell>
                                     <StyledTableCell align="center">Players</StyledTableCell>
-                                    <StyledTableCell align="center"></StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
