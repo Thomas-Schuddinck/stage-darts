@@ -129,7 +129,10 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
             setGameDetails(payload.gameDTO);
             if (payload.status === 1) {
                 setWinner(payload.winner);
-                if(payload.gameDTO.game.Status === 3){
+                console.log("kijk eens hier");
+                console.log(payload.gameDTO.game.status);
+                console.log(payload.gameDTO.game.status === 3);
+                if(payload.gameDTO.game.status === 3){
                     setOpenDialogFinishTournament(true);
                 } else{
                     setOpenDialogFinishGame(true);
