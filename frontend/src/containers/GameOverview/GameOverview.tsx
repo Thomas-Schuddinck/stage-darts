@@ -14,22 +14,24 @@ import LegComponent from '../../components/Game/Leg/Leg';
 import Winner from '../../components/GameOveriew/Winner/Winner';
 import { GameOverview } from '../../models/GameOverview';
 import LegOverview from '../../components/GameOveriew/LegOverview/LegOverview';
-/*
+import CardHeader from "../../styledcomponents/CardHeader";
+import CardBody from "../../styledcomponents/CardBody";
+import Card from "../../styledcomponents/Card";
+import DartsBoardLogo from '../../components/About/DartBoardLogo/DartBoardLogo';
+
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(theme => ({
-  paper: {
-    padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'column',
-  },
+    wd: {
+        width: '0px',
+    },
 }));
-*/
+
 
 
 
 export const GameOverviewBuilder = (props: { match: { params: any; }; }) => {
 
+    const classes = useStyles();
     console.log("test eens dit");
     console.log(props.match.params.id);
     let [overview, setOverview] = useState<GameOverview>();
@@ -82,24 +84,35 @@ export const GameOverviewBuilder = (props: { match: { params: any; }; }) => {
             ) : (
                     <Grid container spacing={3}>
                         <Grid item lg={6} xs={12} md={6}>
-                            <Winner player={overview!.winner}/>
+                            <Winner player={overview!.winner} />
                         </Grid>
                         {/* Performance */}
                         <Grid item xs={12} md={6} lg={6}>
                             <LegOverview legwinners={overview!.legWinners} />
                         </Grid>
-                        <Grid item lg={12} xs={12} md={12}>
-                            <LegListComponent leggroups={overview!.game!.legGroups!} sendIdToBuilder={getSelectedIdFromList} />
-                        </Grid>
 
                         <Grid item xs={12} md={12} lg={12}>
-                            {selectedLegId >= 0 ? (
-                                <LegComponent leggroup={overview!.game!.legGroups![selectedLegId]} />
-                            ) : (
-                                    <div></div>
-                                )}
+                            <Card>
+                                <CardHeader color="info">
+                                    <h4>Leg Details</h4>
+                                </CardHeader>
+                                <CardBody>
+                                    <Grid item lg={12} xs={12} md={12}>
+                                        <LegListComponent leggroups={overview!.game!.legGroups!} sendIdToBuilder={getSelectedIdFromList} />
+                                    </Grid>
+
+                                    <div>
+                                        {selectedLegId >= 0 ? (
+                                            <LegComponent leggroup={overview!.game!.legGroups![selectedLegId]} />
+                                        ) : (
+                                                <div></div>
+                                            )}
+                                    </div>
+                                </CardBody>
+                            </Card>
+
                         </Grid>
-                        
+
                     </Grid>
                 )}
 

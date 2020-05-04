@@ -90,6 +90,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
     let [openDialogFinishGame, setOpenDialogFinishGame] = React.useState(false);
     let [openDialogFinishTournament, setOpenDialogFinishTournament] = React.useState(false);
     let [winner, setWinner] = React.useState("-1");
+    let [dialogId, setDialogId] = useState<number>();
 
     useEffect(() => {
         window.addEventListener('resize', updateWindowDimensions);
@@ -129,7 +130,8 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
             setGameDetails(payload.gameDTO);
             if (payload.status === 1) {
                 setWinner(payload.winner);
-                if(payload.gameDTO.game.Status === 3){
+                setDialogId(payload.gameDTO.game.tournamentId !== -1 ? payload.gameDTO.game.tournamentId : payload.gameDTO.game.id)
+                if(payload.gameDTO.game.tournamentPlayable){
                     setOpenDialogFinishTournament(true);
                 } else{
                     setOpenDialogFinishGame(true);
@@ -150,8 +152,6 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
 
     const CallToApiGame = async (id: number): Promise<GameDetails> => {
         return await GetApiCall(Environment.apiurl + '/Game/' + id).then(gameDetails => {
-            console.log("dit is de game");
-            console.log(gameDetails)
             return gameDetails;
         });
     }
@@ -234,12 +234,12 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                             
                             {size < 499 ? (<AddThrow currentgame={gameDetails?.game.id} undoLastThrow={goBack} selectedThrow={selectedThrowToEdit} className={classes.test}  />) : (<div></div>)}
                             {openDialogFinishGame ? (
-                                <GameFinishedDialog winner={winner} undoLastThrow={goBack} />
+                                <GameFinishedDialog winner={winner} id={dialogId} undoLastThrow={goBack} />
                             ) : (
                                     <div></div>
                                 )}
                             {openDialogFinishTournament ? (
-                                <TournamentFinishedDialog winner={winner} undoLastThrow={goBack} />
+                                <TournamentFinishedDialog winner={winner} id={dialogId} undoLastThrow={goBack} />
                             ) : (
                                     <div></div>
                                 )}

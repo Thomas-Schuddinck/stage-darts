@@ -113,7 +113,13 @@ const useStyles = makeStyles(theme => ({
   test: {
     overflow: 'hidden',
   },
-  
+  fullSize:{
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+      paddingLeft: "10px",
+      paddingRight: "10px"
+    },
+  }
 }));
 
 export default function MyToolbar(props: { children: React.ReactNode }) {
@@ -178,7 +184,7 @@ export default function MyToolbar(props: { children: React.ReactNode }) {
       <main className={classes.content}>
 
         <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
+        <Container maxWidth="lg" className={clsx(classes.container, classes.fullSize)}>
           {props.children}
         </Container>
 

@@ -1,4 +1,5 @@
 ﻿using BackendDarts.Domain.Models;
+using BackendDarts.Domain.Models.Enums;
 using BackendDarts.DTOs;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,7 @@ namespace BackendDarts.Models
         //new for game verloop
         public int CurrentPlayerLegIndex { get; set; } = -1;
         public LegGroup CurrentLegGroup { get; set; }
+        public bool IsFinished => Winner != -1;
 
         [NotMapped]
         public static Game SingletonGame { get; set; }
@@ -28,7 +30,7 @@ namespace BackendDarts.Models
         //For Tournaments
         public int BracketSectorNumber { get; private set; }
         public int BracketStageNumber { get; private set; }
-        public int Status => PlayerGames.Count == 2 ? Winner != -1 ? 3 : 2 : 1;
+        public bool TournamentPlayable => PlayerGames.Count == 2 && Type == 3;
         public Tournament Tournament { get; private set; }
 
         public Game()
@@ -381,7 +383,7 @@ namespace BackendDarts.Models
 
         public void CheckNameTournamentGame()
         {
-            if (Status > 1)
+            if (TournamentPlayable)
 
                 Name = Name + " Tournament - " + PlayerGames[0].Player.Name + " VS " + PlayerGames[1].Player.Name;
         } 
@@ -393,7 +395,7 @@ namespace BackendDarts.Models
         }
         private void EvaluateGameResult()
         {
-            if (Status == 3)
+            if (TournamentPlayable && IsFinished)
                 Tournament.EvaluatTournament(this, PlayerGames[0].PlayerId == Winner ? PlayerGames[1].Player : PlayerGames[0].Player);
         }
         #endregion
