@@ -1,5 +1,6 @@
 ﻿
 using BackendDarts.Domain;
+using BackendDarts.Domain.Models;
 using BackendDarts.Models;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,11 @@ namespace BackendDarts.data
 
             if (_dbContext.Database.EnsureCreated())
             {
+                //add pilink
+                PiLink pl = new PiLink();
+                _dbContext.PiLinks.Add(pl);
+                _dbContext.SaveChanges();
+
                 //adding games
                 Game game1 = new Game();
                 Game game2 = new Game();
