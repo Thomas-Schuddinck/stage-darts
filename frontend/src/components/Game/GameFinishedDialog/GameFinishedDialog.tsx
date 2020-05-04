@@ -47,7 +47,7 @@ export const GameFinishedDialog = (props: any) => {
                 UNDO THROW
                 </Button>
                 <Button onClick={handleOverviewGame} color="primary">
-                    <NavLink to={`/game/${props.id}`}>GAME OVERVIEW</NavLink>
+                    <NavLink to={`/overview/${props.id}`}>GAME OVERVIEW</NavLink>
                 </Button>
                 <Button onClick={handleGoToGames} color="primary">
                     <NavLink to={`/gamelist`} >GO TO GAMES</NavLink>
