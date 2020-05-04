@@ -111,7 +111,14 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
   },
   test: {
-    overflow: 'hidden'
+    overflow: 'hidden',
+  },
+  fullSize:{
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+      paddingLeft: "10px",
+      paddingRight: "10px"
+    },
   }
 }));
 
@@ -161,7 +168,7 @@ export default function MyToolbar(props: { children: React.ReactNode }) {
         }}
         open={open}
       >
-        <div className={classes.toolbarIcon}>
+        <div className={clsx(classes.toolbarIcon)}>
           <IconButton onClick={handleDrawerClose}>
             <ChevronLeftIcon />
           </IconButton>
@@ -177,7 +184,7 @@ export default function MyToolbar(props: { children: React.ReactNode }) {
       <main className={classes.content}>
 
         <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
+        <Container maxWidth="lg" className={clsx(classes.container, classes.fullSize)}>
           {props.children}
         </Container>
 

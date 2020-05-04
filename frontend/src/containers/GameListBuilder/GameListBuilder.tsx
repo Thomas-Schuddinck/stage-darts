@@ -12,9 +12,11 @@ import PropagateLoader from "react-spinners/PropagateLoader";
 import Wrap from '../../hoc/Wrap';
 import { css } from "@emotion/core";
 import { Game } from '../../models/Game';
-import GameListPlayerField from '../../components/GameList/GameListPlayerField/GameListPlayerField';
 import { NavLink, Redirect } from 'react-router-dom';
 import {Environment} from '../../environment'
+import { useHistory } from "react-router-dom";
+import { indigo } from '@material-ui/core/colors';
+import GameListPlayerField from '../../components/Lists/GameListPlayerField';
 
 const StyledTableCell = withStyles(theme => ({
     head: {
@@ -50,6 +52,12 @@ const StyledTableRow = withStyles(theme => ({
 }))(TableRow);
 
 const useStyles = makeStyles({
+    onhover: {
+        cursor: 'pointer',
+        '&:hover': {
+            backgroundColor: indigo[50],
+         },
+    },
 });
 
 export const GameListBuilder = () => {
@@ -72,7 +80,7 @@ export const GameListBuilder = () => {
     }, []);
 
     const CallToApiGameListAll = async (): Promise<Game[]> => {
-        return await GetApiCall(Environment.apiurl + '/gamelist/all').then(gameList => {
+        return await GetApiCall(Environment.apiurl + '/gamelist/unfinishedNT').then(gameList => {
             return gameList;
         });
     }
@@ -88,6 +96,12 @@ export const GameListBuilder = () => {
         }
     }
 
+    let history = useHistory();
+    const navigateToGame = (id: number) => {
+        console.log(id);
+        history.push(`/game/${id}`);
+    }
+
 
     const createTable = () => {
         let table: JSX.Element[] = [];
@@ -96,12 +110,11 @@ export const GameListBuilder = () => {
             table.push(
                 //onClick = {() => renderRedirect(game)} key={i} 
 
-                <StyledTableRow>
+                <StyledTableRow className={classes.onhover} onClick={() => navigateToGame(game.id)}>
 
                     {/* <StyledTableCell align="center">{game!.legGroups!.length}</StyledTableCell> */}
                     <StyledTableCell align="center">{forDate(game.beginDate)}</StyledTableCell>
-                    <StyledTableCell align="center"><GameListPlayerField players={game.players} ></GameListPlayerField></StyledTableCell>
-                    <StyledTableCell align="center"><NavLink to={`/game/${game.id}`} >Details</NavLink></StyledTableCell>
+                    <StyledTableCell align="center"><GameListPlayerField players={game.players.map(p => {return p.playerDTO})} ></GameListPlayerField></StyledTableCell>
                 </StyledTableRow>
 
 
@@ -133,7 +146,6 @@ export const GameListBuilder = () => {
                                     {/* <StyledTableCell align="center">Current Leg</StyledTableCell> */}
                                     <StyledTableCell align="center">Startdate</StyledTableCell>
                                     <StyledTableCell align="center">Players</StyledTableCell>
-                                    <StyledTableCell align="center"></StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>

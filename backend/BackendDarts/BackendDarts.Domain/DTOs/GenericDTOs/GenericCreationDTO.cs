@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BackendDarts.DTOs
 {
-    public class NewGameDTO
+    public class GenericCreationDTO
     {
         public string Name { get; set; }
         public int Type { get; set; }

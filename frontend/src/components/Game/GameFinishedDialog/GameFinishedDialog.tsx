@@ -14,10 +14,11 @@ export const GameFinishedDialog = (props: any) => {
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const handleClose = () => {
-        props.openReview();
+       
         setOpen(false);
     };
-    const handleReviewGame = () => {
+    const handleUndoLastThrow = () => {
+        props.undoLastThrow();
         handleClose();
     };
     const handleOverviewGame = () => {
@@ -36,17 +37,19 @@ export const GameFinishedDialog = (props: any) => {
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
             fullScreen={fullScreen} 
+            disableBackdropClick={true}
+            disableEscapeKeyDown={true}
         >
             <DialogTitle id="alert-dialog-title">{"Game Finished"}</DialogTitle>
             <DialogContent>
                 <GameFinishedialogContent id="alert-dialog-description" winner={props.winner} />
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleReviewGame} color="primary">
-                REVIEW GAME
+                <Button onClick={handleUndoLastThrow} color="primary">
+                UNDO THROW
                 </Button>
                 <Button onClick={handleOverviewGame} color="primary">
-                    <NavLink to={`/game/${props.id}`}>GAME OVERVIEW</NavLink>
+                    <NavLink to={`/overview/${props.id}`}>GAME OVERVIEW</NavLink>
                 </Button>
                 <Button onClick={handleGoToGames} color="primary">
                     <NavLink to={`/gamelist`} >GO TO GAMES</NavLink>

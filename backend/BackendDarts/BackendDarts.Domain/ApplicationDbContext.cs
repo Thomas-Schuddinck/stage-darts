@@ -1,4 +1,5 @@
-﻿using BackendDarts.Models;
+﻿using BackendDarts.Domain.Models;
+using BackendDarts.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace BackendDarts.Domain
@@ -12,6 +13,9 @@ namespace BackendDarts.Domain
         public DbSet<PlayerGame> PlayerGames { get; set; }
         public DbSet<Player> Players { get; set; }
         public DbSet<DartThrow> DartThrows { get; set; }
+        public DbSet<Tournament> Tournaments { get; set; }
+        public DbSet<PiLink> PiLinks { get; set; }
+
 
         public ApplicationDbContext(DbContextOptions options)
             : base(options)
@@ -27,6 +31,11 @@ namespace BackendDarts.Domain
             builder.Entity<PlayerGame>().HasKey(x => new
             {
                 x.GameId,
+                x.PlayerId
+            });
+            builder.Entity<PlayerTournament>().HasKey(x => new
+            {
+                x.TournamentId,
                 x.PlayerId
             });
             //builder.ApplyConfiguration(new GameConfiguration());

@@ -14,6 +14,12 @@ namespace BackendDarts.DTOs
         public List<LegGroupDTO> LegGroups { get; set; }
         public List<PlayerDetailDTO> Players { get; set; }
 
+        //For Tournaments
+        public int BracketSectorNumber { get; set; }
+        public int BracketStageNumber { get; set; }
+        public bool TournamentPlayable { get; set; }
+        public bool IsFinished { get; set; }
+        public int TournamentId { get; set; }
         public GameDTO()
         {
 
@@ -26,6 +32,11 @@ namespace BackendDarts.DTOs
             this.Id = g.Id;
             this.beginDate = g.BeginDate;
             this.endDate = g.EndDate;
+            this.TournamentPlayable = g.TournamentPlayable;
+            this.IsFinished = g.IsFinished;
+            this.BracketSectorNumber = g.BracketSectorNumber;
+            this.BracketStageNumber = g.BracketStageNumber;
+            this.TournamentId = g.Tournament == null ? -1 : g.Tournament.Id;
             Dictionary<int, int> winnarsmap = new Dictionary<int, int>();
             foreach (LegGroup lg in g.LegGroups)
             {

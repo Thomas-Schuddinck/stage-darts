@@ -15,7 +15,7 @@ namespace BackendDarts.DTOs
         public double AverageScoreThrown { get; set; }
         public double PercentageWins { get; set; }
         public double PercentageBoardHits { get; set; }
-
-
+        public List<GameDTO> History { get; set; }
+        public int NumberOfLosses { get; set; }
     }
 }

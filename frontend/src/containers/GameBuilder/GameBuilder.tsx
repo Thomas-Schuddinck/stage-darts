@@ -6,7 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import PropagateLoader from "react-spinners/PropagateLoader";
-import { GetApiCall } from '../../services/ApiClient';
+import { GetApiCall, PutApiCall } from '../../services/ApiClient';
 import LastDartThrow from '../../components/Game/LastDartThrow/LastDartThrow';
 import CurrentTurn from '../../components/Game/CurrentTurn/CurrentTurn';
 import { css } from "@emotion/core";
@@ -25,6 +25,7 @@ import HistoryComponent from '../../components/Game/History/History';
 import { GameFinishedDialog } from '../../components/Game/GameFinishedDialog/GameFinishedDialog';
 import { GameReviewDialog } from '../../components/Game/GameReviewDialog/GameReviewDialog';
 import { useMediaQuery } from '@material-ui/core';
+import { TournamentFinishedDialog } from '../../components/Game/GameFinishedDialog/TournamentFinishedDialog';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -35,7 +36,8 @@ const useStyles = makeStyles(theme => ({
     fixedHeight: {
         height: 240,
     },
-
+    absolute: {
+    },
     alignFlex: {
         display: "flex",
         flexDirection: 'row',
@@ -67,31 +69,43 @@ const useStyles = makeStyles(theme => ({
         }
     },
     flexie: {
-
         display: 'flex',
-        flexDirection: 'column'
-
-
+        flexDirection: 'column',
     }, 
     test:{
         overflowY: 'auto',
         top: '0px',
-        bottom: '0px'
+        bottom: '0px',
     }
 }));
 
 export const GameBuilder = (props: { match: { params: any; }; }) => {
 
-
     const classes = useStyles();
 
     const theme = useTheme();
-    const smallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+    let [size = 0, setSize] = useState<number>();
     let [gameDetails, setGameDetails] = useState<GameDetails>();
     let [isLoading, setLoading] = React.useState(true);
     let [openDialogFinishGame, setOpenDialogFinishGame] = React.useState(false);
-    let [openDialogReviewGame, setOpenDialogReviewGame] = React.useState(false);
+    let [openDialogFinishTournament, setOpenDialogFinishTournament] = React.useState(false);
     let [winner, setWinner] = React.useState("-1");
+    let [dialogId, setDialogId] = useState<number>();
+
+    useEffect(() => {
+        window.addEventListener('resize', updateWindowDimensions);
+        setSize(window.innerWidth);
+    }, []);
+
+    const goBack = async () => {
+        await PutApiCall(Environment.apiurl + '/Game/letsGoBackInTimeBaby')
+    }
+
+
+    const updateWindowDimensions = () => {
+        setSize(window.innerWidth);
+    }
+
     const FetchData = async (id: number) => {
         setLoading(true);
         setGameDetails(await CallToApiGame(id));
@@ -116,20 +130,19 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
             setGameDetails(payload.gameDTO);
             if (payload.status === 1) {
                 setWinner(payload.winner);
-                setOpenDialogFinishGame(true);
-
+                setDialogId(payload.gameDTO.game.tournamentId !== -1 ? payload.gameDTO.game.tournamentId : payload.gameDTO.game.id)
+                if(payload.gameDTO.game.tournamentPlayable){
+                    setOpenDialogFinishTournament(true);
+                } else{
+                    setOpenDialogFinishGame(true);
+                }
+                
             }
         });
 
     }
-    const openReviewDialog = () => {
-        console.log('ok ik raak hier')
-        console.log('openReviewDialog')
-        setOpenDialogReviewGame(true)
-    }
 
     useEffect(() => {
-
         if (props.match.params.id) {
             FetchData(props.match.params.id);
         } else {
@@ -139,8 +152,6 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
 
     const CallToApiGame = async (id: number): Promise<GameDetails> => {
         return await GetApiCall(Environment.apiurl + '/Game/' + id).then(gameDetails => {
-            console.log("dit is de game");
-            console.log(gameDetails)
             return gameDetails;
         });
     }
@@ -160,6 +171,10 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
         setSelectedThrowToEdit(tr);
     }
 
+    const keyboardToggle = (boo : boolean) => {
+        console.log(boo);
+    }
+
     return (
         <Aux>
             {isLoading ? (
@@ -170,8 +185,8 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                 />
             ) : (
                     <Aux >
-                        <div className={smallScreen ? classes.flexie : ""}>
-                            <Grid container spacing={3}>
+                        <div className={size < 499 ? classes.flexie : ""}>
+                            <Grid container spacing={3} className={classes.absolute}>
                                 {
                                     gameDetails!.currentLegGroup!
                                         .playerLegs!.map(function (pl: PlayerLeg, i: any) {
@@ -187,15 +202,16 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                                                         </Grid>
                                                         <Grid item xs={7} md={5} lg={5}>
                                                             <CurrentScore score={pl.currentScore} />
-
                                                             <NumberOfWonLegs legs={
                                                                 gameDetails!.game!
                                                                     .players &&
                                                                 gameDetails!.game!
                                                                     .players!
-                                                                    .filter((p: PlayerDetail) =>
+                                                                    .filter(
+                                                                        (p: PlayerDetail) =>
                                                                         p.playerDTO.id ===
-                                                                        pl.player.id)[0].legsWon}></NumberOfWonLegs>
+                                                                        pl.player.id
+                                                                        )[0].legsWon}></NumberOfWonLegs>
                                                         </Grid>
                                                     </Grid>
                                                 </Paper>
@@ -206,7 +222,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                                         )
                                 }
 
-                                {smallScreen ? (<div></div>) : (<AddThrow currentgame={gameDetails?.game.id} selectedThrow={selectedThrowToEdit} />)}
+                                {size < 499 ? (<div></div>) : (<AddThrow currentgame={gameDetails?.game.id} undoLastThrow={goBack} selectedThrow={selectedThrowToEdit} />)}
 
 
 
@@ -216,14 +232,14 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                             <HistoryComponent game={gameDetails!.game!} />
 
                             
-                            {smallScreen ? (<AddThrow currentgame={gameDetails?.game.id} selectedThrow={selectedThrowToEdit} className={classes.test}  />) : (<div></div>)}
+                            {size < 499 ? (<AddThrow currentgame={gameDetails?.game.id} undoLastThrow={goBack} selectedThrow={selectedThrowToEdit} className={classes.test}  />) : (<div></div>)}
                             {openDialogFinishGame ? (
-                                <GameFinishedDialog winner={winner} openReview={openReviewDialog} />
+                                <GameFinishedDialog winner={winner} id={dialogId} undoLastThrow={goBack} />
                             ) : (
                                     <div></div>
                                 )}
-                            {openDialogReviewGame ? (
-                                <GameReviewDialog />
+                            {openDialogFinishTournament ? (
+                                <TournamentFinishedDialog winner={winner} id={dialogId} undoLastThrow={goBack} />
                             ) : (
                                     <div></div>
                                 )}

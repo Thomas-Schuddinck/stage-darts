@@ -80,6 +80,15 @@ export const SideList = (props: any) => {
         </MenuItem>
       </NavLink>
 
+      <NavLink activeClassName={classes.active} to="/tournamentlist" onClick={() => sendClick()}>
+        <MenuItem className={classes.itemLi}>
+          <ListItemIcon className={classes.icon}>
+            <ListAltIcon />
+          </ListItemIcon>
+          <ListItemText primary="Active Tournaments" />
+        </MenuItem>
+      </NavLink>
+      
       <NavLink activeClassName={classes.active} to="/leaderbord" onClick={() => sendClick()}>
         <MenuItem className={classes.itemLi}>
           <ListItemIcon className={classes.icon}>
@@ -89,23 +98,6 @@ export const SideList = (props: any) => {
         </MenuItem>
       </NavLink>
 
-      <NavLink activeClassName={classes.active} to='/tournament' onClick={() => sendClick()}>
-        <MenuItem className={classes.itemLi}>
-          <ListItemIcon className={classes.icon}>
-            <BarChartIcon />
-          </ListItemIcon>
-          <ListItemText primary="Tournament" />
-        </MenuItem>
-      </NavLink>
-
-      <NavLink activeClassName={classes.active} to='/quickstart' onClick={() => sendClick()}>
-        <MenuItem className={classes.itemLi}>
-          <ListItemIcon className={classes.icon}>
-            <LayersIcon />
-          </ListItemIcon>
-          <ListItemText primary="Quick start" />
-        </MenuItem>
-      </NavLink>
       <NavLink activeClassName={classes.active} to="/about" onClick={() => sendClick()}>
         <MenuItem className={classes.itemLi}>
           <ListItemIcon className={classes.icon}>

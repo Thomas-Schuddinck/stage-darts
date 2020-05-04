@@ -1,4 +1,5 @@
-﻿using BackendDarts.DTOs;
+﻿using BackendDarts.Domain.Models;
+using BackendDarts.DTOs;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,11 +17,20 @@ namespace BackendDarts.Models
         public List<LegGroup> LegGroups { get; set; } = new List<LegGroup>();
         public int Winner { get; set; }
         public List<PlayerGame> PlayerGames { get; set; } = new List<PlayerGame>();
+
         //new for game verloop
         public int CurrentPlayerLegIndex { get; set; } = -1;
         public LegGroup CurrentLegGroup { get; set; }
+        public bool IsFinished => Winner != -1;
+
         [NotMapped]
         public static Game SingletonGame { get; set; }
+
+        //For Tournaments
+        public int BracketSectorNumber { get; private set; }
+        public int BracketStageNumber { get; private set; }
+        public bool TournamentPlayable => PlayerGames.Count == 2 && Type == 3;
+        public Tournament Tournament { get; private set; }
 
         public Game()
         {
@@ -28,13 +38,35 @@ namespace BackendDarts.Models
             SetupGame();
         }
 
-        public Game(NewGameDTO newGameDTO) : this()
+        public Game(GenericCreationDTO newGameDTO) : this()
         {
             Name = newGameDTO.Name;
             Type = newGameDTO.Type;
             
         }
 
+        /// <summary>
+        /// For tournament games only
+        /// </summary>
+        /// <param name="bracketSectorNr"></param>
+        /// <param name="bracketStageNr"></param>
+        /// <param name="name"></param>
+        /// <param name="players"></param>
+        /// <param name="tournament"></param>
+        public Game(int bracketSectorNr, int bracketStageNr, string name, List<Player> players, Tournament tournament)
+        {
+            BracketSectorNumber = bracketSectorNr;
+            BracketStageNumber = bracketStageNr;
+            Name = name;
+            Type = 3;
+            Tournament = tournament;
+            foreach(Player player in players)
+                AddPlayer(player);
+            BeginDate = DateTime.Now.Date;
+            SetupGame();
+            ConfigureGame();
+        }
+        
         /// <summary>
         /// (re)set all simple values
         /// </summary>
@@ -69,6 +101,8 @@ namespace BackendDarts.Models
         {
             Winner = winnerId;
             EndDate = DateTime.Now.Date;
+            if (Type == 3)
+                EvaluateGameResult();
         }
 
         /// <summary>
@@ -80,7 +114,7 @@ namespace BackendDarts.Models
         {
             CurrentLegGroup.SetLegWinner(GetCurrentPlayer().Id);
             if(LegGroups.Count(lg => lg.Winner == GetCurrentPlayer().Id)==2)
-                Winner = GetCurrentPlayer().Id;
+                FinishGame(GetCurrentPlayer().Id);
         }
 
         /// <summary>
@@ -103,6 +137,42 @@ namespace BackendDarts.Models
                 }
             }
             return result;
+        }
+
+        public void GoBack()
+        {
+            
+            if (HasThrows())
+            {
+                Winner = -1;
+                CurrentLegGroup.Winner = -1;
+                
+                if (GetCurrenPlayerLeg().GoBack())
+                {
+                    CurrentPlayerLegIndex = (CurrentPlayerLegIndex - 1 + PlayerGames.Count) % PlayerGames.Count;
+                    GetCurrentTurn().ReopenTurn();
+                    GetCurrenPlayerLeg().GoBack();
+                }
+            }
+            else
+            {
+                if(LegGroups.Count != 0)
+                {
+                    CurrentLegGroup = LegGroups[LegGroups.Count - 1];
+                    LegGroups.RemoveAt(LegGroups.Count - 1);
+                    GoBack();
+                }
+            }
+        }
+
+        public bool HasThrows()
+        {
+            foreach (PlayerLeg playerLeg in CurrentLegGroup.PlayerLegs)
+            {
+                if (playerLeg.Turns.Count > 0 && playerLeg.Turns[0].Throws.Count > 0)
+                    return true;
+            }
+            return false;
         }
 
         /// <summary>
@@ -246,6 +316,7 @@ namespace BackendDarts.Models
         {
             LegGroups.Add(CurrentLegGroup);
         }
+
         #endregion
 
         #region GetMethods
@@ -300,9 +371,33 @@ namespace BackendDarts.Models
             return size > 0 ? GetCurrenPlayerLeg().Turns[size - 2] : new Turn();
         }
 
+        public Player FindPlayerById(int id)
+        {
+            return PlayerGames.FirstOrDefault(pg => pg.PlayerId == id).Player;
+        }
+
         #endregion
 
+        #region Tournament Operations
 
+        public void CheckNameTournamentGame()
+        {
+            if (TournamentPlayable)
+
+                Name = Name + " Tournament - " + PlayerGames[0].Player.Name + " VS " + PlayerGames[1].Player.Name;
+        } 
+
+        public void RemovePlayer(Player player)
+        {
+            PlayerGames.Remove(PlayerGames.Find(pg => pg.PlayerId == player.Id));
+            CurrentLegGroup.PlayerLegs.Remove(CurrentLegGroup.PlayerLegs.Find(i => i.Player.Id == player.Id));
+        }
+        private void EvaluateGameResult()
+        {
+            if (TournamentPlayable && IsFinished)
+                Tournament.EvaluatTournament(this, PlayerGames[0].PlayerId == Winner ? PlayerGames[1].Player : PlayerGames[0].Player);
+        }
+        #endregion
 
 
     }

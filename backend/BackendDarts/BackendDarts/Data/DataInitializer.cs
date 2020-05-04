@@ -1,5 +1,6 @@
 ﻿
 using BackendDarts.Domain;
+using BackendDarts.Domain.Models;
 using BackendDarts.Models;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,11 @@ namespace BackendDarts.data
 
             if (_dbContext.Database.EnsureCreated())
             {
+                //add pilink
+                PiLink pl = new PiLink();
+                _dbContext.PiLinks.Add(pl);
+                _dbContext.SaveChanges();
+
                 //adding games
                 Game game1 = new Game();
                 Game game2 = new Game();
@@ -38,9 +44,35 @@ namespace BackendDarts.data
                 Player player1 = new Player("Thomas", "Schuddinck", "thomas.schuddinck@realdolmen.com");
                 Player player2 = new Player("Wouter", "Opsommer", "wouter.opsommer@realdolmen.com");
                 Player player3 = new Player("Johan", "Van Schoor", "johan.vanschoor@hogent.be");
+                Player player4 = new Player("Glenn", "Van Looveren", "glenn.vl@realdolmen.com");
+                Player player5 = new Player("Obi-Wan", "Kenobi", "Obi-jedi@jedimaster.galaxy");
+                Player player6 = new Player("Darth", "Vader", "sithboi@sith.galaxy");
+                Player player7 = new Player("Jar-Jar", "Bings", "meesa.jarjar@realdolmen.com");
+                Player player8 = new Player("Death", "Star", "ds@spaceship.galaxy");
+                Player player9 = new Player("Ahsoka", "Tano", "padawan@jedi.galaxy");
+                Player player10 = new Player("Anakin", "Skyawalker", "a-s@jedi.galaxy");
+                Player player11 = new Player("Luke", "Skyawalker", "l-s@jedi.galaxy");
+                Player player12 = new Player("Leia", "Organa", "l-o@princess.galaxy");
+                Player player13 = new Player("Han", "Solo", "hs@smuggler.galaxy");
+                Player player14 = new Player("Yoda", "Grandmaster", "yoda@grandmaster.galaxy");
+                Player player15 = new Player("Samuel L.", "Jackson", "mace_windu@master.galaxy");
+                Player player16 = new Player("R2-D2", "Droid", "R2@droid.galaxy");
                 _dbContext.Players.Add(player1);
                 _dbContext.Players.Add(player2);
                 _dbContext.Players.Add(player3);
+                _dbContext.Players.Add(player4);
+                _dbContext.Players.Add(player5);
+                _dbContext.Players.Add(player6);
+                _dbContext.Players.Add(player7);
+                _dbContext.Players.Add(player8);
+                _dbContext.Players.Add(player9);
+                _dbContext.Players.Add(player10);
+                _dbContext.Players.Add(player11);
+                _dbContext.Players.Add(player12);
+                _dbContext.Players.Add(player13);
+                _dbContext.Players.Add(player14);
+                _dbContext.Players.Add(player15);
+                _dbContext.Players.Add(player16);
 
                 //adding leggroups
                 LegGroup lg1 = new LegGroup();

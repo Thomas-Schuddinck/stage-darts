@@ -17,6 +17,10 @@ const useStyles = makeStyles(theme => ({
         margin: '0.25em 0'
     },
 
+    bg:{
+        background: 'linear-gradient(60deg,#10acf1, #1092f1)'
+    }
+
 
 }));
 function a11yProps(index: any) {
@@ -35,7 +39,7 @@ function LegComponent(props: any) {
     };
     return (
         <Aux>
-            <AppBar position="static">
+            <AppBar className={classes.bg} position="static">
                 <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
                     {
                         props.leggroup.playerLegs.map(function (s: PlayerLeg, i: any) {

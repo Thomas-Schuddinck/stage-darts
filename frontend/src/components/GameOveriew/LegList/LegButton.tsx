@@ -28,17 +28,26 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         overflow: 'auto',
         flexDirection: 'row',
-        backgroundColor: '#4CBCFF'
+        justifySelf: 'start',
+        background: 'linear-gradient(60deg, #26c6da, #00acc1)',
+        '& > *':{
+            color: 'white',
+        }
     },
     buttonselected: {
         padding: theme.spacing(1),
         display: 'flex',
         overflow: 'auto',
         flexDirection: 'row',
-        backgroundColor: 'green',
+        background: 'linear-gradient(60deg,#10acf1, #1092f1)',
         minWidth: '30px',
-        color: '#FFFFFF',
-    }
+        '& > *':{
+            color: 'white',
+        }
+    }, 
+    wd: {
+        width: '150px',
+    },
 
 }));
 export const LegButtonComponent = (props: any) => {
@@ -50,7 +59,7 @@ export const LegButtonComponent = (props: any) => {
     return (
 
 
-        <ListItem  >
+        <ListItem   className={classes.wd}>
             <Paper className={props.current === props.id? classes.buttonselected : classes.buttonstyle} elevation={3}>
                 <Button  onClick={() => toggleSelected()}>{tekst}{props.legnr}</Button>
             </Paper>

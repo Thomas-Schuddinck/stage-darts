@@ -111,7 +111,7 @@ const PersonalStatsBuilder = () => {
         </Grid>
         <Grid item lg={7} xs={12} md={7}>
         {stats === undefined ? (<p></p>): (
-          <WinLoss wins={stats.numberOfWins} losses={stats.numberOfMisses}></WinLoss>
+          <WinLoss wins={stats.numberOfWins} losses={stats.numberOfLosses}></WinLoss>
           )}
         </Grid>
 
@@ -133,6 +133,7 @@ const PersonalStatsBuilder = () => {
           averageScoreThrown={stats.averageScoreThrown}
           percentageWins={stats.percentageWins}
           percentageBoardHits={stats.percentageBoardHits}
+          percentageSixties={stats.percentageSixties}
           ></Performance>
           )}
         </Grid>
@@ -140,7 +141,7 @@ const PersonalStatsBuilder = () => {
         {/* history */}
         <Grid item xs={12}>
         {stats === undefined ? (<p></p>): (
-          <History></History>
+          <History history={stats.history} player={childPlayer}></History>
           )}
         </Grid>
 

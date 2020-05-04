@@ -1,3 +1,5 @@
+import { Game } from "./Game";
+
 export interface Stats {
     numberOfWins: number;
     numberOfMisses: number;
@@ -8,4 +10,6 @@ export interface Stats {
     averageScoreThrown: number;
     percentageWins: number;
     percentageBoardHits: number;
+    history: Game[];
+    numberOfLosses: number;
 }
