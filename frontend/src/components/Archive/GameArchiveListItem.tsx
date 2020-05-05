@@ -12,7 +12,10 @@ const useStyles = makeStyles(theme => ({
     
     bg: {
         background: 'linear-gradient(60deg,#10acf1, #1092f1)!important' as any,
-        color: 'white'
+        color: 'white', 
+        '&:hover':{
+            background: 'linear-gradient(60deg, #ab47bc, #8e24aa)!important' as any,
+        }
     }
 
 
