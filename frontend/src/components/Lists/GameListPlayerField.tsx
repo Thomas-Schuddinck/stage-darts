@@ -32,7 +32,7 @@ function GameListPlayerField(props: any) {
       <Grid container className={classes.lijst}>
         {props.players.map(function (s: any, i: any) {
 
-          return <Grid item xs={6} md={3} lg={2}>
+          return <Grid item xs={6} md={4} lg={4}>
             <Chip
             icon={<FaceIcon />}
             label={s.name}
