@@ -36,6 +36,22 @@ namespace BackendDarts.Data.Repos
                 .ToList();
         }
 
+        public IEnumerable<Tournament> GetAllFinished()
+        {
+            return _tournaments
+                .Where(to => to.Winner != -1)
+                .Include(t => t.PlayerTournaments).ThenInclude(pt => pt.Player)
+                .ToList();
+        }
+
+        public IEnumerable<Tournament> GetAllUnfinished()
+        {
+            return _tournaments
+                .Where(to => to.Winner == -1)
+                .Include(t => t.PlayerTournaments).ThenInclude(pt => pt.Player)
+                .ToList();
+        }
+
         public Tournament GetBy(int id)
         {
             return _tournaments
