@@ -3,11 +3,8 @@ import Grid from '@material-ui/core/Grid';
 import React, { useState, useEffect } from 'react';
 import Aux from '../../hoc/Wrap';
 import LegListComponent from '../../components/GameOveriew/LegList/LegList';
-import { GameDetails } from '../../models/GameDetails';
 import { GetApiCall } from '../../services/ApiClient';
-import * as signalR from "@aspnet/signalr";
 import { Environment } from '../../environment';
-import { Status } from '../../models/Status';
 import { css } from "@emotion/core";
 import PropagateLoader from "react-spinners/PropagateLoader";
 import LegComponent from '../../components/Game/Leg/Leg';
@@ -17,7 +14,6 @@ import LegOverview from '../../components/GameOveriew/LegOverview/LegOverview';
 import CardHeader from "../../styledcomponents/CardHeader";
 import CardBody from "../../styledcomponents/CardBody";
 import Card from "../../styledcomponents/Card";
-import DartsBoardLogo from '../../components/About/DartBoardLogo/DartBoardLogo';
 
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(theme => ({
