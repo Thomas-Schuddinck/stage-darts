@@ -60,7 +60,7 @@ const useStyles = makeStyles({
     },
 });
 
-export const TournamentListBuilder = () => {
+export const TournamentUnfinishedListBuilder = () => {
     const classes = useStyles();
 
     let [tournamentList, setTournamentList] = useState<Tournament[]>();
@@ -80,7 +80,7 @@ export const TournamentListBuilder = () => {
     }, []);
 
     const CallToApiTournamentListAll = async (): Promise<Tournament[]> => {
-        return await GetApiCall(Environment.apiurl + '/Tournament').then(tournamentList => {
+        return await GetApiCall(Environment.apiurl + '/Tournament/unfinished').then(tournamentList => {
             return tournamentList;
         });
     }
@@ -159,4 +159,4 @@ export const TournamentListBuilder = () => {
     );
 }
 
-export default TournamentListBuilder;
+export default TournamentUnfinishedListBuilder;
