@@ -9,10 +9,6 @@ import { Tournament } from '../../models/Tournament';
 const useStyles = makeStyles(theme => ({
     paper: {
         padding: theme.spacing(1),
-        display: 'flex',
-        overflow: 'auto',
-        flexDirection: 'row',
-        backgroundColor: '#FFD700'
 
     }
 
@@ -31,7 +27,7 @@ function TournamentArchiveList(props: any) {
             <Grid container>
                 {
                     props.tournamentList!.map(function(tournament: Tournament, i: any) {
-                        return (<Grid><TournamentArchiveListItem tournament={tournament} /></Grid>)
+                        return (<Grid item xs={12} md={6} lg={4} className={classes.paper}><TournamentArchiveListItem tournament={tournament} /></Grid>)
                     })
                 }
 

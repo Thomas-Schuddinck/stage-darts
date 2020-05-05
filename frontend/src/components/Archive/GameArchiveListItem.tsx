@@ -9,25 +9,12 @@ import CardBody from "../../styledcomponents/CardBody";
 import GameListPlayerField from '../Lists/GameListPlayerField';
 import { PlayerDetail } from '../../models/PlayerDetail';
 const useStyles = makeStyles(theme => ({
-    tekstHoofd: {
-        alignSelf: 'center',
-        color: "#004BFF",
-        fontSize: '2em',
-        borderBottomColor: '#004BFF',
-        borderBottomWidth: 3,
-        borderBottomStyle: "solid"
-    },
-    wide: {
-        width: '100%'
-    },
-    height: {
-        backgroundImage: `url(${Image})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center center"
-    },
-    wit: {
+    
+    bg: {
+        background: 'linear-gradient(60deg,#10acf1, #1092f1)!important' as any,
         color: 'white'
     }
+
 
 }));
 
@@ -42,10 +29,10 @@ const GameArchiveListItem = (props: any) => {
     console.log(props.game);
     return (
         <Card>
-            <CardHeader color="primary">
+            <CardHeader color="info" className={classes.bg}>
                 <div>
-                    <h4>{props.game.name}</h4>
-                    <h5>{forDate(props.game.beginDate)}</h5>
+                    <h3>{props.game.name}</h3>
+                    <h3>{forDate(props.game.beginDate)}</h3>
                 </div>
             </CardHeader>
             <CardBody>

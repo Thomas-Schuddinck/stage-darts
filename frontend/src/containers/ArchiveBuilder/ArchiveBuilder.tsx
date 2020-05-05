@@ -15,6 +15,7 @@ const useStyles = makeStyles(theme => ({
 
     bg: {
         background: 'linear-gradient(60deg,#10acf1, #1092f1)'
+        
     }
 
 

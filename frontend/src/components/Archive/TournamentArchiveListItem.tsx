@@ -10,7 +10,7 @@ const TournamentArchiveListItem = (props: any) => {
 
     return (
         <Card>
-            <CardHeader color="primary">
+            <CardHeader color="info">
                 <h4>{props.tournament.name}</h4>
             </CardHeader>
             <CardBody>

@@ -80,7 +80,7 @@ export const TournamentUnfinishedListBuilder = () => {
     }, []);
 
     const CallToApiTournamentListAll = async (): Promise<Tournament[]> => {
-        return await GetApiCall(Environment.apiurl + '/Tournament/unfinished').then(tournamentList => {
+        return await GetApiCall(Environment.apiurl + '/unfinished').then(tournamentList => {
             return tournamentList;
         });
     }
