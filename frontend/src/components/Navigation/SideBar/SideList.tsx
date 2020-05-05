@@ -88,7 +88,14 @@ export const SideList = (props: any) => {
           <ListItemText primary="Active Tournaments" />
         </MenuItem>
       </NavLink>
-      
+      <NavLink activeClassName={classes.active} to="/archive" onClick={() => sendClick()}>
+        <MenuItem className={classes.itemLi}>
+          <ListItemIcon className={classes.icon}>
+            <ListAltIcon />
+          </ListItemIcon>
+          <ListItemText primary="Archive" />
+        </MenuItem>
+      </NavLink>
       <NavLink activeClassName={classes.active} to="/leaderbord" onClick={() => sendClick()}>
         <MenuItem className={classes.itemLi}>
           <ListItemIcon className={classes.icon}>
