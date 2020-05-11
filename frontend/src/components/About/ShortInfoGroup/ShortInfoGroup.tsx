@@ -9,6 +9,7 @@ import { ShortInfoPlayers } from './ShortInfoPlayers/ShortInfoPlayers';
 import { ShortInfoStats } from './ShortInfoStats/ShortInfoStats';
 import { ShortInfoWhen } from './ShortInfoWhen/ShortInfoWhen';
 import { ShortInfoWinner } from './ShortInfoWinner/ShortInfoWinner';
+import { ShortInfoTournament } from './ShortInfoTournaments/ShortInfoCompetition';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -45,6 +46,9 @@ export const ShortInfoGroup = () => {
                 
                 <Grid item xs={12}>
                     <ShortInfoDarts />
+                </Grid>
+                <Grid item xs={12}>
+                    <ShortInfoTournament/>
                 </Grid>
             </Grid>
             <hr className={classes.hr}/>
