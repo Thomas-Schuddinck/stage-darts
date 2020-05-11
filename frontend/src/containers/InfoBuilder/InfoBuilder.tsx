@@ -17,7 +17,8 @@ const InfoBuilder = () => {
 
   async function changeLink(link: string) {
     console.log(Environment.apiurl + '/PiLink');
-    return await PostApiCall(Environment.apiurl + '/PiLink', link).then((resp) => {
+    console.log(link);
+    return await PostApiCall(Environment.apiurl + '/Pilink', `"${link}"`).then((resp) => {
       console.log(resp);
       return resp;
     });
@@ -44,7 +45,7 @@ const InfoBuilder = () => {
         onKeyPress={(ev) => {
           console.log(`Pressed keyCode ${ev.key}`);
           if (ev.key === 'Enter') {
-            changeLink("");
+            changeLink(value);
             ev.preventDefault();
           }
         }}
