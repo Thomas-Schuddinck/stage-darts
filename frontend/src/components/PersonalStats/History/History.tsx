@@ -11,7 +11,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
-
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -37,6 +37,11 @@ const useStyles = makeStyles(theme => ({
   },
   tr: {
     borderBottom: 'solid purple 0.2em'
+  },
+  hover: {
+    '&:hover': {
+      cursor: 'pointer',
+    }
   }
 
 }));
@@ -63,6 +68,7 @@ const StyledTableCell = withStyles(theme => ({
       minWidth: 450,
     },
   },
+  
 }))(TableCell);
 
 const StyledTableRow = withStyles(theme => ({
@@ -73,9 +79,15 @@ const StyledTableRow = withStyles(theme => ({
   },
 }))(TableRow);
 
+
+
 const History = (props: any) => {
   const classes = useStyles();
-
+  
+  let history = useHistory();
+  const navigateToOverview = (id: number) => {
+    history.push(`/Overview/${id}`);
+  }
   const createHistory = () => {
     let table: JSX.Element[] = [];
     props.history!.forEach((game: Game) => {
@@ -88,7 +100,7 @@ const History = (props: any) => {
           >
             {createTitle(game)}
           </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
+          <ExpansionPanelDetails className={classes.hover} onClick={() => navigateToOverview(game.id)}>
           <Table aria-label="customized table">
           <TableBody>
             {createDetail(game)}
@@ -148,20 +160,14 @@ const History = (props: any) => {
   }
 
   return (
-    <Card className={classes.paper}>
+    <Card>
       <CardHeader color="primary">
         <h4>
           History
               </h4>
       </CardHeader>
       <CardContent>
-
-
-        
             {createHistory()}
-          
-
-
       </CardContent>
     </Card>
   );

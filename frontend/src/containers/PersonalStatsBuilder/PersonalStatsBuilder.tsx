@@ -115,15 +115,8 @@ const PersonalStatsBuilder = () => {
           )}
         </Grid>
 
-        {/* heatmap? */}
-        <Grid item xs={12} md={5} lg={5}>
-        {stats === undefined ? (<p></p>): (
-          <Heatmap></Heatmap>
-          )}
-        </Grid>
-
         {/* Performance */}
-        <Grid item xs={12} md={7} lg={7}>
+        <Grid item xs={12} md={6} lg={6}>
         {stats === undefined ? (<p></p>): (
           <Performance
           numberOfMisses={stats.numberOfMisses} 
@@ -139,7 +132,7 @@ const PersonalStatsBuilder = () => {
         </Grid>
 
         {/* history */}
-        <Grid item xs={12}>
+        <Grid item xs={12} md={6} lg={6}>
         {stats === undefined ? (<p></p>): (
           <History history={stats.history} player={childPlayer}></History>
           )}
