@@ -83,14 +83,16 @@ const StyledTableRow = withStyles(theme => ({
 
 const History = (props: any) => {
   const classes = useStyles();
-  
+
   let history = useHistory();
   const navigateToOverview = (id: number) => {
     history.push(`/Overview/${id}`);
   }
   const createHistory = () => {
     let table: JSX.Element[] = [];
-    props.history!.forEach((game: Game) => {
+    for(let teller = 0; teller < 5; teller++){
+      var game = props.history![teller];
+      if (!game) {break;}
       table.push(
         <ExpansionPanel className={classes.back}>
           <ExpansionPanelSummary
@@ -109,7 +111,7 @@ const History = (props: any) => {
           </ExpansionPanelDetails>
         </ExpansionPanel>
       )
-    });
+    };
     return table;
   }
 
