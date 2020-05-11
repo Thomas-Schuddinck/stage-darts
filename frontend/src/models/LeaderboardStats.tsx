@@ -1,7 +1,7 @@
-import { Player } from './Player';
+
 
 export interface LeaderboardStats {
-    player: Player;
+    player: string;
     numberOfWins: number;
     totalScoreThrown: number;
     percentageSixties: number;
