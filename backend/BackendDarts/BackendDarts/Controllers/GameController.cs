@@ -388,7 +388,7 @@ namespace BackendDarts.Controllers
             PlayerDTO playerDTO = new PlayerDTO(_playerRepository.GetBy(playerId));
 
             // fills
-            leaderboardRowDTO.player = playerDTO;
+            leaderboardRowDTO.player = playerDTO.Name;
             leaderboardRowDTO.NumberOfWins = playerDataDTO.NumberOfWins;
             leaderboardRowDTO.PercentageWins = numberofgames == 0 ? 0 : playerDataDTO.NumberOfWins * 100 / numberofgames;
             leaderboardRowDTO.TotalScoreThrown = playerDataDTO.TotalScoreThrown;
