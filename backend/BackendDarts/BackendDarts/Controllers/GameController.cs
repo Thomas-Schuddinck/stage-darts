@@ -65,6 +65,13 @@ namespace BackendDarts.Controllers
             return _gameRepository.GetAllWithPlayers().Where(g => (g.Winner == -1 && g.Type != 3)).Select(game => new GameDTO(game)).ToList();
         }
 
+        [HttpGet]
+        [Route("/gamelist/finishedNT")]
+        public IEnumerable<GameDTO> GetAllFinishedNonTournamentGameList()
+        {
+            return _gameRepository.GetAllWithPlayers().Where(g => (g.Winner != -1 && g.Type != 3)).Select(game => new GameDTO(game)).ToList();
+        }
+
         /// <summary>
         /// Get a leaderboard overview
         /// </summary>

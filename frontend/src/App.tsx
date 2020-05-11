@@ -10,9 +10,10 @@ import GameListBuilder from './containers/GameListBuilder/GameListBuilder';
 import NewGameBuilderForm from './containers/NewGameBuilder/NewGameBuilder';
 import NewPlayerBuilderForm from './containers/NewPlayerBuilder/NewPlayerBuilder';
 import { GameOverviewBuilder } from './containers/GameOverview/GameOverview';
-import { TournamentListBuilder } from './containers/TournamentListBuilder/TournamentListBuilder';
+import { TournamentUnfinishedListBuilder } from './containers/TournamentListBuilder/TournamentUnfinishedListBuilder';
 import TournamentBuilder from './containers/TournamentBuilder/TournamentBuilder';
 import InfoBuilder from './containers/InfoBuilder/InfoBuilder';
+import ArchiveBuilder from './containers/ArchiveBuilder/ArchiveBuilder';
 function App() {
   return (
     <Router>
@@ -32,7 +33,10 @@ function App() {
           <GameListBuilder />
         </Route>
         <Route path="/tournamentlist">
-          <TournamentListBuilder />
+          <TournamentUnfinishedListBuilder />
+        </Route>
+        <Route path="/archive">
+          <ArchiveBuilder />
         </Route>
         <Route path="/stats">
           <PersonalStatsBuilder />

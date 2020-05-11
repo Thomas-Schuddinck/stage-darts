@@ -25,9 +25,17 @@ namespace BackendDarts.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<TournamentBasicDTO> GetAll()
+        [Route("/unfinished")]
+        public IEnumerable<TournamentBasicDTO> GetAllUnfinished()
         {
-            return _tournamentRepository.GetAll().Select(tournament => new TournamentBasicDTO(tournament)).ToList();
+            return _tournamentRepository.GetAllUnfinished().Select(tournament => new TournamentBasicDTO(tournament)).ToList();
+        }
+
+        [HttpGet]
+        [Route("/finished")]
+        public IEnumerable<TournamentBasicDTO> GetAllFinished()
+        {
+            return _tournamentRepository.GetAllFinished().Select(tournament => new TournamentBasicDTO(tournament)).ToList();
         }
 
         [HttpGet("{id}")]

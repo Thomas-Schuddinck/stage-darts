@@ -16,6 +16,10 @@ namespace BackendDarts.Data.Repos.IRepos
 
         IEnumerable<Tournament> GetAll();
 
+        IEnumerable<Tournament> GetAllFinished();
+
+        IEnumerable<Tournament> GetAllUnfinished();
+
         void SaveChanges();
     }
 }
