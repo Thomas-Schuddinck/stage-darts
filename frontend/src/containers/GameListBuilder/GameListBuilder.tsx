@@ -13,34 +13,32 @@ import Wrap from '../../hoc/Wrap';
 import { css } from "@emotion/core";
 import { Game } from '../../models/Game';
 import { NavLink, Redirect } from 'react-router-dom';
-import {Environment} from '../../environment'
+import { Environment } from '../../environment'
 import { useHistory } from "react-router-dom";
 import { indigo } from '@material-ui/core/colors';
 import GameListPlayerField from '../../components/Lists/GameListPlayerField';
-
+import clsx from 'clsx';
 const StyledTableCell = withStyles(theme => ({
     head: {
-        backgroundColor: theme.palette.common.white,
-        color: theme.palette.common.black,
         [theme.breakpoints.up('sm')]: {
             padding: '16px',
-          },
+        },
         padding: '0px',
     },
     body: {
         [theme.breakpoints.up('sm')]: {
             fontSize: 14,
             padding: 16,
-          },
+        },
         padding: 0,
         fontSize: 12,
     },
     table: {
         minWidth: 0,
         [theme.breakpoints.up('sm')]: {
-        minWidth: 450,
+            minWidth: 450,
         },
-      },  
+    },
 }))(TableCell);
 
 const StyledTableRow = withStyles(theme => ({
@@ -56,7 +54,16 @@ const useStyles = makeStyles({
         cursor: 'pointer',
         '&:hover': {
             backgroundColor: indigo[50],
-         },
+        },
+    },
+    bg: {
+        background: 'linear-gradient(60deg,#10acf1, #1092f1)',
+        '& > *': { color: 'white' }
+
+    },
+    bg_light: {
+        //background: 'linear-gradient(60deg,#8fdafb, #20b3da)',
+
     },
 });
 
@@ -110,11 +117,11 @@ export const GameListBuilder = () => {
             table.push(
                 //onClick = {() => renderRedirect(game)} key={i} 
 
-                <StyledTableRow className={classes.onhover} onClick={() => navigateToGame(game.id)}>
+                <StyledTableRow className={clsx(classes.onhover, classes.bg_light)} onClick={() => navigateToGame(game.id)}>
 
                     {/* <StyledTableCell align="center">{game!.legGroups!.length}</StyledTableCell> */}
                     <StyledTableCell align="center">{forDate(game.beginDate)}</StyledTableCell>
-                    <StyledTableCell align="center"><GameListPlayerField players={game.players.map(p => {return p.playerDTO})} ></GameListPlayerField></StyledTableCell>
+                    <StyledTableCell align="center"><GameListPlayerField players={game.players.map(p => { return p.playerDTO })} ></GameListPlayerField></StyledTableCell>
                 </StyledTableRow>
 
 
@@ -141,8 +148,8 @@ export const GameListBuilder = () => {
             ) : (
                     <TableContainer component={Paper}>
                         <Table aria-label="customized table">
-                            <TableHead>
-                                <TableRow>
+                            <TableHead className={classes.bg}>
+                                <TableRow className={classes.bg}>
                                     {/* <StyledTableCell align="center">Current Leg</StyledTableCell> */}
                                     <StyledTableCell align="center">Startdate</StyledTableCell>
                                     <StyledTableCell align="center">Players</StyledTableCell>

@@ -119,6 +119,10 @@ const useStyles = makeStyles(theme => ({
       paddingLeft: "10px",
       paddingRight: "10px"
     },
+    
+  },
+  bg: {
+    background: 'linear-gradient(60deg,#10acf1, #1092f1)'
   }
 }));
 
@@ -144,7 +148,7 @@ export default function MyToolbar(props: { children: React.ReactNode }) {
   return (
     <div className={clsx(classes.root, classes.test)}>
       <CssBaseline />
-      <AppBar  className={clsx(classes.appBar, open && classes.appBarShift)}>
+      <AppBar  className={clsx(classes.appBar, open && classes.appBarShift, classes.bg)}>
         <Toolbar className={classes.toolbar}>
           <IconButton
             edge="start"
