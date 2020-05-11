@@ -107,10 +107,10 @@ const NewGameBuilderForm: React.FC = () => {
   let [gameMode, setGameMode] = React.useState<string>();
   let [newItemId = 0, setGameId] = React.useState<number>();
   let [isLoadingData, setIsLoadingData] = React.useState(false);
-  let [name, setName] = React.useState<string>();
+  let [name = new Date().toLocaleDateString(), setName] = React.useState<string>();
   let [doPost = false, setDoPost] = useState<boolean>();
 
-  let [isPlayersError, setPlayersError] = React.useState(false);
+  let [isPlayersError, setPlayersError] = React.useState(true);
   let [playerErrors, setPlayerErrors] = React.useState<string>("");
 
   let [hasErrors, setHasErrors] = React.useState(true);
@@ -187,8 +187,9 @@ const NewGameBuilderForm: React.FC = () => {
 
   }
   useEffect(() => {
+    console.log(players.length);
     if (!isLoadingData) {
-      setHasErrors(name === undefined || gameMode === "" || players === undefined || name!.length < 6 || +gameMode! === 0 || isPlayersError);
+      setHasErrors(name === undefined || gameMode === undefined || gameMode === "" || players === undefined || name!.length < 6 || +gameMode! === 0 || isPlayersError || players.length == 0);
     }
 
   }, [isLoadingData]);
