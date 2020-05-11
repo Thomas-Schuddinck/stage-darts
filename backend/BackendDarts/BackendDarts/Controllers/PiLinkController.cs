@@ -30,8 +30,8 @@ namespace BackendDarts.Controllers
         }
 
 
-        [HttpPut("{url}")]
-        public ActionResult<string> SetUrl(string url)
+        [HttpPost]
+        public ActionResult<string> SetUrl([FromBody]string url)
         {
             _piLinkRepository.Update(url);
             _piLinkRepository.SaveChanges();
