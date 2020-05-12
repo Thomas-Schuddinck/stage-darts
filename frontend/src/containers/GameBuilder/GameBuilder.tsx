@@ -71,7 +71,14 @@ const useStyles = makeStyles(theme => ({
         overflowY: 'auto',
         top: '0px',
         bottom: '0px',
-    }
+    },
+    hr: {
+        borderColor: '#1092f1',
+        borderWidth: '2px',
+        marginTop: '1.5em',
+        marginBottom: '5em',
+        borderStyle: 'solid'
+    },
 }));
 
 export const GameBuilder = (props: { match: { params: any; }; }) => {
@@ -203,8 +210,8 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
 
                                 {size < 499 ? (<div></div>) : (<AddThrow currentgame={gameDetails?.game.id} undoLastThrow={goBack} selectedThrow={selectedThrowToEdit} />)}
                             </Grid>
-                            <hr />
-                            <h3>History</h3>
+                            <hr className={classes.hr} />
+                            
                             <HistoryComponent game={gameDetails!.game!} />
                             {size < 499 ? (<AddThrow currentgame={gameDetails?.game.id} undoLastThrow={goBack} selectedThrow={selectedThrowToEdit} className={classes.test} />) : (<div></div>)}
                             {openDialogFinishGame ? (
