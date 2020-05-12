@@ -247,7 +247,7 @@ const NewGameBuilderForm: React.FC = () => {
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
                 <FormControl component="fieldset" className={classes.fullwidth}>
-                  <FormLabel component="legend" className={classes.label}>Select Game Type</FormLabel>
+                  <FormLabel component="legend" className={classes.label}>Game type</FormLabel>
                   <RadioGroup aria-label="gameType" name="gameType" value={gameMode} onChange={onRadioChange}>
                     <FormControlLabel value="1" control={<Radio />} label="Casual" />
                     <FormControlLabel value="2" control={<Radio />} label="Competitive" />
@@ -257,7 +257,7 @@ const NewGameBuilderForm: React.FC = () => {
               </Grid>
               <Grid item xs={12} md={4} lg={3} >
                 <FormControl component="fieldset" className={classes.fullwidth}>
-                  <FormLabel component="legend" className={classes.label}>Set Game Name</FormLabel>
+                  <FormLabel component="legend" className={classes.label}>Game name</FormLabel>
                   <TextField
                     className={classes.formControl}
                     id="input-with-icon-textfield"
@@ -269,7 +269,7 @@ const NewGameBuilderForm: React.FC = () => {
               </Grid>
               <Grid item xs={12} md={4} lg={3} >
                 <FormControl component="fieldset" className={classes.fullwidth}>
-                  <FormLabel component="legend" className={classes.label}>Select Players</FormLabel>
+                  <FormLabel component="legend" className={classes.label}>Players</FormLabel>
                   <Select
                     name="players"
                     multiple
@@ -296,7 +296,7 @@ const NewGameBuilderForm: React.FC = () => {
                 </FormControl>
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
-                <Button className={clsx(classes.send, classes.formControl)} disabled={hasErrors} onClick={() => setDoPost(true)}><SendIcon className={classes.paddy} />Add Game</Button>
+                <Button className={clsx(classes.send, classes.formControl)} disabled={hasErrors} onClick={() => setDoPost(true)}><SendIcon className={classes.paddy} />Add</Button>
               </Grid>
               <Grid item xs={12} md={12} lg={12}>
                 {isPlayersError &&
