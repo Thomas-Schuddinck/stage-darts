@@ -158,14 +158,11 @@ const NewGameBuilderForm: React.FC = () => {
       } else {
         setOpenTournamentDialog(true);
       }
-      
-      
-
     }
     if (doPost) {
       PostThrowCall();
     }
-  }, [doPost]);
+  }, [doPost, gameMode, name, players]);
 
 
 
@@ -192,7 +189,7 @@ const NewGameBuilderForm: React.FC = () => {
       setHasErrors(name === undefined || gameMode === undefined || gameMode === "" || players === undefined || name!.length < 6 || +gameMode! === 0 || isPlayersError || players.length == 0);
     }
 
-  }, [isLoadingData]);
+  }, [gameMode, isLoadingData, isPlayersError, name, players]);
 
   useEffect(() => {
     if (isValidating) {
@@ -292,7 +289,6 @@ const NewGameBuilderForm: React.FC = () => {
                     renderValue={(selected: any) => (
                       <div className={classes.chips}>
                         {selected.map((value: any) => (
-
                           <Chip key={value} label={playerList!.find(p => {
                             return p!.id === value
                           })!.name} className={classes.chip} />
@@ -318,7 +314,6 @@ const NewGameBuilderForm: React.FC = () => {
                   <Alert severity="error">{playerErrors}</Alert>
                 }
               </Grid>
-
               {openGameDialog ? (
                 <AddGameDialog id={newItemId} />
               ) : (
@@ -331,7 +326,6 @@ const NewGameBuilderForm: React.FC = () => {
                 )}
             </Grid>
           </Card>
-
         )
       }
     </Wrap >

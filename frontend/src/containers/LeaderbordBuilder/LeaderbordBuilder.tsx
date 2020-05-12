@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { createStyles, lighten, makeStyles, Theme } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { GetApiCall } from '../../services/ApiClient';
@@ -13,14 +11,11 @@ import Wrap from '../../hoc/Wrap';
 import { css } from "@emotion/core";
 import { LeaderboardStats } from '../../models/LeaderboardStats';
 import { Environment } from '../../environment';
-import { TablePagination, withStyles } from '@material-ui/core';
+import { TablePagination} from '@material-ui/core';
 import { useStyles } from '../../components/Leaderboard/LeaderBoardStyles';
 import { EnhancedTableHead } from '../../components/Leaderboard/EnhancedTableHead';
 import { Order } from '../../components/Leaderboard/OrderType';
 import { stableSort, getComparator } from '../../components/Leaderboard/LeaderBoardComparator';
-
-
-
 
 export default function LeaderBoard() {
   const classes = useStyles();
@@ -68,13 +63,13 @@ export default function LeaderBoard() {
     setPage(0);
   };
 
-
   const spinner = css`
   display: block;
   margin: 0 auto;
   border-color: red;
   margin-left: 50%;
 `;
+
   return (
     <Wrap>
       {isLoading ? (
@@ -104,7 +99,6 @@ export default function LeaderBoard() {
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((row, index) => {
                         const labelId = `enhanced-table-checkbox-${index}`;
-
                         return (
                           <TableRow
                             hover
@@ -142,6 +136,5 @@ export default function LeaderBoard() {
           </div>
         )}
     </Wrap>
-
   );
 }

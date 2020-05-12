@@ -2,10 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Aux from '../../hoc/Wrap';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import PersonStat from '../../components/PersonalStats/PersonStat';
 import WinLoss from '../../components/PersonalStats/WinLoss';
-import Heatmap from '../../components/PersonalStats/Heatmap';
 import Performance from '../../components/PersonalStats/Performance';
 import History from '../../components/PersonalStats/History/History';
 import { GetApiCall } from '../../services/ApiClient';
@@ -14,6 +12,7 @@ import { Stats } from '../../models/Stats';
 import PropagateLoader from "react-spinners/PropagateLoader";
 import { css } from "@emotion/core";
 import {Environment} from '../../environment';
+
 const useStyles = makeStyles(theme => ({
   paper: {
     padding: theme.spacing(2),
@@ -48,8 +47,6 @@ const useStyles = makeStyles(theme => ({
     
   }
 }));
-
-
 
 const PersonalStatsBuilder = () => {
 
