@@ -90,7 +90,7 @@ export const TournamentUnfinishedListBuilder = () => {
 
         tournamentList!.forEach((tournament: Tournament, i: any) => {
             table.push(
-                <StyledTableRow className={classes.onhover} onClick={() => navigateToTournament(tournament.id)}>
+                <StyledTableRow className={classes.onhover} key={"tournament-li-" + i} onClick={() => navigateToTournament(tournament.id)}>
                     {/* <StyledTableCell align="center">{game!.legGroups!.length}</StyledTableCell> */}
                     <StyledTableCell align="center">{tournament.name} Tournament</StyledTableCell>
                     <StyledTableCell align="center"><GameListPlayerField players={tournament.players} ></GameListPlayerField></StyledTableCell>

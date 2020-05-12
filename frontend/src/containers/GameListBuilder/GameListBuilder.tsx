@@ -96,7 +96,7 @@ const GameListBuilder = () => {
 
         gameList!.forEach((game: Game, i: any) => {
             table.push(
-                <StyledTableRow className={clsx(classes.onhover)} onClick={() => navigateToGame(game.id)}>
+                <StyledTableRow className={clsx(classes.onhover)} key={"game-li-" + i} onClick={() => navigateToGame(game.id)}>
                     {/* <StyledTableCell align="center">{game!.legGroups!.length}</StyledTableCell> */}
                     <StyledTableCell align="center">{forDate(game.beginDate)}</StyledTableCell>
                     <StyledTableCell align="center"><GameListPlayerField players={game.players.map(p => { return p.playerDTO })} ></GameListPlayerField></StyledTableCell>
