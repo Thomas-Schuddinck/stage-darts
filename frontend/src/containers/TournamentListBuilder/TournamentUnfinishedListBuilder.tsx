@@ -11,7 +11,6 @@ import { GetApiCall } from '../../services/ApiClient';
 import PropagateLoader from "react-spinners/PropagateLoader";
 import Wrap from '../../hoc/Wrap';
 import { css } from "@emotion/core";
-import { Redirect } from 'react-router-dom';
 import { Environment } from '../../environment'
 import { useHistory } from "react-router-dom";
 import { indigo } from '@material-ui/core/colors';
@@ -32,12 +31,6 @@ const StyledTableCell = withStyles(theme => ({
         },
         padding: 15,
         fontSize: 12,
-    },
-    table: {
-        minWidth: 0,
-        [theme.breakpoints.up('sm')]: {
-            minWidth: 450,
-        },
     },
 }))(TableCell);
 
@@ -88,7 +81,6 @@ export const TournamentUnfinishedListBuilder = () => {
 
     let history = useHistory();
     const navigateToTournament = (id: number) => {
-        console.log(id);
         history.push(`/Tournament/${id}`);
     }
 
