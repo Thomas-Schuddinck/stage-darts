@@ -21,13 +21,16 @@ const useStyles = makeStyles(theme => ({
 
 const TournamentArchiveListItem = (props: any) => {
     const classes = useStyles();
+    
+    console.log("kijk eens hier");
+    console.log(props.tournamentList)
     return (
         <Card>
             <CardHeader color="info" className={classes.bg}>
                 <h4>{props.tournament.name}</h4>
             </CardHeader>
             <CardBody>
-                <GameListPlayerField players={(props.tournament.players.map((p: PlayerDetail) => { return p.playerDTO }))} />
+                <GameListPlayerField players={props.tournament.players} />
             </CardBody>
         </Card>
     );
