@@ -133,7 +133,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
         } else {
             FetchData(1);
         }
-    }, );
+    },[] );
 
     const CallToApiGame = async (id: number): Promise<GameDetails> => {
         return await GetApiCall(Environment.apiurl + '/Game/' + id).then(gameDetails => {
