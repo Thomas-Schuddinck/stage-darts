@@ -20,8 +20,6 @@ import GameListPlayerField from '../../components/Lists/GameListPlayerField';
 
 const StyledTableCell = withStyles(theme => ({
     head: {
-        backgroundColor: theme.palette.common.white,
-        color: theme.palette.common.black,
         [theme.breakpoints.up('sm')]: {
             padding: '16px',
         },
@@ -57,6 +55,12 @@ const useStyles = makeStyles({
         '&:hover': {
             backgroundColor: indigo[50],
         },
+    },
+    
+    bg: {
+        background: 'linear-gradient(60deg,#10acf1, #1092f1)',
+        '& > *': { color: 'white' }
+
     },
 });
 
@@ -142,7 +146,7 @@ export const TournamentUnfinishedListBuilder = () => {
                     <TableContainer component={Paper}>
                         <Table aria-label="customized table">
                             <TableHead>
-                                <TableRow>
+                                <TableRow className={classes.bg}>
                                     {/* <StyledTableCell align="center">Current Leg</StyledTableCell> */}
                                     <StyledTableCell align="center">Name</StyledTableCell>
                                     <StyledTableCell align="center">Players</StyledTableCell>

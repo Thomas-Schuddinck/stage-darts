@@ -21,6 +21,7 @@ import { stableSort, getComparator } from '../../components/Leaderboard/LeaderBo
 
 
 
+
 export default function LeaderBoard() {
   const classes = useStyles();
   const [order, setOrder] = React.useState<Order>("asc");

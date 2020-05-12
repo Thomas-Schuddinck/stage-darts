@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
         
     },
     tekst: {
-        alignSelf: 'center',
+        textAlign: 'right',
         color: "white",
         
         fontSize: '1.2em',

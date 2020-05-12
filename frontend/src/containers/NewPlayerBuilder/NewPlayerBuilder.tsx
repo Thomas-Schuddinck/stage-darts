@@ -49,7 +49,7 @@ const useStyles = makeStyles(theme => ({
     but: {
         //backgroundColor: '#004BFF',
         //backgroundColor: indigo[500],
-        backgroundColor: "#2e5871",
+        background: 'linear-gradient(60deg,#10acf1, #1092f1)',
         color: "#FFFFFF",
         padding: '1.2em 2em',
         margin: '1em',
@@ -80,6 +80,10 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-evenly',
+    },
+    bg: {
+        background: 'linear-gradient(60deg,#10acf1, #1092f1)'
+
     }
 
 }));

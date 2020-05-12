@@ -22,8 +22,8 @@ const useStyles = makeStyles(theme => ({
 }));
 function anyProps(index: any) {
     return {
-        id: `simple-tab-${index}`,
-        'aria-controls': `simple-tabpanel-${index}`,
+        id: `full-width-tab-${index}`,
+        'aria-controls': `full-width-tabpanel-${index}`,
     };
 }
 
@@ -84,7 +84,7 @@ const ArchiveBuilder = (props: any) => {
                     <Aux>
 
                         <AppBar className={classes.bg} position="static">
-                            <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+                            <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" variant="fullWidth">
                                 <Tab label="NORMAL GAMES" {...anyProps(0)} />
                                 <Tab label="TOURNAMENTS" {...anyProps(1)} />
                             </Tabs>

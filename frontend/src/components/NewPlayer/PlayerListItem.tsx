@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         overflow: 'auto',
         //backgroundColor: '#004BFF',
-        backgroundColor: indigo[300],
+        background: 'linear-gradient(60deg,#10acf1, #1092f1)',
         alignItems: 'center', 
         justifyContent: 'space-evenly', 
         border: 0,

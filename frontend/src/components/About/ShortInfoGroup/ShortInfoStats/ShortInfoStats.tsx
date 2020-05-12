@@ -10,18 +10,18 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         overflow: 'auto',
         flexDirection: 'row',
-        backgroundColor: '#4CBCFF'
+        background: 'linear-gradient(60deg,#10acf1, #1092f1)'
         
     },
     
     icoon: {
-        color: "#004BFF",
+        color: "white",
         fontSize: '2.5em'
         
     },
     tekst: {
-        alignSelf: 'center',
-        color: "#004BFF",
+        textAlign: 'right',
+        color: "white",
         fontSize: '1.5em',
         margin: '0 auto'
         
