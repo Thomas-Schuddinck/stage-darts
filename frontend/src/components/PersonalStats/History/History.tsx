@@ -5,14 +5,17 @@ import CardHeader from "../../../styledcomponents/CardHeader";
 import CardBody from "../../../styledcomponents/CardBody";
 import Card from "../../../styledcomponents/Card";
 import { Game } from '../../../models/Game';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
 import { useHistory } from 'react-router-dom';
-
+import Button from '@material-ui/core/Button';
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import MobileStepper from '@material-ui/core/MobileStepper';
 const useStyles = makeStyles(theme => ({
   paper: {
     padding: theme.spacing(2),
@@ -83,6 +86,17 @@ const StyledTableRow = withStyles(theme => ({
 
 const History = (props: any) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const [activeStep, setActiveStep] = React.useState(0);
+  const maxSteps = Math.ceil(props.history!.length / 4);
+
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
 
   let history = useHistory();
   const navigateToOverview = (id: number) => {
@@ -90,7 +104,7 @@ const History = (props: any) => {
   }
   const createHistory = () => {
     let table: JSX.Element[] = [];
-    for(let teller = 0; teller < 5; teller++){
+    for(let teller = activeStep * 4; teller < (4 + activeStep * 4); teller++){
       var game = props.history![teller];
       if (!game) {break;}
       table.push(
@@ -170,7 +184,26 @@ const History = (props: any) => {
       </CardHeader>
       <CardContent>
             {createHistory()}
+            
       </CardContent>
+      <MobileStepper
+        steps={maxSteps}
+        position="static"
+        variant="text"
+        activeStep={activeStep}
+        nextButton={
+          <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
+            Next
+            {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+          </Button>
+        }
+        backButton={
+          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+            {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+            Back
+          </Button>
+        }
+      />
     </Card>
   );
 
