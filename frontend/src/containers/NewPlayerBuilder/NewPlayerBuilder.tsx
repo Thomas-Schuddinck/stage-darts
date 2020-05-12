@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect} from "react";
 import {
     Formik,
     Form
@@ -6,13 +6,12 @@ import {
 import {
     Button, Grid, CardContent
 } from "@material-ui/core";
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles} from '@material-ui/core/styles';
 import * as yup from "yup";
 import TextInput from "../../components/NewGame/TextInput";
 import { css } from "@emotion/core";
 import Wrap from '../../hoc/Wrap';
 import { PostApiCall } from '../../services/ApiClient';
-
 import { GetApiCall } from '../../services/ApiClient';
 import PropagateLoader from "react-spinners/PropagateLoader";
 import { PlayerList } from "../../components/NewPlayer/PlayerList";
@@ -41,14 +40,10 @@ const useStyles = makeStyles(theme => ({
     },
     label: {
         alignSelf: 'center',
-        //color: "#004BFF",
-        //color: indigo[500],
         color: "#2e5871",
         fontSize: '1.2em',
     },
     but: {
-        //backgroundColor: '#004BFF',
-        //backgroundColor: indigo[500],
         background: 'linear-gradient(60deg,#10acf1, #1092f1)',
         color: "#FFFFFF",
         padding: '1.2em 2em',
@@ -68,8 +63,6 @@ const useStyles = makeStyles(theme => ({
         margin: '20px'
     },
     hr: {
-        //color: '#004BFF',
-        //borderColor: '#004BFF',
         borderColor: indigo[300],
         color: indigo[500],
         borderWidth: '2px',
@@ -105,24 +98,17 @@ const validationSchema = yup.object({
         .string()
         .email("Must be a valid email")
         .required("Your email is required"),
-
 });
 
 const NewPlayerBuilderForm: React.FC = () => {
     const classes = useStyles();
-    const theme = useTheme();
-
-
 
     let [playerList, setPlayerList] = React.useState<Player[]>();
     let [isLoading, setLoading] = React.useState(true);
-
     const FetchData = async () => {
-
         setLoading(true);
         setPlayerList(await CallToApiPlayerListAll());
         setLoading(false);
-
     }
 
     useEffect(() => {
@@ -143,7 +129,6 @@ const NewPlayerBuilderForm: React.FC = () => {
   `;
 
     return (
-
         <Wrap>
             <Card profile>
             <CardAvatar profile>
@@ -203,9 +188,6 @@ const NewPlayerBuilderForm: React.FC = () => {
                                 </div>
                                 </Grid>
                             </Grid>
-
-                            {/*<pre>{JSON.stringify(values, null, 2)}</pre>
-                            <pre>{JSON.stringify(errors, null, 2)}</pre>*/}
                         </Form>
                     )}
                 </Formik>

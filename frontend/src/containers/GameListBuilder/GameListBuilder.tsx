@@ -12,12 +12,12 @@ import PropagateLoader from "react-spinners/PropagateLoader";
 import Wrap from '../../hoc/Wrap';
 import { css } from "@emotion/core";
 import { Game } from '../../models/Game';
-import { NavLink, Redirect } from 'react-router-dom';
 import { Environment } from '../../environment'
 import { useHistory } from "react-router-dom";
 import { indigo } from '@material-ui/core/colors';
 import GameListPlayerField from '../../components/Lists/GameListPlayerField';
 import clsx from 'clsx';
+
 const StyledTableCell = withStyles(theme => ({
     head: {
         [theme.breakpoints.up('sm')]: {
@@ -32,12 +32,6 @@ const StyledTableCell = withStyles(theme => ({
         },
         padding: 0,
         fontSize: 12,
-    },
-    table: {
-        minWidth: 0,
-        [theme.breakpoints.up('sm')]: {
-            minWidth: 450,
-        },
     },
 }))(TableCell);
 
@@ -60,26 +54,19 @@ const useStyles = makeStyles({
         background: 'linear-gradient(60deg,#10acf1, #1092f1)',
         '& > *': { color: 'white' }
 
-    },
-    bg_light: {
-        //background: 'linear-gradient(60deg,#8fdafb, #20b3da)',
-
-    },
+    }
 });
 
-export const GameListBuilder = () => {
+const GameListBuilder = () => {
     const classes = useStyles();
 
     let [gameList, setGameList] = useState<Game[]>();
     let [isLoading, setLoading] = React.useState(true);
 
     const FetchData = async () => {
-
         setLoading(true);
-
         setGameList(await CallToApiGameListAll());
         setLoading(false);
-
     }
 
     useEffect(() => {
@@ -91,16 +78,10 @@ export const GameListBuilder = () => {
             return gameList;
         });
     }
+
     const forDate = (dt: string) => {
         let date = new Date(Date.parse(dt));
         return date.toLocaleDateString();
-    }
-    const renderRedirect = (game: Game) => {
-
-        if (game) {
-            const id = game.id;
-            return <Redirect to={`/game/:id`} />
-        }
     }
 
     let history = useHistory();
@@ -115,16 +96,11 @@ export const GameListBuilder = () => {
 
         gameList!.forEach((game: Game, i: any) => {
             table.push(
-                //onClick = {() => renderRedirect(game)} key={i} 
-
-                <StyledTableRow className={clsx(classes.onhover, classes.bg_light)} onClick={() => navigateToGame(game.id)}>
-
+                <StyledTableRow className={clsx(classes.onhover)} key={"game-li-" + i} onClick={() => navigateToGame(game.id)}>
                     {/* <StyledTableCell align="center">{game!.legGroups!.length}</StyledTableCell> */}
                     <StyledTableCell align="center">{forDate(game.beginDate)}</StyledTableCell>
                     <StyledTableCell align="center"><GameListPlayerField players={game.players.map(p => { return p.playerDTO })} ></GameListPlayerField></StyledTableCell>
                 </StyledTableRow>
-
-
             )
         });
         return table;

@@ -11,15 +11,13 @@ import TournamentArchiveList from '../../components/Archive/TournamentArchiveLis
 import Aux from '../../hoc/Wrap';
 import { css } from "@emotion/core";
 import PropagateLoader from "react-spinners/PropagateLoader";
-const useStyles = makeStyles(theme => ({
 
+const useStyles = makeStyles(theme => ({
     bg: {
         background: 'linear-gradient(60deg,#10acf1, #1092f1)'
-        
     }
-
-
 }));
+
 function anyProps(index: any) {
     return {
         id: `full-width-tab-${index}`,
@@ -31,18 +29,14 @@ const ArchiveBuilder = (props: any) => {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
     let [tournamentList, setTournamentList] = useState<Tournament[]>();
-    
     let [gameList, setGameList] = useState<Game[]>();
     let [isLoading, setLoading] = React.useState(true);
 
     const FetchData = async () => {
-
         setLoading(true);
-
         setTournamentList(await CallToApiTournamentListAll());
         setGameList(await CallToApiGameListAll());
         setLoading(false);
-
     }
 
     useEffect(() => {
@@ -82,19 +76,21 @@ const ArchiveBuilder = (props: any) => {
                 />
             ) : (
                     <Aux>
-
                         <AppBar className={classes.bg} position="static">
                             <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" variant="fullWidth">
                                 <Tab label="NORMAL GAMES" {...anyProps(0)} />
                                 <Tab label="TOURNAMENTS" {...anyProps(1)} />
                             </Tabs>
                         </AppBar>
-                        <TabComponent value={value} index={0} ><GameArchiveList gameList={gameList} /></TabComponent>
-                        <TabComponent value={value} index={1} ><TournamentArchiveList tournamentList={tournamentList} /></TabComponent>
+                        <TabComponent value={value} index={0} >
+                            <GameArchiveList gameList={gameList} />
+                        </TabComponent>
+                        <TabComponent value={value} index={1} >
+                            <TournamentArchiveList tournamentList={tournamentList} />
+                        </TabComponent>
                     </Aux>
                 )}
         </Aux>
-
     );
 }
 

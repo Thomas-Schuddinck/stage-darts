@@ -15,14 +15,10 @@ import { AddGameDialog } from "../../components/NewGame/AddGameDialog";
 import Alert from '@material-ui/lab/Alert';
 import { Environment } from '../../environment';
 import SendIcon from '@material-ui/icons/Send';
-
 import clsx from 'clsx';
-import { useForm } from 'react-hook-form';
 import Card from "../../styledcomponents/Card";
 import CardAvatar from "../../styledcomponents/CardAvatar";
-
 import avatar from '../../img/play7.png';
-import { string, boolean } from "yup";
 import { AddTournamentDialog } from "../../components/NewGame/AddTournamentDialog";
 
 const useStyles = makeStyles(theme => ({
@@ -95,8 +91,6 @@ const NewGameBuilderForm: React.FC = () => {
   const classes = useStyles();
   const theme = useTheme();
 
-
-
   let [players, setPlayers] = React.useState<number[]>([]);
   let [playerList, setPlayerList] = React.useState<Player[]>();
   let [isLoading, setLoading] = React.useState(true);
@@ -115,8 +109,6 @@ const NewGameBuilderForm: React.FC = () => {
 
   let [hasErrors, setHasErrors] = React.useState(true);
   const PowerOf2 = [2, 4, 8, 16, 32, 64, 128, 256];
-
-
 
   const FetchData = async () => {
 
@@ -158,16 +150,11 @@ const NewGameBuilderForm: React.FC = () => {
       } else {
         setOpenTournamentDialog(true);
       }
-      
-      
-
     }
     if (doPost) {
       PostThrowCall();
     }
-  }, [doPost]);
-
-
+  }, [doPost, gameMode, name, players]);
 
   const handleChange = (event: any) => {
     console.log(players);
@@ -192,7 +179,7 @@ const NewGameBuilderForm: React.FC = () => {
       setHasErrors(name === undefined || gameMode === undefined || gameMode === "" || players === undefined || name!.length < 6 || +gameMode! === 0 || isPlayersError || players.length == 0);
     }
 
-  }, [isLoadingData]);
+  }, [gameMode, isLoadingData, isPlayersError, name, players]);
 
   useEffect(() => {
     if (isValidating) {
@@ -223,7 +210,6 @@ const NewGameBuilderForm: React.FC = () => {
 
   useEffect(() => {
     setValidating(true);
-
   }, [players, gameMode, name])
 
   const spinner = css`
@@ -292,7 +278,6 @@ const NewGameBuilderForm: React.FC = () => {
                     renderValue={(selected: any) => (
                       <div className={classes.chips}>
                         {selected.map((value: any) => (
-
                           <Chip key={value} label={playerList!.find(p => {
                             return p!.id === value
                           })!.name} className={classes.chip} />
@@ -318,7 +303,6 @@ const NewGameBuilderForm: React.FC = () => {
                   <Alert severity="error">{playerErrors}</Alert>
                 }
               </Grid>
-
               {openGameDialog ? (
                 <AddGameDialog id={newItemId} />
               ) : (
@@ -331,7 +315,6 @@ const NewGameBuilderForm: React.FC = () => {
                 )}
             </Grid>
           </Card>
-
         )
       }
     </Wrap >

@@ -11,7 +11,6 @@ import { GetApiCall } from '../../services/ApiClient';
 import PropagateLoader from "react-spinners/PropagateLoader";
 import Wrap from '../../hoc/Wrap';
 import { css } from "@emotion/core";
-import { NavLink, Redirect } from 'react-router-dom';
 import { Environment } from '../../environment'
 import { useHistory } from "react-router-dom";
 import { indigo } from '@material-ui/core/colors';
@@ -32,12 +31,6 @@ const StyledTableCell = withStyles(theme => ({
         },
         padding: 15,
         fontSize: 12,
-    },
-    table: {
-        minWidth: 0,
-        [theme.breakpoints.up('sm')]: {
-            minWidth: 450,
-        },
     },
 }))(TableCell);
 
@@ -71,12 +64,9 @@ export const TournamentUnfinishedListBuilder = () => {
     let [isLoading, setLoading] = React.useState(true);
 
     const FetchData = async () => {
-
         setLoading(true);
-
         setTournamentList(await CallToApiTournamentListAll());
         setLoading(false);
-
     }
 
     useEffect(() => {
@@ -88,21 +78,9 @@ export const TournamentUnfinishedListBuilder = () => {
             return tournamentList;
         });
     }
-    const forDate = (dt: string) => {
-        let date = new Date(Date.parse(dt));
-        return date.toLocaleDateString();
-    }
-    const renderRedirect = (tournament: Tournament) => {
-
-        if (tournament) {
-            const id = tournament.id;
-            return <Redirect to={`/Tournament/:id`} />
-        }
-    }
 
     let history = useHistory();
     const navigateToTournament = (id: number) => {
-        console.log(id);
         history.push(`/Tournament/${id}`);
     }
 
@@ -112,16 +90,11 @@ export const TournamentUnfinishedListBuilder = () => {
 
         tournamentList!.forEach((tournament: Tournament, i: any) => {
             table.push(
-                //onClick = {() => renderRedirect(game)} key={i} 
-
-                <StyledTableRow className={classes.onhover} onClick={() => navigateToTournament(tournament.id)}>
-
+                <StyledTableRow className={classes.onhover} key={"tournament-li-" + i} onClick={() => navigateToTournament(tournament.id)}>
                     {/* <StyledTableCell align="center">{game!.legGroups!.length}</StyledTableCell> */}
                     <StyledTableCell align="center">{tournament.name} Tournament</StyledTableCell>
                     <StyledTableCell align="center"><GameListPlayerField players={tournament.players} ></GameListPlayerField></StyledTableCell>
                 </StyledTableRow>
-
-
             )
         });
         return table;
@@ -159,7 +132,6 @@ export const TournamentUnfinishedListBuilder = () => {
                     </TableContainer>
                 )}
         </Wrap>
-
     );
 }
 
