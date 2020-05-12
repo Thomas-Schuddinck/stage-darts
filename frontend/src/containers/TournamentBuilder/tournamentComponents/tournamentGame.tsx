@@ -91,18 +91,21 @@ const TournamentGame = (props: any) => {
                 <CardBody className={classes.status2}>
                 <div className={classes.hover}>
                     <Typography>{props.propsgame.players[0].playerDTO.name}</Typography>
-                    <Typography className={classes.float}><img className={classes.vs} src={vs} /></Typography>
+                    <Typography className={classes.float}><img className={classes.vs} src={vs} alt={"VS"}/></Typography>
                     <Typography>{props.propsgame.players[1].playerDTO.name}</Typography>
                 </div>
                 </CardBody>
             );
         } else {
+            console.log(game.players[0].legsWon);
+            console.log(game.players[1].legsWon);
+            console.log("-------");
             name.push(
                 <CardBody className={classes.status3}>
                 <div className={classes.hover}>
-                    <Typography className={game.players[0].legsWon < game.players[1].legsWon ? classes.win: classes.lose}>{props.propsgame.players[0].playerDTO.name}</Typography>
-                    <Typography className={classes.float}><img className={classes.vs} src={vs} /></Typography>
-                    <Typography className={game.players[0].legsWon < game.players[1].legsWon ? classes.lose: classes.win}>{props.propsgame.players[1].playerDTO.name}</Typography>
+                    <Typography className={game.players[0].legsWon > game.players[1].legsWon ? classes.win: classes.lose}>{props.propsgame.players[0].playerDTO.name}</Typography>
+                    <Typography className={classes.float}><img className={classes.vs} src={vs} alt={"VS"} /></Typography>
+                    <Typography className={game.players[0].legsWon > game.players[1].legsWon ? classes.lose: classes.win}>{props.propsgame.players[1].playerDTO.name}</Typography>
                 </div>
                 </CardBody>
             );

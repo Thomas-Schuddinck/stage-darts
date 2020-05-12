@@ -56,6 +56,7 @@ namespace BackendDarts.Data.Repos
         {
             return _tournaments
                 .Include(t => t.Games).ThenInclude(g => g.PlayerGames)
+                .Include(t => t.Games).ThenInclude(g => g.LegGroups)
                 .Include(t => t.PlayerTournaments).ThenInclude(pt => pt.Player)
                 .SingleOrDefault(t => t.Id == id);
         }
