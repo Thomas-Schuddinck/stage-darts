@@ -57,7 +57,7 @@ const useStyles = makeStyles(theme => ({
     greenBack: {
         '& .MuiPaper-rounded': {
 
-            backgroundColor: 'green',
+            background: 'linear-gradient(60deg,#10acf1, #1092f1)',
             '& *': {
                 color: "#FFFFFF"
             }
