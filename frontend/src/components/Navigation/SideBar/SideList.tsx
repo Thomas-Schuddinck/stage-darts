@@ -26,9 +26,9 @@ const useStyles = makeStyles(theme => ({
     color: grey[600],
   },
   active: {
-    color: indigo[500],
+    color: '#0d84d9',
     '& $icon': {
-      color: indigo[500],
+      color: '#0d84d9',
     },
   }
 }));
