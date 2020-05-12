@@ -33,12 +33,6 @@ const StyledTableCell = withStyles(theme => ({
         padding: 0,
         fontSize: 12,
     },
-    table: {
-        minWidth: 0,
-        [theme.breakpoints.up('sm')]: {
-            minWidth: 450,
-        },
-    },
 }))(TableCell);
 
 const StyledTableRow = withStyles(theme => ({
