@@ -104,7 +104,7 @@ const NewGameBuilderForm: React.FC = () => {
   let [isValidating, setValidating] = React.useState(false);
   let [openGameDialog, setOpenGameDialog] = React.useState(false);
   let [openTournamentDialog, setOpenTournamentDialog] = React.useState(false);
-  let [gameMode, setGameMode] = React.useState<string>();
+  let [gameMode, setGameMode] = React.useState<string>("2");
   let [newItemId = 0, setGameId] = React.useState<number>();
   let [isLoadingData, setIsLoadingData] = React.useState(false);
   let [name = new Date().toLocaleDateString(), setName] = React.useState<string>();

@@ -5,13 +5,18 @@ import CardHeader from "../../../styledcomponents/CardHeader";
 import CardBody from "../../../styledcomponents/CardBody";
 import Card from "../../../styledcomponents/Card";
 import { Game } from '../../../models/Game';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
 import { useHistory } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import MobileStepper from '@material-ui/core/MobileStepper';
+import Wrap from '../../../hoc/Wrap';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -68,7 +73,7 @@ const StyledTableCell = withStyles(theme => ({
       minWidth: 450,
     },
   },
-  
+
 }))(TableCell);
 
 const StyledTableRow = withStyles(theme => ({
@@ -83,6 +88,17 @@ const StyledTableRow = withStyles(theme => ({
 
 const History = (props: any) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const [activeStep, setActiveStep] = React.useState(0);
+  const maxSteps = Math.ceil(props.history!.length / 4);
+
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
 
   let history = useHistory();
   const navigateToOverview = (id: number) => {
@@ -90,9 +106,9 @@ const History = (props: any) => {
   }
   const createHistory = () => {
     let table: JSX.Element[] = [];
-    for(let teller = 0; teller < 5; teller++){
-      var game = props.history![teller];
-      if (!game) {break;}
+    for (let teller = props.history!.length - 1 - (4 * activeStep); teller > props.history!.length - 5 - (4 * activeStep); teller--) {
+      const game = props.history![teller];
+      if (!game) { break; }
       table.push(
         <ExpansionPanel className={classes.back}>
           <ExpansionPanelSummary
@@ -103,10 +119,10 @@ const History = (props: any) => {
             {createTitle(game)}
           </ExpansionPanelSummary>
           <ExpansionPanelDetails className={classes.hover} onClick={() => navigateToOverview(game.id)}>
-          <Table aria-label="customized table">
-          <TableBody>
-            {createDetail(game)}
-            </TableBody>
+            <Table aria-label="customized table">
+              <TableBody>
+                {createDetail(game)}
+              </TableBody>
             </Table>
           </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -124,11 +140,11 @@ const History = (props: any) => {
     let mostlegs = 0;
 
     game.players!.forEach(pl => {
-      if(!(pl === undefined)) {
-        if(pl.legsWon > mostlegs)
+      if (!(pl === undefined)) {
+        if (pl.legsWon > mostlegs)
           winner = pl.playerDTO.name;
       }
-        
+
     });
 
     game.players.forEach(pl => {
@@ -140,7 +156,7 @@ const History = (props: any) => {
           title += "and " + pl.playerDTO.name + " ";
       }
     });
-    typgraf.push(<Typography className={winner === props.player.name ? classes.win: classes.lose}>{title}</Typography>);
+    typgraf.push(<Typography className={winner === props.player.name ? classes.win : classes.lose}>{title}</Typography>);
     return typgraf;
   }
 
@@ -169,8 +185,32 @@ const History = (props: any) => {
               </h4>
       </CardHeader>
       <CardContent>
-            {createHistory()}
+        {createHistory()}
+
       </CardContent>
+      {
+        maxSteps > 1 ? (
+          <MobileStepper
+            steps={maxSteps}
+            position="static"
+            variant="text"
+            activeStep={activeStep}
+            nextButton={
+              <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
+                Next
+            {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+              </Button>
+            }
+            backButton={
+              <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+                {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+            Back
+          </Button>} />
+        )
+          : (
+            <p></p>
+          )
+      }
     </Card>
   );
 
