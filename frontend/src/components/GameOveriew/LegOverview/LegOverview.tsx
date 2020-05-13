@@ -1,20 +1,11 @@
 import { makeStyles, Table, TableRow, TableCell, TableBody } from '@material-ui/core';
-import clsx from 'clsx';
 import React from 'react';
 import CardHeader from "../../../styledcomponents/CardHeader";
 import CardBody from "../../../styledcomponents/CardBody";
 import Card from "../../../styledcomponents/Card";
 import { LegWinner } from '../../../models/LegWinner';
+
 const useStyles = makeStyles(theme => ({
-  fixedHeight: {
-    height: '100%'
-  },
-  paper: {
-    padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'column',
-  },
   table: {
     width: '100%',
   },
@@ -27,15 +18,11 @@ const useStyles = makeStyles(theme => ({
   tr: {
     borderBottom: 'solid orange 0.2em'
   }
-
 }));
-
-// numberOfMisses={stats.numberOfMisses} 
-//           percentageBoardHits={stats.percentageBoardHits}
 
 const LegOverview = (props: any) => {
   const classes = useStyles();
-  console.log(props.legwinners);
+
   return (
     <Card>
       <CardHeader color="warning">
@@ -45,7 +32,6 @@ const LegOverview = (props: any) => {
         <Table className={classes.table}>
           <TableBody>
             {
-              
               props.legwinners.map(function (legstat: LegWinner, i: any) {
                 return (<TableRow className={classes.tr}>
                   <TableCell className={classes.td}>{legstat.playerName}</TableCell>
@@ -55,18 +41,11 @@ const LegOverview = (props: any) => {
               }
               )
             }
-
-
-
           </TableBody>
         </Table>
       </CardBody>
-
-
     </Card>
   );
-
 };
-
 
 export default LegOverview;

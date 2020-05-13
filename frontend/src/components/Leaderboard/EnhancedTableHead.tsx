@@ -11,17 +11,13 @@ const useStylesExtra = makeStyles(theme => ({
       color: 'white'
     }
   },
-  hover:{
+  hover: {
     '&:hover': {
-      '& > *':{
-        color: '#FFD700!important' 
+      '& > *': {
+        color: '#FFD700!important'
       }
-      
     }
   }
-
-  
-
 }));
 
 const useStyles2 = makeStyles({
@@ -30,12 +26,12 @@ const useStyles2 = makeStyles({
   "icon": { color: '#FFD700!important' }
 }, { name: 'MuiTableSortLabel' });
 
-
-
 export function EnhancedTableHead(props: EnhancedTableProps) {
   const classesSpecific = useStylesExtra();
+  //wordt niet actief gebruikt => passief wel
   const classes2 = useStyles2();
   const { classes, order, orderBy, onRequestSort } = props;
+
   const createSortHandler = (property: keyof LeaderboardStats) => (
     event: React.MouseEvent<unknown>
   ) => {
@@ -51,12 +47,9 @@ export function EnhancedTableHead(props: EnhancedTableProps) {
             key={headCell.id}
             align={headCell.numeric ? "right" : "left"}
             sortDirection={orderBy === headCell.id ? order : false}
-
           >
             <TableSortLabel
-             
               active={orderBy === headCell.id}
-
               direction={orderBy === headCell.id ? order : "asc"}
               onClick={createSortHandler(headCell.id)}
             >
