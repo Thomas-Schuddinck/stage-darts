@@ -2,7 +2,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import Aux from '../../hoc/Wrap';
 import { Chip, Grid } from '@material-ui/core';
-
 import FaceIcon from '@material-ui/icons/Face';
 
 const useStyles = makeStyles(theme => ({
@@ -27,7 +26,6 @@ function GameListPlayerField(props: any) {
     <Aux>
       <Grid container className={classes.lijst}>
         {props.players.map(function (s: any, i: any) {
-
           return <Grid item xs={6} md={4} lg={4} key={i}>
             <Chip
               icon={<FaceIcon />}

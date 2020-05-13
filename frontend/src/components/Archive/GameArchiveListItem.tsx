@@ -1,17 +1,13 @@
 import React, { } from 'react';
-
 import { makeStyles } from '@material-ui/core/styles';
-
 import Card from '../../styledcomponents/Card';
 import CardHeader from '../../styledcomponents/CardHeader';
-
-import Aux from '../../hoc/Wrap';
 import CardBody from "../../styledcomponents/CardBody";
 import GameListPlayerField from '../Lists/GameListPlayerField';
 import { PlayerDetail } from '../../models/PlayerDetail';
 import { useHistory } from 'react-router-dom';
-const useStyles = makeStyles(theme => ({
 
+const useStyles = makeStyles(theme => ({
     bg: {
         background: 'linear-gradient(60deg,#10acf1, #1092f1)!important' as any,
         color: 'white',
@@ -19,8 +15,6 @@ const useStyles = makeStyles(theme => ({
             background: 'linear-gradient(60deg, #ab47bc, #8e24aa)!important' as any,
         }
     }
-
-
 }));
 
 const GameArchiveListItem = (props: any) => {
@@ -30,13 +24,12 @@ const GameArchiveListItem = (props: any) => {
         let date = new Date(Date.parse(dt));
         return date.toLocaleDateString();
     }
+
     let history = useHistory();
     const navigateToGame = (id: number) => {
-        console.log(id);
         history.push(`/Overview/${id}`);
     }
 
-    console.log(props.game);
     return (
         <div onClick={() => navigateToGame(props.game.id)}>
             <Card>
@@ -51,9 +44,7 @@ const GameArchiveListItem = (props: any) => {
                 </CardBody>
             </Card>
         </div>
-
     );
-
 };
 
 export default GameArchiveListItem;

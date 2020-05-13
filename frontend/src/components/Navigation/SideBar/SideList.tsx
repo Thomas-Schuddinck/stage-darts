@@ -32,9 +32,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-
 export const SideList = (props: any) => {
-
   const classes = useStyles();
 
   const sendClick = async () => {
@@ -52,7 +50,6 @@ export const SideList = (props: any) => {
           <ListItemText primary="New Game" />
         </MenuItem>
       </NavLink>
-
       <NavLink activeClassName={classes.active} to="/new-player" onClick={() => sendClick()}>
         <MenuItem className={classes.itemLi}>
           <ListItemIcon className={classes.icon}>
@@ -70,7 +67,6 @@ export const SideList = (props: any) => {
           <ListItemText primary="Active Games" />
         </MenuItem>
       </NavLink>
-
       <NavLink activeClassName={classes.active} to="/tournamentlist" onClick={() => sendClick()}>
         <MenuItem className={classes.itemLi}>
           <ListItemIcon className={classes.icon}>
@@ -116,4 +112,5 @@ export const SideList = (props: any) => {
     </div>
   )
 };
+
 export default SideList;

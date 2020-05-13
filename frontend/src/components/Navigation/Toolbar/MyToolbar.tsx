@@ -104,9 +104,9 @@ const useStyles = makeStyles(theme => ({
   test: {
     overflow: 'hidden',
   },
-  fullSize:{
-      paddingLeft: "10px",
-      paddingRight: "10px"
+  fullSize: {
+    paddingLeft: "10px",
+    paddingRight: "10px"
   },
   bg: {
     background: 'linear-gradient(60deg,#10acf1, #1092f1)'
