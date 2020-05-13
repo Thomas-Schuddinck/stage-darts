@@ -1,9 +1,9 @@
 import { makeStyles, Table, TableRow, TableCell, TableBody } from '@material-ui/core';
-import clsx from 'clsx';
 import React from 'react';
 import CardHeader from "../../styledcomponents/CardHeader";
 import CardBody from "../../styledcomponents/CardBody";
 import Card from "../../styledcomponents/Card";
+
 const useStyles = makeStyles(theme => ({
     fixedHeight: {
       height: '100%'
@@ -26,11 +26,7 @@ const useStyles = makeStyles(theme => ({
       tr: {
         borderBottom: 'solid orange 0.2em'
       }
-
 }));
-
-// numberOfMisses={stats.numberOfMisses} 
-//           percentageBoardHits={stats.percentageBoardHits}
 
 const Performance = (props: any) => {
     const classes = useStyles();
@@ -63,12 +59,8 @@ const Performance = (props: any) => {
                </TableBody>
              </Table>
             </CardBody>
-            
-            
           </Card>
     );
-
 };
-
 
 export default Performance;

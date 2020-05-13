@@ -2,21 +2,18 @@ import { CardContent, ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSumma
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import React from 'react';
 import CardHeader from "../../../styledcomponents/CardHeader";
-import CardBody from "../../../styledcomponents/CardBody";
 import Card from "../../../styledcomponents/Card";
 import { Game } from '../../../models/Game';
 import { withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
 import { useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import MobileStepper from '@material-ui/core/MobileStepper';
-import Wrap from '../../../hoc/Wrap';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -48,7 +45,6 @@ const useStyles = makeStyles(theme => ({
       cursor: 'pointer',
     }
   }
-
 }));
 
 const StyledTableCell = withStyles(theme => ({
@@ -65,15 +61,14 @@ const StyledTableCell = withStyles(theme => ({
     [theme.breakpoints.up('sm')]: {
       fontSize: 14,
       padding: 16,
-    },
+    }
   },
   table: {
     minWidth: 0,
     [theme.breakpoints.up('sm')]: {
       minWidth: 450,
-    },
-  },
-
+    }
+  }
 }))(TableCell);
 
 const StyledTableRow = withStyles(theme => ({
@@ -83,8 +78,6 @@ const StyledTableRow = withStyles(theme => ({
     },
   },
 }))(TableRow);
-
-
 
 const History = (props: any) => {
   const classes = useStyles();
@@ -104,6 +97,7 @@ const History = (props: any) => {
   const navigateToOverview = (id: number) => {
     history.push(`/Overview/${id}`);
   }
+
   const createHistory = () => {
     let table: JSX.Element[] = [];
     for (let teller = props.history!.length - 1 - (4 * activeStep); teller > props.history!.length - 5 - (4 * activeStep); teller--) {
@@ -135,7 +129,6 @@ const History = (props: any) => {
     let typgraf: JSX.Element[] = [];
     let title = "vs ";
     let teller = 0;
-    let won = false;
     let winner = "";
     let mostlegs = 0;
 
@@ -180,13 +173,10 @@ const History = (props: any) => {
   return (
     <Card>
       <CardHeader color="primary">
-        <h4>
-          History
-              </h4>
+        <h4>History</h4>
       </CardHeader>
       <CardContent>
         {createHistory()}
-
       </CardContent>
       {
         maxSteps > 1 ? (
@@ -213,8 +203,6 @@ const History = (props: any) => {
       }
     </Card>
   );
-
 };
-
 
 export default History;
