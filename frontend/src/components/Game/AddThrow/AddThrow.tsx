@@ -70,9 +70,9 @@ const useStyles = makeStyles(theme => ({
     },
     undo: {
         color: "#FFFFFF",
+        border: '0.1em solid black',
         backgroundColor: 'red',
         width: '100%',
-        border: '0.1em solid black',
         display: 'block',
     },
     startstop: {
@@ -81,17 +81,13 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: 'gray',
         width: '100%',        
         display: 'block',
-        [theme.breakpoints.down('sm')]: {
-            width: '100%',
-        },
     },
     startstopNoPadding: {
         color: "#FFFFFF",
         border: '0.1em solid black',
         backgroundColor: 'gray',
-        width: '100%',
-        minWidth: '0',
-        verticalAlign: 'bottom',
+        width: '100%',      
+        display: 'block',
     },
     buttonSelected: {
         color: 'black',

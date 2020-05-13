@@ -182,7 +182,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                                         <Grid item lg={5} xs={12} md={5}  >
                                             <AddThrow currentgame={gameDetails?.game.id} undoLastThrow={goBack} selectedThrow={selectedThrowToEdit} className={classes.test} />
                                             <hr className={classes.hr} />
-                                            <HistoryComponent game={gameDetails!.game!} />
+                                            <HistoryComponent klein={true} game={gameDetails!.game!} />
                                         </Grid>
                                     )}
                             

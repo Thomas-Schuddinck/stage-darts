@@ -51,7 +51,7 @@ function HistoryComponent(props: any) {
                                 </ExpansionPanelSummary>
                                 <ExpansionPanelDetails>
                                     <Grid container spacing={3} className={classes.martop}>
-                                        <LegComponent key={i} leggroup={lg}></LegComponent>
+                                        <LegComponent klein={props.klein} key={i} leggroup={lg}></LegComponent>
                                     </Grid>
                                 </ExpansionPanelDetails>
                             </ExpansionPanel>
