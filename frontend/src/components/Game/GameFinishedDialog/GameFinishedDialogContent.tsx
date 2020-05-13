@@ -1,4 +1,3 @@
-import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import EmojiEventsIcon from '@material-ui/icons/EmojiEvents';
 import React from 'react';
@@ -15,20 +14,16 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: '#FFD700'
 
     },
-
     icoon: {
         color: "#004BFF",
         fontSize: '7em',
         marginRight: '1.5em'
-
     },
     tekst: {
         alignSelf: 'center',
         color: "#004BFF",
         fontSize: '4em',
-
-    },
-
+    }
 }));
 
 
@@ -44,7 +39,7 @@ export const GameFinishedialogContent = (props: any) => {
                 <span className={classes.tekst}>{props.winner} won!</span>
             </Grid>
             <Grid item xs={12} md={12} lg={12}>
-            <Alert severity="error">If there was a throw incorrect and the game was finished incorrect, click <strong>UNDO THROW</strong> to undo the last throw and continue the game.</Alert>
+                <Alert severity="error">If there was a throw incorrect and the game was finished incorrect, click <strong>UNDO THROW</strong> to undo the last throw and continue the game.</Alert>
             </Grid>
         </Grid>
     );

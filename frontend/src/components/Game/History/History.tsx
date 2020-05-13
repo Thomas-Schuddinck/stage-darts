@@ -1,8 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import Aux from '../../../hoc/Wrap';
-import TurnComponent from '../Turn/Turn';
-import { Turn } from '../../../models/Turn';
 import { Grid, ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, CardContent } from '@material-ui/core';
 import Card from "../../../styledcomponents/Card";
 import CardAvatar from "../../../styledcomponents/CardAvatar";
@@ -21,19 +19,18 @@ const useStyles = makeStyles(theme => ({
         width: '100%',
     },
     bg: {
-      background: 'linear-gradient(60deg,#10acf1, #1092f1)',
-      color: 'white'
+        background: 'linear-gradient(60deg,#10acf1, #1092f1)',
+        color: 'white'
     },
-    martop:{
+    martop: {
         marginTop: "1em"
     }
-
-
 }));
 
 
 function HistoryComponent(props: any) {
     const classes = useStyles();
+    
     return (
         <Aux>
             <Card profile>

@@ -1,4 +1,3 @@
-import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import EmojiEventsIcon from '@material-ui/icons/EmojiEvents';
 import React from 'react';
@@ -13,22 +12,17 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: '#FFD700'
-
     },
-
     icoon: {
         color: "#004BFF",
         fontSize: '7em',
         marginRight: '1.5em'
-
     },
     tekst: {
         alignSelf: 'center',
         color: "#004BFF",
         fontSize: '4em',
-
     },
-
 }));
 
 

@@ -1,12 +1,9 @@
 import { makeStyles } from '@material-ui/core/styles';
-import React, { useState } from 'react';
-import Aux from '../../../hoc/Wrap';
+import React from 'react';
 import SimpleDartThrowComponent from '../SimpleDartThrow/SimpleDartThrow';
 import LastDartThrow from '../LastDartThrow/LastDartThrow';
 import { Paper, Grid } from '@material-ui/core';
 import { DartThrow } from '../../../models/DartThrow';
-import Person from '../Person';
-import CurrentTurn from '../CurrentTurn/CurrentTurn';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -28,11 +25,7 @@ const useStyles = makeStyles(theme => ({
         color: "#004BFF",
         fontSize: '1.6em',
     }
-
 }));
-
-
-
 
 function TurnComponent(props: any) {
     const classes = useStyles();
@@ -48,18 +41,13 @@ function TurnComponent(props: any) {
                                 {props.turn.throws!.map(function (t: DartThrow, i: any) {
                                     return <SimpleDartThrowComponent key={i} throw={t} />
                                 }
-
-
                                 )}
                             </div>
-
                         </Paper>
                     </Paper>
                 </Grid>
             </Grid>
-
     )
-
 };
 
 export default TurnComponent;

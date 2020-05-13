@@ -16,13 +16,11 @@ const useStyles = makeStyles(theme => ({
     lijstchild: {
         margin: '0.25em 0'
     },
-
-    bg:{
+    bg: {
         background: 'linear-gradient(60deg,#10acf1, #1092f1)'
     }
-
-
 }));
+
 function a11yProps(index: any) {
     return {
         id: `simple-tab-${index}`,
@@ -37,6 +35,7 @@ function LegComponent(props: any) {
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         setValue(newValue);
     };
+
     return (
         <Aux>
             <AppBar className={classes.bg} position="static">
@@ -46,15 +45,13 @@ function LegComponent(props: any) {
                             return <Tab label={s.player.name} {...a11yProps(i)} />
                         })
                     }
-
                 </Tabs>
             </AppBar>
-            
-                {
-                    props.leggroup.playerLegs.map(function (s: PlayerLeg, i: any) {
-                        return <TabComponent value={value} index={i} ><PlayerLegComponent playerleg={s}/></TabComponent>
-                    }
-                    )}
+            {
+                props.leggroup.playerLegs.map(function (s: PlayerLeg, i: any) {
+                    return <TabComponent value={value} index={i} ><PlayerLegComponent playerleg={s} /></TabComponent>
+                }
+                )}
         </Aux>
     )
 };

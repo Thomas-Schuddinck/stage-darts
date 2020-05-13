@@ -10,19 +10,19 @@ import { TournamentFinisheDialogContent } from './TournamentFinishedDialogConten
 
 export const TournamentFinishedDialog = (props: any) => {
     const [open, setOpen] = React.useState(true);
-
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
     const handleClose = () => {
-       
         setOpen(false);
     };
+
     const handleUndoLastThrow = () => {
         props.undoLastThrow();
         handleClose();
     };
+
     const handleOverviewGame = () => {
-        
         handleClose();
     };
     const handleGoToGames = () => {
@@ -30,13 +30,12 @@ export const TournamentFinishedDialog = (props: any) => {
     };
 
     return (
-
         <Dialog
             open={open}
             onClose={handleClose}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
-            fullScreen={fullScreen} 
+            fullScreen={fullScreen}
             disableBackdropClick={true}
             disableEscapeKeyDown={true}
         >
@@ -46,7 +45,7 @@ export const TournamentFinishedDialog = (props: any) => {
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleUndoLastThrow} color="primary">
-                UNDO THROW
+                    UNDO THROW
                 </Button>
                 <Button onClick={handleOverviewGame} color="primary">
                     <NavLink to={`/tournament/${props.id}`}>TOURNAMENT OVERVIEW</NavLink>
