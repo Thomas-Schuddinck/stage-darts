@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import DartsBoardLogo from '../DartBoardLogo/DartBoardLogo';
-
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -17,7 +17,6 @@ const useStyles = makeStyles(theme => ({
   },
   tekstHoofd: {
     alignSelf: 'center',
-    color: "#004BFF",
     fontSize: '2em',
 
   },
@@ -27,7 +26,9 @@ const DartsExplained = () => {
   const classes = useStyles();
   return (
     <div>
-      <h1 className={classes.tekstHoofd}>Inleiding</h1>
+      <Typography variant="h3" gutterBottom>
+        Inleiding
+      </Typography>
       <div className={classes.logo}>
 
         <DartsBoardLogo />
