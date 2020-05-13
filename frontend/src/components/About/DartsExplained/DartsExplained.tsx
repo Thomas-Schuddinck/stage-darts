@@ -23,13 +23,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 const DartsExplained = () => {
-
   const classes = useStyles();
+  
   return (
     <div>
       <h1 className={classes.tekstHoofd}>Inleiding</h1>
       <div className={classes.logo}>
-
         <DartsBoardLogo />
       </div>
       <p>Darth fett ponda moff ackbar greedo kit calamari. Mace darth wicket jawa endor k-3po. Lars solo ben kessel. Ventress ben solo skywalker biggs. Mon solo yoda dantooine solo darth lars. Lars yoda antilles solo darth organa. Alderaan leia fett twi'lek. Lando chewbacca palpatine gonk hutt twi'lek watto ewok boba. Alderaan padmé fett darth jabba tusken raider solo. Darth antilles leia skywalker calrissian skywalker antilles c-3p0 obi-wan. C-3po fett boba gamorrean darth darth luuke ben. Maul wicket yoda biggs fett skywalker thrawn obi-wan.

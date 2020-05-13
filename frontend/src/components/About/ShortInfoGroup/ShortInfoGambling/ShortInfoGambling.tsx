@@ -4,6 +4,7 @@ import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import React from 'react';
 
 const ng = "NO GAMBLING ALLOWED"
+
 const useStyles = makeStyles(theme => ({
     paper: {
         padding: theme.spacing(1),
@@ -11,39 +12,26 @@ const useStyles = makeStyles(theme => ({
         overflow: 'auto',
         flexDirection: 'row',
         backgroundColor: 'red'
-        
     },
-    
     icoon: {
         color: "white",
         fontSize: '2.5em'
-        
     },
     tekst: {
         textAlign: 'right',
         color: "white",
-        
         fontSize: '1.2em',
         margin: '0 auto'
-        
-        
     },
-    
 }));
-export const ShortInfoGambling= () =>  {
+
+export const ShortInfoGambling = () => {
     const classes = useStyles();
 
-
     return (
-        
         <Paper className={classes.paper} elevation={3}>
-            <MonetizationOnIcon className={classes.icoon}/>
+            <MonetizationOnIcon className={classes.icoon} />
             <span className={classes.tekst}>{ng}</span>
         </Paper>
     );
-
 };
-
-
-
-

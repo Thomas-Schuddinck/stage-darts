@@ -1,8 +1,8 @@
 import React from 'react';
 
 const DartsBoardLogo = () => {
-    return (
 
+    return (
         <svg viewBox="0 0 400 400">
             <g transform="translate(200,200)">
                 <circle cx="0" cy="0" r="200" />
@@ -12,14 +12,12 @@ const DartsBoardLogo = () => {
                 <circle r="170" cx="0" cy="0"
                     stroke="red"
                     strokeWidth="9.5" />
-
                 <circle r="170" cx="0" cy="0"
                     stroke="green"
                     strokeWidth="9.5"
                     fill="none"
                     strokeDasharray="53.40707511102 53.40707511102"
                     transform="rotate(27 0 0)" />
-
                 <circle r="165" cx="0" cy="0"
                     stroke="white"
                     strokeWidth="1" />
@@ -29,7 +27,6 @@ const DartsBoardLogo = () => {
                     fill="none"
                     strokeDasharray="42.41150082346 42.41150082346"
                     transform="rotate(27 0 0)" />
-
                 <circle r="105" cx="0" cy="0"
                     stroke="white"
                     strokeWidth="1" />
@@ -61,7 +58,6 @@ const DartsBoardLogo = () => {
                 <line x1="0" y1="180" x2="0" y2="-180" stroke="white" transform="rotate(117 0 0)" />
                 <line x1="0" y1="180" x2="0" y2="-180" stroke="white" transform="rotate(135 0 0)" />
                 <line x1="0" y1="180" x2="0" y2="-180" stroke="white" transform="rotate(153 0 0)" />
-
                 <circle cx="0" cy="0" r="20" fill="white" />
                 <circle cx="0" cy="0" r="19" fill="green" />
                 <circle cx="0" cy="0" r="10" fill="white" />
@@ -86,11 +82,7 @@ const DartsBoardLogo = () => {
                 <text textAnchor="middle" alignmentBaseline="middle" transform="rotate(-54,0,0)" fill="#fff" x="0" y="-185">9</text>
                 <text textAnchor="middle" alignmentBaseline="middle" transform="rotate(-36,0,0)" fill="#fff" x="0" y="-185">12</text>
                 <text textAnchor="middle" alignmentBaseline="middle" transform="rotate(-18,0,0)" fill="#fff" x="0" y="-185">5</text>
-
-
-
             </g>
-
         </svg>
     )
 }
