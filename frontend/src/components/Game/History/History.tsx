@@ -40,7 +40,7 @@ function HistoryComponent(props: any) {
                 <CardContent>
                     {props.game!.legGroups!.map(function (lg: LegGroup, i: any) {
                         return (
-                            <ExpansionPanel>
+                            <ExpansionPanel key={"expansion-" + i}>
                                 <ExpansionPanelSummary
                                     expandIcon={<ExpandMoreIcon />}
                                     aria-controls="panel1a-content"

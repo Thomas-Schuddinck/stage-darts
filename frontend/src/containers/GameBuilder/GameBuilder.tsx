@@ -175,9 +175,9 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                                     :
                                     (
                                         <Grid item lg={5} xs={12} md={5}  >
-                                            <AddThrow currentgame={gameDetails?.game.id} undoLastThrow={goBack} className={classes.test} />
+                                            <AddThrow currentgame={gameDetails?.game.id} undoLastThrow={goBack} key="addThrow-big" className={classes.test} />
                                             <hr className={classes.hr} />
-                                            <HistoryComponent klein={true} game={gameDetails!.game!} />
+                                            <HistoryComponent klein={true} game={gameDetails!.game!}  key="history-big"/>
                                         </Grid>
                                     )}
                             
@@ -222,8 +222,8 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                             {size < 499 ? (
                                 <Aux>
                                     <hr className={classes.hr} />
-                                    <HistoryComponent game={gameDetails!.game!} />
-                                    <AddThrow currentgame={gameDetails?.game.id} undoLastThrow={goBack} className={classes.test} />
+                                    <HistoryComponent game={gameDetails!.game!} key="history-small"/>
+                                    <AddThrow currentgame={gameDetails?.game.id} undoLastThrow={goBack} className={classes.test} key="addThrow-small"/>
 
                                 </Aux>
 

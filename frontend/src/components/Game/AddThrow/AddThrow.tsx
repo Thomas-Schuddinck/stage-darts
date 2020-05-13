@@ -212,17 +212,17 @@ const AddThrow = (props: any) => {
         let buttons = [];
         for (let i = 1; i <= 20; i++) {
             buttons.push(
-                <Grid item xs={2} md={2} lg={2}>
+                <Grid item xs={2} md={2} lg={2} key={"grid-create-" + i}>
                     <Button
                         className={classes.button}
-                        key={i}
+                        key={"button-" + i}
                         onClick={() => handleButtonClick(i)}
                     >{i}</Button>
                 </Grid>
             )
         }
         container.push(
-            <Wrap>
+            <Wrap key={"wrap"}>
                 {buttons}
             </Wrap>
         )
@@ -301,7 +301,7 @@ const AddThrow = (props: any) => {
             {size < 499 ? (
                 <Wrap>
                     <div onClick={() => keyboardClicked()} className={keyboardOpen ? classes.hidden : classes.keyboardButton}>
-                        <EjectIcon className={classes.bigIcon} />
+                        <EjectIcon className={classes.bigIcon} key={"ej-button"}/>
                     </div>
                     <Grid container className={keyboardOpen ? classes.wrap : classes.hidden}>
                         <Grid item xs={12} md={12} lg={12} className={classes.lijn} onClick={() => keyboardClicked()}>

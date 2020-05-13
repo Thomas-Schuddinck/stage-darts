@@ -42,14 +42,14 @@ function LegComponent(props: any) {
                 <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
                     {
                         props.leggroup.playerLegs.map(function (s: PlayerLeg, i: any) {
-                            return <Tab label={s.player.name} {...a11yProps(i)} />
+                            return <Tab label={s.player.name} {...a11yProps(i)} key={"tab-" + i}/>
                         })
                     }
                 </Tabs>
             </AppBar>
             {
                 props.leggroup.playerLegs.map(function (s: PlayerLeg, i: any) {
-                    return <TabComponent value={value} index={i} ><PlayerLegComponent klein={props.klein} playerleg={s} /></TabComponent>
+                    return <TabComponent value={value} index={i} key={"tabcomp-" + i}><PlayerLegComponent klein={props.klein} playerleg={s} /></TabComponent>
                 }
                 )}
         </Aux>
