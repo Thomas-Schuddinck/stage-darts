@@ -44,7 +44,19 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       cursor: 'pointer',
     }
-  }
+  },
+  placeholdr: {
+    textAlign: 'center',
+    padding: '1em',
+    marginLeft: '1em',
+    marginRight: '1em',
+    marginBottom: '1em',
+    borderBottom: '1px solid purple',
+    '&:hover': {
+        cursor: 'pointer',
+        backgroundColor: '#e7f7fe',
+    }
+}
 }));
 
 const StyledTableCell = withStyles(theme => ({
@@ -96,6 +108,10 @@ const History = (props: any) => {
   let history = useHistory();
   const navigateToOverview = (id: number) => {
     history.push(`/Overview/${id}`);
+  }
+
+  const navigateTonNewGame = () => {
+    history.push(`/new-game/`);
   }
 
   const createHistory = () => {
@@ -170,6 +186,8 @@ const History = (props: any) => {
     return detail;
   }
 
+  
+
   return (
     <Card>
       <CardHeader color="primary">
@@ -198,7 +216,7 @@ const History = (props: any) => {
           </Button>} />
         )
           : (
-            <p></p>
+            <Typography onClick={() => navigateTonNewGame()} className={classes.placeholdr}>click here to make and play your first game!</Typography>
           )
       }
     </Card>

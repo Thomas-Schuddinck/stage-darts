@@ -16,6 +16,7 @@ import { useHistory } from "react-router-dom";
 import { indigo } from '@material-ui/core/colors';
 import { Tournament } from '../../models/SimpleTournament';
 import GameListPlayerField from '../../components/Lists/GameListPlayerField';
+import Typography from '@material-ui/core/Typography';
 
 const StyledTableCell = withStyles(theme => ({
     head: {
@@ -32,6 +33,7 @@ const StyledTableCell = withStyles(theme => ({
         padding: 15,
         fontSize: 12,
     },
+    
 }))(TableCell);
 
 const StyledTableRow = withStyles(theme => ({
@@ -55,6 +57,14 @@ const useStyles = makeStyles({
         '& > *': { color: 'white' }
 
     },
+    placeholdr: {
+        textAlign: 'center',
+        padding: '1em', 
+        '&:hover': {
+            cursor: 'pointer',
+            backgroundColor: '#e7f7fe',
+        }
+    }
 });
 
 export const TournamentUnfinishedListBuilder = () => {
@@ -106,6 +116,9 @@ export const TournamentUnfinishedListBuilder = () => {
   border-color: red;
   margin-left: 50%;
 `;
+    const navigateTonNewGame = () => {
+        history.push(`/new-game/`);
+    }
 
     return (
         <Wrap>
@@ -129,6 +142,7 @@ export const TournamentUnfinishedListBuilder = () => {
                                 {createTable()}
                             </TableBody>
                         </Table>
+                        {tournamentList!.length === 0 ? (<Typography onClick={() => navigateTonNewGame()} className={classes.placeholdr}>There are no active tournaments. Click here to create one.</Typography>): (null)}
                     </TableContainer>
                 )}
         </Wrap>

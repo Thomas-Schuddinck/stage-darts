@@ -17,6 +17,7 @@ import { useHistory } from "react-router-dom";
 import { indigo } from '@material-ui/core/colors';
 import GameListPlayerField from '../../components/Lists/GameListPlayerField';
 import clsx from 'clsx';
+import Typography from '@material-ui/core/Typography';
 
 const StyledTableCell = withStyles(theme => ({
     head: {
@@ -53,7 +54,14 @@ const useStyles = makeStyles({
     bg: {
         background: 'linear-gradient(60deg,#10acf1, #1092f1)',
         '& > *': { color: 'white' }
-
+    },
+    placeholdr: {
+        textAlign: 'center',
+        padding: '1em', 
+        '&:hover': {
+            cursor: 'pointer',
+            backgroundColor: '#e7f7fe',
+        }
     }
 });
 
@@ -88,6 +96,10 @@ const GameListBuilder = () => {
     const navigateToGame = (id: number) => {
         console.log(id);
         history.push(`/game/${id}`);
+    }
+
+    const navigateTonNewGame = () => {
+        history.push(`/new-game/`);
     }
 
 
@@ -135,6 +147,7 @@ const GameListBuilder = () => {
                                 {createTable()}
                             </TableBody>
                         </Table>
+                        {gameList!.length === 0 ? (<Typography onClick={() => navigateTonNewGame()} className={classes.placeholdr}>There are no active games. Click here to create one.</Typography>): (null)}
                     </TableContainer>
                 )}
         </Wrap>

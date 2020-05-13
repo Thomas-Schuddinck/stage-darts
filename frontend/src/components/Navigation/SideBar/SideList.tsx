@@ -116,7 +116,7 @@ export const SideList = (props: any) => {
           <ListItemIcon className={classes.icon}>
             <HelpIcon />
           </ListItemIcon>
-          <ListItemText primary="Help" />
+          <ListItemText primary="How to configure" />
         </MenuItem>
       </NavLink>
     </div>
