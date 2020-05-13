@@ -8,7 +8,7 @@ import Card from "../../../styledcomponents/Card";
 import { Typography } from '@material-ui/core';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
-import vs from '../../../img/vs.png';
+import vs from '../../../img/vsV2.png';
 import { indigo } from '@material-ui/core/colors';
 
 function Alert(props: AlertProps) {
