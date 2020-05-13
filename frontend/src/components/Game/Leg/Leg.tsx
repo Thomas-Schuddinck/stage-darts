@@ -49,7 +49,7 @@ function LegComponent(props: any) {
             </AppBar>
             {
                 props.leggroup.playerLegs.map(function (s: PlayerLeg, i: any) {
-                    return <TabComponent value={value} index={i} ><PlayerLegComponent playerleg={s} /></TabComponent>
+                    return <TabComponent value={value} index={i} ><PlayerLegComponent klein={props.klein} playerleg={s} /></TabComponent>
                 }
                 )}
         </Aux>

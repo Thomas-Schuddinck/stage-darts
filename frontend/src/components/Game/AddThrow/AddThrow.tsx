@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles, Grid, Button, Select, MenuItem } from '@material-ui/core';
+import { makeStyles, Grid, Button, Select, MenuItem, InputLabel, FormControl } from '@material-ui/core';
 import { indigo } from '@material-ui/core/colors';
 import Wrap from '../../../hoc/Wrap'
 import { PostApiCall } from '../../../services/ApiClient';
@@ -66,33 +66,28 @@ const useStyles = makeStyles(theme => ({
         color: "#FFFFFF",
         backgroundColor: 'green',
         border: '0.1em solid black',
+        display: 'block',
     },
     undo: {
         color: "#FFFFFF",
+        border: '0.1em solid black',
         backgroundColor: 'red',
         width: '100%',
-        border: '0.1em solid black',
+        display: 'block',
     },
     startstop: {
         color: "#FFFFFF",
         border: '0.1em solid black',
         backgroundColor: 'gray',
-
-        margin: theme.spacing(1),
-        width: '15%',
-        minWidth: '0',
-        verticalAlign: 'bottom',
-        [theme.breakpoints.down('sm')]: {
-            width: '100%',
-        },
+        width: '100%',        
+        display: 'block',
     },
     startstopNoPadding: {
         color: "#FFFFFF",
         border: '0.1em solid black',
         backgroundColor: 'gray',
-        width: '100%',
-        minWidth: '0',
-        verticalAlign: 'bottom',
+        width: '100%',      
+        display: 'block',
     },
     buttonSelected: {
         color: 'black',
@@ -106,17 +101,24 @@ const useStyles = makeStyles(theme => ({
     },
     formControl: {
         margin: theme.spacing(1),
-        width: '14%',
-        minWidth: '0',
+        width: '100%',
+        height: '100%!important',
         verticalAlign: 'bottom',
+        display: 'flex',
         [theme.breakpoints.down('sm')]: {
             width: '100%',
         },
     },
+    full_height: {
+        height: '100%!important',
+        '& > *': {
+            height: '100%!important'
+        }
+    },
     formControl2: {
         margin: theme.spacing(1),
-        width: '15%',
-        minWidth: '0',
+        width: '100%',
+        height: '100%',
         verticalAlign: 'bottom',
         [theme.breakpoints.down('sm')]: {
             width: '100%',
@@ -126,7 +128,7 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'stretch'
     },
     lijnZwart: {
         backgroundColor: 'black'
@@ -331,47 +333,76 @@ const AddThrow = (props: any) => {
                 </Wrap>
             ) : (
                     <Grid container className={clsx(classes.controllers, classes.flexie)} spacing={1}>
-                        <Grid item xs={12} md={11} lg={10}>
-                            <TextField
-                                className={classes.formControl}
-                                id="input-with-icon-textfield"
-                                label="Area"
-                                onKeyPress={(ev) => {
-                                    console.log(`Pressed keyCode ${ev.key}`);
-                                    if (ev.key === 'Enter') {
-                                        setDoPost(true);
-                                        ev.preventDefault();
-                                    }
-                                }}
-                                value={area}
-                                onChange={(e) => { setArea(parseInt(e.target.value)) }}
-                                InputProps={{
-                                    startAdornment: (
+                        <Grid item md={4} lg={4}>
+                            <FormControl className={classes.formControl}>
+                                <TextField
+
+                                    id="input-with-icon-textfield"
+                                    label="Area"
+                                    onKeyPress={(ev) => {
+                                        console.log(`Pressed keyCode ${ev.key}`);
+                                        if (ev.key === 'Enter') {
+                                            setDoPost(true);
+                                            ev.preventDefault();
+                                        }
+                                    }}
+                                    value={area}
+                                    onChange={(e) => { setArea(parseInt(e.target.value)) }}
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <GpsFixed />
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            </FormControl>
+
+                        </Grid>
+                        <Grid item md={4} lg={4}>
+                            <FormControl className={classes.formControl}>
+                                <InputLabel id="demo-simple-select--label">Multiplier</InputLabel>
+                                <Select
+
+                                    id="multiplier-select"
+                                    label="Multiplier"
+                                    value={multiplier}
+                                    onChange={(e) => { handleMultiChange(parseInt(e.target.value as string)) }}
+                                    startAdornment={
                                         <InputAdornment position="start">
-                                            <GpsFixed />
+                                            <ScoreIcon />
                                         </InputAdornment>
-                                    ),
-                                }}
-                            />
-                            <Select
-                                className={classes.formControl}
-                                id="multiplier-select"
-                                label="Multiplier"
-                                value={multiplier}
-                                onChange={(e) => { handleMultiChange(parseInt(e.target.value as string)) }}
-                                startAdornment={
-                                    <InputAdornment position="start">
-                                        <ScoreIcon />
-                                    </InputAdornment>
-                                }
-                            >
-                                <MenuItem value={1} selected>Single</MenuItem>
-                                <MenuItem value={2}>Double</MenuItem>
-                                <MenuItem value={3}>Triple</MenuItem>
-                            </Select>
-                            <Button className={clsx(classes.send, classes.formControl)} onClick={() => setDoPost(true)}><SendIcon className={classes.paddy} />Add</Button>
-                            <Button className={clsx(classes.undo, classes.formControl2)} onClick={() => handleGoBack()}><HistoryIcon className={classes.paddy} />Undo</Button>
-                            <Button className={classes.startstop} onClick={() => startstop()}><LiveTvIcon className={classes.paddy} />{startstopButtonText}</Button>
+                                    }
+                                >
+                                    <MenuItem value={1} selected>Single</MenuItem>
+                                    <MenuItem value={2}>Double</MenuItem>
+                                    <MenuItem value={3}>Triple</MenuItem>
+                                </Select>
+                            </FormControl>
+
+                        </Grid>
+                        <Grid item md={4} lg={4}>
+                            <FormControl className={classes.formControl2}>
+                                <Button className={clsx(classes.send)} onClick={() => setDoPost(true)}>
+                                    <SendIcon className={classes.paddy} />Add
+                                </Button>
+                            </FormControl>
+                        </Grid>
+                        <Grid item md={6} lg={6}>
+                            <FormControl className={classes.formControl2}>
+                                <Button className={clsx(classes.undo)} onClick={() => handleGoBack()}>
+                                    <HistoryIcon className={classes.paddy} />Undo
+                                </Button>
+                            </FormControl>
+
+                        </Grid>
+                        <Grid item md={6} lg={6}>
+                            <FormControl className={classes.formControl2}>
+                                <Button className={clsx(classes.startstop)} onClick={() => startstop()}>
+                                    <LiveTvIcon className={classes.paddy} />{startstopButtonText}
+                                </Button>
+                            </FormControl>
+
                         </Grid>
                     </Grid>
                 )}
