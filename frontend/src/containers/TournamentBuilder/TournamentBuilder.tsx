@@ -102,7 +102,7 @@ const TournamentBuilder = (props: { match: { params: any; }; }) => {
                 <PropagateLoader
                 css={spinner}
                 size={20}
-                color={"#123abc"}
+                color={"#0d84d9"}
             />
             ) : (
                     <Wrap>

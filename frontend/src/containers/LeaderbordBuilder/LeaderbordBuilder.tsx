@@ -83,7 +83,7 @@ export default function LeaderBoard() {
         <PropagateLoader
           css={spinner}
           size={20}
-          color={"#123abc"}
+          color={"#0d84d9"}
         />
       ) : (
           <div className={classes.root}>
