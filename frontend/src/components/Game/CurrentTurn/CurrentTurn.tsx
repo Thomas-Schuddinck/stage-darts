@@ -1,8 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
-import React, { useState } from 'react';
+import React from 'react';
 import Aux from '../../../hoc/Wrap';
 import { DartThrow } from '../../../models/DartThrow';
-
 import DartThrowComponent from '../DartThrow/DartThrowComponent';
 
 const useStyles = makeStyles(theme => ({
@@ -12,7 +11,6 @@ const useStyles = makeStyles(theme => ({
     overflow: 'auto',
     flexDirection: 'row',
     backgroundColor: '#FFD700'
-
   },
   lijst: {
     display: 'flex',
@@ -23,7 +21,6 @@ const useStyles = makeStyles(theme => ({
     color: "#004BFF",
     fontSize: '2.5em',
     marginRight: '1.5em'
-
   },
   tekstHoofd: {
     alignSelf: 'center',
@@ -32,13 +29,8 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: '0.7em',
     paddingRight: '0.7em',
     marginTop: '0'
-
-  },
-
+  }
 }));
-
-
-
 
 function CurrentTurn(props: any) {
   const classes = useStyles();

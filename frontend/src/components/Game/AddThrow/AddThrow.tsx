@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useRef  } from 'react';
-import { Typography, makeStyles, Grid, Button, Select, MenuItem } from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
+import { makeStyles, Grid, Button, Select, MenuItem } from '@material-ui/core';
 import { indigo } from '@material-ui/core/colors';
 import Wrap from '../../../hoc/Wrap'
-import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import { PostApiCall } from '../../../services/ApiClient';
-import { PutApiCall, GetApiCall } from '../../../services/ApiClient';
+import { GetApiCall } from '../../../services/ApiClient';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import GpsFixed from '@material-ui/icons/GpsFixed';
@@ -78,7 +77,7 @@ const useStyles = makeStyles(theme => ({
         color: "#FFFFFF",
         border: '0.1em solid black',
         backgroundColor: 'gray',
-        
+
         margin: theme.spacing(1),
         width: '15%',
         minWidth: '0',
@@ -172,12 +171,11 @@ const AddThrow = (props: any) => {
     let [keyboardOpen = true, setKeyboardOpen] = useState<boolean>();
     let [raspberry = false, setRaspberry] = useState<boolean>();
     let [startstopButtonText = "start", setStartstopButtonText] = useState<string>();
+
     useEffect(() => {
         window.addEventListener('resize', updateWindowDimensions);
         setSize(window.innerWidth);
     }, []);
-
-
 
     const updateWindowDimensions = () => {
         setSize(window.innerWidth);
@@ -190,39 +188,22 @@ const AddThrow = (props: any) => {
     }, [area])
 
     useEffect(() => {
-        
         async function PostThrowCall() {
             const newThrow = {
                 area: area,
                 multiplier: multiplier
             };
-
             setDouble(false);
             setTripple(false);
-            if (props.selectedThrow == null) {
-                return await PostApiCall(Environment.apiurl + '/Game/game', newThrow).then(() => {
-                    setDoPost(false);
-                    setArea(0);
-                });
-            } else {
-                /*
-                return await PutApiCall(Environment.apiurl + '/Game/throwedit/' + props.currentgame + '/' + props.selectedThrow.id + '/' + val).then(resp => {
-                    console.log("--------");
-                    console.log(props.selectedThrow);
-                    console.log(props.currentgame);
-                    console.log(resp);
-                });
-                */
-            }
+            return await PostApiCall(Environment.apiurl + '/Game/game', newThrow).then(() => {
+                setDoPost(false);
+                setArea(0);
+            });
         }
         if (doPost) {
             PostThrowCall();
         }
     }, [doPost]);
-
-    
-
-
 
     const createButtons = () => {
         let container = [];
@@ -256,13 +237,12 @@ const AddThrow = (props: any) => {
             handleMultiChange(2);
         }
     }
+
     const handleMultiChange = (i: number) => {
         setMultiplier(i);
     };
 
-
     const handleButtonClick = (i: number) => {
-
         setArea(i);
         setDoPost(true);
     };
@@ -290,19 +270,18 @@ const AddThrow = (props: any) => {
         GetApiCall('http://' + link + '/stop').then(resp => {
         })
     }
-    
+
     const startstop = async () => {
-        if(raspberry) {
+        if (raspberry) {
             setStartstopButtonText("start");
             setRaspberry(false);
             return await GetApiCall(Environment.apiurl + '/PiLink/').then(link => {
-                console.log(link);
                 doCall(link);
                 return link;
             }).catch(function (error) {
-                console.log(error);
+                console.error(error);
             });
-        }else {
+        } else {
             setStartstopButtonText("stop");
             setRaspberry(true);
             return await GetApiCall(Environment.apiurl + '/PiLink/').then(link => {
@@ -310,50 +289,48 @@ const AddThrow = (props: any) => {
                 })
                 return link;
             }).catch(function (error) {
-                console.log(error);
+                console.error(error);
             });
         }
     }
 
     return (
         <Wrap>
-
             {size < 499 ? (
                 <Wrap>
-                    <div onClick={() => keyboardClicked()} className={keyboardOpen ? classes.hidden: classes.keyboardButton}>
-                        <EjectIcon className={classes.bigIcon}/>
+                    <div onClick={() => keyboardClicked()} className={keyboardOpen ? classes.hidden : classes.keyboardButton}>
+                        <EjectIcon className={classes.bigIcon} />
                     </div>
-                <Grid container className={keyboardOpen ? classes.wrap: classes.hidden}>
-                    <Grid item xs={12} md={12} lg={12} className={classes.lijn} onClick={() => keyboardClicked()}>
-                        <ArrowDropDown className={classes.bigIcon}/>
+                    <Grid container className={keyboardOpen ? classes.wrap : classes.hidden}>
+                        <Grid item xs={12} md={12} lg={12} className={classes.lijn} onClick={() => keyboardClicked()}>
+                            <ArrowDropDown className={classes.bigIcon} />
+                        </Grid>
+                        {createButtons()}
+                        <Grid item xs={2} md={2} lg={2}>
+                            <Button onClick={() => handleButtonClick(25)} className={classes.button}>25</Button>
+                        </Grid>
+                        <Grid item xs={2} md={2} lg={2}>
+                            <Button onClick={() => handleButtonClick(50)} className={classes.button}>50</Button>
+                        </Grid>
+                        <Grid item xs={2} md={2} lg={2}>
+                            <Button onClick={() => toggleDouble()} className={double ? classes.buttonSelected : classes.darkButton}>D</Button>
+                        </Grid>
+                        <Grid item xs={2} md={2} lg={2}>
+                            <Button onClick={() => toggleTripple()} className={tripple ? classes.buttonSelected : classes.darkButton}>T</Button>
+                        </Grid>
+                        <Grid item xs={12} md={12} lg={12} className={classes.lijn}>
+                            <div className={classes.lineheight}></div>
+                        </Grid>
+                        <Grid item xs={6} md={6} lg={6}>
+                            <Button className={clsx(classes.startstopNoPadding)} onClick={() => startstop()}><LiveTvIcon className={classes.paddy} />{startstopButtonText}</Button>
+                        </Grid>
+                        <Grid item xs={6} md={6} lg={6}>
+                            <Button className={clsx(classes.undo)} onClick={() => handleGoBack()}><HistoryIcon className={classes.paddy} />Undo</Button>
+                        </Grid>
                     </Grid>
-                    {createButtons()}
-                    <Grid item xs={2} md={2} lg={2}>
-                        <Button onClick={() => handleButtonClick(25)} className={classes.button}>25</Button>
-                    </Grid>
-                    <Grid item xs={2} md={2} lg={2}>
-                        <Button onClick={() => handleButtonClick(50)} className={classes.button}>50</Button>
-                    </Grid>
-                    <Grid item xs={2} md={2} lg={2}>
-                        <Button onClick={() => toggleDouble()} className={double ? classes.buttonSelected : classes.darkButton}>D</Button>
-                    </Grid>
-                    <Grid item xs={2} md={2} lg={2}>
-                        <Button onClick={() => toggleTripple()} className={tripple ? classes.buttonSelected : classes.darkButton}>T</Button>
-                    </Grid>
-                    <Grid item xs={12} md={12} lg={12} className={classes.lijn}>
-                        <div className={classes.lineheight}></div>
-                    </Grid>
-                    <Grid item xs={6} md={6} lg={6}>
-            <Button className={clsx(classes.startstopNoPadding)} onClick={() => startstop()}><LiveTvIcon className={classes.paddy} />{startstopButtonText}</Button>
-                    </Grid>
-                    <Grid item xs={6} md={6} lg={6}>
-                        <Button className={clsx(classes.undo)} onClick={() => handleGoBack()}><HistoryIcon className={classes.paddy} />Undo</Button>
-                    </Grid>
-                </Grid>
                 </Wrap>
             ) : (
                     <Grid container className={clsx(classes.controllers, classes.flexie)} spacing={1}>
-
                         <Grid item xs={12} md={11} lg={10}>
                             <TextField
                                 className={classes.formControl}
@@ -387,29 +364,19 @@ const AddThrow = (props: any) => {
                                         <ScoreIcon />
                                     </InputAdornment>
                                 }
-
                             >
                                 <MenuItem value={1} selected>Single</MenuItem>
                                 <MenuItem value={2}>Double</MenuItem>
                                 <MenuItem value={3}>Triple</MenuItem>
                             </Select>
                             <Button className={clsx(classes.send, classes.formControl)} onClick={() => setDoPost(true)}><SendIcon className={classes.paddy} />Add</Button>
-
                             <Button className={clsx(classes.undo, classes.formControl2)} onClick={() => handleGoBack()}><HistoryIcon className={classes.paddy} />Undo</Button>
                             <Button className={classes.startstop} onClick={() => startstop()}><LiveTvIcon className={classes.paddy} />{startstopButtonText}</Button>
                         </Grid>
                     </Grid>
                 )}
-
         </Wrap>
-
-
-
-
-
     );
-
 };
-
 
 export default AddThrow;

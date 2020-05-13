@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route} from "react-router-dom";
 import './App.css';
 import AboutBuilder from './containers/AboutBuilder/AboutBuilder';
 import GameBuilder from './containers/GameBuilder/GameBuilder';
@@ -14,6 +14,7 @@ import { TournamentUnfinishedListBuilder } from './containers/TournamentListBuil
 import TournamentBuilder from './containers/TournamentBuilder/TournamentBuilder';
 import InfoBuilder from './containers/InfoBuilder/InfoBuilder';
 import ArchiveBuilder from './containers/ArchiveBuilder/ArchiveBuilder';
+
 function App() {
   return (
     <Router>
