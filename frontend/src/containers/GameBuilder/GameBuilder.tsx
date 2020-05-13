@@ -3,7 +3,7 @@ import Person from '../../components/Game/Person'
 import Aux from '../../hoc/Wrap';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import { makeStyles} from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import PropagateLoader from "react-spinners/PropagateLoader";
 import { GetApiCall, PutApiCall } from '../../services/ApiClient';
@@ -140,7 +140,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
         } else {
             FetchData(1);
         }
-    },[] );
+    }, []);
 
     const CallToApiGame = async (id: number): Promise<GameDetails> => {
         return await GetApiCall(Environment.apiurl + '/Game/' + id).then(gameDetails => {
@@ -175,10 +175,22 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                     <Aux >
                         <div className={size < 499 ? classes.flexie : ""}>
                             <Grid container spacing={3} >
+                                {size < 499 ?
+                                    (<div></div>)
+                                    :
+                                    (
+                                        <Grid item lg={5} xs={12} md={5}  >
+                                            <AddThrow currentgame={gameDetails?.game.id} undoLastThrow={goBack} selectedThrow={selectedThrowToEdit} className={classes.test} />
+                                            <hr className={classes.hr} />
+                                            <HistoryComponent game={gameDetails!.game!} />
+                                        </Grid>
+                                    )}
+                            
+                            <Grid item lg={5} xs={12} md={5} >
                                 {
                                     gameDetails!.currentLegGroup!
                                         .playerLegs!.map(function (pl: PlayerLeg, i: any) {
-                                            return <Grid item key={i} xs={12} md={6} lg={6} className={gameDetails?.currentPlayer.id === pl.player.id ? classes.greenBack : ""}>
+                                            return <Grid item key={i} xs={12} md={12} lg={12} className={gameDetails?.currentPlayer.id === pl.player.id ? classes.greenBack : ""}>
                                                 <Paper className={fixedHeightPaper}>
                                                     <Grid container spacing={2}>
                                                         <Grid item xs={5} md={7} lg={7}>
@@ -208,12 +220,19 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                                         )
                                 }
 
-                                {size < 499 ? (<div></div>) : (<AddThrow currentgame={gameDetails?.game.id} undoLastThrow={goBack} selectedThrow={selectedThrowToEdit} />)}
+
                             </Grid>
-                            <hr className={classes.hr} />
-                            
-                            <HistoryComponent game={gameDetails!.game!} />
-                            {size < 499 ? (<AddThrow currentgame={gameDetails?.game.id} undoLastThrow={goBack} selectedThrow={selectedThrowToEdit} className={classes.test} />) : (<div></div>)}
+                            </Grid>
+
+                            {size < 499 ? (
+                                <Aux>
+                                    <HistoryComponent game={gameDetails!.game!} />
+                                    <AddThrow currentgame={gameDetails?.game.id} undoLastThrow={goBack} selectedThrow={selectedThrowToEdit} className={classes.test} />
+
+                                </Aux>
+
+                            ) : (<div></div>)}
+
                             {openDialogFinishGame ? (
                                 <GameFinishedDialog winner={winner} id={dialogId} undoLastThrow={goBack} />
                             ) : (
@@ -228,6 +247,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                     </Aux>
                 )}
         </Aux>
+
     );
 }
 

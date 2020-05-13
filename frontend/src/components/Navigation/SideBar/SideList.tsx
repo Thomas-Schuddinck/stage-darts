@@ -1,6 +1,5 @@
 import { MenuItem } from '@material-ui/core';
 import grey from '@material-ui/core/colors/grey';
-import indigo from '@material-ui/core/colors/indigo';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles } from '@material-ui/core/styles';
@@ -16,7 +15,6 @@ import React from 'react';
 import { NavLink } from "react-router-dom";
 import './SideList.css';
 import HelpIcon from '@material-ui/icons/Help';
-
 
 const useStyles = makeStyles(theme => ({
   itemLi: {
@@ -46,7 +44,6 @@ export const SideList = (props: any) => {
 
   return (
     <div>
-      
       <NavLink activeClassName={classes.active} to="/new-game" onClick={() => sendClick()}>
         <MenuItem className={classes.itemLi}>
           <ListItemIcon className={classes.icon}>
