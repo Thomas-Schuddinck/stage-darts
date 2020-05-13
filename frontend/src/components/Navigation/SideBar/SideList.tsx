@@ -15,6 +15,8 @@ import EmojiEventsIcon from '@material-ui/icons/EmojiEvents';
 import React from 'react';
 import { NavLink } from "react-router-dom";
 import './SideList.css';
+import HelpIcon from '@material-ui/icons/Help';
+
 
 const useStyles = makeStyles(theme => ({
   itemLi: {
@@ -25,10 +27,13 @@ const useStyles = makeStyles(theme => ({
     color: grey[600],
   },
   active: {
-    color: indigo[500],
+    color: '#0d84d9',
     '& $icon': {
-      color: indigo[500],
+      color: '#0d84d9',
     },
+  },
+  blue: {
+    borderTop: '2px solid #6fbef6',
   }
 }));
 
@@ -58,7 +63,7 @@ export const SideList = (props: any) => {
           <ListItemText primary="New Player" />
         </MenuItem>
       </NavLink>
-      <hr/>
+      <hr className={classes.blue}/>
       <NavLink activeClassName={classes.active} to="/gamelist" onClick={() => sendClick()}>
         <MenuItem className={classes.itemLi}>
           <ListItemIcon className={classes.icon}>
@@ -75,7 +80,7 @@ export const SideList = (props: any) => {
           <ListItemText primary="Active Tournaments" />
         </MenuItem>
       </NavLink>
-      <hr/>
+      <hr className={classes.blue}/>
       <NavLink to="/stats" activeClassName={classes.active} onClick={() => sendClick()}>
         <MenuItem className={classes.itemLi}       >
           <ListItemIcon>
@@ -100,13 +105,21 @@ export const SideList = (props: any) => {
           <ListItemText primary="Archive" />
         </MenuItem>
       </NavLink>
-      <hr/>
+      <hr className={classes.blue}/>
       <NavLink activeClassName={classes.active} to="/about" onClick={() => sendClick()}>
         <MenuItem className={classes.itemLi}>
           <ListItemIcon className={classes.icon}>
             <InfoIcon />
           </ListItemIcon>
           <ListItemText primary="About" />
+        </MenuItem>
+      </NavLink>
+      <NavLink activeClassName={classes.active} to="/info" onClick={() => sendClick()}>
+        <MenuItem className={classes.itemLi}>
+          <ListItemIcon className={classes.icon}>
+            <HelpIcon />
+          </ListItemIcon>
+          <ListItemText primary="Help" />
         </MenuItem>
       </NavLink>
     </div>
