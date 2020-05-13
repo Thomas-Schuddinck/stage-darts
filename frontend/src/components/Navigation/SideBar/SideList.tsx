@@ -15,6 +15,8 @@ import EmojiEventsIcon from '@material-ui/icons/EmojiEvents';
 import React from 'react';
 import { NavLink } from "react-router-dom";
 import './SideList.css';
+import HelpIcon from '@material-ui/icons/Help';
+
 
 const useStyles = makeStyles(theme => ({
   itemLi: {
@@ -114,6 +116,14 @@ export const SideList = (props: any) => {
             <InfoIcon />
           </ListItemIcon>
           <ListItemText primary="About" />
+        </MenuItem>
+      </NavLink>
+      <NavLink activeClassName={classes.active} to="/info" onClick={() => sendClick()}>
+        <MenuItem className={classes.itemLi}>
+          <ListItemIcon className={classes.icon}>
+            <HelpIcon />
+          </ListItemIcon>
+          <ListItemText primary="Help" />
         </MenuItem>
       </NavLink>
     </div>
