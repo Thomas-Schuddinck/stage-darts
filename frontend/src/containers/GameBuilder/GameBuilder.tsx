@@ -76,8 +76,10 @@ const useStyles = makeStyles(theme => ({
         borderColor: '#1092f1',
         borderWidth: '2px',
         marginTop: '1.5em',
-        marginBottom: '5em',
-        borderStyle: 'solid'
+        marginBottom: '4em',
+        borderStyle: 'solid',
+        width: '90%'
+
     },
 }));
 
@@ -226,6 +228,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
 
                             {size < 499 ? (
                                 <Aux>
+                                    <hr className={classes.hr} />
                                     <HistoryComponent game={gameDetails!.game!} />
                                     <AddThrow currentgame={gameDetails?.game.id} undoLastThrow={goBack} selectedThrow={selectedThrowToEdit} className={classes.test} />
 
