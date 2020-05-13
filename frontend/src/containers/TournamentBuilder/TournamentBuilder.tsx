@@ -109,7 +109,8 @@ const TournamentBuilder = (props: { match: { params: any; }; }) => {
                         <h1>{tournament!.name.toUpperCase()}</h1>
                         <table aria-label="customized table" className={classes.tabel}>
                             {createRows()}
-                        </table></Wrap>
+                        </table>
+                    </Wrap>
                 )}
         </Wrap>
 

@@ -11,10 +11,20 @@ import TournamentArchiveList from '../../components/Archive/TournamentArchiveLis
 import Aux from '../../hoc/Wrap';
 import { css } from "@emotion/core";
 import PropagateLoader from "react-spinners/PropagateLoader";
+import Typography from '@material-ui/core/Typography';
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
     bg: {
         background: 'linear-gradient(60deg,#10acf1, #1092f1)'
+    },
+    placeholdr: {
+        textAlign: 'center',
+        padding: '1em',
+        '&:hover': {
+            cursor: 'pointer',
+            backgroundColor: '#e7f7fe',
+        }
     }
 }));
 
@@ -66,6 +76,11 @@ const ArchiveBuilder = (props: any) => {
     margin-left: 50%;
   `;
 
+    let history = useHistory();
+    const navigateTonNewGame = () => {
+        history.push(`/new-game/`);
+    }
+
     return (
         <Aux>
             {isLoading ? (
@@ -84,9 +99,11 @@ const ArchiveBuilder = (props: any) => {
                         </AppBar>
                         <TabComponent value={value} index={0} >
                             <GameArchiveList gameList={gameList} />
+                            {gameList!.length === 0 ? (<Typography onClick={() => navigateTonNewGame()} className={classes.placeholdr}>No games played yet, click here to create and start your first game!</Typography>) : (null)}
                         </TabComponent>
                         <TabComponent value={value} index={1} >
                             <TournamentArchiveList tournamentList={tournamentList} />
+                            {tournamentList!.length === 0 ? (<Typography onClick={() => navigateTonNewGame()} className={classes.placeholdr}>No tournaments played yet, click here to create and start your first game!</Typography>) : (null)}
                         </TabComponent>
                     </Aux>
                 )}

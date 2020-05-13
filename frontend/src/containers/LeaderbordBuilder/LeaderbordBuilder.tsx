@@ -16,6 +16,8 @@ import { useStyles } from '../../components/Leaderboard/LeaderBoardStyles';
 import { EnhancedTableHead } from '../../components/Leaderboard/EnhancedTableHead';
 import { Order } from '../../components/Leaderboard/OrderType';
 import { stableSort, getComparator } from '../../components/Leaderboard/LeaderBoardComparator';
+import Typography from '@material-ui/core/Typography';
+import { useHistory } from "react-router-dom";
 
 export default function LeaderBoard() {
   const classes = useStyles();
@@ -70,6 +72,11 @@ export default function LeaderBoard() {
   margin-left: 50%;
 `;
 
+  let history = useHistory();
+  const navigateTonNewPlayer = () => {
+    history.push(`/new-player/`);
+  }
+
   return (
     <Wrap>
       {isLoading ? (
@@ -122,6 +129,7 @@ export default function LeaderBoard() {
                     )}
                   </TableBody>
                 </Table>
+                {rows!.length === 0 ? (<Typography onClick={() => navigateTonNewPlayer()} className={classes.placeholdr}>There are no active tournaments. Click here to create one.</Typography>): (null)}
               </TableContainer>
               <TablePagination
                 rowsPerPageOptions={[10, 25, 50, 100]}

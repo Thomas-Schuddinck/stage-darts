@@ -22,6 +22,14 @@ export const useStyles = makeStyles((theme: Theme) =>
       position: "absolute",
       top: 20,
       width: 1
+    },
+    placeholdr: {
+      textAlign: 'center',
+      padding: '1em',
+      '&:hover': {
+        cursor: 'pointer',
+        backgroundColor: '#e7f7fe',
+      }
     }
   })
 );
