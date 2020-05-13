@@ -18,7 +18,7 @@ import SendIcon from '@material-ui/icons/Send';
 import clsx from 'clsx';
 import Card from "../../styledcomponents/Card";
 import CardAvatar from "../../styledcomponents/CardAvatar";
-import avatar from '../../img/play7.png';
+import avatar from '../../img/play7GradientV2.png';
 import { AddTournamentDialog } from "../../components/NewGame/AddTournamentDialog";
 
 const useStyles = makeStyles(theme => ({
@@ -44,8 +44,8 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 'bold',
   },
   send: {
+    background: 'linear-gradient(60deg,#10acf1, #1092f1)',
     color: "#FFFFFF",
-    backgroundColor: '#2e5871',
     border: '0.1em solid black',
   },
 

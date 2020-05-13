@@ -7,7 +7,7 @@ import { Player } from '../../models/Player';
 import Card from "../../styledcomponents/Card";
 import CardAvatar from "../../styledcomponents/CardAvatar";
 
-import avatar from '../../img/avatar.png';
+import avatar from '../../img/avatarGradient.png';
 
 const useStyles = makeStyles(theme => ({
     tekstHoofd: {

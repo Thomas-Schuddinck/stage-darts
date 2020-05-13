@@ -21,7 +21,7 @@ import { indigo } from '@material-ui/core/colors';
 import Card from "../../styledcomponents/Card";
 import CardAvatar from "../../styledcomponents/CardAvatar";
 
-import avatar from '../../img/avatar.png';
+import avatar from '../../img/avatarGradient.png';
 const useStyles = makeStyles(theme => ({
     formControl: {
         margin: theme.spacing(1),
