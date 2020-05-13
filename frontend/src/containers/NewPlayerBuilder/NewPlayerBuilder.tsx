@@ -63,8 +63,7 @@ const useStyles = makeStyles(theme => ({
         margin: '20px'
     },
     hr: {
-        borderColor: indigo[300],
-        color: indigo[500],
+        borderColor: '#1092f1',
         borderWidth: '2px',
         margin: '1.5em 0',
         borderStyle: 'solid'
