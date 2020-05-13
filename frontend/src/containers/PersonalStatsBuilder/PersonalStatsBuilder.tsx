@@ -11,7 +11,7 @@ import { Player } from '../../models/Player';
 import { Stats } from '../../models/Stats';
 import PropagateLoader from "react-spinners/PropagateLoader";
 import { css } from "@emotion/core";
-import {Environment} from '../../environment';
+import { Environment } from '../../environment';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'stretch'
   },
   stretch: {
-    
+
   }
 }));
 
@@ -95,48 +95,50 @@ const PersonalStatsBuilder = () => {
 
   return (
     <Aux>
-      {isLoading? (
+      {isLoading ? (
         <PropagateLoader
-        css={spinner}
-        size={20}
-        color={"#123abc"}
+          css={spinner}
+          size={20}
+          color={"#123abc"}
         />
-      ): (
-        <Grid className={classes.alignstretch} container spacing={3}>
-        <Grid item lg={5} xs={12} md={5}>
-          <PersonStat parentGivePlayer={getPlayerChild} players={players}></PersonStat>
-        </Grid>
-        <Grid item lg={7} xs={12} md={7}>
-        {stats === undefined ? (<p></p>): (
-          <WinLoss wins={stats.numberOfWins} losses={stats.numberOfLosses}></WinLoss>
-          )}
-        </Grid>
+      ) : (
+          <Grid className={classes.alignstretch} container spacing={3}>
+            <Grid item lg={5} xs={12} md={5}>
+              <PersonStat parentGivePlayer={getPlayerChild} players={players}></PersonStat>
+            </Grid>
+            <Grid item lg={7} xs={12} md={7}>
+              {stats === undefined ? (<p></p>) : (
+                <WinLoss wins={stats.numberOfWins} losses={stats.numberOfLosses}></WinLoss>
+              )}
+            </Grid>
 
-        {/* Performance */}
-        <Grid item xs={12} md={6} lg={6}>
-        {stats === undefined ? (<p></p>): (
-          <Performance
-          numberOfMisses={stats.numberOfMisses} 
-          numberOfSixties={stats.numberOfSixties} 
-          totalScoreThrown={stats.totalScoreThrown}
-          totalNumberDartsThrown={stats.totalNumberDartsThrown}
-          averageScoreThrown={stats.averageScoreThrown}
-          percentageWins={stats.percentageWins}
-          percentageBoardHits={stats.percentageBoardHits}
-          percentageSixties={stats.percentageSixties}
-          ></Performance>
-          )}
-        </Grid>
+            {/* history */}
+            <Grid item xs={12} md={5} lg={5}>
+              {stats === undefined ? (<p></p>) : (
+                <History history={stats.history} player={childPlayer}></History>
+              )}
+            </Grid>
 
-        {/* history */}
-        <Grid item xs={12} md={6} lg={6}>
-        {stats === undefined ? (<p></p>): (
-          <History history={stats.history} player={childPlayer}></History>
-          )}
-        </Grid>
+            {/* Performance */}
+            <Grid item xs={12} md={7} lg={7}>
+              {stats === undefined ? (<p></p>) : (
+                <Performance
+                  numberOfMisses={stats.numberOfMisses}
+                  numberOfSixties={stats.numberOfSixties}
+                  totalScoreThrown={stats.totalScoreThrown}
+                  totalNumberDartsThrown={stats.totalNumberDartsThrown}
+                  averageScoreThrown={stats.averageScoreThrown}
+                  percentageWins={stats.percentageWins}
+                  percentageBoardHits={stats.percentageBoardHits}
+                  percentageSixties={stats.percentageSixties}
+                ></Performance>
+              )}
+            </Grid>
 
-      </Grid>
-      )}
+
+
+          </Grid>
+        )}
     </Aux>
   );
 }
