@@ -18,7 +18,6 @@ import * as signalR from "@aspnet/signalr";
 import { GameDetails } from '../../models/GameDetails';
 import { Status } from '../../models/Status'
 import AddThrow from '../../components/Game/AddThrow/AddThrow';
-import { DartThrow } from '../../models/DartThrow';
 import { Environment } from '../../environment'
 import HistoryComponent from '../../components/Game/History/History';
 import { GameFinishedDialog } from '../../components/Game/GameFinishedDialog/GameFinishedDialog';
@@ -159,12 +158,6 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
     margin-left: 50%;
   `;
 
-
-    let [selectedThrowToEdit, setSelectedThrowToEdit] = useState<DartThrow>();
-    const getSelectedThrowFromTurn = async (tr: DartThrow) => {
-        setSelectedThrowToEdit(tr);
-    }
-
     return (
         <Aux>
             {isLoading ? (
@@ -182,7 +175,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                                     :
                                     (
                                         <Grid item lg={5} xs={12} md={5}  >
-                                            <AddThrow currentgame={gameDetails?.game.id} undoLastThrow={goBack} selectedThrow={selectedThrowToEdit} className={classes.test} />
+                                            <AddThrow currentgame={gameDetails?.game.id} undoLastThrow={goBack} className={classes.test} />
                                             <hr className={classes.hr} />
                                             <HistoryComponent klein={true} game={gameDetails!.game!} />
                                         </Grid>
@@ -199,7 +192,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                                                             <Person player={pl.player} currentplayer={gameDetails?.currentPlayer} />
                                                             <Paper className={classes.margintop}>
                                                                 <LastDartThrow score={pl.turns![pl.turns!.length - 1] && pl.turns![pl.turns!.length - 1].throws!.map(t => t.value!).reduce((a, b) => a + b, 0)} />
-                                                                <CurrentTurn sendThrowToBuilder={getSelectedThrowFromTurn} className={classes.currentTurn} turnnumber="2" scores={pl.turns![pl.turns!.length - 1] && pl.turns![pl.turns!.length - 1].throws && pl.turns![pl.turns!.length - 1].throws!.map(t => t)} />
+                                                                <CurrentTurn className={classes.currentTurn} turnnumber="2" scores={pl.turns![pl.turns!.length - 1] && pl.turns![pl.turns!.length - 1].throws && pl.turns![pl.turns!.length - 1].throws!.map(t => t)} />
                                                             </Paper>
                                                         </Grid>
                                                         <Grid item xs={7} md={5} lg={5}>
@@ -230,7 +223,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                                 <Aux>
                                     <hr className={classes.hr} />
                                     <HistoryComponent game={gameDetails!.game!} />
-                                    <AddThrow currentgame={gameDetails?.game.id} undoLastThrow={goBack} selectedThrow={selectedThrowToEdit} className={classes.test} />
+                                    <AddThrow currentgame={gameDetails?.game.id} undoLastThrow={goBack} className={classes.test} />
 
                                 </Aux>
 

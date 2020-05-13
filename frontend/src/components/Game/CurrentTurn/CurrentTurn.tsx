@@ -1,8 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import Aux from '../../../hoc/Wrap';
-import { DartThrow } from '../../../models/DartThrow';
-import DartThrowComponent from '../DartThrow/DartThrowComponent';
+import SimpleDartThrowComponent from '../SimpleDartThrow/SimpleDartThrow';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -35,15 +34,11 @@ const useStyles = makeStyles(theme => ({
 function CurrentTurn(props: any) {
   const classes = useStyles();
 
-  const getThrowFromChild = async (tr: DartThrow) => {
-    props.sendThrowToBuilder(tr);
-  }
-
   return (
     <Aux>
       <div className={classes.lijst}>
         {props.scores && props.scores.map(function (s: any, i: any) {
-          return <DartThrowComponent key={i} score={s} sendThrowToParent={getThrowFromChild} />
+          return <SimpleDartThrowComponent key={i} throw={s}/>
         }
         )}
       </div>
