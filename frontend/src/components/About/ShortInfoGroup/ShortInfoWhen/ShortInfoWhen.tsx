@@ -11,16 +11,17 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         overflow: 'auto',
         flexDirection: 'row',
-        backgroundColor: 'red'
+        backgroundColor: 'red',
+        justifyContent: 'space-between',
     },
     icoon: {
         color: "white",
         fontSize: '2.5em'
     },
     tekst: {
-        textAlign: 'right',
         color: "white",
         fontSize: '1.2em',
+        margin: 'auto 0'
     }
 }));
 
@@ -34,3 +35,4 @@ export const ShortInfoWhen = () => {
         </Paper>
     );
 };
+

@@ -11,7 +11,8 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         overflow: 'auto',
         flexDirection: 'row',
-        background: 'linear-gradient(60deg,#10acf1, #1092f1)'
+        background: 'linear-gradient(60deg,#10acf1, #1092f1)',        
+        justifyContent: 'space-between',
     },
     icoon: {
         color: "white",
@@ -21,8 +22,8 @@ const useStyles = makeStyles(theme => ({
         textAlign: 'right',
         color: "white",
         fontSize: '1.5em',
-        margin: '0 auto'
-    }
+        margin: 'auto 0'
+    },
 }));
 
 export const ShortInfoDarts = () =>  {
