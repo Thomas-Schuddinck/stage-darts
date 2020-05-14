@@ -15,6 +15,8 @@ import clsx from 'clsx';
 import EjectIcon from '@material-ui/icons/Eject';
 import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
 import LiveTvIcon from '@material-ui/icons/LiveTv';
+import Alert from '@material-ui/lab/Alert';
+import { boolean } from 'yup';
 
 const useStyles = makeStyles(theme => ({
     leg: {
@@ -79,14 +81,14 @@ const useStyles = makeStyles(theme => ({
         color: "#FFFFFF",
         border: '0.1em solid black',
         backgroundColor: 'gray',
-        width: '100%',        
+        width: '100%',
         display: 'block',
     },
     startstopNoPadding: {
         color: "#FFFFFF",
         border: '0.1em solid black',
         backgroundColor: 'gray',
-        width: '100%',      
+        width: '100%',
         display: 'block',
     },
     buttonSelected: {
@@ -173,6 +175,8 @@ const AddThrow = (props: any) => {
     let [keyboardOpen = true, setKeyboardOpen] = useState<boolean>();
     let [raspberry = false, setRaspberry] = useState<boolean>();
     let [startstopButtonText = "start", setStartstopButtonText] = useState<string>();
+    let [errormsg = "", setErrormsg] = useState<string>();
+    let [showErrormsg = false, setShowErrormsg] = useState<boolean>();
 
     useEffect(() => {
         window.addEventListener('resize', updateWindowDimensions);
@@ -190,22 +194,54 @@ const AddThrow = (props: any) => {
     }, [area])
 
     useEffect(() => {
-        async function PostThrowCall() {
-            const newThrow = {
-                area: area,
-                multiplier: multiplier
-            };
-            setDouble(false);
-            setTripple(false);
-            return await PostApiCall(Environment.apiurl + '/Game/game', newThrow).then(() => {
-                setDoPost(false);
-                setArea(0);
-            });
+        async function evalScore() {
+            let canSend = false;
+            if (+area === 501) {
+                setShowErrormsg(false);
+                canSend = true;
+            }
+            if (+area === 25 || +area === 50) {
+                if ((+area === 50 && multiplier < 2) || (+area === 25 && multiplier < 3)) {
+                    setShowErrormsg(false);
+                    canSend = true;
+                } else {
+                    setErrormsg("You can either set area to 25 with a maximum multiplier of 2 or 50 with a max multiplier of 1");
+                    setShowErrormsg(true);
+                }
+            } else {
+                if (+area < 0 || +area > 20) {
+                    setErrormsg("If area is neither 25 or 50, the area must be between 0 and 20");
+                    setShowErrormsg(true);
+                } else {
+                    setShowErrormsg(false);
+                    canSend = true;
+                }
+            }
+            console.log("hier");
+            console.log(canSend);
+            if (canSend) {
+                const newThrow = {
+                    area: area,
+                    multiplier: multiplier
+                };
+                setDouble(false);
+                setTripple(false);
+                return await PostApiCall(Environment.apiurl + '/Game/game', newThrow).then(() => {
+
+                    setDoPost(false);
+                    setArea(0);
+                });
+            }
+            setDoPost(false);
+            setArea(0);
         }
         if (doPost) {
-            PostThrowCall();
+            evalScore();
         }
     }, [doPost]);
+
+
+
 
     const createButtons = () => {
         let container = [];
@@ -228,6 +264,8 @@ const AddThrow = (props: any) => {
         )
         return container;
     }
+
+
 
     const toggleDouble = () => {
         if (double) {
@@ -301,7 +339,7 @@ const AddThrow = (props: any) => {
             {size < 499 ? (
                 <Wrap>
                     <div onClick={() => keyboardClicked()} className={keyboardOpen ? classes.hidden : classes.keyboardButton}>
-                        <EjectIcon className={classes.bigIcon} key={"ej-button"}/>
+                        <EjectIcon className={classes.bigIcon} key={"ej-button"} />
                     </div>
                     <Grid container className={keyboardOpen ? classes.wrap : classes.hidden}>
                         <Grid item xs={12} md={12} lg={12} className={classes.lijn} onClick={() => keyboardClicked()}>
@@ -403,6 +441,11 @@ const AddThrow = (props: any) => {
                                 </Button>
                             </FormControl>
 
+                        </Grid>
+                        <Grid item xs={12} md={12} lg={12}>
+                            {showErrormsg &&
+                                <Alert severity="error">{errormsg}</Alert>
+                            }
                         </Grid>
                     </Grid>
                 )}
