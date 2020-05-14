@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles, Grid, Button, Select, MenuItem, InputLabel, FormControl } from '@material-ui/core';
+import { makeStyles, Grid, Button, Select, MenuItem, InputLabel, FormControl, Snackbar } from '@material-ui/core';
 import { indigo } from '@material-ui/core/colors';
 import Wrap from '../../../hoc/Wrap'
 import { PostApiCall } from '../../../services/ApiClient';
@@ -217,8 +217,6 @@ const AddThrow = (props: any) => {
                     canSend = true;
                 }
             }
-            console.log("hier");
-            console.log(canSend);
             if (canSend) {
                 const newThrow = {
                     area: area,
@@ -240,8 +238,9 @@ const AddThrow = (props: any) => {
         }
     }, [doPost]);
 
-
-
+    const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+        setShowErrormsg(false);
+    };
 
     const createButtons = () => {
         let container = [];
@@ -338,6 +337,9 @@ const AddThrow = (props: any) => {
         <Wrap>
             {size < 499 ? (
                 <Wrap>
+                    <Snackbar open={showErrormsg} autoHideDuration={6000} onClose={handleClose}>
+                        <Alert onClose={handleClose} severity="error">{errormsg}</Alert>
+                    </Snackbar>
                     <div onClick={() => keyboardClicked()} className={keyboardOpen ? classes.hidden : classes.keyboardButton}>
                         <EjectIcon className={classes.bigIcon} key={"ej-button"} />
                     </div>
