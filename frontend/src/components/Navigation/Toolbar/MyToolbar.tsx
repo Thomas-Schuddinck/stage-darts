@@ -30,7 +30,6 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(1),
     justifyContent: 'flex-start',
     [theme.breakpoints.up('sm')]: {
-
       justifyContent: 'flex-end',
     },
   },

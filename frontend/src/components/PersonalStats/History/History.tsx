@@ -216,9 +216,10 @@ const History = (props: any) => {
           </Button>} />
         )
           : (
-            <Typography onClick={() => navigateTonNewGame()} className={classes.placeholdr}>click here to make and play your first game!</Typography>
+            null
           )
       }
+          {props.history!.length! === 0 ? (<Typography onClick={() => navigateTonNewGame()} className={classes.placeholdr}>click here to make and play your first game!</Typography>) : (null)}
     </Card>
   );
 };

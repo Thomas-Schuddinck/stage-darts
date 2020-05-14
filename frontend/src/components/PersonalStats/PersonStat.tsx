@@ -18,6 +18,18 @@ const useStyles = makeStyles(theme => ({
     },
     wide: {
         width: '100%'
+    },
+    autoC: {
+        color: "purple",
+    "& .MuiOutlinedInput-notchedOutline": {
+      borderColor: "#0d84d9"
+    },
+    "&:hover .MuiOutlinedInput-notchedOutline": {
+      borderColor: "#0d84d9"
+    },
+    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderColor: "#0d84d9"
+    }
     }
 }));
 
@@ -35,6 +47,9 @@ const PersonStat = (props: any) => {
             </CardAvatar>
             <CardContent>
                 <Autocomplete
+                    classes={{
+                        root: classes.autoC,
+                    }}
                     className={classes.wide}
                     id="combo-box-demo"
                     disableClearable

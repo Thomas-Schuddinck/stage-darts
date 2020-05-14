@@ -99,7 +99,7 @@ const PersonalStatsBuilder = () => {
         <PropagateLoader
           css={spinner}
           size={20}
-          color={"#123abc"}
+          color={"#0d84d9"}
         />
       ) : (
           <Grid className={classes.alignstretch} container spacing={3}>

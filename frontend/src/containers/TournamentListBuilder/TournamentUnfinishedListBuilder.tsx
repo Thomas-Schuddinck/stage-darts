@@ -126,7 +126,7 @@ export const TournamentUnfinishedListBuilder = () => {
                 <PropagateLoader
                     css={spinner}
                     size={20}
-                    color={"#123abc"}
+                    color={"#0d84d9"}
                 />
             ) : (
                     <TableContainer component={Paper}>

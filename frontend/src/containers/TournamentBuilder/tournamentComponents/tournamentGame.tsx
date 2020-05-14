@@ -105,11 +105,11 @@ const TournamentGame = (props: any) => {
             name.push(
                 <CardBody className={classes.status3}>
                     <div>
-                        <Typography className={game.players[0].legsWon < game.players[1].legsWon ? classes.win : classes.lose}>{props.propsgame.players[0].playerDTO.name}</Typography>
+                        <Typography className={game.players[0].legsWon > game.players[1].legsWon ? classes.win : classes.lose}>{props.propsgame.players[0].playerDTO.name}</Typography>
                         <Typography className={classes.float}>
                             <img className={classes.vs} src={vs} alt="versus" />
                         </Typography>
-                        <Typography className={game.players[0].legsWon < game.players[1].legsWon ? classes.lose : classes.win}>{props.propsgame.players[1].playerDTO.name}</Typography>
+                        <Typography className={game.players[0].legsWon > game.players[1].legsWon ? classes.lose : classes.win}>{props.propsgame.players[1].playerDTO.name}</Typography>
                     </div>
                 </CardBody>
             );

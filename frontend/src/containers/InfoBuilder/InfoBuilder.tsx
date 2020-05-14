@@ -34,7 +34,7 @@ const InfoBuilder = () => {
       <p>Er is ook een tunnelverbinding nodig zodat je de raspberrypi kan aanspreken. Aangezien er enkel een start en stop call moet gebeuren kan dit via een free service ngrok:</p>
       <p className={classes.code}>./ngrok http 3000</p>
       <p>Beide commands runnen in de root van de pi (waar het script staat).</p>
-      <p>De tunnelservice returned een link. Deze moet je hier setten. Alle slashes weglaten. Bijvoorbeeld http://3185df68.ngrok.io/ wordt dus 3185df68.ngrok.io Dit is nodig omdat we zonder body werken in de put call en de string dus geen slashes mag bevatten. TODO</p>
+      <p>De tunnelservice returned een link. Deze moet je hier setten.</p>
       <TextField
         placeholder="ngrok link"
         name="ngrok link"
