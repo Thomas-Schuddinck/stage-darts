@@ -66,7 +66,7 @@ const useStyles = makeStyles(theme => ({
     position: 'fixed',
     whiteSpace: 'nowrap',
     [theme.breakpoints.up('sm')]: {
-      position: 'relative',
+      position: 'fixed',
       width: drawerWidth,
       height: '100vh'
     },
@@ -90,6 +90,10 @@ const useStyles = makeStyles(theme => ({
   content: {
     flexGrow: 1,
     overflow: 'auto',
+    paddingLeft: '0em',
+    [theme.breakpoints.up('sm')]: {
+      paddingLeft: '5em',
+    },
   },
   container: {
     padding: theme.spacing(4),
