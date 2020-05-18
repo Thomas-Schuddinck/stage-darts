@@ -12,6 +12,7 @@ import { Stats } from '../../models/Stats';
 import PropagateLoader from "react-spinners/PropagateLoader";
 import { css } from "@emotion/core";
 import { Environment } from '../../environment';
+import TournamentHistory from '../../components/PersonalStats/History/TournamentHistory';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -106,19 +107,6 @@ const PersonalStatsBuilder = () => {
             <Grid item lg={5} xs={12} md={5}>
               <PersonStat parentGivePlayer={getPlayerChild} players={players}></PersonStat>
             </Grid>
-            <Grid item lg={7} xs={12} md={7}>
-              {stats === undefined ? (<p></p>) : (
-                <WinLoss wins={stats.numberOfWins} losses={stats.numberOfLosses}></WinLoss>
-              )}
-            </Grid>
-
-            {/* history */}
-            <Grid item xs={12} md={5} lg={5}>
-              {stats === undefined ? (<p></p>) : (
-                <History history={stats.history} player={childPlayer}></History>
-              )}
-            </Grid>
-
             {/* Performance */}
             <Grid item xs={12} md={7} lg={7}>
               {stats === undefined ? (<p></p>) : (
@@ -134,6 +122,28 @@ const PersonalStatsBuilder = () => {
                 ></Performance>
               )}
             </Grid>
+
+            <Grid item lg={4} xs={12} md={4}>
+              {stats === undefined ? (<p></p>) : (
+                <WinLoss wins={stats.numberOfWins} losses={stats.numberOfLosses}></WinLoss>
+              )}
+            </Grid>
+            
+
+            {/* history */}
+            <Grid item xs={12} md={4} lg={4}>
+              {stats === undefined ? (<p></p>) : (
+                <History history={stats.history} player={childPlayer}></History>
+              )}
+            </Grid>
+            {/* tournaments */}
+            <Grid item xs={12} md={4} lg={4}>
+              {stats === undefined ? (<p></p>) : (
+                <TournamentHistory history={stats.tournamentHistory} player={childPlayer}></TournamentHistory>
+              )}
+            </Grid>
+
+            
 
 
 
