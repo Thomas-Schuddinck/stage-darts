@@ -66,5 +66,14 @@ namespace BackendDarts.Repos
         {
             _games.Update(game);
         }
+
+        public IEnumerable<Game> GetAllDetailedRanked()
+        {
+            return _games.Include(p => p.LegGroups).ThenInclude(lg => lg.PlayerLegs).ThenInclude(pl => pl.Turns).ThenInclude(t => t.Throws)
+                .Include(p => p.PlayerGames).ThenInclude(pg => pg.Player)
+                .Include(p => p.CurrentLegGroup).ThenInclude(lg => lg.PlayerLegs).ThenInclude(pl => pl.Turns).ThenInclude(t => t.Throws)
+                .Where(g => g.Type == 2)
+                .ToList();
+        }
     }
 }

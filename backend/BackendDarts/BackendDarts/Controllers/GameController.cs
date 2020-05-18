@@ -310,7 +310,7 @@ namespace BackendDarts.Controllers
             Dictionary<int, LeaderboardPlayerDataDTO> playerStatisticsDictionary = FillPlayerDictionaryWithEmptyValues();
 
             // database doorlopen en gegevens per speler opvullen
-            foreach (Game game in _gameRepository.GetAllDetailed())
+            foreach (Game game in _gameRepository.GetAllDetailedRanked())
             {
                 // if there's no winner
                 if (game.Winner != -1)
