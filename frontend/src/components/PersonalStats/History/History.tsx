@@ -150,10 +150,11 @@ const History = (props: any) => {
 
     game.players!.forEach(pl => {
       if (!(pl === undefined)) {
-        if (pl.legsWon > mostlegs)
+        if (pl.legsWon > mostlegs){
+          mostlegs = pl.legsWon;
           winner = pl.playerDTO.name;
+        }          
       }
-
     });
 
     game.players.forEach(pl => {
