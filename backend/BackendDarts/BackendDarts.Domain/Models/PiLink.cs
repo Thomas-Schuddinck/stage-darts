@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BackendDarts.Domain.Models
+namespace BackendDarts.Models
 {
     public class PiLink
     {

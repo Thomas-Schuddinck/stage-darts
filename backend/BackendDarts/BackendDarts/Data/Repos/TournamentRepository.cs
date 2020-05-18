@@ -1,6 +1,6 @@
 ﻿using BackendDarts.Data.Repos.IRepos;
 using BackendDarts.Domain;
-using BackendDarts.Domain.Models;
+using BackendDarts.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

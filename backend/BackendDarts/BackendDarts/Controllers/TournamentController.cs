@@ -1,14 +1,14 @@
 ﻿using BackendDarts.data.Repos.IRepos;
 using BackendDarts.Data.Repos.IRepos;
 using BackendDarts.Domain.DTOs;
-using BackendDarts.Domain.Models;
-using BackendDarts.DTOs;
 using BackendDarts.Models;
+using BackendDarts.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BackendDarts.Domain.Models;
 
 namespace BackendDarts.Controllers
 {
