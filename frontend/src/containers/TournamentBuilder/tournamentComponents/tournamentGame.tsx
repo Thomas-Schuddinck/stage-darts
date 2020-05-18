@@ -61,7 +61,7 @@ const useStyles = makeStyles(theme => ({
         padding: '1em',
         backgroundColor: indigo[50],
         "&:hover": {
-            cursor: "default",
+            cursor: "pointer",
         }
     }
 }));
@@ -73,9 +73,12 @@ const TournamentGame = (props: any) => {
     let [open, setOpen] = useState(false);
 
     const playTourneyGame = (game: Game) => {
-        if (!game.tournamentPlayable || game.isFinished) {
+        if (!game.tournamentPlayable) {
             setOpen(true);
-        } else {
+        } else if (game.isFinished) {
+            history.push(`/Overview/${game.id}`);
+        }
+        else {
             history.push(`/game/${game.id}`);
         }
     }
@@ -133,7 +136,7 @@ const TournamentGame = (props: any) => {
                 </div>
             </Card>
             <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-                <Alert onClose={handleClose} severity="error">This game has already been played or still needs to be determined</Alert>
+                <Alert onClose={handleClose} severity="error">This game still needs to be determined</Alert>
             </Snackbar>
         </Wrap>
     );
