@@ -4,8 +4,13 @@ import { PlayerDetail } from './PlayerDetail';
 
 export interface Game {
     id: number;
-    beginDate: Date
-    endDate: Date
+    beginDate: string
+    endDate: string
     players: PlayerDetail[];
-    legGroups: LegGroup[];
+    legGroups?: LegGroup[];
+    bracketSectorNumber: number;
+    bracketStageNumber: number;
+    tournamentPlayable: boolean;
+    isFinished: boolean;
+    tournamentId: number;
 }

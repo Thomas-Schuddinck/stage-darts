@@ -1,55 +1,156 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="BackendDarts.Models.DartThrow">
-    <Position X="1.25" Y="0.5" Width="1.5" />
+    <Position X="1.75" Y="6.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAgAQAAAAA=</HashCode>
       <FileName>Models\DartThrow.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="BackendDarts.Models.Game">
-    <Position X="10.5" Y="0.5" Width="1.5" />
+    <Position X="7.5" Y="1.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <AssociationLine Name="LegGroups" Type="BackendDarts.Models.LegGroup" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7.5" Y="3.625" />
+        <Point X="5.688" Y="3.625" />
+        <Point X="5.688" Y="5.5" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-1.605" Y="1.943" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Tournament" Type="BackendDarts.Models.Tournament">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-1.066" Y="0.194" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="CurrentLegGroup" Type="BackendDarts.Models.LegGroup" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7.5" Y="3.25" />
+        <Point X="5.375" Y="3.25" />
+        <Point X="5.375" Y="5.5" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-1.833" Y="2.374" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="SingletonGame" Type="BackendDarts.Models.Game" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="9" Y="4.312" />
+        <Point X="10.154" Y="4.312" />
+        <Point X="10.154" Y="3.75" />
+        <Point X="9" Y="3.75" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAACAAAAAgAAAABQACCAAAAAAAAAAAAAIAgAAAAAAAA=</HashCode>
+      <HashCode>EhACIgIAAgAAAANSABCkgAQ4AAACAgFAZQoAAIAAoDg=</HashCode>
       <FileName>Models\Game.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Tournament" />
+      <Property Name="CurrentLegGroup" />
+      <Property Name="SingletonGame" />
+    </ShowAsAssociation>
     <ShowAsCollectionAssociation>
-      <Property Name="PlayerGames" />
       <Property Name="LegGroups" />
+      <Property Name="PlayerGames" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="BackendDarts.Models.LegGroup">
-    <Position X="4.75" Y="0.5" Width="1.5" />
+    <Position X="4.5" Y="5.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <AssociationLine Name="PlayerLegs" Type="BackendDarts.Models.PlayerLeg">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.062" Y="3.091" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAACAAAABAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAACAAAAAAABAAEAAACAAAAAAAACAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\LegGroup.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
       <Property Name="PlayerLegs" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="BackendDarts.Models.Player">
-    <Position X="10" Y="3.75" Width="1.5" />
+  <Class Name="BackendDarts.Models.PiLink">
+    <Position X="1.25" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
-      <HashCode>QAACAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Models\Player.cs</FileName>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Models\PiLink.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="BackendDarts.Models.Player">
+    <Position X="14.5" Y="3" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <AssociationLine Name="Games" Type="BackendDarts.Models.Game" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="14.5" Y="4.688" />
+        <Point X="12.561" Y="4.688" />
+        <Point X="12.561" Y="5.042" />
+        <Point X="8.625" Y="5.042" />
+        <Point X="8.625" Y="4.536" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.752" Y="0.228" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>QAACAEAAACAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Models\Player.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Games" />
+    </ShowAsCollectionAssociation>
+  </Class>
   <Class Name="BackendDarts.Models.PlayerGame">
-    <Position X="7.25" Y="2" Width="1.5" />
+    <Position X="11" Y="1.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAgAAAAAAAAIAQAAAAA=</HashCode>
       <FileName>Models\PlayerGame.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Player" />
       <Property Name="Game" />
+      <Property Name="Player" />
     </ShowAsAssociation>
   </Class>
   <Class Name="BackendDarts.Models.PlayerLeg">
-    <Position X="4.25" Y="3.75" Width="1.5" />
+    <Position X="4" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <AssociationLine Name="Player" Type="BackendDarts.Models.Player" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="5.5" Y="0.688" />
+        <Point X="15.062" Y="0.688" />
+        <Point X="15.062" Y="3" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="Turns" Type="BackendDarts.Models.Turn" ManuallyRouted="true">
+      <Path>
+        <Point X="4" Y="1.278" />
+        <Point X="3.834" Y="1.278" />
+        <Point X="3.834" Y="4.22" />
+        <Point X="3" Y="4.22" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAQAAAAA=</HashCode>
+      <HashCode>AAACIAAAAAAAAAAAAAAAAAAAAAAAAAEABEAAAQAAAAA=</HashCode>
       <FileName>Models\PlayerLeg.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -59,10 +160,62 @@
       <Property Name="Turns" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="BackendDarts.Models.Turn">
-    <Position X="1" Y="3.75" Width="1.5" />
+  <Class Name="BackendDarts.Models.PlayerTournament">
+    <Position X="11" Y="5.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <AssociationLine Name="Player" Type="BackendDarts.Models.Player" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="12.5" Y="6.25" />
+        <Point X="15.062" Y="6.25" />
+        <Point X="15.062" Y="5.132" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.096" Y="0.817" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Tournament" Type="BackendDarts.Models.Tournament">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.134" Y="-0.251" Height="0.182" Width="1.194" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAgAAAAAAA=</HashCode>
+      <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAIAQAAAAA=</HashCode>
+      <FileName>Models\PlayerTournament.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Player" />
+      <Property Name="Tournament" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BackendDarts.Models.Tournament">
+    <Position X="7.5" Y="5.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <AssociationLine Name="Games" Type="BackendDarts.Models.Game" ManuallyRouted="true">
+      <Path>
+        <Point X="8" Y="5.75" />
+        <Point X="8" Y="4.536" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>QAACAAAAAAAACAAAQACAAEQAAAQAAAAAgggAAgAAAAA=</HashCode>
+      <FileName>Models\Tournament.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Games" />
+      <Property Name="PlayerTournaments" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="BackendDarts.Models.Turn">
+    <Position X="1.5" Y="3.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAABAAAAQAAAAAkABQAgAAAAIQA=</HashCode>
       <FileName>Models\Turn.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>

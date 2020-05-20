@@ -1,10 +1,11 @@
 import React, { } from 'react';
-
 import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
 import { CardContent, TextField } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { Player } from '../../models/Player';
+import Card from "../../styledcomponents/Card";
+import CardAvatar from "../../styledcomponents/CardAvatar";
+import avatar from '../../img/avatarGradient.png';
 
 const useStyles = makeStyles(theme => ({
     tekstHoofd: {
@@ -18,10 +19,18 @@ const useStyles = makeStyles(theme => ({
     wide: {
         width: '100%'
     },
-    height: {
-        height: 88
+    autoC: {
+        color: "purple",
+    "& .MuiOutlinedInput-notchedOutline": {
+      borderColor: "#0d84d9"
+    },
+    "&:hover .MuiOutlinedInput-notchedOutline": {
+      borderColor: "#0d84d9"
+    },
+    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderColor: "#0d84d9"
     }
-
+    }
 }));
 
 const PersonStat = (props: any) => {
@@ -32,25 +41,27 @@ const PersonStat = (props: any) => {
     }
 
     return (
-        <Card className={classes.height}>
+        <Card profile>
+            <CardAvatar profile>
+                <img src={avatar} alt="..." />
+            </CardAvatar>
             <CardContent>
                 <Autocomplete
-                        className={classes.wide}
-                        id="combo-box-demo"
-                        disableClearable
-                        options={props.players}
-                        getOptionLabel={(option: Player) => option.name!}
-                        onChange={(e: any,v: any) => onTagChange(e, v)}
-                        renderInput={params => <TextField {...params} label="Player" variant="outlined"
-                        />}
-                        />
+                    classes={{
+                        root: classes.autoC,
+                    }}
+                    className={classes.wide}
+                    id="combo-box-demo"
+                    disableClearable
+                    options={props.players}
+                    getOptionLabel={(option: Player) => option.name!}
+                    onChange={(e: any, v: any) => onTagChange(e, v)}
+                    renderInput={params => <TextField {...params} label="Player" variant="outlined"
+                    />}
+                />
             </CardContent>
-                        
-                
-          
         </Card>
     );
-
 };
 
 export default PersonStat;

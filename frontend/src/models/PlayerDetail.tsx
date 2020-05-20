@@ -1,7 +1,7 @@
 import { Player } from "./Player";
 
 export interface PlayerDetail {
-    legsWon?: number;
+    legsWon: number;
 
     playerDTO: Player;
 }

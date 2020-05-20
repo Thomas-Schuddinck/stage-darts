@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using BackendDarts.Models;
+using System.Collections.Generic;
 namespace BackendDarts.DTOs
 {
     public class GameDetailsDTO
@@ -7,12 +8,18 @@ namespace BackendDarts.DTOs
         public PlayerDTO CurrentPlayer { get; set; }
         public PlayerDTO NextPlayer { get; set; }
         public int LastThrow { get; set; }
-        public TurnDTO CurrentLeg { get; set; }
+        public TurnDTO CurrentTurn { get; set; }
+        public LegGroupDTO CurrentLegGroup { get; set; }
+
         public IEnumerable<PlayerLegDTO> PlayerGames { get; set; }
 
-        public GameDetailsDTO(GameDTO game)
+        public GameDetailsDTO(Game game)
         {
-            Game = game;
+            Game = new GameDTO(game);
+            CurrentPlayer = new PlayerDTO(game.GetCurrentPlayer());
+            NextPlayer = new PlayerDTO(game.GetNextPlayer());
+            CurrentLegGroup = new LegGroupDTO(game.CurrentLegGroup);
+            CurrentTurn = new TurnDTO(game.GetCurrentTurn());
 
         }
     }

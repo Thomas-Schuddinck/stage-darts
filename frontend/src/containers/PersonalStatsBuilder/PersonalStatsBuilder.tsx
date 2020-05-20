@@ -2,19 +2,17 @@ import React, { useState, useEffect } from 'react';
 import Aux from '../../hoc/Wrap';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
-
 import PersonStat from '../../components/PersonalStats/PersonStat';
 import WinLoss from '../../components/PersonalStats/WinLoss';
-import Heatmap from '../../components/PersonalStats/Heatmap';
 import Performance from '../../components/PersonalStats/Performance';
 import History from '../../components/PersonalStats/History/History';
-import GetApiCall from '../../services/ApiClient';
+import { GetApiCall } from '../../services/ApiClient';
 import { Player } from '../../models/Player';
-import { Stats } from 'fs';
+import { Stats } from '../../models/Stats';
 import PropagateLoader from "react-spinners/PropagateLoader";
 import { css } from "@emotion/core";
-
+import { Environment } from '../../environment';
+import TournamentHistory from '../../components/PersonalStats/History/TournamentHistory';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -47,26 +45,20 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'stretch'
   },
   stretch: {
-    
+
   }
 }));
 
-
-
 const PersonalStatsBuilder = () => {
 
-  let [players, setPlayers] = useState();
-  let [stats, setStats] = useState();
+  let [players, setPlayers] = useState<Player[]>();
+  let [stats, setStats] = useState<Stats>();
   let [isLoading, setLoading] = React.useState(true);
 
   const FetchData = async () => {
-
     setLoading(true);
-
     setPlayers(await CallToApiPlayers());
-
     setLoading(false);
-
   }
 
   useEffect(() => {
@@ -74,20 +66,20 @@ const PersonalStatsBuilder = () => {
   }, []);
 
   const CallToApiPlayers = async (): Promise<Player[]> => {
-    return await GetApiCall('http://localhost:5000/Player').then(players => {
+    return await GetApiCall(Environment.apiurl + '/Player').then(players => {
       return players;
     });
   }
 
   const CallToApiStats = async (player: Player): Promise<Stats> => {
-    return await GetApiCall('http://localhost:5000/Player/stats/' + player.id).then(stats => {
+    return await GetApiCall(Environment.apiurl + '/Player/stats/' + player.id).then(stats => {
       return stats;
     });
   }
 
-  let [childPlayer, setChildPlayer] = useState();
+  let [childPlayer, setChildPlayer] = useState<Player>();
 
-  const getPlayerChild = async (childPlayer: any) => {
+  const getPlayerChild = async (childPlayer: Player) => {
     setChildPlayer(childPlayer);
     console.log('this is the player that is undefined: ' + childPlayer)
     setStats(await CallToApiStats(childPlayer));
@@ -95,10 +87,6 @@ const PersonalStatsBuilder = () => {
   }
 
   const classes = useStyles();
-
-
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
   const spinner = css`
   display: block;
   margin: 0 auto;
@@ -108,54 +96,59 @@ const PersonalStatsBuilder = () => {
 
   return (
     <Aux>
-      {isLoading? (
+      {isLoading ? (
         <PropagateLoader
-        css={spinner}
-        size={20}
-        color={"#123abc"}
+          css={spinner}
+          size={20}
+          color={"#0d84d9"}
         />
-      ): (
-        <Grid className={classes.alignstretch} container spacing={3}>
-        <Grid item lg={5} xs={12} md={5}>
-          <PersonStat parentGivePlayer={getPlayerChild} players={players}></PersonStat>
-        </Grid>
-        <Grid item lg={7} xs={12} md={7}>
-        {stats === undefined ? (<p></p>): (
-          <WinLoss wins={stats.numberOfWins} losses={stats.numberOfMisses}></WinLoss>
-          )}
-        </Grid>
+      ) : (
+          <Grid className={classes.alignstretch} container spacing={3}>
+            <Grid item lg={5} xs={12} md={5}>
+              <PersonStat parentGivePlayer={getPlayerChild} players={players}></PersonStat>
+            </Grid>
+            {/* Performance */}
+            <Grid item xs={12} md={7} lg={7}>
+              {stats === undefined ? (<p></p>) : (
+                <Performance
+                  numberOfMisses={stats.numberOfMisses}
+                  numberOfSixties={stats.numberOfSixties}
+                  totalScoreThrown={stats.totalScoreThrown}
+                  totalNumberDartsThrown={stats.totalNumberDartsThrown}
+                  averageScoreThrown={stats.averageScoreThrown}
+                  percentageWins={stats.percentageWins}
+                  percentageBoardHits={stats.percentageBoardHits}
+                  percentageSixties={stats.percentageSixties}
+                ></Performance>
+              )}
+            </Grid>
 
-        {/* heatmap? */}
-        <Grid item xs={12} md={5} lg={5}>
-        {stats === undefined ? (<p></p>): (
-          <Heatmap></Heatmap>
-          )}
-        </Grid>
+            <Grid item lg={4} xs={12} md={4}>
+              {stats === undefined ? (<p></p>) : (
+                <WinLoss wins={stats.numberOfWins} losses={stats.numberOfLosses}></WinLoss>
+              )}
+            </Grid>
+            
 
-        {/* Performance */}
-        <Grid item xs={12} md={7} lg={7}>
-        {stats === undefined ? (<p></p>): (
-          <Performance
-          numberOfMisses={stats.numberOfMisses} 
-          numberOfSixties={stats.numberOfSixties} 
-          totalScoreThrown={stats.totalScoreThrown}
-          totalNumberDartsThrown={stats.totalNumberDartsThrown}
-          averageScoreThrown={stats.averageScoreThrown}
-          percentageWins={stats.percentageWins}
-          percentageBoardHits={stats.percentageBoardHits}
-          ></Performance>
-          )}
-        </Grid>
+            {/* history */}
+            <Grid item xs={12} md={4} lg={4}>
+              {stats === undefined ? (<p></p>) : (
+                <History history={stats.history} player={childPlayer}></History>
+              )}
+            </Grid>
+            {/* tournaments */}
+            <Grid item xs={12} md={4} lg={4}>
+              {stats === undefined ? (<p></p>) : (
+                <TournamentHistory history={stats.tournamentHistory} player={childPlayer}></TournamentHistory>
+              )}
+            </Grid>
 
-        {/* history */}
-        <Grid item xs={12}>
-        {stats === undefined ? (<p></p>): (
-          <History></History>
-          )}
-        </Grid>
+            
 
-      </Grid>
-      )}
+
+
+          </Grid>
+        )}
     </Aux>
   );
 }

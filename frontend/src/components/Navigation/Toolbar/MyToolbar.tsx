@@ -14,7 +14,6 @@ import clsx from 'clsx';
 import React from 'react';
 import { SideList } from '../SideBar/SideList';
 
-
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -25,18 +24,14 @@ const useStyles = makeStyles(theme => ({
     paddingRight: 24, // keep right padding when drawer closed
   },
   toolbarIcon: {
-    
     ...theme.mixins.toolbar,
     display: 'flex',
     alignItems: 'center',
     padding: theme.spacing(1),
-    
     justifyContent: 'flex-start',
     [theme.breakpoints.up('sm')]: {
-
       justifyContent: 'flex-end',
     },
-    
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -49,7 +44,6 @@ const useStyles = makeStyles(theme => ({
     marginLeft: "100%",
     width: "0%",
     [theme.breakpoints.up('sm')]: {
-
       marginLeft: drawerWidth,
       width: `calc(100% - ${drawerWidth}px)`,
     },
@@ -68,14 +62,11 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
   },
   drawerPaper: {
-
     width: "100%",
     position: 'fixed',
-
     whiteSpace: 'nowrap',
     [theme.breakpoints.up('sm')]: {
-
-      position: 'relative',
+      position: 'fixed',
       width: drawerWidth,
       height: '100vh'
     },
@@ -99,10 +90,13 @@ const useStyles = makeStyles(theme => ({
   content: {
     flexGrow: 1,
     overflow: 'auto',
+    paddingLeft: '0em',
+    [theme.breakpoints.up('sm')]: {
+      paddingLeft: '5em',
+    },
   },
   container: {
     padding: theme.spacing(4),
-
   },
   paper: {
     padding: theme.spacing(2),
@@ -110,24 +104,39 @@ const useStyles = makeStyles(theme => ({
     overflow: 'auto',
     flexDirection: 'column',
   },
+  test: {
+    overflow: 'hidden',
+  },
+  fullSize: {
+    paddingLeft: "10px",
+    paddingRight: "10px"
+  },
+  bg: {
+    background: 'linear-gradient(60deg,#10acf1, #1092f1)'
+  }
 }));
 
 export default function MyToolbar(props: { children: React.ReactNode }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
+
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  //const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
+  const getClickFromSideList = async () => {
+    if (window.innerWidth <= 650)
+      handleDrawerClose();
+  }
 
   return (
-    <div className={classes.root}>
+    <div className={clsx(classes.root, classes.test)}>
       <CssBaseline />
-      <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+      <AppBar className={clsx(classes.appBar, open && classes.appBarShift, classes.bg)}>
         <Toolbar className={classes.toolbar}>
           <IconButton
             edge="start"
@@ -141,38 +150,31 @@ export default function MyToolbar(props: { children: React.ReactNode }) {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             DaRts
           </Typography>
-          <IconButton color="inherit">
-            register
-          </IconButton>
         </Toolbar>
       </AppBar>
       <Drawer
         variant="permanent"
         classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+          paper: clsx(classes.drawerPaper, classes.test, !open && classes.drawerPaperClose),
         }}
         open={open}
       >
-        <div className={classes.toolbarIcon}>
+        <div className={clsx(classes.toolbarIcon)}>
           <IconButton onClick={handleDrawerClose}>
             <ChevronLeftIcon />
           </IconButton>
         </div>
         <Divider />
-        <List> <SideList /></List>
-
-
+        <List>
+          <SideList sendClickToToolbar={getClickFromSideList} />
+        </List>
       </Drawer>
-
-      <main className={classes.content}>
-
-        <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
+      <main className={clsx(classes.content)}>
+        <div className={clsx(classes.appBarSpacer)} />
+        <Container maxWidth="lg" className={clsx(classes.container, classes.fullSize)}>
           {props.children}
         </Container>
-
       </main>
-
     </div>
   );
 }

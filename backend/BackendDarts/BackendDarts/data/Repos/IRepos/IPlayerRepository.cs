@@ -19,6 +19,7 @@ namespace BackendDarts.data.Repos.IRepos
         IEnumerable<Game> GetAllGamesSimpleFromPlayer(int id);
 
         IEnumerable<Game> GetAllGamesFromPlayer(int id);
+        IEnumerable<Tournament> GetAllTournamentsFromPlayer(int id);
 
         void SaveChanges();
     }

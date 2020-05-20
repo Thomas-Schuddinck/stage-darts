@@ -33,19 +33,18 @@ namespace BackendDarts
         {
             services.AddControllers();
 
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             services.AddSignalR();
             var connection = @"Server=(localdb)\mssqllocaldb;Database=BackendDarts;Trusted_Connection=True;ConnectRetryCount=0";
             services.AddDbContext<ApplicationDbContext>
-                (options => options.UseSqlServer(connection));
+                (options => options.UseSqlServer(connection, b => b.MigrationsAssembly("BackendDarts")));
             services.AddScoped<DataInitializer>();
             services.AddScoped<IGameRepository, GameRepository>();
             services.AddScoped<IPlayerRepository, PlayerRepository>();
             services.AddScoped<IPlayerLegRepository, PlayerLegRepository>();
-
-
+            services.AddScoped<ITournamentRepository, TournamentRepository>();
+            services.AddScoped<IPiLinkRepository, PiLinkRepository>();
 
             services.AddControllers().AddNewtonsoftJson(options =>
             {
@@ -56,36 +55,47 @@ namespace BackendDarts
 
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddCors(options => options.AddPolicy("AllowAllOrigins", builder => builder.AllowAnyOrigin()));
+            //services.AddCors(options => options.AddPolicy("AllowAllOrigins", builder => builder.AllowAnyOrigin()));
+            services.AddCors(o => o.AddPolicy("CorsPolicy", builder => {
+                builder
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials()
+                .WithOrigins("http://localhost:3000");
+            }));
             services.AddOpenApiDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataInitializer dataInitializer)
         {
+            app.UseCors("CorsPolicy");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
-            app.UseCors("AllowAllOrigins");
+            //app.UseHttpsRedirection();
             app.UseRouting();
-
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                //endpoints.MapHub<ChangeHub>("/ChangeHub");
+                endpoints.MapHub<NotifyHub>("/notify");
             });
+
             /*
             app.UseSignalR(routes =>
             {
                 routes.MapHub<ChangeHub>("/ChangeHub");
             })
             */
-            app.UseSwaggerUi3(); app.UseSwagger();
+            app.UseSwaggerUi3(); app.UseOpenApi();
+
+
+            app.UseAuthorization();
+
 
             dataInitializer.InitializeData().Wait();
         }

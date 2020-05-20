@@ -1,5 +1,6 @@
 ﻿
 using BackendDarts.Domain;
+using BackendDarts.Domain.Models;
 using BackendDarts.Models;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,11 @@ namespace BackendDarts.data
 
             if (_dbContext.Database.EnsureCreated())
             {
+                //add pilink
+                PiLink pl = new PiLink();
+                _dbContext.PiLinks.Add(pl);
+                _dbContext.SaveChanges();
+
                 //adding games
                 Game game1 = new Game();
                 Game game2 = new Game();
@@ -35,12 +41,38 @@ namespace BackendDarts.data
 
 
                 //adding players
-                Player player1 = new Player("Peter");
-                Player player2 = new Player("Tom");
-                Player player3 = new Player("Quinten");
+                Player player1 = new Player("Thomas", "Schuddinck", "thomas.schuddinck@realdolmen.com");
+                Player player2 = new Player("Wouter", "Opsommer", "wouter.opsommer@realdolmen.com");
+                Player player3 = new Player("Johan", "Van Schoor", "johan.vanschoor@hogent.be");
+                Player player4 = new Player("Glenn", "Van Looveren", "glenn.vl@realdolmen.com");
+                Player player5 = new Player("Obi-Wan", "Kenobi", "Obi-jedi@jedimaster.galaxy");
+                Player player6 = new Player("Darth", "Vader", "sithboi@sith.galaxy");
+                Player player7 = new Player("Jar-Jar", "Bings", "meesa.jarjar@realdolmen.com");
+                Player player8 = new Player("Death", "Star", "ds@spaceship.galaxy");
+                Player player9 = new Player("Ahsoka", "Tano", "padawan@jedi.galaxy");
+                Player player10 = new Player("Anakin", "Skyawalker", "a-s@jedi.galaxy");
+                Player player11 = new Player("Luke", "Skyawalker", "l-s@jedi.galaxy");
+                Player player12 = new Player("Leia", "Organa", "l-o@princess.galaxy");
+                Player player13 = new Player("Han", "Solo", "hs@smuggler.galaxy");
+                Player player14 = new Player("Yoda", "Grandmaster", "yoda@grandmaster.galaxy");
+                Player player15 = new Player("Samuel L.", "Jackson", "mace_windu@master.galaxy");
+                Player player16 = new Player("R2-D2", "Droid", "R2@droid.galaxy");
                 _dbContext.Players.Add(player1);
                 _dbContext.Players.Add(player2);
                 _dbContext.Players.Add(player3);
+                _dbContext.Players.Add(player4);
+                _dbContext.Players.Add(player5);
+                _dbContext.Players.Add(player6);
+                _dbContext.Players.Add(player7);
+                _dbContext.Players.Add(player8);
+                _dbContext.Players.Add(player9);
+                _dbContext.Players.Add(player10);
+                _dbContext.Players.Add(player11);
+                _dbContext.Players.Add(player12);
+                _dbContext.Players.Add(player13);
+                _dbContext.Players.Add(player14);
+                _dbContext.Players.Add(player15);
+                _dbContext.Players.Add(player16);
 
                 //adding leggroups
                 LegGroup lg1 = new LegGroup();
@@ -61,7 +93,7 @@ namespace BackendDarts.data
                 //adding playerlegs
                 PlayerLeg gp00 = new PlayerLeg();
                 PlayerLeg gp01 = new PlayerLeg();
-                PlayerLeg gp02= new PlayerLeg();
+                PlayerLeg gp02 = new PlayerLeg();
 
                 PlayerLeg gp10 = new PlayerLeg();
                 PlayerLeg gp11 = new PlayerLeg();
@@ -129,14 +161,20 @@ namespace BackendDarts.data
                 lg6.PlayerLegs.Add(gp25);
 
                 //adding leggroups to games
-                game1.LegGroups.Add(lg1);
+                lg1.Legnr = 1;
+                lg2.Legnr = 1;
+                lg3.Legnr = 2;
+                lg4.Legnr = 1;
+                lg5.Legnr = 2;
+                lg6.Legnr = 3;
+                game1.CurrentLegGroup = lg1;
 
                 game2.LegGroups.Add(lg2);
-                game2.LegGroups.Add(lg3);
+                game2.CurrentLegGroup = lg3;
 
                 game3.LegGroups.Add(lg4);
                 game3.LegGroups.Add(lg5);
-                game3.LegGroups.Add(lg6);
+                game3.CurrentLegGroup = lg6;
 
                 //adding players to games
                 game1.AddPlayer(player1);
@@ -149,47 +187,51 @@ namespace BackendDarts.data
 
                 game3.AddPlayer(player1);
                 game3.AddPlayer(player2);
-
+                /*
+                game1.SetNextLegGroup();
+                game2.SetNextLegGroup();
+                game3.SetNextLegGroup();
+                */
                 //adding dartthrows
-                DartThrow dt1 = new DartThrow(13);
-                DartThrow dt2 = new DartThrow(19);
-                DartThrow dt3 = new DartThrow(60);
+                DartThrow dt1 = new DartThrow(13, 2);
+                DartThrow dt2 = new DartThrow(19, 3);
+                DartThrow dt3 = new DartThrow(20, 3);
 
-                DartThrow dt4 = new DartThrow(60);
-                DartThrow dt5 = new DartThrow(20);
-                DartThrow dt6 = new DartThrow(40);
+                DartThrow dt4 = new DartThrow(20, 1);
+                DartThrow dt5 = new DartThrow(20, 2);
+                DartThrow dt6 = new DartThrow(10, 1);
 
-                DartThrow dt7 = new DartThrow(14);
-                DartThrow dt8 = new DartThrow(1);
-                DartThrow dt9 = new DartThrow(9);
+                DartThrow dt7 = new DartThrow(14, 3);
+                DartThrow dt8 = new DartThrow(1, 2);
+                DartThrow dt9 = new DartThrow(9, 2);
 
-                DartThrow dt10 = new DartThrow(0);
-                DartThrow dt11 = new DartThrow(0);
-                DartThrow dt12 = new DartThrow(0);
+                DartThrow dt10 = new DartThrow(0, 1);
+                DartThrow dt11 = new DartThrow(10, 2);
+                DartThrow dt12 = new DartThrow(20, 3);
 
-                DartThrow dt13 = new DartThrow(4);
-                DartThrow dt14 = new DartThrow(54);
-                DartThrow dt15 = new DartThrow(5);
+                DartThrow dt13 = new DartThrow(4, 2);
+                DartThrow dt14 = new DartThrow(50, 1);
+                DartThrow dt15 = new DartThrow(25, 1);
                 
-                DartThrow dt16 = new DartThrow(30);
-                DartThrow dt17 = new DartThrow(64);
-                DartThrow dt18 = new DartThrow(28);
+                DartThrow dt16 = new DartThrow(10, 3);
+                DartThrow dt17 = new DartThrow(50, 1);
+                DartThrow dt18 = new DartThrow(20, 2);
 
-                DartThrow dt19 = new DartThrow(4);
-                DartThrow dt20 = new DartThrow(54);
-                DartThrow dt21 = new DartThrow(130);
+                DartThrow dt19 = new DartThrow(4, 3);
+                DartThrow dt20 = new DartThrow(14, 2);
+                DartThrow dt21 = new DartThrow(10, 3);
 
-                DartThrow dt22 = new DartThrow(60);
-                DartThrow dt23 = new DartThrow(60);
-                DartThrow dt24 = new DartThrow(60);
+                DartThrow dt22 = new DartThrow(10, 3);
+                DartThrow dt23 = new DartThrow(25, 1);
+                DartThrow dt24 = new DartThrow(25, 1);
 
-                DartThrow dt25 = new DartThrow(20);
-                DartThrow dt26 = new DartThrow(40);
-                DartThrow dt27 = new DartThrow(14);
+                DartThrow dt25 = new DartThrow(20, 1);
+                DartThrow dt26 = new DartThrow(20, 3);
+                DartThrow dt27 = new DartThrow(14, 3);
 
-                DartThrow dt28 = new DartThrow(3);
-                DartThrow dt29 = new DartThrow(94);
-                DartThrow dt30 = new DartThrow(55);
+                DartThrow dt28 = new DartThrow(3, 3);
+                DartThrow dt29 = new DartThrow(9, 2);
+                DartThrow dt30 = new DartThrow(50, 1);
 
                 _dbContext.DartThrows.Add(dt1);
                 _dbContext.DartThrows.Add(dt2);
@@ -222,18 +264,28 @@ namespace BackendDarts.data
                 _dbContext.DartThrows.Add(dt29);
                 _dbContext.DartThrows.Add(dt30);
 
-                Turn turn1 = new Turn();
-                Turn turn2 = new Turn();
-                Turn turn3 = new Turn();
-                Turn turn4 = new Turn();
-                Turn turn5 = new Turn();
-                Turn turn6 = new Turn();
-                Turn turn7 = new Turn();
-                Turn turn8 = new Turn();
-                Turn turn9 = new Turn();
-                Turn turn10 = new Turn();
+                Turn turn1 = new Turn(1);
+                turn1.EndTurn();
+                Turn turn2 = new Turn(1);
+                turn2.EndTurn();
+                Turn turn3 = new Turn(1);
+                turn3.EndTurn();
+                Turn turn4 = new Turn(1);
+                turn4.EndTurn();
+                Turn turn5 = new Turn(1);
+                turn5.EndTurn();
+                Turn turn6 = new Turn(1);
+                turn6.EndTurn();
+                Turn turn7 = new Turn(1);
+                turn7.EndTurn();
+                Turn turn8 = new Turn(1);
+                turn8.EndTurn();
+                Turn turn9 = new Turn(1);
+                turn9.EndTurn();
+                Turn turn10 = new Turn(1);
+                turn10.EndTurn();
 
-                gp20.Turns.Add(turn1);
+                gp20.Turns.Add(turn1); 
                 gp21.Turns.Add(turn2);
                 gp22.Turns.Add(turn3);
                 gp23.Turns.Add(turn4);
@@ -294,6 +346,7 @@ namespace BackendDarts.data
                 _dbContext.Turns.Add(turn8);
                 _dbContext.Turns.Add(turn9);
                 _dbContext.Turns.Add(turn10);
+                
                 _dbContext.SaveChanges();
             }
         }
