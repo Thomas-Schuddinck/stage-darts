@@ -9,6 +9,7 @@ import { ShortInfoPlayers } from './ShortInfoPlayers/ShortInfoPlayers';
 import { ShortInfoStats } from './ShortInfoStats/ShortInfoStats';
 import { ShortInfoWhen } from './ShortInfoWhen/ShortInfoWhen';
 import { ShortInfoWinner } from './ShortInfoWinner/ShortInfoWinner';
+import { ShortInfoTournament } from './ShortInfoTournaments/ShortInfoCompetition';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -20,16 +21,14 @@ const useStyles = makeStyles(theme => ({
     hr:{
         margin: '2em 0'
     }
-
 }));
+
 export const ShortInfoGroup = () => {
-
-
     const classes = useStyles();
+
     return (
         <div>
             <Grid container spacing={3}>
-
                 <Grid item xs={12} >
                     <ShortInfoPlayers />
                 </Grid>
@@ -46,6 +45,9 @@ export const ShortInfoGroup = () => {
                 <Grid item xs={12}>
                     <ShortInfoDarts />
                 </Grid>
+                <Grid item xs={12}>
+                    <ShortInfoTournament/>
+                </Grid>
             </Grid>
             <hr className={classes.hr}/>
             <Grid container spacing={3}>
@@ -58,17 +60,10 @@ export const ShortInfoGroup = () => {
             </Grid>
             <hr className={classes.hr}/>
             <Grid container spacing={3}>
-
                 <Grid item xs={12} >
                     <ShortInfoCompetition />
                 </Grid>
             </Grid>
-
         </div>
-
-
-
-
-
     )
 }

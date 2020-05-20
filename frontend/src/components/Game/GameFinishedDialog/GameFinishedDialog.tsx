@@ -10,33 +10,33 @@ import { useTheme, useMediaQuery } from '@material-ui/core';
 
 export const GameFinishedDialog = (props: any) => {
     const [open, setOpen] = React.useState(true);
-
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
     const handleClose = () => {
-       
         setOpen(false);
     };
+
     const handleUndoLastThrow = () => {
         props.undoLastThrow();
         handleClose();
     };
+
     const handleOverviewGame = () => {
-        
         handleClose();
     };
+
     const handleGoToGames = () => {
         handleClose();
     };
 
     return (
-
         <Dialog
             open={open}
             onClose={handleClose}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
-            fullScreen={fullScreen} 
+            fullScreen={fullScreen}
             disableBackdropClick={true}
             disableEscapeKeyDown={true}
         >
@@ -46,7 +46,7 @@ export const GameFinishedDialog = (props: any) => {
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleUndoLastThrow} color="primary">
-                UNDO THROW
+                    UNDO THROW
                 </Button>
                 <Button onClick={handleOverviewGame} color="primary">
                     <NavLink to={`/overview/${props.id}`}>GAME OVERVIEW</NavLink>

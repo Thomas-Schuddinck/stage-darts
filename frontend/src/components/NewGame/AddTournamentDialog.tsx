@@ -21,7 +21,6 @@ export  const AddTournamentDialog = (props: any) =>  {
   };
 
   return (
-    
       <Dialog
         open={open}
         onClose={handleClose}

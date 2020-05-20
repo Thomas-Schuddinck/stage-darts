@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
         fontSize: '1.5em',
         [theme.breakpoints.up('sm')]: {
             fontSize: '2em',
-          },
+        },
         display: 'flex',
         margin: "0 auto"
     },
@@ -32,9 +32,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function LastDartThrow(props: any) {
-
     const classes = useStyles();
-
 
     return (
         <Wrap>
@@ -43,8 +41,6 @@ function LastDartThrow(props: any) {
             </div>
         </Wrap>
     );
-
-
 };
 
 export default LastDartThrow;

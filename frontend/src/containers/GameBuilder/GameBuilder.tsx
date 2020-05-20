@@ -3,14 +3,13 @@ import Person from '../../components/Game/Person'
 import Aux from '../../hoc/Wrap';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import PropagateLoader from "react-spinners/PropagateLoader";
 import { GetApiCall, PutApiCall } from '../../services/ApiClient';
 import LastDartThrow from '../../components/Game/LastDartThrow/LastDartThrow';
 import CurrentTurn from '../../components/Game/CurrentTurn/CurrentTurn';
 import { css } from "@emotion/core";
-import TakePhoto from '../../components/Game/TakePhoto/TakePhoto';
 import CurrentScore from '../../components/Game/CurrentScore/CurrentScore';
 import { PlayerLeg } from '../../models/PlayerLeg';
 import { PlayerDetail } from '../../models/PlayerDetail';
@@ -19,12 +18,9 @@ import * as signalR from "@aspnet/signalr";
 import { GameDetails } from '../../models/GameDetails';
 import { Status } from '../../models/Status'
 import AddThrow from '../../components/Game/AddThrow/AddThrow';
-import { DartThrow } from '../../models/DartThrow';
 import { Environment } from '../../environment'
 import HistoryComponent from '../../components/Game/History/History';
 import { GameFinishedDialog } from '../../components/Game/GameFinishedDialog/GameFinishedDialog';
-import { GameReviewDialog } from '../../components/Game/GameReviewDialog/GameReviewDialog';
-import { useMediaQuery } from '@material-ui/core';
 import { TournamentFinishedDialog } from '../../components/Game/GameFinishedDialog/TournamentFinishedDialog';
 
 const useStyles = makeStyles(theme => ({
@@ -35,8 +31,6 @@ const useStyles = makeStyles(theme => ({
     },
     fixedHeight: {
         height: 240,
-    },
-    absolute: {
     },
     alignFlex: {
         display: "flex",
@@ -62,7 +56,7 @@ const useStyles = makeStyles(theme => ({
     greenBack: {
         '& .MuiPaper-rounded': {
 
-            backgroundColor: 'green',
+            background: 'linear-gradient(60deg,#10acf1, #1092f1)',
             '& *': {
                 color: "#FFFFFF"
             }
@@ -71,19 +65,25 @@ const useStyles = makeStyles(theme => ({
     flexie: {
         display: 'flex',
         flexDirection: 'column',
-    }, 
-    test:{
+    },
+    test: {
         overflowY: 'auto',
         top: '0px',
         bottom: '0px',
-    }
+    },
+    hr: {
+        borderColor: '#1092f1',
+        borderWidth: '2px',
+        marginTop: '1.5em',
+        marginBottom: '4em',
+        borderStyle: 'solid',
+        width: '90%'
+
+    },
 }));
 
 export const GameBuilder = (props: { match: { params: any; }; }) => {
-
     const classes = useStyles();
-
-    const theme = useTheme();
     let [size = 0, setSize] = useState<number>();
     let [gameDetails, setGameDetails] = useState<GameDetails>();
     let [isLoading, setLoading] = React.useState(true);
@@ -109,10 +109,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
     const FetchData = async (id: number) => {
         setLoading(true);
         setGameDetails(await CallToApiGame(id));
-
-
         setLoading(false);
-
 
         const connection = new signalR.HubConnectionBuilder()
             .configureLogging(signalR.LogLevel.Information)
@@ -120,26 +117,22 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
             .build();
 
         connection.start().then(function () {
-            console.log('Connected!');
         }).catch(function (err) {
             return console.error(err.toString());
         });
 
         connection.on("UpdateGame", (payload: Status) => {
-            console.log(payload);
             setGameDetails(payload.gameDTO);
             if (payload.status === 1) {
                 setWinner(payload.winner);
                 setDialogId(payload.gameDTO.game.tournamentId !== -1 ? payload.gameDTO.game.tournamentId : payload.gameDTO.game.id)
-                if(payload.gameDTO.game.tournamentPlayable){
+                if (payload.gameDTO.game.tournamentPlayable) {
                     setOpenDialogFinishTournament(true);
-                } else{
+                } else {
                     setOpenDialogFinishGame(true);
                 }
-                
             }
         });
-
     }
 
     useEffect(() => {
@@ -165,39 +158,41 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
     margin-left: 50%;
   `;
 
-
-    let [selectedThrowToEdit, setSelectedThrowToEdit] = useState<DartThrow>();
-    const getSelectedThrowFromTurn = async (tr: DartThrow) => {
-        setSelectedThrowToEdit(tr);
-    }
-
-    const keyboardToggle = (boo : boolean) => {
-        console.log(boo);
-    }
-
     return (
         <Aux>
             {isLoading ? (
                 <PropagateLoader
                     css={spinner}
                     size={20}
-                    color={"#123abc"}
+                    color={"#0d84d9"}
                 />
             ) : (
                     <Aux >
                         <div className={size < 499 ? classes.flexie : ""}>
-                            <Grid container spacing={3} className={classes.absolute}>
+                            <Grid container spacing={3} >
+                                {size < 499 ?
+                                    (<div></div>)
+                                    :
+                                    (
+                                        <Grid item lg={5} xs={12} md={5}  >
+                                            <AddThrow currentgame={gameDetails?.game.id} undoLastThrow={goBack} key="addThrow-big" className={classes.test} />
+                                            <hr className={classes.hr} />
+                                            <HistoryComponent klein={true} game={gameDetails!.game!}  key="history-big"/>
+                                        </Grid>
+                                    )}
+                            
+                            <Grid item lg={5} xs={12} md={5} >
                                 {
                                     gameDetails!.currentLegGroup!
                                         .playerLegs!.map(function (pl: PlayerLeg, i: any) {
-                                            return <Grid item key={i} xs={12} md={6} lg={6} className={gameDetails?.currentPlayer.id === pl.player.id ? classes.greenBack : ""}>
+                                            return <Grid item key={i} xs={12} md={12} lg={12} className={gameDetails?.currentPlayer.id === pl.player.id ? classes.greenBack : ""}>
                                                 <Paper className={fixedHeightPaper}>
                                                     <Grid container spacing={2}>
                                                         <Grid item xs={5} md={7} lg={7}>
                                                             <Person player={pl.player} currentplayer={gameDetails?.currentPlayer} />
                                                             <Paper className={classes.margintop}>
                                                                 <LastDartThrow score={pl.turns![pl.turns!.length - 1] && pl.turns![pl.turns!.length - 1].throws!.map(t => t.value!).reduce((a, b) => a + b, 0)} />
-                                                                <CurrentTurn sendThrowToBuilder={getSelectedThrowFromTurn} className={classes.currentTurn} turnnumber="2" scores={pl.turns![pl.turns!.length - 1] && pl.turns![pl.turns!.length - 1].throws && pl.turns![pl.turns!.length - 1].throws!.map(t => t)} />
+                                                                <CurrentTurn className={classes.currentTurn} turnnumber="2" scores={pl.turns![pl.turns!.length - 1] && pl.turns![pl.turns!.length - 1].throws && pl.turns![pl.turns!.length - 1].throws!.map(t => t)} />
                                                             </Paper>
                                                         </Grid>
                                                         <Grid item xs={7} md={5} lg={5}>
@@ -209,30 +204,31 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                                                                     .players!
                                                                     .filter(
                                                                         (p: PlayerDetail) =>
-                                                                        p.playerDTO.id ===
-                                                                        pl.player.id
-                                                                        )[0].legsWon}></NumberOfWonLegs>
+                                                                            p.playerDTO.id ===
+                                                                            pl.player.id
+                                                                    )[0].legsWon}></NumberOfWonLegs>
                                                         </Grid>
                                                     </Grid>
                                                 </Paper>
                                             </Grid>
                                         }
-
-
                                         )
                                 }
 
-                                {size < 499 ? (<div></div>) : (<AddThrow currentgame={gameDetails?.game.id} undoLastThrow={goBack} selectedThrow={selectedThrowToEdit} />)}
-
-
 
                             </Grid>
-                            <hr />
-                            <h3>History</h3>
-                            <HistoryComponent game={gameDetails!.game!} />
+                            </Grid>
 
-                            
-                            {size < 499 ? (<AddThrow currentgame={gameDetails?.game.id} undoLastThrow={goBack} selectedThrow={selectedThrowToEdit} className={classes.test}  />) : (<div></div>)}
+                            {size < 499 ? (
+                                <Aux>
+                                    <hr className={classes.hr} />
+                                    <HistoryComponent game={gameDetails!.game!} key="history-small"/>
+                                    <AddThrow currentgame={gameDetails?.game.id} undoLastThrow={goBack} className={classes.test} key="addThrow-small"/>
+
+                                </Aux>
+
+                            ) : (<div></div>)}
+
                             {openDialogFinishGame ? (
                                 <GameFinishedDialog winner={winner} id={dialogId} undoLastThrow={goBack} />
                             ) : (
@@ -247,6 +243,7 @@ export const GameBuilder = (props: { match: { params: any; }; }) => {
                     </Aux>
                 )}
         </Aux>
+
     );
 }
 

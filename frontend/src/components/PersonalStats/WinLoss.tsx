@@ -1,4 +1,4 @@
-import { makeStyles, Typography, Table, TableRow, TableCell, TableBody} from '@material-ui/core';
+import { makeStyles, Typography, Table, TableRow, TableCell, TableBody } from '@material-ui/core';
 import React from 'react';
 import CardHeader from "../../styledcomponents/CardHeader";
 import CardBody from "../../styledcomponents/CardBody";
@@ -16,22 +16,19 @@ const useStyles = makeStyles(theme => ({
         fontSize: '1.7em'
     },
     content: {
-       fontSize: '1.4em'
-    },
-    height: {
-
+        fontSize: '1.4em'
     }
-
 }));
 
 const WinLoss = (props: any) => {
     const classes = useStyles();
 
     return (
-        <Card className={classes.height}>
+        <Card>
             <CardHeader color="success">
                 <h4>Wins/losses</h4>
             </CardHeader>
+            <CardBody>
                 <Table className={classes.table}>
                     <TableBody>
                         <TableRow>
@@ -44,12 +41,9 @@ const WinLoss = (props: any) => {
                         </TableRow>
                     </TableBody>
                 </Table>
-            
-
+            </CardBody>
         </Card>
     );
-
 };
-
 
 export default WinLoss;

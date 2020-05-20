@@ -1,13 +1,9 @@
 import Grid from '@material-ui/core/Grid';
-
 import React, { useState, useEffect } from 'react';
 import Aux from '../../hoc/Wrap';
 import LegListComponent from '../../components/GameOveriew/LegList/LegList';
-import { GameDetails } from '../../models/GameDetails';
 import { GetApiCall } from '../../services/ApiClient';
-import * as signalR from "@aspnet/signalr";
 import { Environment } from '../../environment';
-import { Status } from '../../models/Status';
 import { css } from "@emotion/core";
 import PropagateLoader from "react-spinners/PropagateLoader";
 import LegComponent from '../../components/Game/Leg/Leg';
@@ -17,35 +13,18 @@ import LegOverview from '../../components/GameOveriew/LegOverview/LegOverview';
 import CardHeader from "../../styledcomponents/CardHeader";
 import CardBody from "../../styledcomponents/CardBody";
 import Card from "../../styledcomponents/Card";
-import DartsBoardLogo from '../../components/About/DartBoardLogo/DartBoardLogo';
-
-import { makeStyles } from '@material-ui/core/styles';
-const useStyles = makeStyles(theme => ({
-    wd: {
-        width: '0px',
-    },
-}));
-
-
-
 
 export const GameOverviewBuilder = (props: { match: { params: any; }; }) => {
 
-    const classes = useStyles();
-    console.log("test eens dit");
-    console.log(props.match.params.id);
     let [overview, setOverview] = useState<GameOverview>();
     let [isLoading, setLoading] = React.useState(true);
     const FetchData = async (id: number) => {
         setLoading(true);
         setOverview(await CallToApiGame(id));
         setLoading(false);
-
-
     }
 
     useEffect(() => {
-
         if (props.match.params.id) {
             FetchData(props.match.params.id);
         } else {
@@ -55,8 +34,6 @@ export const GameOverviewBuilder = (props: { match: { params: any; }; }) => {
 
     const CallToApiGame = async (id: number): Promise<GameOverview> => {
         return await GetApiCall(Environment.apiurl + '/Game/overview/' + id).then(gameDetails => {
-            console.log("dit is de game");
-            console.log(gameDetails)
             return gameDetails;
         });
     }
@@ -72,14 +49,14 @@ export const GameOverviewBuilder = (props: { match: { params: any; }; }) => {
     const getSelectedIdFromList = async (id: number) => {
         setSelectedLegId(id);
     }
+
     return (
         <Aux>
-
             {isLoading ? (
                 <PropagateLoader
                     css={spinner}
                     size={20}
-                    color={"#123abc"}
+                    color={"#0d84d9"}
                 />
             ) : (
                     <Grid container spacing={3}>
@@ -90,7 +67,6 @@ export const GameOverviewBuilder = (props: { match: { params: any; }; }) => {
                         <Grid item xs={12} md={6} lg={6}>
                             <LegOverview legwinners={overview!.legWinners} />
                         </Grid>
-
                         <Grid item xs={12} md={12} lg={12}>
                             <Card>
                                 <CardHeader color="info">
@@ -100,7 +76,6 @@ export const GameOverviewBuilder = (props: { match: { params: any; }; }) => {
                                     <Grid item lg={12} xs={12} md={12}>
                                         <LegListComponent leggroups={overview!.game!.legGroups!} sendIdToBuilder={getSelectedIdFromList} />
                                     </Grid>
-
                                     <div>
                                         {selectedLegId >= 0 ? (
                                             <LegComponent leggroup={overview!.game!.legGroups![selectedLegId]} />
@@ -110,12 +85,9 @@ export const GameOverviewBuilder = (props: { match: { params: any; }; }) => {
                                     </div>
                                 </CardBody>
                             </Card>
-
                         </Grid>
-
                     </Grid>
                 )}
-
         </Aux>
     );
 }

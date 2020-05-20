@@ -3,9 +3,10 @@ using BackendDarts.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 
-namespace BackendDarts.Domain.Models
+namespace BackendDarts.Models
 {
     public class Tournament
     {
@@ -73,6 +74,11 @@ namespace BackendDarts.Domain.Models
         private void SetWinner(int idWinner)
         {
             Winner = idWinner;
+        }
+
+        public string GetWinnerName()
+        {
+            return Winner == -1 ? "No Winner" : PlayerTournaments.FirstOrDefault(pt => pt.PlayerId == Winner).Player.Name;
         }
 
 

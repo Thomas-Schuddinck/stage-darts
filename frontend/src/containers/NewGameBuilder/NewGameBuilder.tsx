@@ -15,14 +15,10 @@ import { AddGameDialog } from "../../components/NewGame/AddGameDialog";
 import Alert from '@material-ui/lab/Alert';
 import { Environment } from '../../environment';
 import SendIcon from '@material-ui/icons/Send';
-
 import clsx from 'clsx';
-import { useForm } from 'react-hook-form';
 import Card from "../../styledcomponents/Card";
 import CardAvatar from "../../styledcomponents/CardAvatar";
-
-import avatar from '../../img/play7.png';
-import { string, boolean } from "yup";
+import avatar from '../../img/play7GradientV2.png';
 import { AddTournamentDialog } from "../../components/NewGame/AddTournamentDialog";
 
 const useStyles = makeStyles(theme => ({
@@ -48,8 +44,8 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 'bold',
   },
   send: {
+    background: 'linear-gradient(60deg,#10acf1, #1092f1)',
     color: "#FFFFFF",
-    backgroundColor: '#2e5871',
     border: '0.1em solid black',
   },
 
@@ -95,8 +91,6 @@ const NewGameBuilderForm: React.FC = () => {
   const classes = useStyles();
   const theme = useTheme();
 
-
-
   let [players, setPlayers] = React.useState<number[]>([]);
   let [playerList, setPlayerList] = React.useState<Player[]>();
   let [isLoading, setLoading] = React.useState(true);
@@ -104,19 +98,17 @@ const NewGameBuilderForm: React.FC = () => {
   let [isValidating, setValidating] = React.useState(false);
   let [openGameDialog, setOpenGameDialog] = React.useState(false);
   let [openTournamentDialog, setOpenTournamentDialog] = React.useState(false);
-  let [gameMode, setGameMode] = React.useState<string>();
+  let [gameMode, setGameMode] = React.useState<string>("2");
   let [newItemId = 0, setGameId] = React.useState<number>();
   let [isLoadingData, setIsLoadingData] = React.useState(false);
-  let [name, setName] = React.useState<string>();
+  let [name = new Date().toLocaleDateString(), setName] = React.useState<string>();
   let [doPost = false, setDoPost] = useState<boolean>();
 
-  let [isPlayersError, setPlayersError] = React.useState(false);
+  let [isPlayersError, setPlayersError] = React.useState(true);
   let [playerErrors, setPlayerErrors] = React.useState<string>("");
 
   let [hasErrors, setHasErrors] = React.useState(true);
   const PowerOf2 = [2, 4, 8, 16, 32, 64, 128, 256];
-
-
 
   const FetchData = async () => {
 
@@ -158,16 +150,11 @@ const NewGameBuilderForm: React.FC = () => {
       } else {
         setOpenTournamentDialog(true);
       }
-      
-      
-
     }
     if (doPost) {
       PostThrowCall();
     }
-  }, [doPost]);
-
-
+  }, [doPost, gameMode, name, players]);
 
   const handleChange = (event: any) => {
     console.log(players);
@@ -187,11 +174,12 @@ const NewGameBuilderForm: React.FC = () => {
 
   }
   useEffect(() => {
+    console.log(players.length);
     if (!isLoadingData) {
-      setHasErrors(name === undefined || gameMode === "" || players === undefined || name!.length < 6 || +gameMode! === 0 || isPlayersError);
+      setHasErrors(name === undefined || gameMode === undefined || gameMode === "" || players === undefined || name!.length < 6 || +gameMode! === 0 || isPlayersError || players.length == 0);
     }
 
-  }, [isLoadingData]);
+  }, [gameMode, isLoadingData, isPlayersError, name, players]);
 
   useEffect(() => {
     if (isValidating) {
@@ -222,7 +210,6 @@ const NewGameBuilderForm: React.FC = () => {
 
   useEffect(() => {
     setValidating(true);
-
   }, [players, gameMode, name])
 
   const spinner = css`
@@ -238,7 +225,7 @@ const NewGameBuilderForm: React.FC = () => {
         <PropagateLoader
           css={spinner}
           size={20}
-          color={"#123abc"}
+          color={"#0d84d9"}
         />
       ) : (
 
@@ -260,7 +247,7 @@ const NewGameBuilderForm: React.FC = () => {
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
                 <FormControl component="fieldset" className={classes.fullwidth}>
-                  <FormLabel component="legend" className={classes.label}>Select Game Type</FormLabel>
+                  <FormLabel component="legend" className={classes.label}>Game type</FormLabel>
                   <RadioGroup aria-label="gameType" name="gameType" value={gameMode} onChange={onRadioChange}>
                     <FormControlLabel value="1" control={<Radio />} label="Casual" />
                     <FormControlLabel value="2" control={<Radio />} label="Competitive" />
@@ -270,7 +257,7 @@ const NewGameBuilderForm: React.FC = () => {
               </Grid>
               <Grid item xs={12} md={4} lg={3} >
                 <FormControl component="fieldset" className={classes.fullwidth}>
-                  <FormLabel component="legend" className={classes.label}>Set Game Name</FormLabel>
+                  <FormLabel component="legend" className={classes.label}>Game name</FormLabel>
                   <TextField
                     className={classes.formControl}
                     id="input-with-icon-textfield"
@@ -282,7 +269,7 @@ const NewGameBuilderForm: React.FC = () => {
               </Grid>
               <Grid item xs={12} md={4} lg={3} >
                 <FormControl component="fieldset" className={classes.fullwidth}>
-                  <FormLabel component="legend" className={classes.label}>Select Players</FormLabel>
+                  <FormLabel component="legend" className={classes.label}>Players</FormLabel>
                   <Select
                     name="players"
                     multiple
@@ -291,7 +278,6 @@ const NewGameBuilderForm: React.FC = () => {
                     renderValue={(selected: any) => (
                       <div className={classes.chips}>
                         {selected.map((value: any) => (
-
                           <Chip key={value} label={playerList!.find(p => {
                             return p!.id === value
                           })!.name} className={classes.chip} />
@@ -310,14 +296,13 @@ const NewGameBuilderForm: React.FC = () => {
                 </FormControl>
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
-                <Button className={clsx(classes.send, classes.formControl)} disabled={hasErrors} onClick={() => setDoPost(true)}><SendIcon className={classes.paddy} />Add Game</Button>
+                <Button className={clsx(classes.send, classes.formControl)} disabled={hasErrors} onClick={() => setDoPost(true)}><SendIcon className={classes.paddy} />Add</Button>
               </Grid>
               <Grid item xs={12} md={12} lg={12}>
                 {isPlayersError &&
                   <Alert severity="error">{playerErrors}</Alert>
                 }
               </Grid>
-
               {openGameDialog ? (
                 <AddGameDialog id={newItemId} />
               ) : (
@@ -330,7 +315,6 @@ const NewGameBuilderForm: React.FC = () => {
                 )}
             </Grid>
           </Card>
-
         )
       }
     </Wrap >

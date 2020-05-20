@@ -1,14 +1,14 @@
 ﻿using BackendDarts.data.Repos.IRepos;
 using BackendDarts.Data.Repos.IRepos;
 using BackendDarts.Domain.DTOs;
-using BackendDarts.Domain.Models;
-using BackendDarts.DTOs;
 using BackendDarts.Models;
+using BackendDarts.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BackendDarts.Domain.Models;
 
 namespace BackendDarts.Controllers
 {
@@ -25,9 +25,17 @@ namespace BackendDarts.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<TournamentBasicDTO> GetAll()
+        [Route("/unfinished")]
+        public IEnumerable<TournamentBasicDTO> GetAllUnfinished()
         {
-            return _tournamentRepository.GetAll().Select(tournament => new TournamentBasicDTO(tournament)).ToList();
+            return _tournamentRepository.GetAllUnfinished().Select(tournament => new TournamentBasicDTO(tournament)).ToList();
+        }
+
+        [HttpGet]
+        [Route("/finished")]
+        public IEnumerable<TournamentBasicDTO> GetAllFinished()
+        {
+            return _tournamentRepository.GetAllFinished().Select(tournament => new TournamentBasicDTO(tournament)).ToList();
         }
 
         [HttpGet("{id}")]

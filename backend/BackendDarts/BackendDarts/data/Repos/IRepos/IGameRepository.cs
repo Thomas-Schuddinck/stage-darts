@@ -16,6 +16,7 @@ namespace BackendDarts.Models
         IEnumerable<Game> GetAll();
         IEnumerable<Game> GetAllWithPlayers();
         IEnumerable<Game> GetAllDetailed();
+        IEnumerable<Game> GetAllDetailedRanked();
 
         void SaveChanges();
     }

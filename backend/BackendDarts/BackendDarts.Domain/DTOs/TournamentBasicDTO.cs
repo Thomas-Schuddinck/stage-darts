@@ -1,4 +1,4 @@
-﻿using BackendDarts.Domain.Models;
+﻿using BackendDarts.Models;
 using BackendDarts.DTOs;
 using System;
 using System.Collections.Generic;

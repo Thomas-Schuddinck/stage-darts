@@ -14,11 +14,13 @@ namespace BackendDarts.data.Repos
         private readonly ApplicationDbContext _context;
         private readonly DbSet<Player> _players;
         private readonly DbSet<Game> _games;
+        private readonly DbSet<Tournament> _tournaments;
         public PlayerRepository(ApplicationDbContext context)
         {
             _context = context;
             _players = context.Players;
             _games = context.Games;
+            _tournaments = context.Tournaments;
         }
 
         public void Add(Player player)
@@ -62,8 +64,18 @@ namespace BackendDarts.data.Repos
         public IEnumerable<Game> GetAllGamesFromPlayer(int id)
         {
             return _games
-                .Where(g => g.PlayerGames.Any(pg => pg.PlayerId == id)).Include(g => g.PlayerGames).ThenInclude(pg => pg.Player)
+                .Where(g => g.PlayerGames.Any(pg => pg.PlayerId == id))
+                .Include(g => g.PlayerGames).ThenInclude(pg => pg.Player)
                 .Include(g => g.LegGroups).ThenInclude(lg => lg.PlayerLegs).ThenInclude(pg => pg.Turns).ThenInclude(l => l.Throws)
+                .Where(g => g.Type == 2)
+                .ToList();
+        }
+
+        public IEnumerable<Tournament> GetAllTournamentsFromPlayer(int id)
+        {
+            return _tournaments
+                .Where(p => p.PlayerTournaments.Any(pt => pt.PlayerId == id))
+                .Include(t => t.PlayerTournaments).ThenInclude(pt => pt.Player)
                 .ToList();
         }
     }

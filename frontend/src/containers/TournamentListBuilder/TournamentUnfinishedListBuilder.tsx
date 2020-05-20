@@ -11,17 +11,15 @@ import { GetApiCall } from '../../services/ApiClient';
 import PropagateLoader from "react-spinners/PropagateLoader";
 import Wrap from '../../hoc/Wrap';
 import { css } from "@emotion/core";
-import { NavLink, Redirect } from 'react-router-dom';
 import { Environment } from '../../environment'
 import { useHistory } from "react-router-dom";
 import { indigo } from '@material-ui/core/colors';
 import { Tournament } from '../../models/SimpleTournament';
 import GameListPlayerField from '../../components/Lists/GameListPlayerField';
+import Typography from '@material-ui/core/Typography';
 
 const StyledTableCell = withStyles(theme => ({
     head: {
-        backgroundColor: theme.palette.common.white,
-        color: theme.palette.common.black,
         [theme.breakpoints.up('sm')]: {
             padding: '16px',
         },
@@ -35,12 +33,7 @@ const StyledTableCell = withStyles(theme => ({
         padding: 15,
         fontSize: 12,
     },
-    table: {
-        minWidth: 0,
-        [theme.breakpoints.up('sm')]: {
-            minWidth: 450,
-        },
-    },
+    
 }))(TableCell);
 
 const StyledTableRow = withStyles(theme => ({
@@ -58,21 +51,32 @@ const useStyles = makeStyles({
             backgroundColor: indigo[50],
         },
     },
+    
+    bg: {
+        background: 'linear-gradient(60deg,#10acf1, #1092f1)',
+        '& > *': { color: 'white' }
+
+    },
+    placeholdr: {
+        textAlign: 'center',
+        padding: '1em', 
+        '&:hover': {
+            cursor: 'pointer',
+            backgroundColor: '#e7f7fe',
+        }
+    }
 });
 
-export const TournamentListBuilder = () => {
+export const TournamentUnfinishedListBuilder = () => {
     const classes = useStyles();
 
     let [tournamentList, setTournamentList] = useState<Tournament[]>();
     let [isLoading, setLoading] = React.useState(true);
 
     const FetchData = async () => {
-
         setLoading(true);
-
         setTournamentList(await CallToApiTournamentListAll());
         setLoading(false);
-
     }
 
     useEffect(() => {
@@ -80,25 +84,13 @@ export const TournamentListBuilder = () => {
     }, []);
 
     const CallToApiTournamentListAll = async (): Promise<Tournament[]> => {
-        return await GetApiCall(Environment.apiurl + '/Tournament').then(tournamentList => {
+        return await GetApiCall(Environment.apiurl + '/unfinished').then(tournamentList => {
             return tournamentList;
         });
-    }
-    const forDate = (dt: string) => {
-        let date = new Date(Date.parse(dt));
-        return date.toLocaleDateString();
-    }
-    const renderRedirect = (tournament: Tournament) => {
-
-        if (tournament) {
-            const id = tournament.id;
-            return <Redirect to={`/Tournament/:id`} />
-        }
     }
 
     let history = useHistory();
     const navigateToTournament = (id: number) => {
-        console.log(id);
         history.push(`/Tournament/${id}`);
     }
 
@@ -108,16 +100,11 @@ export const TournamentListBuilder = () => {
 
         tournamentList!.forEach((tournament: Tournament, i: any) => {
             table.push(
-                //onClick = {() => renderRedirect(game)} key={i} 
-
-                <StyledTableRow className={classes.onhover} onClick={() => navigateToTournament(tournament.id)}>
-
+                <StyledTableRow className={classes.onhover} key={"tournament-li-" + i} onClick={() => navigateToTournament(tournament.id)}>
                     {/* <StyledTableCell align="center">{game!.legGroups!.length}</StyledTableCell> */}
                     <StyledTableCell align="center">{tournament.name} Tournament</StyledTableCell>
                     <StyledTableCell align="center"><GameListPlayerField players={tournament.players} ></GameListPlayerField></StyledTableCell>
                 </StyledTableRow>
-
-
             )
         });
         return table;
@@ -129,6 +116,9 @@ export const TournamentListBuilder = () => {
   border-color: red;
   margin-left: 50%;
 `;
+    const navigateTonNewGame = () => {
+        history.push(`/new-game/`);
+    }
 
     return (
         <Wrap>
@@ -136,13 +126,13 @@ export const TournamentListBuilder = () => {
                 <PropagateLoader
                     css={spinner}
                     size={20}
-                    color={"#123abc"}
+                    color={"#0d84d9"}
                 />
             ) : (
                     <TableContainer component={Paper}>
                         <Table aria-label="customized table">
                             <TableHead>
-                                <TableRow>
+                                <TableRow className={classes.bg}>
                                     {/* <StyledTableCell align="center">Current Leg</StyledTableCell> */}
                                     <StyledTableCell align="center">Name</StyledTableCell>
                                     <StyledTableCell align="center">Players</StyledTableCell>
@@ -152,11 +142,11 @@ export const TournamentListBuilder = () => {
                                 {createTable()}
                             </TableBody>
                         </Table>
+                        {tournamentList!.length === 0 ? (<Typography onClick={() => navigateTonNewGame()} className={classes.placeholdr}>There are no active tournaments. Click here to create one.</Typography>): (null)}
                     </TableContainer>
                 )}
         </Wrap>
-
     );
 }
 
-export default TournamentListBuilder;
+export default TournamentUnfinishedListBuilder;

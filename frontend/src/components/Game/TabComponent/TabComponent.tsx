@@ -11,8 +11,8 @@ interface TabPanelProps {
     root: {
         flexGrow: 1,
       },
-
 }));
+
 export default function TabComponent(props: TabPanelProps) {
     const { children, value, index, ...other } = props;
     const classes = useStyles();

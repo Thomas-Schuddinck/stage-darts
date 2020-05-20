@@ -1,21 +1,20 @@
 import { MenuItem } from '@material-ui/core';
 import grey from '@material-ui/core/colors/grey';
-import indigo from '@material-ui/core/colors/indigo';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles } from '@material-ui/core/styles';
-import BarChartIcon from '@material-ui/icons/BarChart';
-import GamesIcon from '@material-ui/icons/Games';
+import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
 import InfoIcon from '@material-ui/icons/Info';
-import LayersIcon from '@material-ui/icons/Layers';
 import PeopleIcon from '@material-ui/icons/People';
 import PersonIcon from '@material-ui/icons/Person';
-import ListAltIcon from '@material-ui/icons/ListAlt';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import ArchiveIcon from '@material-ui/icons/Archive';
+import EmojiEventsIcon from '@material-ui/icons/EmojiEvents';
 import React from 'react';
 import { NavLink } from "react-router-dom";
 import './SideList.css';
+import HelpIcon from '@material-ui/icons/Help';
 
 const useStyles = makeStyles(theme => ({
   itemLi: {
@@ -26,16 +25,17 @@ const useStyles = makeStyles(theme => ({
     color: grey[600],
   },
   active: {
-    color: indigo[500],
+    color: '#0d84d9',
     '& $icon': {
-      color: indigo[500],
+      color: '#0d84d9',
     },
+  },
+  blue: {
+    borderTop: '2px solid #6fbef6',
   }
 }));
 
-
 export const SideList = (props: any) => {
-
   const classes = useStyles();
 
   const sendClick = async () => {
@@ -44,15 +44,6 @@ export const SideList = (props: any) => {
 
   return (
     <div>
-      <NavLink to="/stats" activeClassName={classes.active} onClick={() => sendClick()}>
-        <MenuItem className={classes.itemLi}       >
-          <ListItemIcon>
-            <PersonIcon className={classes.icon} />
-          </ListItemIcon>
-          <ListItemText primary="Personal stats" />
-        </MenuItem>
-      </NavLink>
-
       <NavLink activeClassName={classes.active} to="/new-game" onClick={() => sendClick()}>
         <MenuItem className={classes.itemLi}>
           <ListItemIcon className={classes.icon}>
@@ -61,34 +52,40 @@ export const SideList = (props: any) => {
           <ListItemText primary="New Game" />
         </MenuItem>
       </NavLink>
-
       <NavLink activeClassName={classes.active} to="/new-player" onClick={() => sendClick()}>
         <MenuItem className={classes.itemLi}>
           <ListItemIcon className={classes.icon}>
             <PersonAddIcon />
           </ListItemIcon>
-          <ListItemText primary="Add Player" />
+          <ListItemText primary="New Player" />
         </MenuItem>
       </NavLink>
-
+      <hr className={classes.blue}/>
       <NavLink activeClassName={classes.active} to="/gamelist" onClick={() => sendClick()}>
         <MenuItem className={classes.itemLi}>
           <ListItemIcon className={classes.icon}>
-            <ListAltIcon />
+            <SportsEsportsIcon/>
           </ListItemIcon>
           <ListItemText primary="Active Games" />
         </MenuItem>
       </NavLink>
-
       <NavLink activeClassName={classes.active} to="/tournamentlist" onClick={() => sendClick()}>
         <MenuItem className={classes.itemLi}>
           <ListItemIcon className={classes.icon}>
-            <ListAltIcon />
+            <EmojiEventsIcon />
           </ListItemIcon>
           <ListItemText primary="Active Tournaments" />
         </MenuItem>
       </NavLink>
-      
+      <hr className={classes.blue}/>
+      <NavLink to="/stats" activeClassName={classes.active} onClick={() => sendClick()}>
+        <MenuItem className={classes.itemLi}       >
+          <ListItemIcon>
+            <PersonIcon className={classes.icon} />
+          </ListItemIcon>
+          <ListItemText primary="Player statistics" />
+        </MenuItem>
+      </NavLink>
       <NavLink activeClassName={classes.active} to="/leaderbord" onClick={() => sendClick()}>
         <MenuItem className={classes.itemLi}>
           <ListItemIcon className={classes.icon}>
@@ -97,7 +94,15 @@ export const SideList = (props: any) => {
           <ListItemText primary="Leaderbord" />
         </MenuItem>
       </NavLink>
-
+      <NavLink activeClassName={classes.active} to="/archive" onClick={() => sendClick()}>
+        <MenuItem className={classes.itemLi}>
+          <ListItemIcon className={classes.icon}>
+            <ArchiveIcon />
+          </ListItemIcon>
+          <ListItemText primary="Archive" />
+        </MenuItem>
+      </NavLink>
+      <hr className={classes.blue}/>
       <NavLink activeClassName={classes.active} to="/about" onClick={() => sendClick()}>
         <MenuItem className={classes.itemLi}>
           <ListItemIcon className={classes.icon}>
@@ -106,7 +111,16 @@ export const SideList = (props: any) => {
           <ListItemText primary="About" />
         </MenuItem>
       </NavLink>
+      <NavLink activeClassName={classes.active} to="/info" onClick={() => sendClick()}>
+        <MenuItem className={classes.itemLi}>
+          <ListItemIcon className={classes.icon}>
+            <HelpIcon />
+          </ListItemIcon>
+          <ListItemText primary="How to configure" />
+        </MenuItem>
+      </NavLink>
     </div>
   )
 };
+
 export default SideList;

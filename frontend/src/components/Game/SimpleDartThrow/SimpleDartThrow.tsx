@@ -7,7 +7,6 @@ const useStyles = makeStyles(theme => ({
         padding: '0',
         justifyContent: 'inherit'
     }
-
 }));
 
 function SimpleDartThrowComponent(props: any) {
@@ -18,8 +17,6 @@ function SimpleDartThrowComponent(props: any) {
                 <span>{props.throw.value}</span>
         </ListItem>
     );
-
-
 };
 
 export default SimpleDartThrowComponent;

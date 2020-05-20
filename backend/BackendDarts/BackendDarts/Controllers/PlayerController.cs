@@ -39,6 +39,7 @@ namespace BackendDarts.Controllers
             Player player = _playerRepository.GetBy(id);
             if (player == null) return NoContent();
             IEnumerable<Game> games = _playerRepository.GetAllGamesFromPlayer(id);
+            IEnumerable<Tournament> tournaments = _playerRepository.GetAllTournamentsFromPlayer(id);
             ICollection<PlayerLeg> playergames = new List<PlayerLeg>();
             double numOfWins = 0;
             double totalScore = 0;
@@ -94,6 +95,7 @@ namespace BackendDarts.Controllers
             playerStatsDTO.PercentageWins = percentageWins;
             playerStatsDTO.PercentageBoardHits = percentageBoardHits;
             playerStatsDTO.History = games.Where(g => (g.Winner != -1 && g.Type != 3)).Select(game => new GameDTO(game)).ToList();
+            playerStatsDTO.TournamentHistory = tournaments.Select(t => new TournamentStatDTO(t, id)).ToList();
             return playerStatsDTO;
         }
 

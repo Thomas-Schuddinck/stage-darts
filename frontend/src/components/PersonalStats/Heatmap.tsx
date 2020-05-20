@@ -1,5 +1,4 @@
 import { makeStyles } from '@material-ui/core';
-import clsx from 'clsx';
 import React from 'react';
 import DartsBoardLogo from '../About/DartBoardLogo/DartBoardLogo';
 import CardHeader from "../../styledcomponents/CardHeader";
@@ -19,13 +18,11 @@ const useStyles = makeStyles(theme => ({
       logo: {
         width: '66%',
         margin: '0 auto',
-      },
-
+      }
 }));
 
 const Heatmap = (props: any) => {
     const classes = useStyles();
-
 
     return (
         <Card>
@@ -39,8 +36,6 @@ const Heatmap = (props: any) => {
             </CardBody>
         </Card>
     );
-
 };
-
 
 export default Heatmap;

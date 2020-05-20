@@ -1,6 +1,6 @@
 ﻿using BackendDarts.Models;
 
-namespace BackendDarts.Domain.Models
+namespace BackendDarts.Models
 {
     public class PlayerTournament
     {

@@ -8,7 +8,7 @@ namespace BackendDarts.Domain.DTOs
 {
     public class LeaderboardRowDTO
     {
-        public PlayerDTO player { get; set; }
+        public string player { get; set; }
         public int NumberOfWins { get; set; }
         public int TotalScoreThrown { get; set; }
         public double PercentageSixties { get; set; }

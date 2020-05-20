@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import DartsBoardLogo from '../DartBoardLogo/DartBoardLogo';
-
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -17,19 +17,19 @@ const useStyles = makeStyles(theme => ({
   },
   tekstHoofd: {
     alignSelf: 'center',
-    color: "#004BFF",
     fontSize: '2em',
 
   },
 }));
 const DartsExplained = () => {
-
   const classes = useStyles();
+  
   return (
     <div>
-      <h1 className={classes.tekstHoofd}>Inleiding</h1>
+      <Typography variant="h3" gutterBottom>
+        Inleiding
+      </Typography>
       <div className={classes.logo}>
-
         <DartsBoardLogo />
       </div>
       <p>Darth fett ponda moff ackbar greedo kit calamari. Mace darth wicket jawa endor k-3po. Lars solo ben kessel. Ventress ben solo skywalker biggs. Mon solo yoda dantooine solo darth lars. Lars yoda antilles solo darth organa. Alderaan leia fett twi'lek. Lando chewbacca palpatine gonk hutt twi'lek watto ewok boba. Alderaan padmé fett darth jabba tusken raider solo. Darth antilles leia skywalker calrissian skywalker antilles c-3p0 obi-wan. C-3po fett boba gamorrean darth darth luuke ben. Maul wicket yoda biggs fett skywalker thrawn obi-wan.

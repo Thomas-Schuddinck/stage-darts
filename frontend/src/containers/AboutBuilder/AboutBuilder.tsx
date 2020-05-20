@@ -1,26 +1,10 @@
 import Grid from '@material-ui/core/Grid';
-
 import React from 'react';
 import DartsExplained from '../../components/About/DartsExplained/DartsExplained';
 import { ShortInfoGroup } from '../../components/About/ShortInfoGroup/ShortInfoGroup';
 import Aux from '../../hoc/Wrap';
-/*
-import { makeStyles } from '@material-ui/core/styles';
-const useStyles = makeStyles(theme => ({
-  paper: {
-    padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'column',
-  },
-}));
-*/
-
-
 
 export default function AboutBuilder() {
-
-  //const classes = useStyles();
 
   return (
     <Aux>

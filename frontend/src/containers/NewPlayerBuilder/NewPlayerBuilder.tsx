@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect} from "react";
 import {
     Formik,
     Form
@@ -6,13 +6,12 @@ import {
 import {
     Button, Grid, CardContent
 } from "@material-ui/core";
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles} from '@material-ui/core/styles';
 import * as yup from "yup";
 import TextInput from "../../components/NewGame/TextInput";
 import { css } from "@emotion/core";
 import Wrap from '../../hoc/Wrap';
 import { PostApiCall } from '../../services/ApiClient';
-
 import { GetApiCall } from '../../services/ApiClient';
 import PropagateLoader from "react-spinners/PropagateLoader";
 import { PlayerList } from "../../components/NewPlayer/PlayerList";
@@ -22,7 +21,7 @@ import { indigo } from '@material-ui/core/colors';
 import Card from "../../styledcomponents/Card";
 import CardAvatar from "../../styledcomponents/CardAvatar";
 
-import avatar from '../../img/avatar.png';
+import avatar from '../../img/avatarGradient.png';
 const useStyles = makeStyles(theme => ({
     formControl: {
         margin: theme.spacing(1),
@@ -41,15 +40,11 @@ const useStyles = makeStyles(theme => ({
     },
     label: {
         alignSelf: 'center',
-        //color: "#004BFF",
-        //color: indigo[500],
         color: "#2e5871",
         fontSize: '1.2em',
     },
     but: {
-        //backgroundColor: '#004BFF',
-        //backgroundColor: indigo[500],
-        backgroundColor: "#2e5871",
+        background: 'linear-gradient(60deg,#10acf1, #1092f1)',
         color: "#FFFFFF",
         padding: '1.2em 2em',
         margin: '1em',
@@ -68,10 +63,7 @@ const useStyles = makeStyles(theme => ({
         margin: '20px'
     },
     hr: {
-        //color: '#004BFF',
-        //borderColor: '#004BFF',
-        borderColor: indigo[300],
-        color: indigo[500],
+        borderColor: '#1092f1',
         borderWidth: '2px',
         margin: '1.5em 0',
         borderStyle: 'solid'
@@ -80,6 +72,10 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-evenly',
+    },
+    bg: {
+        background: 'linear-gradient(60deg,#10acf1, #1092f1)'
+
     }
 
 }));
@@ -101,24 +97,17 @@ const validationSchema = yup.object({
         .string()
         .email("Must be a valid email")
         .required("Your email is required"),
-
 });
 
 const NewPlayerBuilderForm: React.FC = () => {
     const classes = useStyles();
-    const theme = useTheme();
-
-
 
     let [playerList, setPlayerList] = React.useState<Player[]>();
     let [isLoading, setLoading] = React.useState(true);
-
     const FetchData = async () => {
-
         setLoading(true);
         setPlayerList(await CallToApiPlayerListAll());
         setLoading(false);
-
     }
 
     useEffect(() => {
@@ -139,7 +128,6 @@ const NewPlayerBuilderForm: React.FC = () => {
   `;
 
     return (
-
         <Wrap>
             <Card profile>
             <CardAvatar profile>
@@ -199,9 +187,6 @@ const NewPlayerBuilderForm: React.FC = () => {
                                 </div>
                                 </Grid>
                             </Grid>
-
-                            {/*<pre>{JSON.stringify(values, null, 2)}</pre>
-                            <pre>{JSON.stringify(errors, null, 2)}</pre>*/}
                         </Form>
                     )}
                 </Formik>
@@ -212,7 +197,7 @@ const NewPlayerBuilderForm: React.FC = () => {
                 <PropagateLoader
                     css={spinner}
                     size={20}
-                    color={"#123abc"}
+                    color={"#0d84d9"}
                 />
             ) : (
                     <PlayerList players={playerList} />

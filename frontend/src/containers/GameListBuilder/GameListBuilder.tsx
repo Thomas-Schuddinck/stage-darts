@@ -12,35 +12,28 @@ import PropagateLoader from "react-spinners/PropagateLoader";
 import Wrap from '../../hoc/Wrap';
 import { css } from "@emotion/core";
 import { Game } from '../../models/Game';
-import { NavLink, Redirect } from 'react-router-dom';
-import {Environment} from '../../environment'
+import { Environment } from '../../environment'
 import { useHistory } from "react-router-dom";
 import { indigo } from '@material-ui/core/colors';
 import GameListPlayerField from '../../components/Lists/GameListPlayerField';
+import clsx from 'clsx';
+import Typography from '@material-ui/core/Typography';
 
 const StyledTableCell = withStyles(theme => ({
     head: {
-        backgroundColor: theme.palette.common.white,
-        color: theme.palette.common.black,
         [theme.breakpoints.up('sm')]: {
             padding: '16px',
-          },
+        },
         padding: '0px',
     },
     body: {
         [theme.breakpoints.up('sm')]: {
             fontSize: 14,
             padding: 16,
-          },
+        },
         padding: 0,
         fontSize: 12,
     },
-    table: {
-        minWidth: 0,
-        [theme.breakpoints.up('sm')]: {
-        minWidth: 450,
-        },
-      },  
 }))(TableCell);
 
 const StyledTableRow = withStyles(theme => ({
@@ -56,23 +49,32 @@ const useStyles = makeStyles({
         cursor: 'pointer',
         '&:hover': {
             backgroundColor: indigo[50],
-         },
+        },
     },
+    bg: {
+        background: 'linear-gradient(60deg,#10acf1, #1092f1)',
+        '& > *': { color: 'white' }
+    },
+    placeholdr: {
+        textAlign: 'center',
+        padding: '1em', 
+        '&:hover': {
+            cursor: 'pointer',
+            backgroundColor: '#e7f7fe',
+        }
+    }
 });
 
-export const GameListBuilder = () => {
+const GameListBuilder = () => {
     const classes = useStyles();
 
     let [gameList, setGameList] = useState<Game[]>();
     let [isLoading, setLoading] = React.useState(true);
 
     const FetchData = async () => {
-
         setLoading(true);
-
         setGameList(await CallToApiGameListAll());
         setLoading(false);
-
     }
 
     useEffect(() => {
@@ -84,16 +86,10 @@ export const GameListBuilder = () => {
             return gameList;
         });
     }
+
     const forDate = (dt: string) => {
         let date = new Date(Date.parse(dt));
         return date.toLocaleDateString();
-    }
-    const renderRedirect = (game: Game) => {
-
-        if (game) {
-            const id = game.id;
-            return <Redirect to={`/game/:id`} />
-        }
     }
 
     let history = useHistory();
@@ -102,22 +98,21 @@ export const GameListBuilder = () => {
         history.push(`/game/${id}`);
     }
 
+    const navigateTonNewGame = () => {
+        history.push(`/new-game/`);
+    }
+
 
     const createTable = () => {
         let table: JSX.Element[] = [];
 
         gameList!.forEach((game: Game, i: any) => {
             table.push(
-                //onClick = {() => renderRedirect(game)} key={i} 
-
-                <StyledTableRow className={classes.onhover} onClick={() => navigateToGame(game.id)}>
-
+                <StyledTableRow className={clsx(classes.onhover)} key={"game-li-" + i} onClick={() => navigateToGame(game.id)}>
                     {/* <StyledTableCell align="center">{game!.legGroups!.length}</StyledTableCell> */}
                     <StyledTableCell align="center">{forDate(game.beginDate)}</StyledTableCell>
-                    <StyledTableCell align="center"><GameListPlayerField players={game.players.map(p => {return p.playerDTO})} ></GameListPlayerField></StyledTableCell>
+                    <StyledTableCell align="center"><GameListPlayerField players={game.players.map(p => { return p.playerDTO })} ></GameListPlayerField></StyledTableCell>
                 </StyledTableRow>
-
-
             )
         });
         return table;
@@ -136,13 +131,13 @@ export const GameListBuilder = () => {
                 <PropagateLoader
                     css={spinner}
                     size={20}
-                    color={"#123abc"}
+                    color={"#0d84d9"}
                 />
             ) : (
                     <TableContainer component={Paper}>
                         <Table aria-label="customized table">
-                            <TableHead>
-                                <TableRow>
+                            <TableHead className={classes.bg}>
+                                <TableRow className={classes.bg}>
                                     {/* <StyledTableCell align="center">Current Leg</StyledTableCell> */}
                                     <StyledTableCell align="center">Startdate</StyledTableCell>
                                     <StyledTableCell align="center">Players</StyledTableCell>
@@ -152,6 +147,7 @@ export const GameListBuilder = () => {
                                 {createTable()}
                             </TableBody>
                         </Table>
+                        {gameList!.length === 0 ? (<Typography onClick={() => navigateTonNewGame()} className={classes.placeholdr}>There are no active games. Click here to create one.</Typography>): (null)}
                     </TableContainer>
                 )}
         </Wrap>

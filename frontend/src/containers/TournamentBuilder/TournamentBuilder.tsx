@@ -4,11 +4,8 @@ import { GetApiCall } from '../../services/ApiClient';
 import { Environment } from '../../environment';
 import { Tournament } from '../../models/Tournament';
 import Wrap from '../../hoc/Wrap';
-import CardHeader from "../../styledcomponents/CardHeader";
-import CardBody from "../../styledcomponents/CardBody";
 import Card from "../../styledcomponents/Card";
 import { Game } from '../../models/Game';
-import { useHistory } from "react-router-dom";
 import TournamentGame from './tournamentComponents/tournamentGame';
 import PropagateLoader from "react-spinners/PropagateLoader";
 import { css } from "@emotion/core";
@@ -20,7 +17,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const TournamentBuilder = (props: { match: { params: any; }; }) => {
-
     const classes = useStyles();
 
     const spinner = css`
@@ -43,7 +39,6 @@ const TournamentBuilder = (props: { match: { params: any; }; }) => {
                 if(!games![g.bracketStageNumber]) {
                     games![g.bracketStageNumber] = [];
                 }
-                console.log(games);
                 games![g.bracketStageNumber].push(g);
             });
             for(let key in games) {
@@ -51,7 +46,6 @@ const TournamentBuilder = (props: { match: { params: any; }; }) => {
                     return game1.bracketSectorNumber < game2.bracketSectorNumber ? -1 : 1;
                 });
             }
-
             for(let i = 1; i < Math.log2(tournament.players.length) + 1; i++) {
                 stageTeller[i] = 0;
             }
@@ -62,9 +56,7 @@ const TournamentBuilder = (props: { match: { params: any; }; }) => {
     const FetchData = async (id: number) => {
         setLoading(true);
         setTournament(await CallToApiGame(id));
-
         setLoading(false);
-
     }
 
     useEffect(() => {
@@ -85,14 +77,6 @@ const TournamentBuilder = (props: { match: { params: any; }; }) => {
         return rows;
     }
 
-    let history = useHistory();
-    const playTourneyGame = (game: Game) => {
-        console.log("bracket: " + game.bracketSectorNumber);
-        console.log("stage: " + game.bracketStageNumber);
-        console.log(game);
-        //history.push(`/game/${game.id}`);
-    }
-
     const createColumns = (rij: number) => {
         let columns: JSX.Element[] = [];
         for (let column = 1; column < Math.log2(players!.length) + 1; column++) {
@@ -109,7 +93,6 @@ const TournamentBuilder = (props: { match: { params: any; }; }) => {
                 );
             }
         }
-
         return columns;
     }
 
@@ -119,14 +102,15 @@ const TournamentBuilder = (props: { match: { params: any; }; }) => {
                 <PropagateLoader
                 css={spinner}
                 size={20}
-                color={"#123abc"}
+                color={"#0d84d9"}
             />
             ) : (
                     <Wrap>
                         <h1>{tournament!.name.toUpperCase()}</h1>
                         <table aria-label="customized table" className={classes.tabel}>
                             {createRows()}
-                        </table></Wrap>
+                        </table>
+                    </Wrap>
                 )}
         </Wrap>
 

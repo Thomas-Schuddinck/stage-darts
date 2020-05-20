@@ -1,9 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
-import React, { useState } from 'react';
+import React from 'react';
 import Aux from '../../../hoc/Wrap';
-import { DartThrow } from '../../../models/DartThrow';
-
-import DartThrowComponent from '../DartThrow/DartThrowComponent';
+import SimpleDartThrowComponent from '../SimpleDartThrow/SimpleDartThrow';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -12,7 +10,6 @@ const useStyles = makeStyles(theme => ({
     overflow: 'auto',
     flexDirection: 'row',
     backgroundColor: '#FFD700'
-
   },
   lijst: {
     display: 'flex',
@@ -23,7 +20,6 @@ const useStyles = makeStyles(theme => ({
     color: "#004BFF",
     fontSize: '2.5em',
     marginRight: '1.5em'
-
   },
   tekstHoofd: {
     alignSelf: 'center',
@@ -32,26 +28,17 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: '0.7em',
     paddingRight: '0.7em',
     marginTop: '0'
-
-  },
-
+  }
 }));
-
-
-
 
 function CurrentTurn(props: any) {
   const classes = useStyles();
-
-  const getThrowFromChild = async (tr: DartThrow) => {
-    props.sendThrowToBuilder(tr);
-  }
 
   return (
     <Aux>
       <div className={classes.lijst}>
         {props.scores && props.scores.map(function (s: any, i: any) {
-          return <DartThrowComponent key={i} score={s} sendThrowToParent={getThrowFromChild} />
+          return <SimpleDartThrowComponent key={i} throw={s}/>
         }
         )}
       </div>

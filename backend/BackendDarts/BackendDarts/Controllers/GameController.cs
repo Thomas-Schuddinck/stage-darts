@@ -65,6 +65,13 @@ namespace BackendDarts.Controllers
             return _gameRepository.GetAllWithPlayers().Where(g => (g.Winner == -1 && g.Type != 3)).Select(game => new GameDTO(game)).ToList();
         }
 
+        [HttpGet]
+        [Route("/gamelist/finishedNT")]
+        public IEnumerable<GameDTO> GetAllFinishedNonTournamentGameList()
+        {
+            return _gameRepository.GetAllWithPlayers().Where(g => (g.Winner != -1 && g.Type != 3)).Select(game => new GameDTO(game)).ToList();
+        }
+
         /// <summary>
         /// Get a leaderboard overview
         /// </summary>
@@ -303,7 +310,7 @@ namespace BackendDarts.Controllers
             Dictionary<int, LeaderboardPlayerDataDTO> playerStatisticsDictionary = FillPlayerDictionaryWithEmptyValues();
 
             // database doorlopen en gegevens per speler opvullen
-            foreach (Game game in _gameRepository.GetAllDetailed())
+            foreach (Game game in _gameRepository.GetAllDetailedRanked())
             {
                 // if there's no winner
                 if (game.Winner != -1)
@@ -381,7 +388,7 @@ namespace BackendDarts.Controllers
             PlayerDTO playerDTO = new PlayerDTO(_playerRepository.GetBy(playerId));
 
             // fills
-            leaderboardRowDTO.player = playerDTO;
+            leaderboardRowDTO.player = playerDTO.Name;
             leaderboardRowDTO.NumberOfWins = playerDataDTO.NumberOfWins;
             leaderboardRowDTO.PercentageWins = numberofgames == 0 ? 0 : playerDataDTO.NumberOfWins * 100 / numberofgames;
             leaderboardRowDTO.TotalScoreThrown = playerDataDTO.TotalScoreThrown;
