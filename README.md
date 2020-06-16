@@ -2,6 +2,69 @@
 
 This project computes dart scores using a Raspberry Pi to observe a dartboard and registering new throws. A Frontend application allows the user to get an overview of the games, making changes to the current game and gathering statistics about indivual games and users.
 
+## Features
+
+### Create Account
+
+![Create an account](./assets/demo/CreateAccount.png)
+
+### Create Game
+
++ **Casual**:
+Does not affect statistics.
++ **Competitve**:
+Affects rank in leaderboard and statistics
++ **Tournament**:
+Organise a tournament
+
+![Create a game](./assets/demo/CreateGame.png)
+
+### Play Game
+
++ Add a throw
++ Undo previous throws
++ Start the Raspberry Pi for automatic score detection
++ List of previous throws
++ Keyboard on mobile
+
+![Play a game](./assets/demo/PlayGame.png)
+![Play a game](./assets/demo/WinGame.png)
+
+### Active Games/Tourneys
+
+When a game or tournament is paused, you can resume later.
+Multiple people can join the same game to add throws with their own device.
+
+![Play a game](./assets/demo/GamesOverview.png)
+
+### Statistics
+
++ Detailed statistics; how often do you throw in the tripple 20?
++ History of every game played
++ History of every tournament participated
+
+Unfolding a tournament shows the number of participants and the winner. Clicking navigates to overview of the tournament.
+Unfolding a game shows the number of legs won per player. Clicking navigates to the overview of the game.
+
+![Play a game](./assets/demo/Statistics.png)
+
+### Archive
+
+Archive is an overview of every game and tournament played in the app. Clicking navigates to the overview of the game/tournament.
+
+![Play a game](./assets/demo/Archive.png)
+
+### Leaderboard
+
+![Leaderboard](./assets/demo/leaderboard.png)
+
+### Raspberry pi
++ Automatically detects when a dart is thrown
++ Automatically detects when a person is walking in front.
++ Correctly calculates the score for 83% of the darts thrown.
+
+![Leaderboard](./assets/demo/dartsResult.png)
+
 ### Prerequisits
 
 ```
